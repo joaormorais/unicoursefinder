@@ -1,0 +1,1634 @@
+[
+  {
+    "id": "4126",
+    "name": "Escola Universitária Vasco da Gama",
+    "latitude": 40.2103,
+    "longitude": -8.4281
+  },
+  {
+    "id": "4590",
+    "name": "Escola Superior de Saúde Atlântica",
+    "latitude": 38.679,
+    "longitude": -9.3265
+  },
+  {
+    "id": "0300",
+    "name": "Universidade de Aveiro",
+    "latitude": 40.6338,
+    "longitude": -8.659
+  },
+  {
+    "id": "3102",
+    "name": "Instituto Politécnico de Leiria - Escola Superior de Tecnologia e Gestão",
+    "latitude": 39.7477,
+    "longitude": -8.805
+  },
+  {
+    "id": "3034",
+    "name": "Instituto Politécnico do Cávado e do Ave - Escola Superior de Hotelaria e Turismo",
+    "latitude": 41.536,
+    "longitude": -8.7813
+  },
+  {
+    "id": "3186",
+    "name": "Instituto Politécnico de Viseu - Escola Superior de Tecnologia e Gestão de Lamego",
+    "latitude": 41.0989,
+    "longitude": -7.8099
+  },
+  {
+    "id": "2100",
+    "name": "Universidade Autónoma de Lisboa Luís de Camões",
+    "latitude": 38.7169,
+    "longitude": -9.141
+  },
+  {
+    "id": "0604",
+    "name": "Universidade de Évora - Escola de Ciências Sociais",
+    "latitude": 38.5714,
+    "longitude": -7.9135
+  },
+  {
+    "id": "2240",
+    "name": "Universidade Católica Portuguesa - Faculdade de Teologia",
+    "latitude": 38.752,
+    "longitude": -9.1602
+  },
+  {
+    "id": "3134",
+    "name": "Instituto Politécnico do Porto - Instituto Superior de Contabilidade e Administração do Porto",
+    "latitude": 41.1775,
+    "longitude": -8.6081
+  },
+  {
+    "id": "0206",
+    "name": "Universidade do Algarve - Faculdade de Medicina e Ciências Biomédicas",
+    "latitude": 37.0328,
+    "longitude": -7.9665
+  },
+  {
+    "id": "4096",
+    "name": "Escola Superior de Enfermagem São Francisco das Misericórdias",
+    "latitude": 38.7169,
+    "longitude": -9.1604
+  },
+  {
+    "id": "3062",
+    "name": "Instituto Politécnico de Coimbra - Escola Superior de Educação de Coimbra",
+    "latitude": 40.2033,
+    "longitude": -8.4103
+  },
+  {
+    "id": "1104",
+    "name": "Universidade do Porto - Faculdade de Economia",
+    "latitude": 41.1523,
+    "longitude": -8.611
+  },
+  {
+    "id": "4260",
+    "name": "Instituto Universitário Egas Moniz",
+    "latitude": 38.6766,
+    "longitude": -9.3045
+  },
+  {
+    "id": "2210",
+    "name": "Universidade Católica Portuguesa - Escola Superior de Biotecnologia",
+    "latitude": 41.158,
+    "longitude": -8.629
+  },
+  {
+    "id": "4097",
+    "name": "Escola Superior de Saúde de Santa Maria",
+    "latitude": 41.1621,
+    "longitude": -8.621
+  },
+  {
+    "id": "0902",
+    "name": "Universidade Nova de Lisboa - Faculdade de Ciências Sociais e Humanas",
+    "latitude": 38.7484,
+    "longitude": -9.1531
+  },
+  {
+    "id": "3110",
+    "name": "Instituto Politécnico de Lisboa",
+    "latitude": 38.7489,
+    "longitude": -9.1602
+  },
+  {
+    "id": "3043",
+    "name": "Instituto Politécnico de Bragança - Escola Superior de Tecnologia e de Gestão de Bragança",
+    "latitude": 41.806,
+    "longitude": -6.7567
+  },
+  {
+    "id": "3153",
+    "name": "Instituto Politécnico de Setúbal - Escola Superior de Ciências Empresariais",
+    "latitude": 38.5243,
+    "longitude": -8.8376
+  },
+  {
+    "id": "4612",
+    "name": "Instituto Politécnico da Lusofonia - Escola Superior de Ciências da Administração",
+    "latitude": 38.7598,
+    "longitude": -9.1521
+  },
+  {
+    "id": "6810",
+    "name": "ISCTE - Instituto Universitário de Lisboa (Sintra)",
+    "latitude": 38.8029,
+    "longitude": -9.3817
+  },
+  {
+    "id": "0204",
+    "name": "Universidade do Algarve - Faculdade de Economia",
+    "latitude": 37.0292,
+    "longitude": -7.9309
+  },
+  {
+    "id": "3101",
+    "name": "Instituto Politécnico de Leiria - Escola Superior de Educação e Ciências Sociais",
+    "latitude": 39.7486,
+    "longitude": -8.807
+  },
+  {
+    "id": "4105",
+    "name": "Escola Superior de Saúde do Alcoitão",
+    "latitude": 38.7253,
+    "longitude": -9.4095
+  },
+  {
+    "id": "1309",
+    "name": "Universidade da Madeira - Faculdade de Ciências da Vida",
+    "latitude": 32.6669,
+    "longitude": -16.9241
+  },
+  {
+    "id": "7711",
+    "name": "Instituto Universitário Militar - Academia Militar",
+    "latitude": 38.7489,
+    "longitude": -9.1537
+  },
+  {
+    "id": "4626",
+    "name": "Instituto Politécnico Jean Piaget do Norte - Escola Superior de Saúde Jean Piaget de Vila Nova de Gaia",
+    "latitude": 41.1242,
+    "longitude": -8.611
+  },
+  {
+    "id": "3243",
+    "name": "Instituto Politécnico de Tomar - Escola Superior de Tecnologia de Abrantes",
+    "latitude": 39.4633,
+    "longitude": -8.2042
+  },
+  {
+    "id": "3132",
+    "name": "Instituto Politécnico do Porto - Escola Superior de Música e Artes do Espectáculo",
+    "latitude": 41.1523,
+    "longitude": -8.6094
+  },
+  {
+    "id": "4098",
+    "name": "Escola Superior de Enfermagem de São José de Cluny",
+    "latitude": 32.6489,
+    "longitude": -16.9085
+  },
+  {
+    "id": "0507",
+    "name": "Universidade de Coimbra - Faculdade de Psicologia e de Ciências da Educação",
+    "latitude": 40.21,
+    "longitude": -8.4236
+  },
+  {
+    "id": "1113",
+    "name": "Universidade do Porto - Faculdade de Medicina Dentária",
+    "latitude": 41.1775,
+    "longitude": -8.598
+  },
+  {
+    "id": "3014",
+    "name": "Universidade de Aveiro - Escola Superior de Design, Gestão e Tecnologia da Produção de Aveiro-Norte",
+    "latitude": 40.7559,
+    "longitude": -8.5723
+  },
+  {
+    "id": "4280",
+    "name": "Instituto Superior de Ciências Empresariais e do Turismo",
+    "latitude": 41.1496,
+    "longitude": -8.6109
+  },
+  {
+    "id": "4650",
+    "name": "Instituto Universitário de Ciências da Saúde - CESPU",
+    "latitude": 41.3678,
+    "longitude": -8.1999
+  },
+  {
+    "id": "4640",
+    "name": "Instituto Superior de Tecnologias Avançadas do Porto",
+    "latitude": 41.1523,
+    "longitude": -8.6094
+  },
+  {
+    "id": "4460",
+    "name": "ISAVE - Instituto Superior de Saúde",
+    "latitude": 41.634,
+    "longitude": -8.1563
+  },
+  {
+    "id": "1502",
+    "name": "Universidade de Lisboa - Faculdade de Belas-Artes",
+    "latitude": 38.7119,
+    "longitude": -9.1337
+  },
+  {
+    "id": "2281",
+    "name": "Universidade Católica Portuguesa - Faculdade de Direito (Porto)",
+    "latitude": 41.1579,
+    "longitude": -8.6291
+  },
+  {
+    "id": "1203",
+    "name": "Universidade de Trás-os-Montes e Alto Douro - Escola de Ciências e Tecnologia",
+    "latitude": 41.2867,
+    "longitude": -7.7394
+  },
+  {
+    "id": "1105",
+    "name": "Universidade do Porto - Faculdade de Engenharia",
+    "latitude": 41.178,
+    "longitude": -8.598
+  },
+  {
+    "id": "7010",
+    "name": "Universidade do Minho - Escola Superior de Enfermagem",
+    "latitude": 41.561,
+    "longitude": -8.396
+  },
+  {
+    "id": "1509",
+    "name": "Universidade de Lisboa - Faculdade de Medicina Veterinária",
+    "latitude": 38.7078,
+    "longitude": -9.1604
+  },
+  {
+    "id": "4220",
+    "name": "Instituto Superior de Administração e Línguas",
+    "latitude": 32.6489,
+    "longitude": -16.9085
+  },
+  {
+    "id": "1202",
+    "name": "Universidade de Trás-os-Montes e Alto Douro - Escola de Ciências Humanas e Sociais",
+    "latitude": 41.2867,
+    "longitude": -7.7394
+  },
+  {
+    "id": "7105",
+    "name": "Escola Superior Náutica Infante D. Henrique",
+    "latitude": 38.6655,
+    "longitude": -9.1705
+  },
+  {
+    "id": "2227",
+    "name": "Universidade Católica Portuguesa - Faculdade de Medicina Dentária",
+    "latitude": 38.7169,
+    "longitude": -9.1604
+  },
+  {
+    "id": "7080",
+    "name": "Universidade de Trás-os-Montes e Alto Douro - Escola Superior de Saúde",
+    "latitude": 41.2867,
+    "longitude": -7.7394
+  },
+  {
+    "id": "4156",
+    "name": "Instituto Português de Administração de Marketing de Lisboa",
+    "latitude": 38.7598,
+    "longitude": -9.1521
+  },
+  {
+    "id": "2920",
+    "name": "Centro Universitário Lusófona - Porto",
+    "latitude": 41.1621,
+    "longitude": -8.621
+  },
+  {
+    "id": "3151",
+    "name": "Instituto Politécnico de Setúbal - Escola Superior de Educação",
+    "latitude": 38.5243,
+    "longitude": -8.8376
+  },
+  {
+    "id": "3045",
+    "name": "Instituto Politécnico de Bragança - Escola Superior de Comunicação, Administração e Turismo de Mirandela",
+    "latitude": 41.4877,
+    "longitude": -7.1861
+  },
+  {
+    "id": "3012",
+    "name": "Universidade de Aveiro - Escola Superior de Tecnologia e Gestão de Águeda",
+    "latitude": 40.5771,
+    "longitude": -8.4444
+  },
+  {
+    "id": "7220",
+    "name": "Instituto Politécnico de Lisboa - Escola Superior de Tecnologia da Saúde de Lisboa",
+    "latitude": 38.7598,
+    "longitude": -9.1521
+  },
+  {
+    "id": "3033",
+    "name": "Instituto Politécnico do Cávado e do Ave - Escola Superior de Design",
+    "latitude": 41.536,
+    "longitude": -8.626
+  },
+  {
+    "id": "4300",
+    "name": "Instituto Superior de Gestão",
+    "latitude": 38.7169,
+    "longitude": -9.1604
+  },
+  {
+    "id": "4103",
+    "name": "Escola Superior de Saúde Jean Piaget de Viseu",
+    "latitude": 40.6566,
+    "longitude": -7.9135
+  },
+  {
+    "id": "2219",
+    "name": "Universidade Católica Portuguesa - Escola de Enfermagem (Porto)",
+    "latitude": 41.1579,
+    "longitude": -8.6291
+  },
+  {
+    "id": "4085",
+    "name": "Escola Superior de Educação de Paula Frassinetti",
+    "latitude": 41.1621,
+    "longitude": -8.621
+  },
+  {
+    "id": "4141",
+    "name": "Escola Superior de Negócios Atlântico",
+    "latitude": 41.1621,
+    "longitude": -8.621
+  },
+  {
+    "id": "4604",
+    "name": "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Saúde Jean Piaget de Almada",
+    "latitude": 38.6766,
+    "longitude": -9.3045
+  },
+  {
+    "id": "3118",
+    "name": "Instituto Politécnico de Lisboa - Instituto Superior de Engenharia de Lisboa",
+    "latitude": 38.7598,
+    "longitude": -9.1521
+  },
+  {
+    "id": "1518",
+    "name": "Universidade de Lisboa - Instituto Superior Técnico",
+    "latitude": 38.7368,
+    "longitude": -9.1387
+  },
+  {
+    "id": "2228",
+    "name": "Universidade Católica Portuguesa - Instituto de Gestão e das Organizações da Saúde",
+    "latitude": 38.7169,
+    "longitude": -9.1604
+  },
+  {
+    "id": "2280",
+    "name": "Universidade Católica Portuguesa - Faculdade de Direito",
+    "latitude": 38.7169,
+    "longitude": -9.1604
+  },
+  {
+    "id": "0160",
+    "name": "Universidade dos Açores - Faculdade de Ciências e Tecnologia",
+    "latitude": 37.7412,
+    "longitude": -25.6687
+  },
+  {
+    "id": "0140",
+    "name": "Universidade dos Açores - Faculdade de Ciências Agrárias e do Ambiente",
+    "latitude": 37.7412,
+    "longitude": -25.6687
+  },
+  {
+    "id": "4627",
+    "name": "Instituto Politécnico Jean Piaget do Norte - Escola Superior de Desporto e Educação Jean Piaget de Vila Nova de Gaia",
+    "latitude": 41.1242,
+    "longitude": -8.611
+  },
+  {
+    "id": "0150",
+    "name": "Universidade dos Açores - Faculdade de Ciências Sociais e Humanas",
+    "latitude": 37.7412,
+    "longitude": -25.6687
+  },
+  {
+    "id": "1505",
+    "name": "Universidade de Lisboa - Faculdade de Farmácia",
+    "latitude": 38.7368,
+    "longitude": -9.1387
+  },
+  {
+    "id": "1508",
+    "name": "Universidade de Lisboa - Faculdade de Medicina Dentária",
+    "latitude": 38.7368,
+    "longitude": -9.1387
+  },
+  {
+    "id": "2750",
+    "name": "Universidade Fernando Pessoa",
+    "latitude": 41.1779,
+    "longitude": -8.611
+  },
+  {
+    "id": "4603",
+    "name": "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Saúde Jean Piaget do Algarve",
+    "latitude": 37.0923,
+    "longitude": -8.2736
+  },
+  {
+    "id": "3091",
+    "name": "Instituto Politécnico da Guarda - Escola Superior de Educação, Comunicação e Desporto",
+    "latitude": 40.5373,
+    "longitude": -7.2675
+  },
+  {
+    "id": "2223",
+    "name": "Universidade Católica Portuguesa - Faculdade de Filosofia e Ciências Sociais",
+    "latitude": 41.5409,
+    "longitude": -8.4215
+  },
+  {
+    "id": "3164",
+    "name": "Instituto Politécnico de Viana do Castelo - Escola Superior de Ciências Empresariais",
+    "latitude": 41.6932,
+    "longitude": -8.8329
+  },
+  {
+    "id": "7712",
+    "name": "Instituto Universitário Militar - Academia da Força Aérea",
+    "latitude": 38.8311,
+    "longitude": -9.3395
+  },
+  {
+    "id": "4108",
+    "name": "Instituto Politécnico de Saúde do Norte - CESPU - Escola Superior de Saúde do Vale do Ave",
+    "latitude": 41.3625,
+    "longitude": -8.1994
+  },
+  {
+    "id": "4277",
+    "name": "Instituto Superior de Ciências da Informação e da Administração",
+    "latitude": 40.6264,
+    "longitude": -8.651
+  },
+  {
+    "id": "4109",
+    "name": "Instituto Politécnico de Saúde do Norte - CESPU - Escola Superior de Tecnologias da Saúde do Tâmega e Sousa",
+    "latitude": 41.2692,
+    "longitude": -8.0805
+  },
+  {
+    "id": "4089",
+    "name": "Escola Superior de Saúde Norte da Cruz Vermelha Portuguesa",
+    "latitude": 41.1671,
+    "longitude": -8.6891
+  },
+  {
+    "id": "3152",
+    "name": "Instituto Politécnico de Setúbal - Escola Superior de Tecnologia de Setúbal",
+    "latitude": 38.5243,
+    "longitude": -8.8376
+  },
+  {
+    "id": "3042",
+    "name": "Instituto Politécnico de Bragança - Escola Superior de Educação de Bragança",
+    "latitude": 41.806,
+    "longitude": -6.7567
+  },
+  {
+    "id": "3111",
+    "name": "Instituto Politécnico de Lisboa - Escola Superior de Dança",
+    "latitude": 38.7489,
+    "longitude": -9.1537
+  },
+  {
+    "id": "3051",
+    "name": "Instituto Politécnico de Castelo Branco - Escola Superior Agrária de Castelo Branco",
+    "latitude": 39.8221,
+    "longitude": -7.493
+  },
+  {
+    "id": "4616",
+    "name": "Instituto Politécnico da Lusofonia - Escola Superior de Educação da Lusofonia",
+    "latitude": 38.7563,
+    "longitude": -9.2182
+  },
+  {
+    "id": "4069",
+    "name": "Escola Superior de Artes e Design",
+    "latitude": 41.3665,
+    "longitude": -8.738
+  },
+  {
+    "id": "7710",
+    "name": "Instituto Universitário Militar - Escola Naval",
+    "latitude": 38.6667,
+    "longitude": -9.15
+  },
+  {
+    "id": "3139",
+    "name": "Instituto Politécnico do Porto - Escola Superior de Hotelaria e Turismo",
+    "latitude": 41.1832,
+    "longitude": -8.6891
+  },
+  {
+    "id": "7035",
+    "name": "Universidade do Algarve - Escola Superior de Saúde",
+    "latitude": 37.0201,
+    "longitude": -7.9331
+  },
+  {
+    "id": "0170",
+    "name": "Universidade dos Açores - Faculdade de Economia e Gestão",
+    "latitude": 37.7408,
+    "longitude": -25.6582
+  },
+  {
+    "id": "3105",
+    "name": "Instituto Politécnico de Leiria - Escola Superior de Turismo e Tecnologia do Mar",
+    "latitude": 39.3557,
+    "longitude": -9.3817
+  },
+  {
+    "id": "3114",
+    "name": "Instituto Politécnico de Lisboa - Escola Superior de Música",
+    "latitude": 38.7514,
+    "longitude": -9.1875
+  },
+  {
+    "id": "1321",
+    "name": "Universidade da Madeira - Escola Superior de Tecnologias e Gestão",
+    "latitude": 32.6669,
+    "longitude": -16.9241
+  },
+  {
+    "id": "7015",
+    "name": "Instituto Politécnico de Bragança - Escola Superior de Saúde de Bragança",
+    "latitude": 41.8061,
+    "longitude": -6.7567
+  },
+  {
+    "id": "3041",
+    "name": "Instituto Politécnico de Bragança - Escola Superior Agrária de Bragança",
+    "latitude": 41.7986,
+    "longitude": -6.7541
+  },
+  {
+    "id": "4601",
+    "name": "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Educação Jean Piaget de Almada",
+    "latitude": 38.6581,
+    "longitude": -9.2365
+  },
+  {
+    "id": "3023",
+    "name": "Instituto Politécnico de Beja - Escola Superior de Tecnologia e de Gestão",
+    "latitude": 38.0151,
+    "longitude": -7.8632
+  },
+  {
+    "id": "4611",
+    "name": "Instituto Politécnico da Lusofonia - Escola Superior de Comunicação, Inovação e Artes",
+    "latitude": 38.7563,
+    "longitude": -9.1537
+  },
+  {
+    "id": "3011",
+    "name": "Universidade de Aveiro - Instituto Superior de Contabilidade e Administração de Aveiro",
+    "latitude": 40.6308,
+    "longitude": -8.6576
+  },
+  {
+    "id": "3032",
+    "name": "Instituto Politécnico do Cávado e do Ave - Escola Superior de Tecnologia",
+    "latitude": 41.538,
+    "longitude": -8.626
+  },
+  {
+    "id": "3065",
+    "name": "Instituto Politécnico de Coimbra - Escola Superior de Tecnologia e Gestão de Oliveira do Hospital",
+    "latitude": 40.3613,
+    "longitude": -7.8594
+  },
+  {
+    "id": "4581",
+    "name": "Instituto Politécnico da Maia - Escola Superior de Ciências Sociais, Educação e Desporto",
+    "latitude": 41.2421,
+    "longitude": -8.6199
+  },
+  {
+    "id": "4520",
+    "name": "Instituto Superior de Serviço Social do Porto",
+    "latitude": 41.1621,
+    "longitude": -8.6219
+  },
+  {
+    "id": "0203",
+    "name": "Universidade do Algarve - Faculdade de Ciências e Tecnologia",
+    "latitude": 37.0292,
+    "longitude": -7.927
+  },
+  {
+    "id": "3242",
+    "name": "Instituto Politécnico de Tomar - Escola Superior de Tecnologia de Tomar",
+    "latitude": 39.6019,
+    "longitude": -8.3978
+  },
+  {
+    "id": "4292",
+    "name": "Instituto Superior D. Dinis",
+    "latitude": 40.6405,
+    "longitude": -8.6538
+  },
+  {
+    "id": "5402",
+    "name": "Universidade do Porto - Faculdade de Belas-Artes",
+    "latitude": 41.1466,
+    "longitude": -8.611
+  },
+  {
+    "id": "0503",
+    "name": "Universidade de Coimbra - Faculdade de Economia",
+    "latitude": 40.2103,
+    "longitude": -8.4237
+  },
+  {
+    "id": "4630",
+    "name": "Universidade da Maia",
+    "latitude": 41.2421,
+    "longitude": -8.6199
+  },
+  {
+    "id": "1000",
+    "name": "Universidade do Minho",
+    "latitude": 41.561,
+    "longitude": -8.396
+  },
+  {
+    "id": "1511",
+    "name": "Universidade de Lisboa - Faculdade de Psicologia",
+    "latitude": 38.7521,
+    "longitude": -9.1569
+  },
+  {
+    "id": "0508",
+    "name": "Universidade de Coimbra - Faculdade de Ciências do Desporto e Educação Física",
+    "latitude": 40.2033,
+    "longitude": -8.4074
+  },
+  {
+    "id": "2218",
+    "name": "Universidade Católica Portuguesa - Escola de Enfermagem (Lisboa)",
+    "latitude": 38.7521,
+    "longitude": -9.16
+  },
+  {
+    "id": "7075",
+    "name": "Instituto Politécnico de Viana do Castelo - Escola Superior de Saúde",
+    "latitude": 41.7002,
+    "longitude": -8.8345
+  },
+  {
+    "id": "1514",
+    "name": "Universidade de Lisboa - Instituto de Geografia e Ordenamento do Território",
+    "latitude": 38.7521,
+    "longitude": -9.1569
+  },
+  {
+    "id": "3053",
+    "name": "Instituto Politécnico de Castelo Branco - Escola Superior de Tecnologia de Castelo Branco",
+    "latitude": 39.8225,
+    "longitude": -7.4903
+  },
+  {
+    "id": "3081",
+    "name": "Universidade do Algarve - Escola Superior de Educação e Comunicação",
+    "latitude": 37.0175,
+    "longitude": -7.935
+  },
+  {
+    "id": "0201",
+    "name": "Universidade do Algarve - Faculdade de Ciências Humanas e Sociais",
+    "latitude": 37.0175,
+    "longitude": -7.935
+  },
+  {
+    "id": "7055",
+    "name": "Instituto Politécnico de Portalegre - Escola Superior de Saúde",
+    "latitude": 39.2928,
+    "longitude": -7.4281
+  },
+  {
+    "id": "3022",
+    "name": "Instituto Politécnico de Beja - Escola Superior de Educação",
+    "latitude": 38.0151,
+    "longitude": -7.8632
+  },
+  {
+    "id": "3121",
+    "name": "Instituto Politécnico de Portalegre - Escola Superior de Educação e Ciências Sociais",
+    "latitude": 39.2928,
+    "longitude": -7.4281
+  },
+  {
+    "id": "4200",
+    "name": "Instituto Superior de Administração e Gestão",
+    "latitude": 41.1621,
+    "longitude": -8.6219
+  },
+  {
+    "id": "7230",
+    "name": "Instituto Politécnico do Porto - Escola Superior de Saúde",
+    "latitude": 41.1775,
+    "longitude": -8.6086
+  },
+  {
+    "id": "1516",
+    "name": "Universidade de Lisboa - Instituto Superior de Ciências Sociais e Políticas",
+    "latitude": 38.7078,
+    "longitude": -9.1604
+  },
+  {
+    "id": "1519",
+    "name": "Universidade de Lisboa - Instituto Superior Técnico (Tagus Park)",
+    "latitude": 38.7376,
+    "longitude": -9.3023
+  },
+  {
+    "id": "3145",
+    "name": "Instituto Politécnico de Santarém - Escola Superior de Desporto de Rio Maior",
+    "latitude": 39.3375,
+    "longitude": -8.9392
+  },
+  {
+    "id": "1204",
+    "name": "Universidade de Trás-os-Montes e Alto Douro - Escola de Ciências da Vida e do Ambiente",
+    "latitude": 41.2867,
+    "longitude": -7.7394
+  },
+  {
+    "id": "2265",
+    "name": "Universidade Católica Portuguesa - Escola das Artes",
+    "latitude": 41.1505,
+    "longitude": -8.6108
+  },
+  {
+    "id": "1201",
+    "name": "Universidade de Trás-os-Montes e Alto Douro - Escola de Ciências Agrárias e Veterinárias",
+    "latitude": 41.2867,
+    "longitude": -7.7394
+  },
+  {
+    "id": "1103",
+    "name": "Universidade do Porto - Faculdade de Ciências",
+    "latitude": 41.1523,
+    "longitude": -8.6368
+  },
+  {
+    "id": "4662",
+    "name": "ISLA Santarém - Instituto Politécnico - Escola Superior de Engenharia e Tecnologia",
+    "latitude": 39.2365,
+    "longitude": -8.6865
+  },
+  {
+    "id": "0605",
+    "name": "Universidade de Évora - Escola de Saúde e Desenvolvimento Humano",
+    "latitude": 38.5746,
+    "longitude": -7.9043
+  },
+  {
+    "id": "4091",
+    "name": "Escola Superior de Saúde da Cruz Vermelha Portuguesa - Lisboa",
+    "latitude": 38.7489,
+    "longitude": -9.1537
+  },
+  {
+    "id": "4298",
+    "name": "ISEC Lisboa - Instituto Superior de Educação e Ciências",
+    "latitude": 38.7483,
+    "longitude": -9.1485
+  },
+  {
+    "id": "0520",
+    "name": "Universidade de Coimbra (Campus Figueira da Foz)",
+    "latitude": 40.1509,
+    "longitude": -8.861
+  },
+  {
+    "id": "1507",
+    "name": "Universidade de Lisboa - Faculdade de Medicina",
+    "latitude": 38.7489,
+    "longitude": -9.1604
+  },
+  {
+    "id": "1504",
+    "name": "Universidade de Lisboa - Faculdade de Direito",
+    "latitude": 38.7529,
+    "longitude": -9.1567
+  },
+  {
+    "id": "4115",
+    "name": "Escola Superior de Tecnologias de Fafe",
+    "latitude": 41.4508,
+    "longitude": -8.1701
+  },
+  {
+    "id": "3116",
+    "name": "Instituto Politécnico de Lisboa - Escola Superior de Teatro e Cinema",
+    "latitude": 38.7597,
+    "longitude": -9.1986
+  },
+  {
+    "id": "6800",
+    "name": "ISCTE - Instituto Universitário de Lisboa",
+    "latitude": 38.7482,
+    "longitude": -9.1539
+  },
+  {
+    "id": "0903",
+    "name": "Universidade Nova de Lisboa - Faculdade de Ciências e Tecnologia",
+    "latitude": 38.6611,
+    "longitude": -9.2051
+  },
+  {
+    "id": "1108",
+    "name": "Universidade do Porto - Faculdade de Medicina",
+    "latitude": 41.178,
+    "longitude": -8.6067
+  },
+  {
+    "id": "4444",
+    "name": "Instituto Superior Politécnico Gaya - Escola Superior de Ciências Empresariais",
+    "latitude": 41.1241,
+    "longitude": -8.611
+  },
+  {
+    "id": "1513",
+    "name": "Universidade de Lisboa - Instituto de Educação",
+    "latitude": 38.752883,
+    "longitude": -9.158358
+  },
+  {
+    "id": "7092",
+    "name": "Universidade dos Açores - Escola Superior de Saúde - Angra do Heroísmo",
+    "latitude": 38.659197,
+    "longitude": -27.216065
+  },
+  {
+    "id": "3052",
+    "name": "Instituto Politécnico de Castelo Branco - Escola Superior de Educação de Castelo Branco",
+    "latitude": 39.822178,
+    "longitude": -7.491164
+  },
+  {
+    "id": "4615",
+    "name": "Instituto Politécnico da Lusofonia - Escola Superior de Saúde, Proteção e Bem-Estar Animal",
+    "latitude": 38.75966,
+    "longitude": -9.18415
+  },
+  {
+    "id": "0602",
+    "name": "Universidade de Évora - Escola de Ciências e Tecnologia",
+    "latitude": 38.574446,
+    "longitude": -7.904671
+  },
+  {
+    "id": "1517",
+    "name": "Universidade de Lisboa - Instituto Superior de Economia e Gestão",
+    "latitude": 38.711559,
+    "longitude": -9.160711
+  },
+  {
+    "id": "4270",
+    "name": "ISCE - Instituto Superior de Lisboa e Vale do Tejo",
+    "latitude": 38.938503,
+    "longitude": -9.229482
+  },
+  {
+    "id": "2270",
+    "name": "Universidade Católica Portuguesa - Faculdade de Ciências Económicas e Empresariais",
+    "latitude": 38.752586,
+    "longitude": -9.160379
+  },
+  {
+    "id": "0506",
+    "name": "Universidade de Coimbra - Faculdade de Medicina",
+    "latitude": 40.211552,
+    "longitude": -8.42374
+  },
+  {
+    "id": "7085",
+    "name": "Instituto Politécnico de Viseu - Escola Superior de Saúde de Viseu",
+    "latitude": 40.655749,
+    "longitude": -7.913499
+  },
+  {
+    "id": "2440",
+    "name": "Universidade Lusíada - Centro Universitário Lusíada - Norte - Porto",
+    "latitude": 41.162137,
+    "longitude": -8.623989
+  },
+  {
+    "id": "1111",
+    "name": "Universidade do Porto - Faculdade de Desporto",
+    "latitude": 41.178108,
+    "longitude": -8.598146
+  },
+  {
+    "id": "3117",
+    "name": "Instituto Politécnico de Lisboa - Instituto Superior de Contabilidade e Administração de Lisboa",
+    "latitude": 38.748817,
+    "longitude": -9.099261
+  },
+  {
+    "id": "1107",
+    "name": "Universidade do Porto - Faculdade de Letras",
+    "latitude": 41.150993,
+    "longitude": -8.636191
+  },
+  {
+    "id": "4155",
+    "name": "Instituto Português de Administração de Marketing do Porto",
+    "latitude": 41.1621,
+    "longitude": -8.5832
+  },
+  {
+    "id": "4283",
+    "name": "Instituto Superior de Entre Douro e Vouga",
+    "latitude": 40.9245,
+    "longitude": -8.5421
+  },
+  {
+    "id": "3141",
+    "name": "Instituto Politécnico de Santarém - Escola Superior Agrária de Santarém",
+    "latitude": 39.2365,
+    "longitude": -8.6855
+  },
+  {
+    "id": "2710",
+    "name": "Atlântica - Instituto Universitário",
+    "latitude": 38.6979,
+    "longitude": -9.3034
+  },
+  {
+    "id": "4080",
+    "name": "Escola Superior de Educação de João de Deus",
+    "latitude": 38.7169,
+    "longitude": -9.1605
+  },
+  {
+    "id": "3055",
+    "name": "Instituto Politécnico de Castelo Branco - Escola Superior de Artes Aplicadas",
+    "latitude": 39.8222,
+    "longitude": -7.4909
+  },
+  {
+    "id": "3162",
+    "name": "Instituto Politécnico de Viana do Castelo - Escola Superior de Educação",
+    "latitude": 41.6932,
+    "longitude": -8.8329
+  },
+  {
+    "id": "4442",
+    "name": "Instituto Superior Politécnico Gaya - Escola Superior de Ciência e Tecnologia",
+    "latitude": 41.1242,
+    "longitude": -8.6126
+  },
+  {
+    "id": "3142",
+    "name": "Instituto Politécnico de Santarém - Escola Superior de Educação de Santarém",
+    "latitude": 39.2365,
+    "longitude": -8.6855
+  },
+  {
+    "id": "4002",
+    "name": "Academia Nacional Superior de Orquestra",
+    "latitude": 38.7071,
+    "longitude": -9.1355
+  },
+  {
+    "id": "3185",
+    "name": "Instituto Politécnico de Viseu - Escola Superior Agrária de Viseu",
+    "latitude": 40.6566,
+    "longitude": -7.9135
+  },
+  {
+    "id": "3063",
+    "name": "Instituto Politécnico de Coimbra - Instituto Superior de Contabilidade e Administração de Coimbra",
+    "latitude": 40.2033,
+    "longitude": -8.4103
+  },
+  {
+    "id": "4602",
+    "name": "Instituto Politécnico Jean Piaget do Sul - Escola Superior de Tecnologia e Gestão Jean Piaget",
+    "latitude": 38.6761,
+    "longitude": -9.1774
+  },
+  {
+    "id": "3054",
+    "name": "Instituto Politécnico de Castelo Branco - Escola Superior de Gestão de Idanha-a-Nova",
+    "latitude": 39.9234,
+    "longitude": -7.2406
+  },
+  {
+    "id": "3103",
+    "name": "Instituto Politécnico de Leiria - Escola Superior de Artes e Design",
+    "latitude": 39.74362,
+    "longitude": -8.80705
+  },
+  {
+    "id": "4306",
+    "name": "Instituto Superior de Estudos Interculturais e Transdisciplinares de Almada",
+    "latitude": 38.67629,
+    "longitude": -9.16589
+  },
+  {
+    "id": "3154",
+    "name": "Instituto Politécnico de Setúbal - Escola Superior de Tecnologia do Barreiro",
+    "latitude": 38.66314,
+    "longitude": -9.07239
+  },
+  {
+    "id": "2295",
+    "name": "Universidade Católica Portuguesa - Instituto de Estudos Políticos",
+    "latitude": 38.75268,
+    "longitude": -9.16045
+  },
+  {
+    "id": "4661",
+    "name": "ISLA Santarém - Instituto Politécnico - Escola Superior de Gestão",
+    "latitude": 39.23691,
+    "longitude": -8.68598
+  },
+  {
+    "id": "4620",
+    "name": "Escola Superior de Saúde da Fundação «Fernando Pessoa»",
+    "latitude": 41.16214,
+    "longitude": -8.58325
+  },
+  {
+    "id": "3161",
+    "name": "Instituto Politécnico de Viana do Castelo - Escola Superior Agrária",
+    "latitude": 41.70525,
+    "longitude": -8.80627
+  },
+  {
+    "id": "1306",
+    "name": "Universidade da Madeira - Faculdade de Artes e Humanidades",
+    "latitude": 32.65972,
+    "longitude": -16.92499
+  },
+  {
+    "id": "1320",
+    "name": "Universidade da Madeira - Escola Superior de Saúde",
+    "latitude": 32.65972,
+    "longitude": -16.92499
+  },
+  {
+    "id": "7030",
+    "name": "Universidade de Évora - Escola Superior de Enfermagem de São João de Deus",
+    "latitude": 38.57264,
+    "longitude": -7.90557
+  },
+  {
+    "id": "1110",
+    "name": "Universidade do Porto - Instituto de Ciências Biomédicas Abel Salazar",
+    "latitude": 41.14557,
+    "longitude": -8.61378
+  },
+  {
+    "id": "3036",
+    "name": "Instituto Politécnico do Cávado e do Ave - Escola Superior de Desporto, Bem-Estar e Sistemas Biomédicos",
+    "latitude": 41.53622,
+    "longitude": -8.61557
+  },
+  {
+    "id": "3125",
+    "name": "Instituto Politécnico de Portalegre - Escola Superior de Biociências de Elvas",
+    "latitude": 38.88139,
+    "longitude": -7.16222
+  },
+  {
+    "id": "0904",
+    "name": "Universidade Nova de Lisboa - Faculdade de Economia",
+    "latitude": 38.74827,
+    "longitude": -9.15385
+  },
+  {
+    "id": "3082",
+    "name": "Universidade do Algarve - Escola Superior de Gestão, Hotelaria e Turismo",
+    "latitude": 37.0201,
+    "longitude": -7.9232
+  },
+  {
+    "id": "1106",
+    "name": "Universidade do Porto - Faculdade de Farmácia",
+    "latitude": 41.1523,
+    "longitude": -8.6091
+  },
+  {
+    "id": "0901",
+    "name": "Universidade Nova de Lisboa - Faculdade de Ciências Médicas",
+    "latitude": 38.7169,
+    "longitude": -9.1604
+  },
+  {
+    "id": "3165",
+    "name": "Instituto Politécnico de Viana do Castelo - Escola Superior de Desporto e Lazer",
+    "latitude": 41.7052,
+    "longitude": -8.8106
+  },
+  {
+    "id": "7093",
+    "name": "Universidade dos Açores - Escola Superior de Saúde - Ponta Delgada",
+    "latitude": 37.7412,
+    "longitude": -25.6687
+  },
+  {
+    "id": "3046",
+    "name": "Instituto Politécnico de Bragança - Escola Superior de Hotelaria e Bem-Estar",
+    "latitude": 41.8061,
+    "longitude": -6.7567
+  },
+  {
+    "id": "4106",
+    "name": "Escola Superior de Saúde Egas Moniz",
+    "latitude": 38.6766,
+    "longitude": -9.1646
+  },
+  {
+    "id": "4614",
+    "name": "Instituto Politécnico da Lusofonia - Escola Superior de Saúde Ribeiro Sanches",
+    "latitude": 38.7483,
+    "longitude": -9.1537
+  },
+  {
+    "id": "3061",
+    "name": "Instituto Politécnico de Coimbra - Escola Superior Agrária de Coimbra",
+    "latitude": 40.2033,
+    "longitude": -8.4103
+  },
+  {
+    "id": "4113",
+    "name": "Instituto Politécnico de Saúde do Norte - CESPU - Escola Superior de Enfermagem do Tâmega e Sousa",
+    "latitude": 41.2692,
+    "longitude": -8.0812
+  },
+  {
+    "id": "1501",
+    "name": "Universidade de Lisboa - Faculdade de Arquitetura",
+    "latitude": 38.7019,
+    "longitude": -9.1795
+  },
+  {
+    "id": "1506",
+    "name": "Universidade de Lisboa - Faculdade de Letras",
+    "latitude": 38.752,
+    "longitude": -9.1566
+  },
+  {
+    "id": "3181",
+    "name": "Instituto Politécnico de Viseu - Escola Superior de Educação de Viseu",
+    "latitude": 40.6566,
+    "longitude": -7.9135
+  },
+  {
+    "id": "4582",
+    "name": "Instituto Politécnico da Maia - Escola Superior de Tecnologia e Gestão",
+    "latitude": 41.2357,
+    "longitude": -8.6199
+  },
+  {
+    "id": "0603",
+    "name": "Universidade de Évora - Escola de Artes",
+    "latitude": 38.5714,
+    "longitude": -7.9135
+  },
+  {
+    "id": "3021",
+    "name": "Instituto Politécnico de Beja - Escola Superior Agrária",
+    "latitude": 38.0151,
+    "longitude": -7.8632
+  },
+  {
+    "id": "4020",
+    "name": "Escola Superior de Actividades Imobiliárias",
+    "latitude": 38.7368,
+    "longitude": -9.1426
+  },
+  {
+    "id": "7110",
+    "name": "Escola Superior de Hotelaria e Turismo do Estoril",
+    "latitude": 38.7169,
+    "longitude": -9.3964
+  },
+  {
+    "id": "1109",
+    "name": "Universidade do Porto - Faculdade de Psicologia e de Ciências da Educação",
+    "latitude": 41.1523,
+    "longitude": -8.6368
+  },
+  {
+    "id": "2271",
+    "name": "Universidade Católica Portuguesa - Faculdade de Economia e Gestão",
+    "latitude": 38.7521,
+    "longitude": -9.1602
+  },
+  {
+    "id": "0501",
+    "name": "Universidade de Coimbra - Faculdade de Ciências e Tecnologia",
+    "latitude": 40.1935,
+    "longitude": -8.4115
+  },
+  {
+    "id": "1307",
+    "name": "Universidade da Madeira - Faculdade de Ciências Exatas e da Engenharia",
+    "latitude": 32.6597,
+    "longitude": -16.9245
+  },
+  {
+    "id": "4450",
+    "name": "ISPA - Instituto Universitário de Ciências Psicológicas, Sociais e da Vida",
+    "latitude": 38.7169,
+    "longitude": -9.1315
+  },
+  {
+    "id": "0911",
+    "name": "Universidade Nova de Lisboa - Faculdade de Direito",
+    "latitude": 38.7484,
+    "longitude": -9.1567
+  },
+  {
+    "id": "3182",
+    "name": "Instituto Politécnico de Viseu - Escola Superior de Tecnologia e Gestão de Viseu",
+    "latitude": 40.661,
+    "longitude": -7.9097
+  },
+  {
+    "id": "2450",
+    "name": "Universidade Lusíada - Centro Universitário Lusíada - Norte - Vila Nova de Famalicão",
+    "latitude": 41.4036,
+    "longitude": -8.507
+  },
+  {
+    "id": "4572",
+    "name": "ISLA - Instituto Politécnico de Gestão e Tecnologia - Escola Superior de Tecnologia",
+    "latitude": 38.7597,
+    "longitude": -9.184
+  },
+  {
+    "id": "4308",
+    "name": "Instituto Superior de Estudos Interculturais e Transdisciplinares de Viseu",
+    "latitude": 40.661,
+    "longitude": -7.9097
+  },
+  {
+    "id": "4076",
+    "name": "Escola Superior de Educação de Fafe",
+    "latitude": 41.4545,
+    "longitude": -8.1671
+  },
+  {
+    "id": "3112",
+    "name": "Instituto Politécnico de Lisboa - Escola Superior de Educação",
+    "latitude": 38.7489,
+    "longitude": -9.1604
+  },
+  {
+    "id": "1101",
+    "name": "Universidade do Porto - Faculdade de Ciências da Nutrição e da Alimentação",
+    "latitude": 41.1523,
+    "longitude": -8.6368
+  },
+  {
+    "id": "3143",
+    "name": "Instituto Politécnico de Santarém - Escola Superior de Gestão e Tecnologia de Santarém",
+    "latitude": 39.2365,
+    "longitude": -8.6856
+  },
+  {
+    "id": "0400",
+    "name": "Universidade da Beira Interior",
+    "latitude": 40.2769,
+    "longitude": -7.5039
+  },
+  {
+    "id": "1510",
+    "name": "Universidade de Lisboa - Faculdade de Motricidade Humana",
+    "latitude": 38.7019,
+    "longitude": -9.2308
+  },
+  {
+    "id": "3331",
+    "name": "Instituto Politécnico do Porto - Escola Superior de Media Artes e Design",
+    "latitude": 41.3556,
+    "longitude": -8.7515
+  },
+  {
+    "id": "3083",
+    "name": "Universidade do Algarve - Instituto Superior de Engenharia",
+    "latitude": 37.0292,
+    "longitude": -7.9285
+  },
+  {
+    "id": "4500",
+    "name": "Instituto Superior Miguel Torga",
+    "latitude": 40.2105,
+    "longitude": -8.4281
+  },
+  {
+    "id": "0505",
+    "name": "Universidade de Coimbra - Faculdade de Letras",
+    "latitude": 40.2092,
+    "longitude": -8.4239
+  },
+  {
+    "id": "7045",
+    "name": "Instituto Politécnico de Leiria - Escola Superior de Saúde",
+    "latitude": 39.7477,
+    "longitude": -8.805
+  },
+  {
+    "id": "0502",
+    "name": "Universidade de Coimbra - Faculdade de Direito",
+    "latitude": 40.21,
+    "longitude": -8.4237
+  },
+  {
+    "id": "3241",
+    "name": "Instituto Politécnico de Tomar - Escola Superior de Gestão de Tomar",
+    "latitude": 39.6019,
+    "longitude": -8.3978
+  },
+  {
+    "id": "3092",
+    "name": "Instituto Politécnico da Guarda - Escola Superior de Tecnologia e Gestão",
+    "latitude": 40.5373,
+    "longitude": -7.2675
+  },
+  {
+    "id": "3013",
+    "name": "Universidade de Aveiro - Escola Superior de Saúde de Aveiro",
+    "latitude": 40.633822,
+    "longitude": -8.659684
+  },
+  {
+    "id": "3131",
+    "name": "Instituto Politécnico do Porto - Escola Superior de Educação",
+    "latitude": 41.162137,
+    "longitude": -8.609105
+  },
+  {
+    "id": "7001",
+    "name": "Escola Superior de Enfermagem de Coimbra",
+    "latitude": 40.211048,
+    "longitude": -8.428053
+  },
+  {
+    "id": "4110",
+    "name": "Escola Superior de Saúde Cruz Vermelha Portuguesa - Alto Tâmega",
+    "latitude": 41.738586,
+    "longitude": -7.744129
+  },
+  {
+    "id": "4613",
+    "name": "Instituto Politécnico da Lusofonia - Escola Superior de Engenharia e Tecnologias",
+    "latitude": 38.75682,
+    "longitude": -9.156726
+  },
+  {
+    "id": "4271",
+    "name": "Instituto Superior de Ciências Educativas do Douro",
+    "latitude": 41.183254,
+    "longitude": -8.291944
+  },
+  {
+    "id": "0906",
+    "name": "Universidade Nova de Lisboa - Instituto Superior de Estatística e Gestão de Informação",
+    "latitude": 38.727356,
+    "longitude": -9.160484
+  },
+  {
+    "id": "7003",
+    "name": "Escola Superior de Enfermagem do Porto",
+    "latitude": 41.17923,
+    "longitude": -8.608274
+  },
+  {
+    "id": "4375",
+    "name": "Instituto Superior Manuel Teixeira Gomes",
+    "latitude": 37.13698,
+    "longitude": -8.5382
+  },
+  {
+    "id": "3155",
+    "name": "Instituto Politécnico de Setúbal - Escola Superior de Saúde",
+    "latitude": 38.52437,
+    "longitude": -8.8374
+  },
+  {
+    "id": "7005",
+    "name": "Instituto Politécnico de Beja - Escola Superior de Saúde",
+    "latitude": 38.01506,
+    "longitude": -7.86323
+  },
+  {
+    "id": "1114",
+    "name": "Universidade do Porto - Faculdade de Direito",
+    "latitude": 41.15227,
+    "longitude": -8.63654
+  },
+  {
+    "id": "4350",
+    "name": "Universidade Europeia",
+    "latitude": 38.74847,
+    "longitude": -9.15369
+  },
+  {
+    "id": "3138",
+    "name": "Instituto Politécnico do Porto - Escola Superior de Tecnologia e Gestão",
+    "latitude": 41.36623,
+    "longitude": -8.1941
+  },
+  {
+    "id": "4571",
+    "name": "ISLA - Instituto Politécnico de Gestão e Tecnologia - Escola Superior de Gestão",
+    "latitude": 41.1241152,
+    "longitude": -8.6140386
+  },
+  {
+    "id": "7210",
+    "name": "Instituto Politécnico de Coimbra - Escola Superior de Tecnologia da Saúde de Coimbra",
+    "latitude": 40.2056,
+    "longitude": -8.4102
+  },
+  {
+    "id": "2910",
+    "name": "Centro Universitário Lusófona - Lisboa",
+    "latitude": 38.7529,
+    "longitude": -9.1843
+  },
+  {
+    "id": "3113",
+    "name": "Instituto Politécnico de Lisboa - Escola Superior de Comunicação Social",
+    "latitude": 38.7489,
+    "longitude": -9.1856
+  },
+  {
+    "id": "3031",
+    "name": "Instituto Politécnico do Cávado e do Ave - Escola Superior de Gestão",
+    "latitude": 41.526,
+    "longitude": -8.618
+  },
+  {
+    "id": "3087",
+    "name": "Universidade do Algarve - Escola Superior de Gestão, Hotelaria e Turismo (Portimão)",
+    "latitude": 37.1366,
+    "longitude": -8.5377
+  },
+  {
+    "id": "2220",
+    "name": "Universidade Católica Portuguesa - Faculdade de Ciências Humanas",
+    "latitude": 38.7529,
+    "longitude": -9.1604
+  },
+  {
+    "id": "1503",
+    "name": "Universidade de Lisboa - Faculdade de Ciências",
+    "latitude": 38.7597,
+    "longitude": -9.1569
+  },
+  {
+    "id": "1515",
+    "name": "Universidade de Lisboa - Instituto Superior de Agronomia",
+    "latitude": 38.7138,
+    "longitude": -9.1795
+  },
+  {
+    "id": "7530",
+    "name": "Instituto Superior de Ciências Policiais e Segurança Interna",
+    "latitude": 38.7169,
+    "longitude": -9.1605
+  },
+  {
+    "id": "7002",
+    "name": "Escola Superior de Enfermagem de Lisboa",
+    "latitude": 38.7471,
+    "longitude": -9.1609
+  },
+  {
+    "id": "3135",
+    "name": "Instituto Politécnico do Porto - Instituto Superior de Engenharia do Porto",
+    "latitude": 41.178,
+    "longitude": -8.608
+  },
+  {
+    "id": "2289",
+    "name": "Universidade Católica Portuguesa - Faculdade de Educação e Psicologia",
+    "latitude": 41.1505,
+    "longitude": -8.611
+  },
+  {
+    "id": "2500",
+    "name": "Universidade Portucalense Infante D. Henrique",
+    "latitude": 41.1628,
+    "longitude": -8.5824
+  },
+  {
+    "id": "7020",
+    "name": "Instituto Politécnico de Castelo Branco - Escola Superior de Saúde Dr. Lopes Dias",
+    "latitude": 39.8225,
+    "longitude": -7.49
+  },
+  {
+    "id": "3064",
+    "name": "Instituto Politécnico de Coimbra - Instituto Superior de Engenharia de Coimbra",
+    "latitude": 40.185,
+    "longitude": -8.415
+  },
+  {
+    "id": "2299",
+    "name": "Universidade Católica Portuguesa - Faculdade de Medicina",
+    "latitude": 38.752,
+    "longitude": -9.16
+  },
+  {
+    "id": "3163",
+    "name": "Instituto Politécnico de Viana do Castelo - Escola Superior de Tecnologia e Gestão",
+    "latitude": 41.6935,
+    "longitude": -8.8322
+  },
+  {
+    "id": "7065",
+    "name": "Instituto Politécnico de Santarém - Escola Superior de Saúde de Santarém",
+    "latitude": 39.236,
+    "longitude": -8.686
+  },
+  {
+    "id": "2410",
+    "name": "Universidade Lusíada - Centro Universitário Lusíada - Lisboa",
+    "latitude": 38.7368,
+    "longitude": -9.1485
+  },
+  {
+    "id": "4010",
+    "name": "Escola Superior Artística do Porto",
+    "latitude": 41.1456,
+    "longitude": -8.6139
+  },
+  {
+    "id": "1308",
+    "name": "Universidade da Madeira - Faculdade de Ciências Sociais",
+    "latitude": 32.6669,
+    "longitude": -16.9241
+  },
+  {
+    "id": "3095",
+    "name": "Instituto Politécnico da Guarda - Escola Superior de Turismo e Hotelaria",
+    "latitude": 40.5373,
+    "longitude": -7.2675
+  },
+  {
+    "id": "7040",
+    "name": "Instituto Politécnico da Guarda - Escola Superior de Saúde da Guarda",
+    "latitude": 40.5373,
+    "longitude": -7.2675
+  },
+  {
+    "id": "4530",
+    "name": "Instituto Superior de Tecnologias Avançadas de Lisboa",
+    "latitude": 38.7368,
+    "longitude": -9.1386
+  },
+  {
+    "id": "1102",
+    "name": "Universidade do Porto - Faculdade de Arquitetura",
+    "latitude": 41.1523,
+    "longitude": -8.6218
+  },
+  {
+    "id": "3124",
+    "name": "Instituto Politécnico de Portalegre - Escola Superior de Tecnologia, Gestão e Design",
+    "latitude": 39.292,
+    "longitude": -7.4289
+  },
+  {
+    "id": "0504",
+    "name": "Universidade de Coimbra - Faculdade de Farmácia",
+    "latitude": 40.21,
+    "longitude": -8.4236
+  }
+]
