@@ -9,10 +9,6 @@ import java.util.List;
 @Repository
 public interface InstitutionRepository extends JpaRepository<Institution, String> {
 
-    List<Institution> findAll();
-
-    Institution findInstitutionById(String id);
-
     List<Institution> findInstitutionsByName(String institutionName);
 
     List<Institution> findInstitutionsByType(String type);
