@@ -1,6 +1,8 @@
 package com.morais.backend.service;
 
 import com.morais.backend.entity.Institution;
+import com.morais.backend.exception.MethodArgumentNotValidException;
+import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.repository.InstitutionRepository;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +33,11 @@ public class InstitutionService {
      * @return the institution corresponding to the given ID, or null if not found
      */
     public Institution getInstitutionById(String id) {
-        return institutionRepository.findInstitutionById(id);
+        if (id == null || id.isBlank())
+            throw new MethodArgumentNotValidException("Institution ID cannot be null or empty/blank.");
+
+        return institutionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Institution not found with ID: " + id));
     }
 
     /**
@@ -41,7 +47,14 @@ public class InstitutionService {
      * @return a list of institutions with the given name
      */
     public List<Institution> getInstitutionsByName(String name) {
-        return institutionRepository.findInstitutionsByName(name);
+        if (name == null || name.isBlank())
+            throw new MethodArgumentNotValidException("Institution name cannot be null or empty/blank.");
+
+        List<Institution> institutions = institutionRepository.findInstitutionsByName(name);
+        if (institutions == null || institutions.isEmpty())
+            throw new ResourceNotFoundException("Institution not found with name: " + name);
+
+        return institutions;
     }
 
     /**
@@ -50,8 +63,15 @@ public class InstitutionService {
      * @param type the type of institutions to search for
      * @return a list of institutions with the given type
      */
-    public List<Institution> getInstitutionsByType(String type){
-        return institutionRepository.findInstitutionsByType(type);
+    public List<Institution> getInstitutionsByType(String type) {
+        if (type == null || type.isBlank())
+            throw new MethodArgumentNotValidException("Institution type cannot be null or empty/blank.");
+
+        List<Institution> institutions = institutionRepository.findInstitutionsByType(type);
+        if (institutions == null || institutions.isEmpty())
+            throw new ResourceNotFoundException("Institution not found with type: " + type);
+
+        return institutions;
     }
 
     /**
@@ -61,7 +81,14 @@ public class InstitutionService {
      * @return a list of institutions in the given district
      */
     public List<Institution> getInstitutionsByDistrict(String district) {
-        return institutionRepository.findInstitutionsByDistrict(district);
+        if (district == null || district.isBlank())
+            throw new MethodArgumentNotValidException("Institution district cannot be null or empty/blank.");
+
+        List<Institution> institutions = institutionRepository.findInstitutionsByDistrict(district);
+        if (institutions == null || institutions.isEmpty())
+            throw new ResourceNotFoundException("Institution not found with district: " + district);
+
+        return institutions;
     }
 
 }
