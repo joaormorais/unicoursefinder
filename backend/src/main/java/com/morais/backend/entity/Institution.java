@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -28,10 +29,10 @@ public class Institution {
     private String district;
 
     @Column(name = "latitude", nullable = false, precision = 9, scale = 6)
-    private Double latitude;
+    private BigDecimal latitude;
 
     @Column(name = "longitude", nullable = false, precision = 10, scale = 6)
-    private Double longitude;
+    private BigDecimal longitude;
 
     @OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Course> courses;
