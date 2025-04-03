@@ -5,28 +5,35 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "courses")
+@Table(name = "course")
 public class Course {
 
     @Id
-    @Column(name = "id", nullable = false, length = 10)
-    private String id;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "normalized_name", nullable = false)
+    private String normalizedName;
+
     @Column(name = "type", nullable = false)
     private String type;
+
+    @Column(name = "normalized_type", nullable = false)
+    private String normalizedType;
 
     @Column(name = "link", nullable = false)
     private String link;
 
-    @ManyToOne
-    @JoinColumn(name = "institution_id", nullable = false)
-    private Institution institution;
+    @ManyToMany(mappedBy = "courses")
+    private Set<Institution> institutions;
 
 }
