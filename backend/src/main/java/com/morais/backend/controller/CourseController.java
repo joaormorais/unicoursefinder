@@ -1,7 +1,6 @@
 package com.morais.backend.controller;
 
 import com.morais.backend.dto.CourseDTO;
-import com.morais.backend.entity.Course;
 import com.morais.backend.service.CourseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
