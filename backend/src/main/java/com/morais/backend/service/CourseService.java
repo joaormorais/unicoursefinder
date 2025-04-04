@@ -1,5 +1,6 @@
 package com.morais.backend.service;
 
+import com.morais.backend.dto.CourseDTO;
 import com.morais.backend.entity.Course;
 import com.morais.backend.exception.MethodArgumentNotValidException;
 import com.morais.backend.exception.ResourceNotFoundException;
@@ -22,8 +23,10 @@ public class CourseService {
      *
      * @return a list containing all courses
      */
-    public List<Course> getCourses() {
-        return courseRepository.findAll();
+    public List<CourseDTO> getCourses() {
+        return courseRepository.findAll().stream()
+                .map(this::mapToDTO)
+                .toList();
     }
 
     /**
@@ -32,12 +35,12 @@ public class CourseService {
      * @param id the unique identifier of the course
      * @return the course corresponding to the given ID, or null if not found
      */
-    public Course getCourseById(String id) {
-        if (id == null || id.isBlank())
-            throw new MethodArgumentNotValidException("Course ID cannot be null or empty/blank");
+    public CourseDTO getCourseById(Long id) {
+        if (id == null)
+            throw new MethodArgumentNotValidException("Course ID cannot be null or empty/blank.");
 
-        return courseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + id));
+        Course course = courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course not found with ID: " + id));
+        return mapToDTO(course);
     }
 
     /**
@@ -46,15 +49,17 @@ public class CourseService {
      * @param name the name of the courses to search for
      * @return a list of courses with the given name
      */
-    public List<Course> getCoursesByName(String name) {
+    public List<CourseDTO> getCoursesByName(String name) {
         if (name == null || name.isBlank())
-            throw new MethodArgumentNotValidException("Course name cannot be null or empty/blank");
+            throw new MethodArgumentNotValidException("Course name cannot be null or empty/blank.");
 
-        List<Course> courses = courseRepository.findCoursesByName(name);
+        List<Course> courses = courseRepository.findByNormalizedNameContaining(name);
         if (courses == null || courses.isEmpty())
             throw new ResourceNotFoundException("Course not found with name: " + name);
 
-        return courses;
+        return courses.stream()
+                .map(this::mapToDTO)
+                .toList();
     }
 
     /**
@@ -63,17 +68,18 @@ public class CourseService {
      * @param type the type of courses to search for
      * @return a list of courses with the given type
      */
-    public List<Course> getCoursesByType(String type) {
+    public List<CourseDTO> getCoursesByType(String type) {
         if (type == null || type.isBlank())
-            throw new MethodArgumentNotValidException("Course type cannot be null or empty/blank");
+            throw new MethodArgumentNotValidException("Course type cannot be null or empty/blank.");
 
-        List<Course> courses = courseRepository.findCoursesByType(type);
+        List<Course> courses = courseRepository.findByNormalizedTypeContaining(type);
         if (courses == null || courses.isEmpty())
             throw new ResourceNotFoundException("Course not found with type: " + type);
 
-        return courses;
+        return courses.stream()
+                .map(this::mapToDTO)
+                .toList();
     }
-
 
     /**
      * Retrieves a list of courses associated with a specific institution.
@@ -81,31 +87,57 @@ public class CourseService {
      * @param institutionId the unique identifier of the institution
      * @return a list of courses offered by the given institution
      */
-    public List<Course> getCoursesByInstitutionId(String institutionId) {
-        if (institutionId == null || institutionId.isBlank())
-            throw new MethodArgumentNotValidException("Institution ID cannot be null or empty/blank");
+    public List<CourseDTO> getCoursesByInstitutionId(Long institutionId) {
+        if (institutionId == null)
+            throw new MethodArgumentNotValidException("Institution ID cannot be null.");
 
-        List<Course> courses = courseRepository.findCoursesByInstitutionId(institutionId);
+        List<Course> courses = courseRepository.findCoursesByInstitutions_id(institutionId);
         if (courses == null || courses.isEmpty())
             throw new ResourceNotFoundException("Course not found with institution ID: " + institutionId);
 
-        return courses;
+        return courses.stream()
+                .map(this::mapToDTO)
+                .toList();
     }
 
     /**
      * Retrieves a list of courses located in institutions within the specified district.
      *
-     * @param district the district where the institutions are located
+     * @param institutionDistrict the district where the institutions are located
      * @return a list of courses offered by institutions in the given district
      */
-    public List<Course> getCoursesByDistrict(String district) {
-        if (district == null || district.isBlank())
-            throw new MethodArgumentNotValidException("District cannot be null or empty/blank");
+    public List<CourseDTO> getCoursesByInstitutionDistrict(String institutionDistrict) {
+        if (institutionDistrict == null || institutionDistrict.isBlank())
+            throw new MethodArgumentNotValidException("District cannot be null or empty/blank.");
 
-        List<Course> courses = courseRepository.findCoursesByInstitutionDistrict(district);
+        List<Course> courses = courseRepository.findCoursesByInstitutions_district(institutionDistrict);
         if (courses == null || courses.isEmpty())
-            throw new ResourceNotFoundException("Course not found with institution distric: " + district);
+            throw new ResourceNotFoundException("Course not found with institution distric: " + institutionDistrict);
 
-        return courses;
+        return courses.stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    /**
+     * Converts a Course entity into a CourseDTO.
+     *
+     * @param course the Course entity to be converted
+     * @return a CourseDTO containing course details and a list of associated institution IDs
+     */
+    private CourseDTO mapToDTO(Course course) {
+        List<Long> institutionIds = course.getInstitutions().stream()
+                .map(institution -> institution.getId())
+                .toList();
+
+        return new CourseDTO(
+                course.getId(),
+                course.getName(),
+                course.getNormalizedName(),
+                course.getType(),
+                course.getNormalizedType(),
+                course.getLink(),
+                institutionIds
+        );
     }
 }

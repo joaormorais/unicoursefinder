@@ -2,18 +2,22 @@ package com.morais.backend.repository;
 
 import com.morais.backend.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface CourseRepository extends JpaRepository<Course, String> {
+public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    List<Course> findCoursesByName(String courseName);
+    @Query("SELECT i FROM Course i WHERE i.normalizedName LIKE %:name%")
+    List<Course> findByNormalizedNameContaining(@Param("name") String name);
 
-    List<Course> findCoursesByType(String type);
+    @Query("SELECT i FROM Course i WHERE i.normalizedType LIKE %:type%")
+    List<Course> findByNormalizedTypeContaining(@Param("type") String type);
 
-    List<Course> findCoursesByInstitutionId(String institutionId);
+    List<Course> findCoursesByInstitutions_id(Long institutionsId);
 
-    List<Course> findCoursesByInstitutionDistrict(String institutionDistrict);
+    List<Course> findCoursesByInstitutions_district(String district);
 }
