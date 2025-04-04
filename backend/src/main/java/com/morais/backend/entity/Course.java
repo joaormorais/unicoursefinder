@@ -15,7 +15,6 @@ import java.util.Set;
 public class Course {
 
     @Id
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -30,7 +29,7 @@ public class Course {
     @Column(name = "normalized_type", nullable = false)
     private String normalizedType;
 
-    @Column(name = "link", nullable = false)
+    @Column(name = "link", nullable = false, length = 512)
     private String link;
 
     @ManyToMany(mappedBy = "courses")
