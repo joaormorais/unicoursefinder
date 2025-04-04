@@ -93,7 +93,7 @@ public class InstitutionService {
         if (district == null || district.isBlank())
             throw new MethodArgumentNotValidException("Institution district cannot be null or empty/blank.");
 
-        List<Institution> institutions = institutionRepository.findInstitutionsByDistrict(district);
+        List<Institution> institutions = institutionRepository.findByNormalizedDistrictContaining(district);
         if (institutions == null || institutions.isEmpty())
             throw new ResourceNotFoundException("Institution not found with district: " + district);
 
@@ -116,9 +116,7 @@ public class InstitutionService {
         return new InstitutionDTO(
                 institution.getId(),
                 institution.getName(),
-                institution.getNormalizedName(),
                 institution.getType(),
-                institution.getNormalizedType(),
                 institution.getDistrict(),
                 institution.getLatitude(),
                 institution.getLongitude(),

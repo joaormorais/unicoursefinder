@@ -133,9 +133,7 @@ public class CourseService {
         return new CourseDTO(
                 course.getId(),
                 course.getName(),
-                course.getNormalizedName(),
                 course.getType(),
-                course.getNormalizedType(),
                 course.getLink(),
                 institutionIds
         );

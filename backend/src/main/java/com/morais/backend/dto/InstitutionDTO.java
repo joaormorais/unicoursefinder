@@ -6,9 +6,7 @@ import java.util.List;
 public record InstitutionDTO(
         Long id,
         String name,
-        String normalizedName,
         String type,
-        String normalizedType,
         String district,
         BigDecimal latitude,
         BigDecimal longitude,
