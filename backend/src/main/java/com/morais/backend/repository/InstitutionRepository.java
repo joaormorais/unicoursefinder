@@ -17,5 +17,7 @@ public interface InstitutionRepository extends JpaRepository<Institution, Long> 
     @Query("SELECT i FROM Institution i WHERE i.normalizedType LIKE %:type%")
     List<Institution> findByNormalizedTypeContaining(@Param("type") String type);
 
-    List<Institution> findInstitutionsByDistrict(String district);
+    @Query("SELECT i FROM Institution i WHERE i.normalizedDistrict LIKE %:district%")
+    List<Institution> findByNormalizedDistrictContaining(@Param("district") String district);
+
 }
