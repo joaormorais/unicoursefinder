@@ -26,9 +26,6 @@ public class Course {
     @Column(name = "type", nullable = false)
     private String type;
 
-    @Column(name = "normalized_type", nullable = false)
-    private String normalizedType;
-
     @Column(name = "link", nullable = false, length = 512)
     private String link;
 
