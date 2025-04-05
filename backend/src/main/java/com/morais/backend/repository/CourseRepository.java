@@ -11,13 +11,19 @@ import java.util.List;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    @Query("SELECT i FROM Course i WHERE i.normalizedName LIKE %:name%")
-    List<Course> findByNormalizedNameContaining(@Param("name") String name);
+    @Query("SELECT DISTINCT i.type FROM Course i")
+    List<String> findDistinctTypes();
 
-    @Query("SELECT i FROM Course i WHERE i.normalizedType LIKE %:type%")
-    List<Course> findByNormalizedTypeContaining(@Param("type") String type);
-
-    List<Course> findCoursesByInstitutions_id(Long institutionsId);
-
-    List<Course> findCoursesByInstitutions_district(String district);
+    @Query("""
+    SELECT DISTINCT c FROM Course c
+    JOIN c.institutions i
+    WHERE c.normalizedName LIKE %:name% 
+    AND (:#{#types == null || #types.isEmpty()} = true OR c.type IN :types) 
+    AND (:#{#institutionIds == null || #institutionIds.isEmpty()} = true OR i.id IN :institutionIds)
+    """)
+    List<Course> findByNameTypeAndInstitution(
+            @Param("name") String name,
+            @Param("type") List<String> types,
+            @Param("institutionIds") List<Long> institutionIds
+    );
 }
