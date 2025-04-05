@@ -26,76 +26,41 @@ public class InstitutionService {
      * @return a list containing all institutions
      */
     public List<InstitutionDTO> getInstitutions() {
+        //TODO: ver se e necessario um resource NotFoundException
         return institutionRepository.findAll().stream()
                 .map(this::mapToDTO)
                 .toList();
     }
 
-    /**
-     * Retrieves an institution by its unique identifier.
-     *
-     * @param id the unique identifier of the institution
-     * @return the institution corresponding to the given ID, or null if not found
-     */
-    public InstitutionDTO getInstitutionById(Long id) {
-        if (id == null)
-            throw new MethodArgumentNotValidException("Institution ID cannot be null.");
+    //TODO: ver se é necessario mandar as exceptions ou se mando vazio
+    // comentarios
+    public List<String> getDistinctDistricts() {
+        List<String> districts = institutionRepository.findDistinctDistricts();
+        if (districts == null || districts.isEmpty())
+            throw new ResourceNotFoundException("Didn't find any distinct districts");
 
-        Institution institution = institutionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Institution not found with ID: " + id));
-        return mapToDTO(institution);
+        return districts;
     }
 
-    /**
-     * Retrieves a list of institutions that match the specified name.
-     *
-     * @param name the name of the institutions to search for
-     * @return a list of institutions with the given name
-     */
-    public List<InstitutionDTO> getInstitutionsByName(String name) {
-        if (name == null || name.isBlank())
-            throw new MethodArgumentNotValidException("Institution name cannot be null or empty/blank.");
+    //TODO: ver se é necessario mandar as exceptions ou se mando vazio
+    // comentarios
+    public List<String> getDistinctTypes() {
+        List<String> types = institutionRepository.findDistinctTypes();
+        if(types == null || types.isEmpty())
+            throw new ResourceNotFoundException("Didn't find any distinct types");
 
-        List<Institution> institutions = institutionRepository.findByNormalizedNameContaining(normalize(name));
-        if (institutions == null || institutions.isEmpty())
-            throw new ResourceNotFoundException("Institution not found with name: " + name);
-
-        return institutions.stream()
-                .map(this::mapToDTO)
-                .toList();
+        return types;
     }
 
-    /**
-     * Retrieves a list of institutions that match the specified type.
-     *
-     * @param type the type of institutions to search for
-     * @return a list of institutions with the given type
-     */
-    public List<InstitutionDTO> getInstitutionsByType(String type) {
-        if (type == null || type.isBlank())
-            throw new MethodArgumentNotValidException("Institution type cannot be null or empty/blank.");
+    //TODO: ver se é necessario mandar as exceptions ou se mando vazio
+    // comentarios
+    public List<InstitutionDTO> getInstitutionsByNameTypeAndDistrict(String name, List<String> types, List<String> districts) {
+        if (name == null || name.isEmpty())
+            throw new MethodArgumentNotValidException("Name cannot be null or empty");
 
-        List<Institution> institutions = institutionRepository.findByNormalizedTypeContaining(type);
+        List<Institution> institutions = institutionRepository.findByNameTypeAndDistrict(normalize(name), types, districts);
         if (institutions == null || institutions.isEmpty())
-            throw new ResourceNotFoundException("Institution not found with type: " + type);
-
-        return institutions.stream()
-                .map(this::mapToDTO)
-                .toList();
-    }
-
-    /**
-     * Retrieves a list of institutions located in the specified district.
-     *
-     * @param district the district where the institutions are located
-     * @return a list of institutions in the given district
-     */
-    public List<InstitutionDTO> getInstitutionsByDistrict(String district) {
-        if (district == null || district.isBlank())
-            throw new MethodArgumentNotValidException("Institution district cannot be null or empty/blank.");
-
-        List<Institution> institutions = institutionRepository.findByNormalizedDistrictContaining(district);
-        if (institutions == null || institutions.isEmpty())
-            throw new ResourceNotFoundException("Institution not found with district: " + district);
+            throw new ResourceNotFoundException("Didn't find any institutions");
 
         return institutions.stream()
                 .map(this::mapToDTO)
@@ -109,18 +74,13 @@ public class InstitutionService {
      * @return an InstitutionDTO containing institution details and a list of associated course IDs
      */
     private InstitutionDTO mapToDTO(Institution institution) {
-        List<Long> courseIds = institution.getCourses().stream()
-                .map(course -> course.getId())
-                .toList();
-
         return new InstitutionDTO(
                 institution.getId(),
                 institution.getName(),
                 institution.getType(),
                 institution.getDistrict(),
                 institution.getLatitude(),
-                institution.getLongitude(),
-                courseIds
+                institution.getLongitude()
         );
     }
 }
