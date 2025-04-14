@@ -1,7 +1,9 @@
 package com.morais.backend.controller;
 
 import com.morais.backend.dto.InstitutionDTO;
+import com.morais.backend.dto.InstitutionSearchRequest;
 import com.morais.backend.service.InstitutionService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,24 +29,34 @@ public class InstitutionController {
         return ResponseEntity.ok(institutionService.getInstitutions());
     }
 
-    // TODO: comentarios
-    @GetMapping("/districts/")
+    /**
+     * Retrieves a list of all distinct districts from institutions.
+     *
+     * @return a list of unique district names
+     */
+    @GetMapping("/districts")
     public ResponseEntity<List<String>> getDistinctDistricts() {
         return ResponseEntity.ok(institutionService.getDistinctDistricts());
     }
 
-    // TODO: comentarios
-    @GetMapping("/types/")
+    /**
+     * Retrieves a list of all distinct institution types.
+     *
+     * @return a list of unique institution types
+     */
+    @GetMapping("/types")
     public ResponseEntity<List<String>> getDistinctTypes() {
         return ResponseEntity.ok(institutionService.getDistinctTypes());
     }
 
-    // TODO: comentarios
-    @GetMapping("/search")
-    public ResponseEntity<List<InstitutionDTO>> searchCourses(
-            @RequestParam String name,
-            @RequestParam(required = false) List<String> types,
-            @RequestBody(required = false) List<String> districts) {
-        return ResponseEntity.ok(institutionService.getInstitutionsByNameTypeAndDistrict(name, types, districts));
+    /**
+     * Searches for institutions by name, with optional filters for type and district.
+     *
+     * @param institutionSearchRequest the request body containing the search filters
+     * @return a list of institutions matching the search criteria
+     */
+    @PostMapping("/search")
+    public ResponseEntity<List<InstitutionDTO>> searchCourses(@RequestBody @Valid InstitutionSearchRequest institutionSearchRequest) {
+        return ResponseEntity.ok(institutionService.getInstitutionsByNameTypeAndDistrict(institutionSearchRequest));
     }
 }

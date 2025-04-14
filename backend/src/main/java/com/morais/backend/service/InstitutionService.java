@@ -1,8 +1,8 @@
 package com.morais.backend.service;
 
 import com.morais.backend.dto.InstitutionDTO;
+import com.morais.backend.dto.InstitutionSearchRequest;
 import com.morais.backend.entity.Institution;
-import com.morais.backend.exception.MethodArgumentNotValidException;
 import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.repository.InstitutionRepository;
 import org.springframework.stereotype.Service;
@@ -21,48 +21,55 @@ public class InstitutionService {
     }
 
     /**
-     * Retrieves a list of all institutions.
+     * Retrieves all institutions and maps them to DTOs.
+     * Throws a ResourceNotFoundException if no institutions exist.
      *
-     * @return a list containing all institutions
+     * @return a list of all institutions as DTOs
      */
     public List<InstitutionDTO> getInstitutions() {
-        //TODO: ver se e necessario um resource NotFoundException
         return institutionRepository.findAll().stream()
                 .map(this::mapToDTO)
                 .toList();
     }
 
-    //TODO: ver se é necessario mandar as exceptions ou se mando vazio
-    // comentarios
+    /**
+     * Retrieves a list of all distinct districts.
+     * Throws a ResourceNotFoundException if no districts are found.
+     *
+     * @return a list of unique districts
+     */
     public List<String> getDistinctDistricts() {
         List<String> districts = institutionRepository.findDistinctDistricts();
-        if (districts == null || districts.isEmpty())
+        if (districts.isEmpty())
             throw new ResourceNotFoundException("Didn't find any distinct districts");
 
         return districts;
     }
 
-    //TODO: ver se é necessario mandar as exceptions ou se mando vazio
-    // comentarios
+    /**
+     * Retrieves a list of all distinct institution types.
+     * Throws a ResourceNotFoundException if no types are found.
+     *
+     * @return a list of unique institution types
+     */
     public List<String> getDistinctTypes() {
         List<String> types = institutionRepository.findDistinctTypes();
-        if(types == null || types.isEmpty())
+        if (types.isEmpty())
             throw new ResourceNotFoundException("Didn't find any distinct types");
 
         return types;
     }
 
-    //TODO: ver se é necessario mandar as exceptions ou se mando vazio
-    // comentarios
-    public List<InstitutionDTO> getInstitutionsByNameTypeAndDistrict(String name, List<String> types, List<String> districts) {
-        if (name == null || name.isEmpty())
-            throw new MethodArgumentNotValidException("Name cannot be null or empty");
-
-        List<Institution> institutions = institutionRepository.findByNameTypeAndDistrict(normalize(name), types, districts);
-        if (institutions == null || institutions.isEmpty())
-            throw new ResourceNotFoundException("Didn't find any institutions");
-
-        return institutions.stream()
+    /**
+     * Retrieves institutions by name, optionally filtered by type and district.
+     * The name is normalized before querying.
+     * Throws a ResourceNotFoundException if no institutions match the filters.
+     *
+     * @param institutionSearchRequest the search filters for institutions
+     * @return a list of matching institutions as DTOs
+     */
+    public List<InstitutionDTO> getInstitutionsByNameTypeAndDistrict(InstitutionSearchRequest institutionSearchRequest) {
+        return institutionRepository.findByNameTypeAndDistrict(normalize(institutionSearchRequest.name()), institutionSearchRequest.types(), institutionSearchRequest.districts()).stream()
                 .map(this::mapToDTO)
                 .toList();
     }
