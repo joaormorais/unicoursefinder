@@ -16,7 +16,6 @@ import java.util.Set;
 public class Institution {
 
     @Id
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -28,14 +27,8 @@ public class Institution {
     @Column(name = "type", nullable = false)
     private String type;
 
-    @Column(name = "normalized_type", nullable = false)
-    private String normalizedType;
-
     @Column(name = "district", nullable = false)
     private String district;
-
-    @Column(name = "normalized_district", nullable = false)
-    private String normalizedDistrict;
 
     @Column(name = "latitude", nullable = false, precision = 9, scale = 6)
     private BigDecimal latitude;

@@ -11,13 +11,21 @@ import java.util.List;
 @Repository
 public interface InstitutionRepository extends JpaRepository<Institution, Long> {
 
-    @Query("SELECT i FROM Institution i WHERE i.normalizedName LIKE %:name%")
-    List<Institution> findByNormalizedNameContaining(@Param("name") String name);
+    @Query("SELECT DISTINCT i.district FROM Institution i")
+    List<String> findDistinctDistricts();
 
-    @Query("SELECT i FROM Institution i WHERE i.normalizedType LIKE %:type%")
-    List<Institution> findByNormalizedTypeContaining(@Param("type") String type);
+    @Query("SELECT DISTINCT i.type FROM Institution i")
+    List<String> findDistinctTypes();
 
-    @Query("SELECT i FROM Institution i WHERE i.normalizedDistrict LIKE %:district%")
-    List<Institution> findByNormalizedDistrictContaining(@Param("district") String district);
-
+    @Query("""
+    SELECT i FROM Institution i 
+    WHERE i.normalizedName LIKE %:name% 
+    AND (:#{#types == null || #types.isEmpty()} = true OR i.type IN :types) 
+    AND (:#{#districts == null || #districts.isEmpty()} = true OR i.district IN :districts)
+    """)
+    List<Institution> findByNameTypeAndDistrict(
+            @Param("name") String name,
+            @Param("types") List<String> types,
+            @Param("districts") List<String> districts
+    );
 }

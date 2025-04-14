@@ -1,8 +1,8 @@
 package com.morais.backend.service;
 
 import com.morais.backend.dto.InstitutionDTO;
+import com.morais.backend.dto.InstitutionSearchRequest;
 import com.morais.backend.entity.Institution;
-import com.morais.backend.exception.MethodArgumentNotValidException;
 import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.repository.InstitutionRepository;
 import org.springframework.stereotype.Service;
@@ -21,9 +21,10 @@ public class InstitutionService {
     }
 
     /**
-     * Retrieves a list of all institutions.
+     * Retrieves all institutions and maps them to DTOs.
+     * Throws a ResourceNotFoundException if no institutions exist.
      *
-     * @return a list containing all institutions
+     * @return a list of all institutions as DTOs
      */
     public List<InstitutionDTO> getInstitutions() {
         return institutionRepository.findAll().stream()
@@ -32,72 +33,43 @@ public class InstitutionService {
     }
 
     /**
-     * Retrieves an institution by its unique identifier.
+     * Retrieves a list of all distinct districts.
+     * Throws a ResourceNotFoundException if no districts are found.
      *
-     * @param id the unique identifier of the institution
-     * @return the institution corresponding to the given ID, or null if not found
+     * @return a list of unique districts
      */
-    public InstitutionDTO getInstitutionById(Long id) {
-        if (id == null)
-            throw new MethodArgumentNotValidException("Institution ID cannot be null.");
+    public List<String> getDistinctDistricts() {
+        List<String> districts = institutionRepository.findDistinctDistricts();
+        if (districts.isEmpty())
+            throw new ResourceNotFoundException("Didn't find any distinct districts");
 
-        Institution institution = institutionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Institution not found with ID: " + id));
-        return mapToDTO(institution);
+        return districts;
     }
 
     /**
-     * Retrieves a list of institutions that match the specified name.
+     * Retrieves a list of all distinct institution types.
+     * Throws a ResourceNotFoundException if no types are found.
      *
-     * @param name the name of the institutions to search for
-     * @return a list of institutions with the given name
+     * @return a list of unique institution types
      */
-    public List<InstitutionDTO> getInstitutionsByName(String name) {
-        if (name == null || name.isBlank())
-            throw new MethodArgumentNotValidException("Institution name cannot be null or empty/blank.");
+    public List<String> getDistinctTypes() {
+        List<String> types = institutionRepository.findDistinctTypes();
+        if (types.isEmpty())
+            throw new ResourceNotFoundException("Didn't find any distinct types");
 
-        List<Institution> institutions = institutionRepository.findByNormalizedNameContaining(normalize(name));
-        if (institutions == null || institutions.isEmpty())
-            throw new ResourceNotFoundException("Institution not found with name: " + name);
-
-        return institutions.stream()
-                .map(this::mapToDTO)
-                .toList();
+        return types;
     }
 
     /**
-     * Retrieves a list of institutions that match the specified type.
+     * Retrieves institutions by name, optionally filtered by type and district.
+     * The name is normalized before querying.
+     * Throws a ResourceNotFoundException if no institutions match the filters.
      *
-     * @param type the type of institutions to search for
-     * @return a list of institutions with the given type
+     * @param institutionSearchRequest the search filters for institutions
+     * @return a list of matching institutions as DTOs
      */
-    public List<InstitutionDTO> getInstitutionsByType(String type) {
-        if (type == null || type.isBlank())
-            throw new MethodArgumentNotValidException("Institution type cannot be null or empty/blank.");
-
-        List<Institution> institutions = institutionRepository.findByNormalizedTypeContaining(type);
-        if (institutions == null || institutions.isEmpty())
-            throw new ResourceNotFoundException("Institution not found with type: " + type);
-
-        return institutions.stream()
-                .map(this::mapToDTO)
-                .toList();
-    }
-
-    /**
-     * Retrieves a list of institutions located in the specified district.
-     *
-     * @param district the district where the institutions are located
-     * @return a list of institutions in the given district
-     */
-    public List<InstitutionDTO> getInstitutionsByDistrict(String district) {
-        if (district == null || district.isBlank())
-            throw new MethodArgumentNotValidException("Institution district cannot be null or empty/blank.");
-
-        List<Institution> institutions = institutionRepository.findByNormalizedDistrictContaining(district);
-        if (institutions == null || institutions.isEmpty())
-            throw new ResourceNotFoundException("Institution not found with district: " + district);
-
-        return institutions.stream()
+    public List<InstitutionDTO> getInstitutionsByNameTypeAndDistrict(InstitutionSearchRequest institutionSearchRequest) {
+        return institutionRepository.findByNameTypeAndDistrict(normalize(institutionSearchRequest.name()), institutionSearchRequest.types(), institutionSearchRequest.districts()).stream()
                 .map(this::mapToDTO)
                 .toList();
     }
@@ -109,18 +81,13 @@ public class InstitutionService {
      * @return an InstitutionDTO containing institution details and a list of associated course IDs
      */
     private InstitutionDTO mapToDTO(Institution institution) {
-        List<Long> courseIds = institution.getCourses().stream()
-                .map(course -> course.getId())
-                .toList();
-
         return new InstitutionDTO(
                 institution.getId(),
                 institution.getName(),
                 institution.getType(),
                 institution.getDistrict(),
                 institution.getLatitude(),
-                institution.getLongitude(),
-                courseIds
+                institution.getLongitude()
         );
     }
 }

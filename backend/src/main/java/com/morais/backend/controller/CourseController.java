@@ -1,12 +1,11 @@
 package com.morais.backend.controller;
 
 import com.morais.backend.dto.CourseDTO;
+import com.morais.backend.dto.CourseSearchRequest;
 import com.morais.backend.service.CourseService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,68 +20,23 @@ public class CourseController {
     }
 
     /**
-     * Retrieves all courses.
+     * Retrieves a list of all distinct course types.
      *
-     * @return a list of all courses
+     * @return a list of unique course types
      */
-    @GetMapping
-    public ResponseEntity<List<CourseDTO>> getAllCourses() {
-        return ResponseEntity.ok(courseService.getCourses());
+    @GetMapping("/types")
+    public ResponseEntity<List<String>> getDistinctTypes() {
+        return ResponseEntity.ok(courseService.getDistinctTypes());
     }
 
     /**
-     * Retrieves a course by its unique identifier.
+     * Searches for courses by name, with optional filters for type and institution.
      *
-     * @param id the unique identifier of the course
-     * @return the course corresponding to the given ID
+     * @param courseSearchRequest the request body containing the search filters
+     * @return a list of courses matching the search criteria
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<CourseDTO> getCoursesById(@PathVariable Long id) {
-        return ResponseEntity.ok(courseService.getCourseById(id));
+    @PostMapping("/search")
+    public ResponseEntity<List<CourseDTO>> searchCourses(@RequestBody @Valid CourseSearchRequest courseSearchRequest) {
+        return ResponseEntity.ok(courseService.getInstitutionsByNameTypeAndInstitution(courseSearchRequest));
     }
-
-    /**
-     * Retrieves courses by their name.
-     *
-     * @param name the name of the course(s)
-     * @return a list of courses matching the given name
-     */
-    @GetMapping("/name/{name}")
-    public ResponseEntity<List<CourseDTO>> getCoursesByName(@PathVariable String name) {
-        return ResponseEntity.ok(courseService.getCoursesByName(name));
-    }
-
-    /**
-     * Retrieves courses by their type.
-     *
-     * @param type the type of the course(s)
-     * @return a list of courses matching the given type
-     */
-    @GetMapping("/type/{type}")
-    public ResponseEntity<List<CourseDTO>> getCoursesByType(@PathVariable String type) {
-        return ResponseEntity.ok(courseService.getCoursesByType(type));
-    }
-
-    /**
-     * Retrieves courses by their institution ID.
-     *
-     * @param institutionId the institution ID of the course(s)
-     * @return a list of courses matching the given institution ID
-     */
-    @GetMapping("/institutionId/{institutionId}")
-    public ResponseEntity<List<CourseDTO>> getCoursesByInstitutionId(@PathVariable Long institutionId) {
-        return ResponseEntity.ok(courseService.getCoursesByInstitutionId(institutionId));
-    }
-
-    /**
-     * Retrieves courses by their institution district.
-     *
-     * @param institutionDistrict the institution district of the course(s)
-     * @return a list of courses matching the given institution district
-     */
-    @GetMapping("/institutionDistrict/{institutionDistrict}")
-    public ResponseEntity<List<CourseDTO>> getCoursesByDistrict(@PathVariable String institutionDistrict) {
-        return ResponseEntity.ok(courseService.getCoursesByInstitutionDistrict(institutionDistrict));
-    }
-
 }

@@ -1,12 +1,11 @@
 package com.morais.backend.controller;
 
 import com.morais.backend.dto.InstitutionDTO;
+import com.morais.backend.dto.InstitutionSearchRequest;
 import com.morais.backend.service.InstitutionService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,47 +30,33 @@ public class InstitutionController {
     }
 
     /**
-     * Retrieves an institution by its unique identifier.
+     * Retrieves a list of all distinct districts from institutions.
      *
-     * @param id the unique identifier of the institution
-     * @return the institution corresponding to the given ID
+     * @return a list of unique district names
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<InstitutionDTO> getInstitutionById(@PathVariable Long id) {
-        return ResponseEntity.ok(institutionService.getInstitutionById(id));
+    @GetMapping("/districts")
+    public ResponseEntity<List<String>> getDistinctDistricts() {
+        return ResponseEntity.ok(institutionService.getDistinctDistricts());
     }
 
     /**
-     * Retrieves institutions by their name.
+     * Retrieves a list of all distinct institution types.
      *
-     * @param name the name of the institution(s)
-     * @return a list of institutions matching the given name
+     * @return a list of unique institution types
      */
-    @GetMapping("/name/{name}")
-    public ResponseEntity<List<InstitutionDTO>> getInstitutionByName(@PathVariable String name) {
-        return ResponseEntity.ok(institutionService.getInstitutionsByName(name));
+    @GetMapping("/types")
+    public ResponseEntity<List<String>> getDistinctTypes() {
+        return ResponseEntity.ok(institutionService.getDistinctTypes());
     }
 
     /**
-     * Retrieves institutions by their type.
+     * Searches for institutions by name, with optional filters for type and district.
      *
-     * @param type the type of institution(s)
-     * @return a list of institutions matching the given type
+     * @param institutionSearchRequest the request body containing the search filters
+     * @return a list of institutions matching the search criteria
      */
-    @GetMapping("/type/{type}")
-    public ResponseEntity<List<InstitutionDTO>> getInstitutionByType(@PathVariable String type) {
-        return ResponseEntity.ok(institutionService.getInstitutionsByType(type));
+    @PostMapping("/search")
+    public ResponseEntity<List<InstitutionDTO>> searchCourses(@RequestBody @Valid InstitutionSearchRequest institutionSearchRequest) {
+        return ResponseEntity.ok(institutionService.getInstitutionsByNameTypeAndDistrict(institutionSearchRequest));
     }
-
-    /**
-     * Retrieves institutions by district.
-     *
-     * @param district the district of the institution(s)
-     * @return a list of institutions in the given district
-     */
-    @GetMapping("/district/{district}")
-    public ResponseEntity<List<InstitutionDTO>> getInstitutionByDistrict(@PathVariable String district) {
-        return ResponseEntity.ok(institutionService.getInstitutionsByDistrict(district));
-    }
-
 }
