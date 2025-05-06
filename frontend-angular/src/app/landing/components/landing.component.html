@@ -1,15 +1,15 @@
-<div>
-  <div>
-    <app-button
+<div class="button-container">
+  <div class="button-row-first">
+    <app-button class="button-left"
       [label]="'buttons.search' | translate" routerLink="/search"
     ></app-button>
-    <app-button
+    <app-button class="button-right"
       [label]="'buttons.help' | translate"
       routerLink="/help"
     ></app-button>
   </div>
-  <div>
-    <app-button
+  <div class="button-row-second">
+    <app-button class="button-bellow"
       [label]="'buttons.forum' | translate"
       routerLink="/forum"
     ></app-button>
