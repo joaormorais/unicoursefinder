@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { LandingComponent } from './pages/landing/landing.component';
-import { SearchComponent } from './pages/search/search.component';
-import { HelpComponent } from './pages/help/help.component';
-import { ForumComponent } from './pages/forum/forum.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
+import { LandingComponent } from './landing/components/landing.component';
+import { SearchComponent } from './search/components/search.component';
+import { HelpComponent } from './help/components/help.component';
+import { ForumComponent } from './forum/components/forum.component';
+import { LoginComponent } from './login/components/login.component';
+import { RegisterComponent } from './register/components/register.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
