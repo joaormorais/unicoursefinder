@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-button',
-  imports: [RouterModule, TranslateModule],
+  imports: [RouterModule, MatButtonModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
 })
