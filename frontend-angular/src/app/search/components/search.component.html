@@ -1,1 +1,13 @@
-<p>search works!</p>
+<div class="search-page">
+    <h2>List of institutions</h2>
+  
+    <div *ngIf="loading">Loading institutions...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+  
+    <ul *ngIf="!loading && !error">
+      <li *ngFor="let institution of institutions">
+        {{ institution.name }}
+      </li>
+    </ul>
+  </div>
+  
