@@ -21,6 +21,18 @@ public class CourseService {
     }
 
     /**
+     * Retrieves all courses and maps them to DTOs.
+     * Throws a ResourceNotFoundException if no courses exist.
+     *
+     * @return a list of all courses as DTOs
+     */
+    public List<CourseDTO> getCourses() {
+        return courseRepository.findAll().stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    /**
      * Retrieves a list of all distinct course types.
      * Throws a ResourceNotFoundException if no types are found.
      *
@@ -42,7 +54,7 @@ public class CourseService {
      * @param courseSearchRequest the search filters for courses
      * @return a list of matching courses as DTOs
      */
-    public List<CourseDTO> getInstitutionsByNameTypeAndInstitution(CourseSearchRequest courseSearchRequest) {
+    public List<CourseDTO> getCoursesByNameTypeAndInstitution(CourseSearchRequest courseSearchRequest) {
         return courseRepository.findByNameTypeAndInstitution(normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds()).stream()
                 .map(this::mapToDTO)
                 .toList();

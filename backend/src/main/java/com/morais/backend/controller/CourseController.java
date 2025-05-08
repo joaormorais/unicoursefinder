@@ -20,6 +20,16 @@ public class CourseController {
     }
 
     /**
+     * Retrieves all courses.
+     *
+     * @return a list of all courses
+     */
+    @GetMapping
+    public ResponseEntity<List<CourseDTO>> getAllCourses() {
+        return ResponseEntity.ok(courseService.getCourses());
+    }
+
+    /**
      * Retrieves a list of all distinct course types.
      *
      * @return a list of unique course types
@@ -37,6 +47,6 @@ public class CourseController {
      */
     @PostMapping("/search")
     public ResponseEntity<List<CourseDTO>> searchCourses(@RequestBody @Valid CourseSearchRequest courseSearchRequest) {
-        return ResponseEntity.ok(courseService.getInstitutionsByNameTypeAndInstitution(courseSearchRequest));
+        return ResponseEntity.ok(courseService.getCoursesByNameTypeAndInstitution(courseSearchRequest));
     }
 }

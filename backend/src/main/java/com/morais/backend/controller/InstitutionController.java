@@ -56,7 +56,7 @@ public class InstitutionController {
      * @return a list of institutions matching the search criteria
      */
     @PostMapping("/search")
-    public ResponseEntity<List<InstitutionDTO>> searchCourses(@RequestBody @Valid InstitutionSearchRequest institutionSearchRequest) {
+    public ResponseEntity<List<InstitutionDTO>> searchInstitutions(@RequestBody @Valid InstitutionSearchRequest institutionSearchRequest) {
         return ResponseEntity.ok(institutionService.getInstitutionsByNameTypeAndDistrict(institutionSearchRequest));
     }
 }
