@@ -1,12 +1,23 @@
 <div class="search-page">
     <h2>List of institutions</h2>
-  
-    <div *ngIf="loading">Loading institutions...</div>
-    <div *ngIf="error" class="error">{{ error }}</div>
-  
-    <ul *ngIf="!loading && !error">
-      <li *ngFor="let institution of institutions">
-        {{ institution.name }}
+    <div *ngIf="loadingInstitutions">Loading institutions...</div>
+    <div *ngIf="errorInstitutions">{{ errorInstitutions }}</div>
+
+    <div *ngIf="!loadingInstitutions && !errorInstitutions">
+      !---------- aqui vai estar um mapa! ----------!
+      <ul>
+        <li *ngFor="let institution of institutions">
+          {{ institution.name }}
+        </li>
+      </ul>
+    </div>
+
+    <h2>List of courses</h2>
+    <div *ngIf="loadingCourses">Loading courses...</div>
+    <div *ngIf="errorCourses">{{ errorCourses }}</div>
+    <ul *ngIf="!loadingCourses && !errorCourses">
+      <li *ngFor="let course of courses">
+        {{ course.name }}
       </li>
     </ul>
   </div>
