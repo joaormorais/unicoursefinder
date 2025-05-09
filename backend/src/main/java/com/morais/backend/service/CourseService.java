@@ -46,6 +46,7 @@ public class CourseService {
         return types;
     }
 
+    //TODO: maybe delete (it's not going to be used)
     /**
      * Retrieves courses based on a name, and optionally filters by type and institution.
      * The name is normalized before querying.

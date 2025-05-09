@@ -39,6 +39,7 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getDistinctTypes());
     }
 
+    //TODO: maybe delete (it's not going to be used)
     /**
      * Searches for courses by name, with optional filters for type and institution.
      *

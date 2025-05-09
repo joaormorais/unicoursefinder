@@ -60,6 +60,7 @@ public class InstitutionService {
         return types;
     }
 
+    //TODO: maybe delete (it's not going to be used)
     /**
      * Retrieves institutions by name, optionally filtered by type and district.
      * The name is normalized before querying.

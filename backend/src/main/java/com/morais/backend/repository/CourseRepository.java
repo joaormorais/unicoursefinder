@@ -14,6 +14,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     @Query("SELECT DISTINCT i.type FROM Course i")
     List<String> findDistinctTypes();
 
+    //TODO: maybe delete (it's not going to be used)
     @Query(value = """
     SELECT DISTINCT c.* FROM course c
     JOIN institution_course ic ON c.id = ic.course_id

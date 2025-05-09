@@ -17,6 +17,7 @@ public interface InstitutionRepository extends JpaRepository<Institution, Long> 
     @Query("SELECT DISTINCT i.type FROM Institution i")
     List<String> findDistinctTypes();
 
+    //TODO: maybe delete (it's not going to be used)
     @Query("""
     SELECT i FROM Institution i 
     WHERE i.normalizedName LIKE %:name% 

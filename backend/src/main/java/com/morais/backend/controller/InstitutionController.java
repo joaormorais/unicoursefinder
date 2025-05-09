@@ -49,6 +49,7 @@ public class InstitutionController {
         return ResponseEntity.ok(institutionService.getDistinctTypes());
     }
 
+    //TODO: maybe delete (it's not going to be used)
     /**
      * Searches for institutions by name, with optional filters for type and district.
      *
