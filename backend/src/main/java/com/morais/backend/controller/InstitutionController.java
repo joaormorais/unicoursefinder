@@ -1,9 +1,7 @@
 package com.morais.backend.controller;
 
 import com.morais.backend.dto.InstitutionDTO;
-import com.morais.backend.dto.InstitutionSearchRequest;
 import com.morais.backend.service.InstitutionService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,17 +45,5 @@ public class InstitutionController {
     @GetMapping("/types")
     public ResponseEntity<List<String>> getDistinctTypes() {
         return ResponseEntity.ok(institutionService.getDistinctTypes());
-    }
-
-    //TODO: maybe delete (it's not going to be used)
-    /**
-     * Searches for institutions by name, with optional filters for type and district.
-     *
-     * @param institutionSearchRequest the request body containing the search filters
-     * @return a list of institutions matching the search criteria
-     */
-    @PostMapping("/search")
-    public ResponseEntity<List<InstitutionDTO>> searchInstitutions(@RequestBody @Valid InstitutionSearchRequest institutionSearchRequest) {
-        return ResponseEntity.ok(institutionService.getInstitutionsByNameTypeAndDistrict(institutionSearchRequest));
     }
 }

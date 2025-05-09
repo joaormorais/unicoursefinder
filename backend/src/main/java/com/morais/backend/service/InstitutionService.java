@@ -1,15 +1,12 @@
 package com.morais.backend.service;
 
 import com.morais.backend.dto.InstitutionDTO;
-import com.morais.backend.dto.InstitutionSearchRequest;
 import com.morais.backend.entity.Institution;
 import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.repository.InstitutionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.morais.backend.util.TextUtils.normalize;
 
 @Service
 public class InstitutionService {
@@ -58,21 +55,6 @@ public class InstitutionService {
             throw new ResourceNotFoundException("Didn't find any distinct types");
 
         return types;
-    }
-
-    //TODO: maybe delete (it's not going to be used)
-    /**
-     * Retrieves institutions by name, optionally filtered by type and district.
-     * The name is normalized before querying.
-     * Throws a ResourceNotFoundException if no institutions match the filters.
-     *
-     * @param institutionSearchRequest the search filters for institutions
-     * @return a list of matching institutions as DTOs
-     */
-    public List<InstitutionDTO> getInstitutionsByNameTypeAndDistrict(InstitutionSearchRequest institutionSearchRequest) {
-        return institutionRepository.findByNameTypeAndDistrict(normalize(institutionSearchRequest.name()), institutionSearchRequest.types(), institutionSearchRequest.districts()).stream()
-                .map(this::mapToDTO)
-                .toList();
     }
 
     /**

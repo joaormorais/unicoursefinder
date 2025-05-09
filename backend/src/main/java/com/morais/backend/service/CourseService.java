@@ -21,18 +21,6 @@ public class CourseService {
     }
 
     /**
-     * Retrieves all courses and maps them to DTOs.
-     * Throws a ResourceNotFoundException if no courses exist.
-     *
-     * @return a list of all courses as DTOs
-     */
-    public List<CourseDTO> getCourses() {
-        return courseRepository.findAll().stream()
-                .map(this::mapToDTO)
-                .toList();
-    }
-
-    /**
      * Retrieves a list of all distinct course types.
      * Throws a ResourceNotFoundException if no types are found.
      *
