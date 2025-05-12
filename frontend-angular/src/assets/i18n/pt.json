@@ -1,8 +1,22 @@
 {
-    "buttons": {
-      "forum": "Quero fazer perguntas em relação a um curso ou instituição!",
-      "help": "Não sei que curso escolher, ajuda-me!",
-      "search": "Quero pesquisar por cursos e instituições!"
-    }
+  "buttons": {
+    "forum": "Quero fazer perguntas em relação a um curso ou instituição!",
+    "help": "Não sei que curso escolher, ajuda-me!",
+    "search": "Quero pesquisar por cursos e instituições!"
+  },
+  "institutions": {
+    "list": "Lista de instituições",
+    "loading": "A carregar instituições...",
+    "name": "Nome da instituição"
+  },
+  "courses": {
+    "list": "Lista de cursos",
+    "loading": "A carregar cursos..."
+  },
+  "filters": {
+    "type": "Tipo",
+    "allTypes": "Todos os tipos",
+    "district": "Distrito",
+    "allDistricts": "Todos os distritos"
   }
-  
+}
