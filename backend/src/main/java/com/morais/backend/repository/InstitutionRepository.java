@@ -10,9 +10,10 @@ import java.util.List;
 @Repository
 public interface InstitutionRepository extends JpaRepository<Institution, Long> {
 
+    @Query("SELECT DISTINCT i.type FROM Institution i")
+    List<String> findDistinctTypes();
+
     @Query("SELECT DISTINCT i.district FROM Institution i")
     List<String> findDistinctDistricts();
 
-    @Query("SELECT DISTINCT i.type FROM Institution i")
-    List<String> findDistinctTypes();
 }

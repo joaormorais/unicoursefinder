@@ -28,16 +28,6 @@ public class InstitutionController {
     }
 
     /**
-     * Retrieves a list of all distinct districts from institutions.
-     *
-     * @return a list of unique district names
-     */
-    @GetMapping("/districts")
-    public ResponseEntity<List<String>> getDistinctDistricts() {
-        return ResponseEntity.ok(institutionService.getDistinctDistricts());
-    }
-
-    /**
      * Retrieves a list of all distinct institution types.
      *
      * @return a list of unique institution types
@@ -45,5 +35,15 @@ public class InstitutionController {
     @GetMapping("/types")
     public ResponseEntity<List<String>> getDistinctTypes() {
         return ResponseEntity.ok(institutionService.getDistinctTypes());
+    }
+
+    /**
+     * Retrieves a list of all distinct districts from institutions.
+     *
+     * @return a list of unique district names
+     */
+    @GetMapping("/districts")
+    public ResponseEntity<List<String>> getDistinctDistricts() {
+        return ResponseEntity.ok(institutionService.getDistinctDistricts());
     }
 }

@@ -30,20 +30,6 @@ public class InstitutionService {
     }
 
     /**
-     * Retrieves a list of all distinct districts.
-     * Throws a ResourceNotFoundException if no districts are found.
-     *
-     * @return a list of unique districts
-     */
-    public List<String> getDistinctDistricts() {
-        List<String> districts = institutionRepository.findDistinctDistricts();
-        if (districts.isEmpty())
-            throw new ResourceNotFoundException("Didn't find any distinct districts");
-
-        return districts;
-    }
-
-    /**
      * Retrieves a list of all distinct institution types.
      * Throws a ResourceNotFoundException if no types are found.
      *
@@ -55,6 +41,20 @@ public class InstitutionService {
             throw new ResourceNotFoundException("Didn't find any distinct types");
 
         return types;
+    }
+
+    /**
+     * Retrieves a list of all distinct districts.
+     * Throws a ResourceNotFoundException if no districts are found.
+     *
+     * @return a list of unique districts
+     */
+    public List<String> getDistinctDistricts() {
+        List<String> districts = institutionRepository.findDistinctDistricts();
+        if (districts.isEmpty())
+            throw new ResourceNotFoundException("Didn't find any distinct districts");
+
+        return districts;
     }
 
     /**
