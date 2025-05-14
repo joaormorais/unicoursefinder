@@ -4,6 +4,8 @@ import com.morais.backend.dto.InstitutionDTO;
 import com.morais.backend.entity.Institution;
 import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.repository.InstitutionRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
 @Service
 public class InstitutionService {
 
+    private static final Logger logger = LoggerFactory.getLogger(InstitutionService.class);
     private final InstitutionRepository institutionRepository;
 
     public InstitutionService(InstitutionRepository institutionRepository) {
@@ -24,7 +27,15 @@ public class InstitutionService {
      * @return a list of all institutions as DTOs
      */
     public List<InstitutionDTO> getInstitutions() {
-        return institutionRepository.findAll().stream()
+        logger.info("Returning every institution");
+        List<Institution> institutions = institutionRepository.findAll();
+
+        if(institutions.isEmpty()) {
+            logger.warn("Didn't find any institution");
+            throw new ResourceNotFoundException("Didn't find any institution");
+        }
+
+        return institutions.stream()
                 .map(this::mapToDTO)
                 .toList();
     }
@@ -36,9 +47,13 @@ public class InstitutionService {
      * @return a list of unique institution types
      */
     public List<String> getDistinctTypes() {
+        logger.info("Returning every distinct type (institutions)");
         List<String> types = institutionRepository.findDistinctTypes();
-        if (types.isEmpty())
-            throw new ResourceNotFoundException("Didn't find any distinct types");
+
+        if (types.isEmpty()){
+            logger.warn("Didn't find any distinct type (institutions)");
+            throw new ResourceNotFoundException("Didn't find any distinct type (institutions)");
+        }
 
         return types;
     }
@@ -50,9 +65,13 @@ public class InstitutionService {
      * @return a list of unique districts
      */
     public List<String> getDistinctDistricts() {
+        logger.info("Returning every distinct district (institutions)");
         List<String> districts = institutionRepository.findDistinctDistricts();
-        if (districts.isEmpty())
-            throw new ResourceNotFoundException("Didn't find any distinct districts");
+
+        if (districts.isEmpty()){
+            logger.warn("Didn't find any distinct district (institutions)");
+            throw new ResourceNotFoundException("Didn't find any distinct district (institutions)");
+        }
 
         return districts;
     }

@@ -2,6 +2,8 @@ package com.morais.backend.controller;
 
 import com.morais.backend.dto.InstitutionDTO;
 import com.morais.backend.service.InstitutionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @RequestMapping("/institutions")
 public class InstitutionController {
 
+    private static final Logger logger = LoggerFactory.getLogger(InstitutionController.class);
     private final InstitutionService institutionService;
 
     public InstitutionController(InstitutionService institutionService) {
@@ -24,6 +27,7 @@ public class InstitutionController {
      */
     @GetMapping
     public ResponseEntity<List<InstitutionDTO>> getAllInstitutions() {
+        logger.info("New request! /institutions");
         return ResponseEntity.ok(institutionService.getInstitutions());
     }
 
@@ -34,6 +38,7 @@ public class InstitutionController {
      */
     @GetMapping("/types")
     public ResponseEntity<List<String>> getDistinctTypes() {
+        logger.info("New request! /institutions/types");
         return ResponseEntity.ok(institutionService.getDistinctTypes());
     }
 
@@ -44,6 +49,7 @@ public class InstitutionController {
      */
     @GetMapping("/districts")
     public ResponseEntity<List<String>> getDistinctDistricts() {
+        logger.info("New request! /institutions/districts");
         return ResponseEntity.ok(institutionService.getDistinctDistricts());
     }
 }

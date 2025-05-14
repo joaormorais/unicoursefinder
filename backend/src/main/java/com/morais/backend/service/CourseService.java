@@ -5,6 +5,8 @@ import com.morais.backend.dto.CourseSearchRequest;
 import com.morais.backend.entity.Course;
 import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.repository.CourseRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import static com.morais.backend.util.TextUtils.normalize;
 @Service
 public class CourseService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CourseService.class);
     private final CourseRepository courseRepository;
 
     public CourseService(CourseRepository courseRepository) {
@@ -27,9 +30,13 @@ public class CourseService {
      * @return a list of distinct course types
      */
     public List<String> getDistinctTypes() {
+        logger.info("Returning every distinct type (courses)");
         List<String> types = courseRepository.findDistinctTypes();
-        if (types.isEmpty())
-            throw new ResourceNotFoundException("Didn't find any distinct types");
+
+        if (types.isEmpty()){
+            logger.warn("Didn't find any distinct type (courses)");
+            throw new ResourceNotFoundException("Didn't find any distinct type (courses)");
+        }
 
         return types;
     }

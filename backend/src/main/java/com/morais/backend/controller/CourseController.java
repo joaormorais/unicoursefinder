@@ -4,6 +4,8 @@ import com.morais.backend.dto.CourseDTO;
 import com.morais.backend.dto.CourseSearchRequest;
 import com.morais.backend.service.CourseService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @RequestMapping("/courses")
 public class CourseController {
 
+    private static final Logger logger = LoggerFactory.getLogger(CourseController.class);
     private final CourseService courseService;
 
     public CourseController(CourseService courseService) {
@@ -26,6 +29,7 @@ public class CourseController {
      */
     @GetMapping("/types")
     public ResponseEntity<List<String>> getDistinctTypes() {
+        logger.info("New request! /courses/types");
         return ResponseEntity.ok(courseService.getDistinctTypes());
     }
 
@@ -38,6 +42,7 @@ public class CourseController {
      */
     @PostMapping("/search")
     public ResponseEntity<List<CourseDTO>> searchCourses(@RequestBody @Valid CourseSearchRequest courseSearchRequest) {
+        logger.info("New request! /courses/search");
         return ResponseEntity.ok(courseService.getCoursesByNameTypeAndInstitution(courseSearchRequest));
     }
 }
