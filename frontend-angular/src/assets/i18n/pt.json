@@ -14,9 +14,7 @@
     "loading": "A carregar cursos..."
   },
   "filters": {
-    "type": "Tipo",
-    "allTypes": "Todos os tipos",
-    "district": "Distrito",
-    "allDistricts": "Todos os distritos"
+    "types": "Tipos",
+    "districts": "Distritos"
   }
 }

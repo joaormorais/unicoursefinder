@@ -1,61 +1,79 @@
 <div class="search-page">
+  <!-- title for institutions -->
   <h2>{{ "institutions.list" | translate }}</h2>
+
+  <!-- loading and error messages for institutions -->
   <div *ngIf="loadingInstitutions">
     {{ "institutions.loading" | translate }}
   </div>
   <div *ngIf="errorInstitutions">{{ errorInstitutions }}</div>
 
+  <!-- institutions and filters -->
   <div *ngIf="!loadingInstitutions && !errorInstitutions">
-    !---------- aqui vai estar um mapa! ----------!
-    <br />
-    <div>
+    <app-map [markerInfo]="getMarkerInfo"></app-map>
+    <!-- filters -->
+    <div class="filters">
+      <!-- name -->
       <input
         type="text"
         [(ngModel)]="institutionNameFilter"
         (input)="filterInstitutions()"
         placeholder="{{ 'institutions.name' | translate }}"
       />
-
+      <!-- types -->
       <div>
-        <strong>Distritos:</strong>
-        <div *ngFor="let district of districtsInstitutions">
-          <input
-            type="checkbox"
-            [checked]="institutionDistrictFilter.includes(district)"
-            (change)="toggleFilters(district, institutionDistrictFilter)"
-            id="district-{{ district }}"
-          />
-          <label [for]="'district-' + district">{{ district }}</label>
-        </div>
+        <strong>{{ "filters.types" | translate }}:</strong>
+        <ul class="institutions-courses-list">
+          <li *ngFor="let type of typesInstitutions">
+            <input
+              type="checkbox"
+              [checked]="institutionTypeFilter.includes(type)"
+              (change)="toggleFilters(type, institutionTypeFilter)"
+              id="type-{{ type }}"
+            />
+            <label [for]="'type-' + type">{{ type }}</label>
+          </li>
+        </ul>
       </div>
-
+      <!-- districts -->
       <div>
-        <strong>Tipos:</strong>
-        <div *ngFor="let type of typesInstitutions">
-          <input
-            type="checkbox"
-            [checked]="institutionTypeFilter.includes(type)"
-            (change)="toggleFilters(type, institutionTypeFilter)"
-            id="type-{{ type }}"
-          />
-          <label [for]="'type-' + type">{{ type }}</label>
-        </div>
+        <strong>{{ "filters.districts" | translate }}::</strong>
+        <ul class="institutions-courses-list">
+          <li *ngFor="let district of districtsInstitutions">
+            <input
+              type="checkbox"
+              [checked]="institutionDistrictFilter.includes(district)"
+              (change)="toggleFilters(district, institutionDistrictFilter)"
+              id="district-{{ district }}"
+            />
+            <label [for]="'district-' + district">{{ district }}</label>
+          </li>
+        </ul>
       </div>
     </div>
-    <br />
-    <ul>
+    <!-- list of institutions -->
+    <ul class="institutions-courses-list">
       <li *ngFor="let institution of filteredInstitutions">
         {{ institution.name }}
       </li>
     </ul>
   </div>
 
+  <!-- title for courses -->
   <h2>{{ "courses.list" | translate }}</h2>
+
+  <!-- loading and error messages for courses -->
   <div *ngIf="loadingCourses">{{ "courses.loading" | translate }}</div>
   <div *ngIf="errorCourses">{{ errorCourses }}</div>
-  <ul *ngIf="!loadingCourses && !errorCourses">
-    <li *ngFor="let course of courses">
-      {{ course.name }}
-    </li>
-  </ul>
+
+  <!-- courses and filters -->
+  <div *ngIf="!loadingCourses && !errorCourses">
+    <!-- filters -->
+    <!-- list of courses -->
+    <ul class="institutions-courses-list">
+      <li *ngFor="let course of courses">
+        {{ course.name }}
+      </li>
+    </ul>
+  </div>
 </div>

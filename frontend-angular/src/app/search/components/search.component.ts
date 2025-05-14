@@ -8,10 +8,11 @@ import { InstitutionSearchService } from '../services/institution-search.service
 import { CourseSearchService } from '../services/course-search.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { TranslatePipe } from '@ngx-translate/core';
+import { MapComponent } from '../../shared/components/map/map.component';
 
 @Component({
   selector: 'app-search',
-  imports: [CommonModule, FormsModule, TranslatePipe],
+  imports: [CommonModule, FormsModule, TranslatePipe, MapComponent],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })
@@ -136,5 +137,24 @@ export class SearchComponent implements OnInit {
       arrayFilter.splice(index, 1);
     }
     this.filterInstitutions();
+  }
+
+  // gets every coordinate of every institution
+  get getMarkerInfo(): {
+    id: number;
+    name: string;
+    district: string;
+    type: string;
+    latitude: number;
+    longitude: number;
+  }[] {
+    return this.filteredInstitutions.map((inst) => ({
+      id: inst.id,
+      name: inst.name,
+      district: inst.district,
+      type: inst.type,
+      latitude: inst.latitude,
+      longitude: inst.longitude,
+    }));
   }
 }
