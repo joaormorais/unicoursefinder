@@ -7,6 +7,8 @@ import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.repository.CourseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public class CourseService {
         logger.info("Returning every distinct type (courses)");
         List<String> types = courseRepository.findDistinctTypes();
 
-        if (types.isEmpty()){
+        if (types.isEmpty()) {
             logger.warn("Didn't find any distinct type (courses)");
             throw new ResourceNotFoundException("Didn't find any distinct type (courses)");
         }
@@ -41,19 +43,28 @@ public class CourseService {
         return types;
     }
 
-    //TODO: maybe delete (it's not going to be used)
     /**
-     * Retrieves courses based on a name, and optionally filters by type and institution.
+     * Retrieves courses optionally based on a name, type and institution.
+     * The results are paged
      * The name is normalized before querying.
      * Throws a ResourceNotFoundException if no courses match the filters.
      *
      * @param courseSearchRequest the search filters for courses
      * @return a list of matching courses as DTOs
      */
-    public List<CourseDTO> getCoursesByNameTypeAndInstitution(CourseSearchRequest courseSearchRequest) {
-        return courseRepository.findByNameTypeAndInstitution(normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds()).stream()
-                .map(this::mapToDTO)
-                .toList();
+    public Page<CourseDTO> getCoursesByNameTypeAndInstitution(CourseSearchRequest courseSearchRequest, Pageable pageable) {
+        logger.info("Returning every filtered course by name, type and institutionId");
+
+        logger.info("Confirming if the pageable is inside bounds");
+
+        Page<Course> resultPage = courseRepository.findByNameTypeAndInstitutionId(normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds(), pageable);
+
+        if (resultPage.isEmpty()) {
+            logger.warn("Didn't find any course with the filters: name[%s], types[%s], institutionsIds[%s]", courseSearchRequest.name(), courseSearchRequest.types(), courseSearchRequest.institutionIds());
+            throw new ResourceNotFoundException("Didn't find any filtered course");
+        }
+
+        return courseRepository.findByNameTypeAndInstitutionId(normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds(), pageable).map(this::mapToDTO);
     }
 
     /**
