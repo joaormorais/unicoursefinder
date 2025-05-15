@@ -39,6 +39,14 @@ export class MapComponent implements AfterViewInit {
       attribution: '&copy; OpenStreetMap contributors',
     }).addTo(this.map);
 
+    // custom icon for the isntitutions
+    const institutionIcon = L.icon({
+      iconUrl: '../../../../assets/images/map/institution-marker.png',
+      iconSize: [50, 50],
+      iconAnchor: [24, 24],
+      popupAnchor: [0, -24],
+    });
+
     // add the markers for the institutions
     this.markerInfo.forEach((info) => {
       // popup for the hover of the marker
@@ -59,6 +67,7 @@ export class MapComponent implements AfterViewInit {
       );
 
       const marker = L.marker([info.latitude, info.longitude], {
+        icon: institutionIcon,
         riseOnHover: true,
         alt: 'Marker - ' + info.name,
       }).addTo(this.map);
