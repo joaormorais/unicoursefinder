@@ -60,7 +60,7 @@ public class CourseService {
         Page<Course> resultPage = courseRepository.findByNameTypeAndInstitutionId(normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds(), pageable);
 
         if (resultPage.isEmpty()) {
-            logger.warn("Didn't find any course with the filters: name[%s], types[%s], institutionsIds[%s]", courseSearchRequest.name(), courseSearchRequest.types(), courseSearchRequest.institutionIds());
+            logger.warn("Didn't find any course with the filters: name[{}], types[{}], institutionsIds[{}]", courseSearchRequest.name(), courseSearchRequest.types(), courseSearchRequest.institutionIds());
             throw new ResourceNotFoundException("Didn't find any filtered course");
         }
 
