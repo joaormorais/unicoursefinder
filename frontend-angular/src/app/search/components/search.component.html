@@ -1,6 +1,19 @@
 <div class="search-page">
-  <!-- title for institutions -->
-  <h2>{{ "institutions.list" | translate }}</h2>
+  <!-- loading and error messages for institutions -->
+  <div *ngIf="loadingInstitutions">
+    {{ "map.loading" | translate }}
+  </div>
+
+  <div *ngIf="!loadingInstitutions && !errorInstitutions">
+    <!-- title for map -->
+    <h2>{{ "map.title" | translate }}</h2>
+    <app-map [markerInfo]="getMarkerInfo"></app-map>
+  </div>
+
+  <div class="flex justify-center gap-4 w-fit mx-auto">
+    <app-button [label]="'buttons.institutions' | translate"></app-button>
+    <app-button [label]="'buttons.courses' | translate"></app-button>
+  </div>
 
   <!-- loading and error messages for institutions -->
   <div *ngIf="loadingInstitutions">
@@ -10,7 +23,8 @@
 
   <!-- institutions and filters -->
   <div *ngIf="!loadingInstitutions && !errorInstitutions">
-    <app-map [markerInfo]="getMarkerInfo"></app-map>
+    <!-- title for institutions -->
+    <h2>{{ "institutions.list" | translate }}</h2>
     <!-- filters -->
     <div class="filters">
       <!-- name -->

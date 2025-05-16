@@ -2,7 +2,13 @@
   "buttons": {
     "forum": "Quero fazer perguntas em relação a um curso ou instituição!",
     "help": "Não sei que curso escolher, ajuda-me!",
-    "search": "Quero pesquisar por cursos e instituições!"
+    "search": "Quero pesquisar por cursos e instituições!",
+    "institutions": "Instituições",
+    "courses": "Cursos"
+  },
+  "map": {
+    "title": "As instituições espalhadas pelo país",
+    "loading": "A carregar o mapa..."
   },
   "institutions": {
     "list": "Lista de instituições",

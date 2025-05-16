@@ -9,10 +9,11 @@ import { CourseSearchService } from '../services/course-search.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MapComponent } from '../../shared/components/map/map.component';
+import { ButtonComponent } from '../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-search',
-  imports: [CommonModule, FormsModule, TranslatePipe, MapComponent],
+  imports: [CommonModule, FormsModule, TranslatePipe, MapComponent, ButtonComponent],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })
