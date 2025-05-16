@@ -5,35 +5,37 @@
   </div>
 
   <div *ngIf="!loadingInstitutions && !errorInstitutions">
-    <!-- title for map -->
+    <!-- title for map of institutions -->
     <h2>{{ "map.title" | translate }}</h2>
+    <!-- map of institutions -->
     <app-map [markerInfo]="getMarkerInfo"></app-map>
   </div>
 
   <div class="flex justify-center gap-4 w-fit mx-auto">
-    <app-button [label]="'buttons.institutions' | translate"></app-button>
-    <app-button [label]="'buttons.courses' | translate"></app-button>
+    <app-button
+      [label]="'buttons.institutions' | translate"
+      (click)="seeingInstitutions = true"
+    ></app-button>
+    <app-button
+      [label]="'buttons.courses' | translate"
+      (click)="onCoursesClick()"
+    ></app-button>
   </div>
 
   <!-- loading and error messages for institutions -->
-  <div *ngIf="loadingInstitutions">
+  <div *ngIf="loadingInstitutions && seeingInstitutions">
     {{ "institutions.loading" | translate }}
   </div>
-  <div *ngIf="errorInstitutions">{{ errorInstitutions }}</div>
+  <div *ngIf="errorInstitutions && seeingInstitutions">
+    {{ errorInstitutions }}
+  </div>
 
   <!-- institutions and filters -->
-  <div *ngIf="!loadingInstitutions && !errorInstitutions">
+  <div *ngIf="!loadingInstitutions && !errorInstitutions && seeingInstitutions">
     <!-- title for institutions -->
     <h2>{{ "institutions.list" | translate }}</h2>
     <!-- filters -->
-    <div class="filters">
-      <!-- name -->
-      <input
-        type="text"
-        [(ngModel)]="institutionNameFilter"
-        (input)="filterInstitutions()"
-        placeholder="{{ 'institutions.name' | translate }}"
-      />
+    <div class="flex justify-start gap-4">
       <!-- types -->
       <div>
         <strong>{{ "filters.types" | translate }}:</strong>
@@ -64,6 +66,15 @@
           </li>
         </ul>
       </div>
+      <!-- name -->
+      <div>
+        <input
+          type="text"
+          [(ngModel)]="institutionNameFilter"
+          (input)="filterInstitutions()"
+          placeholder="{{ 'institutions.name' | translate }}"
+        />
+      </div>
     </div>
     <!-- list of institutions -->
     <ul class="institutions-courses-list">
@@ -73,19 +84,26 @@
     </ul>
   </div>
 
-  <!-- title for courses -->
-  <h2>{{ "courses.list" | translate }}</h2>
-
   <!-- loading and error messages for courses -->
-  <div *ngIf="loadingCourses">{{ "courses.loading" | translate }}</div>
-  <div *ngIf="errorCourses">{{ errorCourses }}</div>
+  <div *ngIf="loadingPaginatedCourses && !seeingInstitutions">
+    {{ "courses.loading" | translate }}
+  </div>
+  <div *ngIf="errorPaginatedCourses && !seeingInstitutions">
+    {{ errorPaginatedCourses }}
+  </div>
 
   <!-- courses and filters -->
-  <div *ngIf="!loadingCourses && !errorCourses">
+  <div
+    *ngIf="
+      !loadingPaginatedCourses && !errorPaginatedCourses && !seeingInstitutions
+    "
+  >
+    <!-- title for courses -->
+    <h2>{{ "courses.list" | translate }}</h2>
     <!-- filters -->
     <!-- list of courses -->
     <ul class="institutions-courses-list">
-      <li *ngFor="let course of courses">
+      <li *ngFor="let course of paginatedCourses.courses">
         {{ course.name }}
       </li>
     </ul>
