@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +14,9 @@ public class Course {
 
     @Id
     private Long id;
+
+    @Column(name = "course_number", nullable = false)
+    private String courseNumber;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -29,7 +30,9 @@ public class Course {
     @Column(name = "link", nullable = false, length = 512)
     private String link;
 
-    @ManyToMany(mappedBy = "courses")
-    private Set<Institution> institutions;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "institution_id", nullable = false)
+    private Institution institution;
+
 
 }

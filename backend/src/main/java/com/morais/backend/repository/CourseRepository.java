@@ -18,19 +18,17 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Query(value = """
     SELECT DISTINCT c.* FROM course c
-    JOIN institution_course ic ON c.id = ic.course_id
     WHERE 
         (:#{#name == null || #name.isEmpty()} OR c.normalized_name LIKE CONCAT('%', :name, '%'))
         AND (:#{#types == null || #types.isEmpty()} OR c.type IN (:types))
-        AND (:#{#institutionIds == null || #institutionIds.isEmpty()} OR ic.institution_id IN (:institutionIds))
+        AND (:#{#institutionIds == null || #institutionIds.isEmpty()} OR c.institution_id IN (:institutionIds))
     """,
     countQuery = """
     SELECT COUNT(DISTINCT c.id) FROM course c
-    JOIN institution_course ic ON c.id = ic.course_id
     WHERE 
         (:#{#name == null || #name.isEmpty()} OR c.normalized_name LIKE CONCAT('%', :name, '%'))
         AND (:#{#types == null || #types.isEmpty()} OR c.type IN (:types))
-        AND (:#{#institutionIds == null || #institutionIds.isEmpty()} OR ic.institution_id IN (:institutionIds))
+        AND (:#{#institutionIds == null || #institutionIds.isEmpty()} OR c.institution_id IN (:institutionIds))
     """,
             nativeQuery = true)
     Page<Course> findByNameTypeAndInstitutionId(
