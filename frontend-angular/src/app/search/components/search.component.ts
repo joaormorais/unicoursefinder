@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Institution } from '../../shared/models/institution.model';
@@ -28,6 +28,9 @@ import { CourseService } from '../../shared/services/course.service';
   styleUrl: './search.component.scss',
 })
 export class SearchComponent implements OnInit {
+  // add the child component "MapComponent"
+   @ViewChild(MapComponent) mapComponentView!: MapComponent;
+
   // lists of informations that are going to be shown on the template
   institutions: Institution[] = [];
   filteredInstitutions: Institution[] = [];
@@ -131,7 +134,11 @@ export class SearchComponent implements OnInit {
     pageSize: number = 10
   ): void {
     this.handleApiCall(
-      this.courseService.searchCourses(courseSearchRequest, pageNumber, pageSize),
+      this.courseService.searchCourses(
+        courseSearchRequest,
+        pageNumber,
+        pageSize
+      ),
       (data) => (this.paginatedCourses = data),
       () => (this.errorPaginatedCourses = 'Error loading the courses!'),
       (loading) => (this.loadingPaginatedCourses = loading)
@@ -159,6 +166,17 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  // adds or removes a type/district from the filter for
+  toggleFilters(value: string, arrayFilter: string[]): void {
+    const index = arrayFilter.indexOf(value);
+    if (index === -1) {
+      arrayFilter.push(value);
+    } else {
+      arrayFilter.splice(index, 1);
+    }
+    this.filterInstitutions();
+  }
+
   // filter the institutions according with name, type and district
   filterInstitutions(): void {
     const name = this.institutionNameFilter.toLowerCase().trim();
@@ -172,21 +190,15 @@ export class SearchComponent implements OnInit {
         this.institutionDistrictFilter.includes(inst.district);
       return matchesName && matchesType && matchesDistrict;
     });
+    this.updateMap();
   }
 
-  // ads or removes a type from the filter for
-  toggleFilters(value: string, arrayFilter: string[]): void {
-    const index = arrayFilter.indexOf(value);
-    if (index === -1) {
-      arrayFilter.push(value);
-    } else {
-      arrayFilter.splice(index, 1);
-    }
-    this.filterInstitutions();
+  updateMap(): void {
+    this.mapComponentView.updateMap(this.filteredInstitutions);
   }
 
   // gets every coordinate of every institution
-  get getMarkerInfo(): {
+  get getFilteredInstitutions(): {
     id: number;
     name: string;
     district: string;

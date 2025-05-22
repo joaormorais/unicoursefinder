@@ -8,7 +8,7 @@
     <!-- title for map of institutions -->
     <h2>{{ "map.title" | translate }}</h2>
     <!-- map of institutions -->
-    <app-map [markerInfo]="getMarkerInfo"></app-map>
+    <app-map [institutions]="getFilteredInstitutions"></app-map>
   </div>
 
   <div class="flex justify-center gap-4 w-fit mx-auto">
