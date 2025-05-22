@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet.markercluster';
 
 @Component({
   selector: 'app-map',
@@ -47,6 +48,9 @@ export class MapComponent implements AfterViewInit {
       popupAnchor: [0, -24],
     });
 
+    // create the marker group
+    var markers = L.markerClusterGroup();
+
     // add the markers for the institutions
     this.markerInfo.forEach((info) => {
       // popup for the hover of the marker
@@ -66,12 +70,14 @@ export class MapComponent implements AfterViewInit {
         `
       );
 
+      // create a marker
       const marker = L.marker([info.latitude, info.longitude], {
         icon: institutionIcon,
         riseOnHover: true,
         alt: 'Marker - ' + info.name,
-      }).addTo(this.map);
+      });
 
+      // create hover behaviours to the markers
       marker.on('mouseover', () => {
         popup.setLatLng(marker.getLatLng()).openOn(this.map);
       });
@@ -79,6 +85,12 @@ export class MapComponent implements AfterViewInit {
       marker.on('mouseout', () => {
         this.map.closePopup(popup);
       });
+
+      // add the marker to the group of markers
+      markers.addLayer(marker);
     });
+
+    // add the grouo of markers to the map
+    this.map.addLayer(markers)
   }
 }
