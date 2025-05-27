@@ -4,6 +4,7 @@
     {{ "map.loading" | translate }}
   </div>
 
+  <!-- title and map of institutions -->
   <div *ngIf="!loadingInstitutions && !errorInstitutions">
     <!-- title for map of institutions -->
     <h2>{{ "map.title" | translate }}</h2>
@@ -11,6 +12,7 @@
     <app-map [institutions]="getFilteredInstitutions"></app-map>
   </div>
 
+  <!-- buttons to choose between institutions and courses -->
   <div class="flex justify-center gap-4 w-fit mx-auto">
     <app-button
       [label]="'buttons.institutions' | translate"
@@ -33,13 +35,13 @@
   <!-- institutions and filters -->
   <div *ngIf="!loadingInstitutions && !errorInstitutions && seeingInstitutions">
     <!-- title for institutions -->
-    <h2>{{ "institutions.list" | translate }}</h2>
+    <h2 class="!ms-5">{{ "institutions.list" | translate }}</h2>
     <!-- filters -->
-    <div class="flex justify-start gap-4">
+    <div class="md:max-h-[200px] grid grid-cols-1 md:grid-cols-12 gap-4 m-5">
       <!-- types -->
-      <div>
-        <strong>{{ "filters.types" | translate }}:</strong>
-        <ul class="institutions-courses-list">
+      <div class="md:col-span-4 inline-block overflow-hidden">
+        <p class="font-bold mb-2">{{ "filters.types" | translate }}:</p>
+        <ul class="institutions-courses-list grid grid-col-1 gap-2">
           <li *ngFor="let type of typesInstitutions">
             <input
               type="checkbox"
@@ -52,9 +54,11 @@
         </ul>
       </div>
       <!-- districts -->
-      <div>
-        <strong>{{ "filters.districts" | translate }}::</strong>
-        <ul class="institutions-courses-list">
+      <div class="md:col-span-6 inline-block overflow-hidden">
+        <p class="font-bold">{{ "filters.districts" | translate }}:</p>
+        <ul
+          class="institutions-courses-list grid grid-col-1 md:grid-cols-4 gap-2"
+        >
           <li *ngFor="let district of districtsInstitutions">
             <input
               type="checkbox"
@@ -67,21 +71,48 @@
         </ul>
       </div>
       <!-- name -->
-      <div>
-        <input
-          type="text"
-          [(ngModel)]="institutionNameFilter"
-          (input)="filterInstitutions()"
-          placeholder="{{ 'institutions.name' | translate }}"
-        />
+      <div class="md:col-span-2 inline-block overflow-hidden">
+        <p class="font-bold">{{ "filters.name" | translate }}:</p>
+        <mat-form-field class="example-form-field">
+          <input
+            matInput
+            type="text"
+            [(ngModel)]="institutionNameFilter"
+            (input)="filterInstitutions()"
+            placeholder="{{ 'institutions.name' | translate }}"
+          />
+          @if (institutionNameFilter) {
+          <button
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="institutionNameFilter = ''; filterInstitutions()"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          }
+        </mat-form-field>
       </div>
     </div>
     <!-- list of institutions -->
-    <ul class="institutions-courses-list">
-      <li *ngFor="let institution of filteredInstitutions">
-        {{ institution.name }}
-      </li>
-    </ul>
+    <div class="m-5">
+      <ul class="institutions-courses-list">
+        <li *ngFor="let institution of paginatedInstitutions">
+          {{ institution.name }}
+        </li>
+      </ul>
+      <mat-paginator
+        #institutionPaginator
+        class="demo-paginator"
+        (page)="handlePageEvent($event)"
+        [length]="filteredInstitutions.length"
+        [pageSize]="10"
+        [showFirstLastButtons]="true"
+        [pageSizeOptions]="[5, 10, 20, 50, 100, institutions.length]"
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    </div>
   </div>
 
   <!-- loading and error messages for courses -->

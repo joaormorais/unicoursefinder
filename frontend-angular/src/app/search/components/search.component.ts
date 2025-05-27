@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { Institution } from '../../shared/models/institution.model';
 import { InstitutionService } from '../../shared/services/institution.service';
 import {
@@ -14,26 +17,39 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MapComponent } from '../../shared/components/map/map.component';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { CourseService } from '../../shared/services/course.service';
+import {
+  MatPaginatorModule,
+  MatPaginator,
+  PageEvent,
+} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-search',
   imports: [
     CommonModule,
     FormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
     TranslatePipe,
     MapComponent,
     ButtonComponent,
+    MatPaginatorModule,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })
 export class SearchComponent implements OnInit {
   // add the child component "MapComponent"
-   @ViewChild(MapComponent) mapComponentView!: MapComponent;
+  @ViewChild(MapComponent) mapComponentView!: MapComponent;
+
+  // add the child component "paginator"
+  @ViewChild('institutionPaginator') institutionPaginator!: MatPaginator;
 
   // lists of informations that are going to be shown on the template
   institutions: Institution[] = [];
   filteredInstitutions: Institution[] = [];
+  paginatedInstitutions: Institution[] = [];
   paginatedCourses!: CoursesPaginated;
   typesInstitutions: string[] = [];
   typesCourses: string[] = [];
@@ -77,6 +93,7 @@ export class SearchComponent implements OnInit {
       (data) => {
         this.institutions = data;
         this.filteredInstitutions = data;
+        this.paginatedInstitutions = this.filteredInstitutions.slice(0, 10);
       },
       () => (this.errorInstitutions = 'Error loading institutions!'),
       (loading) => (this.loadingInstitutions = loading)
@@ -166,6 +183,14 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  // handle the pagination for institutions
+  handlePageEvent($event: PageEvent): void {
+    this.paginatedInstitutions = this.filteredInstitutions.slice(
+      $event.pageIndex,
+      $event.pageIndex + $event.pageSize
+    );
+  }
+
   // adds or removes a type/district from the filter for
   toggleFilters(value: string, arrayFilter: string[]): void {
     const index = arrayFilter.indexOf(value);
@@ -191,6 +216,9 @@ export class SearchComponent implements OnInit {
       return matchesName && matchesType && matchesDistrict;
     });
     this.updateMap();
+    this.institutionPaginator.pageIndex = 0;
+    this.institutionPaginator.pageSize = 10;
+    this.paginatedInstitutions = this.filteredInstitutions.slice(0, 10);
   }
 
   updateMap(): void {

@@ -21,6 +21,7 @@
   },
   "filters": {
     "types": "Tipos",
-    "districts": "Distritos"
+    "districts": "Distritos",
+    "name": "Nome"
   }
 }
