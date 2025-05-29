@@ -73,7 +73,8 @@ public class CourseService {
                 course.getId(),
                 course.getName(),
                 course.getType(),
-                course.getLink()
+                course.getLink(),
+                course.getInstitution().getId()
         );
     }
 }
