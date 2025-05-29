@@ -13,15 +13,21 @@
   "institutions": {
     "list": "Lista de instituições",
     "loading": "A carregar instituições...",
-    "name": "Nome da instituição"
+    "name": "Nome da instituição",
+    "error": "Houve um problema no servidor! Não foi possível carregar as instituições."
   },
   "courses": {
     "list": "Lista de cursos",
-    "loading": "A carregar cursos..."
+    "loading": "A carregar cursos...",
+    "name": "Nome do curso",
+    "error": "Houve um problema no servidor! Não foi possível carregar os cursos."
   },
   "filters": {
     "types": "Tipos",
     "districts": "Distritos",
     "name": "Nome"
+  },
+  "pagination": {
+    "select": "Selecionar página"
   }
 }

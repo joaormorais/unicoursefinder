@@ -1,19 +1,19 @@
-<div class="search-page">
-  <!-- loading and error messages for institutions -->
+<div>
+  <!-- loading message for map -->
   <div *ngIf="loadingInstitutions">
-    {{ "map.loading" | translate }}
+    <p class="!m-5 text-center">{{ "map.loading" | translate }}</p>
   </div>
 
-  <!-- title and map of institutions -->
+  <!-- map and his title -->
   <div *ngIf="!loadingInstitutions && !errorInstitutions">
-    <!-- title for map of institutions -->
-    <h2>{{ "map.title" | translate }}</h2>
+    <!-- map title -->
+    <h2 class="!ms-5 !my-2">{{ "map.title" | translate }}:</h2>
     <!-- map of institutions -->
     <app-map [institutions]="getFilteredInstitutions"></app-map>
   </div>
 
   <!-- buttons to choose between institutions and courses -->
-  <div class="flex justify-center gap-4 w-fit mx-auto">
+  <div class="flex justify-center gap-4 w-fit mx-auto my-2">
     <app-button
       [label]="'buttons.institutions' | translate"
       (click)="seeingInstitutions = true"
@@ -24,18 +24,10 @@
     ></app-button>
   </div>
 
-  <!-- loading and error messages for institutions -->
-  <div *ngIf="loadingInstitutions && seeingInstitutions">
-    {{ "institutions.loading" | translate }}
-  </div>
-  <div *ngIf="errorInstitutions && seeingInstitutions">
-    {{ errorInstitutions }}
-  </div>
-
-  <!-- institutions and filters -->
-  <div *ngIf="!loadingInstitutions && !errorInstitutions && seeingInstitutions">
-    <!-- title for institutions -->
-    <h2 class="!ms-5">{{ "institutions.list" | translate }}</h2>
+  <!-- institutions list and filters -->
+  <div [hidden]="!seeingInstitutions">
+    <!-- title for institutions list -->
+    <h2 class="!ms-5 !my-2">{{ "institutions.list" | translate }}:</h2>
     <!-- filters -->
     <div class="md:max-h-[200px] grid grid-cols-1 md:grid-cols-12 gap-4 m-5">
       <!-- types -->
@@ -46,7 +38,7 @@
             <input
               type="checkbox"
               [checked]="institutionTypeFilter.includes(type)"
-              (change)="toggleFilters(type, institutionTypeFilter)"
+              (change)="toggleFilters(type, institutionTypeFilter, true)"
               id="type-{{ type }}"
             />
             <label [for]="'type-' + type">{{ type }}</label>
@@ -63,7 +55,9 @@
             <input
               type="checkbox"
               [checked]="institutionDistrictFilter.includes(district)"
-              (change)="toggleFilters(district, institutionDistrictFilter)"
+              (change)="
+                toggleFilters(district, institutionDistrictFilter, true)
+              "
               id="district-{{ district }}"
             />
             <label [for]="'district-' + district">{{ district }}</label>
@@ -94,49 +88,117 @@
         </mat-form-field>
       </div>
     </div>
-    <!-- list of institutions -->
-    <div class="m-5">
-      <ul class="institutions-courses-list">
+    <div class="m-5 p-3 outline-1">
+      <!-- loading and error messages for institutions list -->
+      <div *ngIf="loadingInstitutions && seeingInstitutions">
+        <mat-spinner></mat-spinner>
+        <p class="!m-5 text-center">{{ "institutions.loading" | translate }}</p>
+      </div>
+      <div *ngIf="errorInstitutions && seeingInstitutions">
+        <p class="!m-5 text-center">{{ errorInstitutions }}</p>
+      </div>
+      <!-- institutions list -->
+      <ul
+        class="institutions-courses-list"
+        [hidden]="loadingInstitutions || errorInstitutions"
+      >
         <li *ngFor="let institution of paginatedInstitutions">
           {{ institution.name }}
         </li>
       </ul>
+      <!-- paginator for institutions list -->
       <mat-paginator
-        #institutionPaginator
+        #institutionsPaginator
         class="demo-paginator"
-        (page)="handlePageEvent($event)"
+        (page)="handlePageEventInstitutions($event)"
         [length]="filteredInstitutions.length"
-        [pageSize]="10"
         [showFirstLastButtons]="true"
-        [pageSizeOptions]="[5, 10, 20, 50, 100, institutions.length]"
-        aria-label="Select page"
+        [pageSizeOptions]="getPageSizeOptions(filteredInstitutions.length)"
+        [attr.aria-label]="'institutions.loading' | translate"
       >
       </mat-paginator>
     </div>
   </div>
 
-  <!-- loading and error messages for courses -->
-  <div *ngIf="loadingPaginatedCourses && !seeingInstitutions">
-    {{ "courses.loading" | translate }}
-  </div>
-  <div *ngIf="errorPaginatedCourses && !seeingInstitutions">
-    {{ errorPaginatedCourses }}
-  </div>
-
-  <!-- courses and filters -->
-  <div
-    *ngIf="
-      !loadingPaginatedCourses && !errorPaginatedCourses && !seeingInstitutions
-    "
-  >
+  <!-- courses list and filters -->
+  <div [hidden]="seeingInstitutions">
     <!-- title for courses -->
-    <h2>{{ "courses.list" | translate }}</h2>
+    <h2 class="!ms-5 !my-2">{{ "courses.list" | translate }}</h2>
     <!-- filters -->
-    <!-- list of courses -->
-    <ul class="institutions-courses-list">
-      <li *ngFor="let course of paginatedCourses.courses">
-        {{ course.name }}
-      </li>
-    </ul>
+    <div class="md:max-h-[200px] grid grid-cols-1 md:grid-cols-12 gap-4 m-5">
+      <!-- types -->
+      <div class="md:col-span-4 inline-block overflow-hidden">
+        <p class="font-bold mb-2">{{ "filters.types" | translate }}:</p>
+        <ul class="institutions-courses-list grid grid-col-1 gap-2">
+          <li *ngFor="let type of typesCourses">
+            <input
+              type="checkbox"
+              [checked]="courseTypeFilter.includes(type)"
+              (change)="toggleFilters(type, courseTypeFilter, false)"
+              id="type-{{ type }}"
+            />
+            <label [for]="'type-' + type">{{ type }}</label>
+          </li>
+        </ul>
+      </div>
+      <!-- name -->
+      <div class="md:col-span-2 inline-block overflow-hidden">
+        <p class="font-bold">{{ "filters.name" | translate }}:</p>
+        <mat-form-field class="example-form-field">
+          <input
+            matInput
+            type="text"
+            [(ngModel)]="courseNameFilter"
+            (ngModelChange)="onCourseNameInput($event)"
+            placeholder="{{ 'courses.name' | translate }}"
+          />
+          <button
+            *ngIf="courseNameFilter"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="onCourseNameInput('')"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="m-5 p-3 outline-1">
+      <!-- loading and error messages for courses list -->
+      <div *ngIf="loadingPaginatedCourses && !seeingInstitutions">
+        <mat-spinner></mat-spinner>
+        <p class="!m-5 text-center">{{ "courses.loading" | translate }}</p>
+      </div>
+      <div *ngIf="errorPaginatedCourses && !seeingInstitutions">
+        <p class="!m-5 text-center">{{ errorPaginatedCourses }}</p>
+      </div>
+      <!-- list of courses -->
+      <ul
+        class="institutions-courses-list"
+        [hidden]="loadingPaginatedCourses || errorPaginatedCourses"
+      >
+        <li
+          *ngFor="
+            let course of paginatedCourses.courses;
+            trackBy: trackByCourse
+          "
+        >
+          <p class="font-bold !m-0">{{ course.name }}</p>
+          <p class="italic">{{ getInstitutionName(course.institutionId) }}</p>
+        </li>
+      </ul>
+      <!-- paginator for courses list -->
+      <mat-paginator
+        #coursesPaginator
+        class="demo-paginator"
+        (page)="handlePageEventCourses($event)"
+        [length]="paginatedCourses.totalElements"
+        [showFirstLastButtons]="true"
+        [pageSizeOptions]="getPageSizeOptions(paginatedCourses.totalElements)"
+        [attr.aria-label]="'institutions.loading' | translate"
+      >
+      </mat-paginator>
+    </div>
   </div>
 </div>

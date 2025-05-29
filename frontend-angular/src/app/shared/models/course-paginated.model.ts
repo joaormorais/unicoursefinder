@@ -1,15 +1,16 @@
 export interface CoursesPaginated {
   courses: Course[];
   totalElements: number;
-  totalPages: string;
-  currentPage: string;
+  totalPages: number;
+  currentPage: number;
 }
 
-interface Course {
+export interface Course {
   id: number;
   name: string;
   type: string;
   link: string;
+  institutionId: number;
 }
 
 export interface CourseSearchRequest {

@@ -7,13 +7,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { Institution } from '../../shared/models/institution.model';
 import { InstitutionService } from '../../shared/services/institution.service';
 import {
+  Course,
   CourseSearchRequest,
   CoursesPaginated,
 } from '../../shared/models/course-paginated.model';
 import { InstitutionSearchService } from '../services/institution-search.service';
 import { CourseSearchService } from '../services/course-search.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MapComponent } from '../../shared/components/map/map.component';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { CourseService } from '../../shared/services/course.service';
@@ -22,6 +23,9 @@ import {
   MatPaginator,
   PageEvent,
 } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -35,22 +39,41 @@ import {
     MapComponent,
     ButtonComponent,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })
 export class SearchComponent implements OnInit {
+  // constructor
+  constructor(
+    private institutionService: InstitutionService,
+    private institutionSearchService: InstitutionSearchService,
+    private courseService: CourseService,
+    private courseSearchService: CourseSearchService,
+    private translate: TranslateService
+  ) {}
+
   // add the child component "MapComponent"
   @ViewChild(MapComponent) mapComponentView!: MapComponent;
 
   // add the child component "paginator"
-  @ViewChild('institutionPaginator') institutionPaginator!: MatPaginator;
+  @ViewChild('institutionsPaginator') institutionsPaginator!: MatPaginator;
+  @ViewChild('coursesPaginator') coursesPaginator!: MatPaginator;
+
+  // subject that is going to be used for the debounce
+  courseNameChanged$ = new Subject<string>();
 
   // lists of informations that are going to be shown on the template
   institutions: Institution[] = [];
   filteredInstitutions: Institution[] = [];
   paginatedInstitutions: Institution[] = [];
-  paginatedCourses!: CoursesPaginated;
+  paginatedCourses: CoursesPaginated = {
+    courses: [],
+    totalElements: 0,
+    totalPages: 0,
+    currentPage: 0,
+  };
   typesInstitutions: string[] = [];
   typesCourses: string[] = [];
   districtsInstitutions: string[] = [];
@@ -73,19 +96,17 @@ export class SearchComponent implements OnInit {
   errorTypesCourses: string | null = null;
   errorDistrictsInstitutions: string | null = null;
 
-  // constructor with the services that have the api calls
-  constructor(
-    private institutionService: InstitutionService,
-    private institutionSearchService: InstitutionSearchService,
-    private courseService: CourseService,
-    private courseSearchService: CourseSearchService
-  ) {}
-
   // search filters that are going to be used to search for institutions
   institutionNameFilter = '';
   institutionTypeFilter: string[] = [];
   institutionDistrictFilter: string[] = [];
 
+  // search filters that are going to be used to search for courses
+  courseNameFilter = '';
+  courseTypeFilter: string[] = [];
+  courseInstitutionIdFilter: number[] = [];
+
+  // methods that are going to be called when the component is created
   ngOnInit(): void {
     // api call to get every institutions
     this.handleApiCall(
@@ -94,8 +115,13 @@ export class SearchComponent implements OnInit {
         this.institutions = data;
         this.filteredInstitutions = data;
         this.paginatedInstitutions = this.filteredInstitutions.slice(0, 10);
+        this.institutionsPaginator.pageSize = this.getPageSize(
+          this.filteredInstitutions.length,
+          this.institutionsPaginator
+        );
       },
-      () => (this.errorInstitutions = 'Error loading institutions!'),
+      () =>
+        (this.errorInstitutions = this.translate.instant('institutions.error')),
       (loading) => (this.loadingInstitutions = loading)
     );
 
@@ -105,7 +131,7 @@ export class SearchComponent implements OnInit {
       (data) => (this.typesInstitutions = data),
       () =>
         (this.errorTypesInstitutions =
-          'Error loading the types of institutions!'),
+          this.translate.instant('institutions.error')),
       (loading) => (this.loadingTypesInstitutions = loading)
     );
 
@@ -115,51 +141,17 @@ export class SearchComponent implements OnInit {
       (data) => (this.districtsInstitutions = data),
       () =>
         (this.errorDistrictsInstitutions =
-          'Error loading the districts of institutions!'),
+          this.translate.instant('institutions.error')),
       (loading) => (this.loadingDistrictsInstitutions = loading)
     );
 
-    // api call to get every course type
-    this.handleApiCall(
-      this.courseSearchService.getDistinctTypes(),
-      (data) => (this.typesCourses = data),
-      () => (this.errorTypesCourses = 'Error loading the types of courses!'),
-      (loading) => (this.loadingTypesCourses = loading)
-    );
-  }
-
-  // function that will handle the click on the button to see the courses
-  onCoursesClick(): void {
-    if (this.seeingCoursesFirstTime) {
-      this.seeingCoursesFirstTime = false;
-
-      const request: CourseSearchRequest = {
-        name: '',
-        types: [],
-        institutionIds: [],
-      };
-      this.searchCourses(request, 1, 5);
-    }
-
-    this.seeingInstitutions = false;
-  }
-
-  // api call to get the first 5 courses
-  searchCourses(
-    courseSearchRequest: CourseSearchRequest,
-    pageNumber: number = 0,
-    pageSize: number = 10
-  ): void {
-    this.handleApiCall(
-      this.courseService.searchCourses(
-        courseSearchRequest,
-        pageNumber,
-        pageSize
-      ),
-      (data) => (this.paginatedCourses = data),
-      () => (this.errorPaginatedCourses = 'Error loading the courses!'),
-      (loading) => (this.loadingPaginatedCourses = loading)
-    );
+    // add debounce to the name input for courses
+    this.courseNameChanged$
+      .pipe(debounceTime(500))
+      .subscribe((value: string) => {
+        this.courseNameFilter = value;
+        this.filterCourses();
+      });
   }
 
   // helper to make api calls
@@ -183,23 +175,111 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  // handle the pagination for institutions
-  handlePageEvent($event: PageEvent): void {
-    this.paginatedInstitutions = this.filteredInstitutions.slice(
-      $event.pageIndex,
-      $event.pageIndex + $event.pageSize
+  // function that will handle the click on the button to see the courses
+  onCoursesClick(): void {
+    if (this.seeingCoursesFirstTime) {
+      this.seeingCoursesFirstTime = false;
+
+      // api call to get every course type
+      this.handleApiCall(
+        this.courseSearchService.getDistinctTypes(),
+        (data) => (this.typesCourses = data),
+        () =>
+          (this.errorTypesCourses = this.translate.instant('courses.error')),
+        (loading) => (this.loadingTypesCourses = loading)
+      );
+
+      // request to get paginated courses
+      const request: CourseSearchRequest = {
+        name: '',
+        types: [],
+        institutionIds: [],
+      };
+      this.searchCourses(request, 1, 10, true);
+    }
+
+    this.seeingInstitutions = false;
+  }
+
+  // api call to get filtered and paginated courses
+  searchCourses(
+    courseSearchRequest: CourseSearchRequest,
+    pageNumber: number = 1,
+    pageSize: number = 10,
+    changePageSize: boolean
+  ): void {
+    this.handleApiCall(
+      this.courseService.searchCourses(
+        courseSearchRequest,
+        pageNumber,
+        pageSize
+      ),
+      (data) => {
+        this.paginatedCourses = data;
+        if (changePageSize) {
+          this.coursesPaginator.pageIndex = 0;
+          this.coursesPaginator.pageSizeOptions = this.getPageSizeOptions(
+            this.paginatedCourses.totalElements
+          );
+          this.coursesPaginator.pageSize = this.getPageSize(
+            this.paginatedCourses.totalElements,
+            this.coursesPaginator
+          );
+        }
+      },
+      () =>
+        (this.errorPaginatedCourses = this.translate.instant('courses.error')),
+      (loading) => (this.loadingPaginatedCourses = loading)
     );
   }
 
-  // adds or removes a type/district from the filter for
-  toggleFilters(value: string, arrayFilter: string[]): void {
+  // getter in order to have the name of the institution in front of the course
+  getInstitutionName(institutionId: number): string {
+    const institution = this.institutions.find((i) => i.id == institutionId);
+    return institution ? institution.name : '';
+  }
+
+  // handle for the input of the course name
+  onCourseNameInput(value: string): void {
+    this.courseNameChanged$.next(value);
+  }
+
+  trackByCourse(index: number, course: Course): number {
+    return course.id;
+  }
+
+  // handle the pagination for institutions
+  handlePageEventInstitutions($event: PageEvent): void {
+    this.paginatedInstitutions = this.filteredInstitutions.slice(
+      $event.pageIndex * $event.pageSize,
+      $event.pageIndex * $event.pageSize + $event.pageSize
+    );
+  }
+
+  // handle the pagination for courses
+  handlePageEventCourses($event: PageEvent): void {
+    const request: CourseSearchRequest = {
+      name: this.courseNameFilter.toLocaleLowerCase().trim(),
+      types: this.courseTypeFilter,
+      institutionIds: this.courseInstitutionIdFilter,
+    };
+    this.searchCourses(request, $event.pageIndex + 1, $event.pageSize, false);
+  }
+
+  // adds or removes a type/district from the filter for institutions and courses
+  toggleFilters(
+    value: string,
+    arrayFilter: string[],
+    institution: boolean
+  ): void {
     const index = arrayFilter.indexOf(value);
     if (index === -1) {
       arrayFilter.push(value);
     } else {
       arrayFilter.splice(index, 1);
     }
-    this.filterInstitutions();
+    if (institution) this.filterInstitutions();
+    else this.filterCourses();
   }
 
   // filter the institutions according with name, type and district
@@ -215,12 +295,32 @@ export class SearchComponent implements OnInit {
         this.institutionDistrictFilter.includes(inst.district);
       return matchesName && matchesType && matchesDistrict;
     });
+
     this.updateMap();
-    this.institutionPaginator.pageIndex = 0;
-    this.institutionPaginator.pageSize = 10;
     this.paginatedInstitutions = this.filteredInstitutions.slice(0, 10);
+
+    this.institutionsPaginator.pageIndex = 0;
+    this.institutionsPaginator.pageSizeOptions = this.getPageSizeOptions(
+      this.filteredInstitutions.length
+    );
+    this.institutionsPaginator.pageSize = this.getPageSize(
+      this.filteredInstitutions.length,
+      this.institutionsPaginator
+    );
   }
 
+  // filter the courses according with name, type and institutions id's
+  filterCourses(): void {
+    // request to get paginated courses
+    const request: CourseSearchRequest = {
+      name: this.courseNameFilter.toLocaleLowerCase().trim(),
+      types: this.courseTypeFilter,
+      institutionIds: this.courseInstitutionIdFilter,
+    };
+    this.searchCourses(request, 1, 10, true);
+  }
+
+  // update the map with the current information
   updateMap(): void {
     this.mapComponentView.updateMap(this.filteredInstitutions);
   }
@@ -242,5 +342,23 @@ export class SearchComponent implements OnInit {
       latitude: inst.latitude,
       longitude: inst.longitude,
     }));
+  }
+
+  getPageSizeOptions(max: number): number[] {
+    if (max <= 5) return [max];
+    if (max <= 10) return [5, max];
+    if (max <= 20) return [5, 10, max];
+    if (max <= 50) return [5, 10, 20, max];
+    if (max <= 100) return [5, 10, 20, 50, max];
+    return [5, 10, 20, 50, 100, max];
+  }
+
+  getPageSize(max: number, paginator: MatPaginator): number {
+    if (max >= 10) return 10;
+    else if (max > 5 && max < 10) return max;
+    else if (max <= 5)
+      return paginator.pageSizeOptions[paginator.pageSizeOptions.length - 1];
+
+    return 0;
   }
 }
