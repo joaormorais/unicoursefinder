@@ -88,7 +88,7 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="m-5 p-3 outline-1">
+    <div class="m-5 p-3 outline-1 md:min-h-[340px] flex flex-col">
       <!-- loading and error messages for institutions list -->
       <div *ngIf="loadingInstitutions && seeingInstitutions">
         <mat-spinner></mat-spinner>
@@ -103,7 +103,8 @@
         [hidden]="loadingInstitutions || errorInstitutions"
       >
         <li *ngFor="let institution of paginatedInstitutions">
-          {{ institution.name }}
+          <p class="font-bold !m-0">({{ institution.id }}) {{ institution.name }}</p>
+          <p class="italic">{{ institution.type}}</p>
         </li>
       </ul>
       <!-- paginator for institutions list -->
@@ -164,7 +165,7 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="m-5 p-3 outline-1">
+    <div class="m-5 p-3 outline-1 md:min-h-[340px] flex flex-col">
       <!-- loading and error messages for courses list -->
       <div *ngIf="loadingPaginatedCourses && !seeingInstitutions">
         <mat-spinner></mat-spinner>
@@ -175,7 +176,7 @@
       </div>
       <!-- list of courses -->
       <ul
-        class="institutions-courses-list"
+        class="institutions-courses-list grow"
         [hidden]="loadingPaginatedCourses || errorPaginatedCourses"
       >
         <li
@@ -184,7 +185,9 @@
             trackBy: trackByCourse
           "
         >
-          <p class="font-bold !m-0">{{ course.name }}</p>
+          <a [href]="course.link" target="_blank">
+            <p class="font-bold !m-0">{{ course.name }}</p></a
+          >
           <p class="italic">{{ getInstitutionName(course.institutionId) }}</p>
         </li>
       </ul>

@@ -248,6 +248,7 @@ export class SearchComponent implements OnInit {
     return course.id;
   }
 
+  //TODO: pagination
   // handle the pagination for institutions
   handlePageEventInstitutions($event: PageEvent): void {
     this.paginatedInstitutions = this.filteredInstitutions.slice(
@@ -256,6 +257,7 @@ export class SearchComponent implements OnInit {
     );
   }
 
+  //TODO: pagination
   // handle the pagination for courses
   handlePageEventCourses($event: PageEvent): void {
     const request: CourseSearchRequest = {
@@ -266,6 +268,7 @@ export class SearchComponent implements OnInit {
     this.searchCourses(request, $event.pageIndex + 1, $event.pageSize, false);
   }
 
+  //TODO: filters
   // adds or removes a type/district from the filter for institutions and courses
   toggleFilters(
     value: string,
@@ -282,7 +285,8 @@ export class SearchComponent implements OnInit {
     else this.filterCourses();
   }
 
-  // filter the institutions according with name, type and district
+  //TODO: filters
+  // filter the institutions by name, type and district
   filterInstitutions(): void {
     const name = this.institutionNameFilter.toLowerCase().trim();
     this.filteredInstitutions = this.institutions.filter((inst) => {
@@ -309,9 +313,10 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  // filter the courses according with name, type and institutions id's
+  //TODO: filters
+  // filter the courses by name, type and institutions id's
   filterCourses(): void {
-    // request to get paginated courses
+    // request with the courses's filters
     const request: CourseSearchRequest = {
       name: this.courseNameFilter.toLocaleLowerCase().trim(),
       types: this.courseTypeFilter,
@@ -320,12 +325,14 @@ export class SearchComponent implements OnInit {
     this.searchCourses(request, 1, 10, true);
   }
 
-  // update the map with the current information
+  //TODO: map
+  // update the map with the new information
   updateMap(): void {
     this.mapComponentView.updateMap(this.filteredInstitutions);
   }
 
-  // gets every coordinate of every institution
+  //TODO: map
+  // get info from the institutions in order to show on the map
   get getFilteredInstitutions(): {
     id: number;
     name: string;
@@ -344,6 +351,8 @@ export class SearchComponent implements OnInit {
     }));
   }
 
+  //TODO: pagination
+  // get the array of options for the page size
   getPageSizeOptions(max: number): number[] {
     if (max <= 5) return [max];
     if (max <= 10) return [5, max];
@@ -353,6 +362,8 @@ export class SearchComponent implements OnInit {
     return [5, 10, 20, 50, 100, max];
   }
 
+  //TODO: pagination
+  // get the selection of the page size
   getPageSize(max: number, paginator: MatPaginator): number {
     if (max >= 10) return 10;
     else if (max > 5 && max < 10) return max;
