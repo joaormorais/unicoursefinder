@@ -54,15 +54,10 @@ public class CourseService {
      */
     public Page<CourseDTO> getCoursesByNameTypeAndInstitution(CourseSearchRequest courseSearchRequest, Pageable pageable) {
         logger.info("Returning every filtered course by name, type and institutionId");
-
-        logger.info("Confirming if the pageable is inside bounds");
-
         Page<Course> resultPage = courseRepository.findByNameTypeAndInstitutionId(normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds(), pageable);
 
-        if (resultPage.isEmpty()) {
-            logger.warn("Didn't find any course with the filters: name[{}], types[{}], institutionsIds[{}]", normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds());
-            throw new ResourceNotFoundException("Didn't find any filtered course");
-        }
+        if (resultPage.isEmpty())
+            logger.warn("Didn't find any course with the filters: name[{}], types[{}], institutionsIds[{}]. Returning empty!", normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds());
 
         return resultPage.map(this::mapToDTO);
     }
