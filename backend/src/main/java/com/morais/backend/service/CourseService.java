@@ -25,6 +25,18 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
+    public int countTotalCourses() {
+        logger.info("Returning total number of courses...");
+        List<Course> courses = courseRepository.findAll();
+
+        if (courses.isEmpty()) {
+            logger.warn("Didn't find any course");
+            return 0;
+        }
+
+        return courses.size();
+    }
+
     /**
      * Retrieves a list of all distinct course types.
      * Throws a ResourceNotFoundException if no types are found.
