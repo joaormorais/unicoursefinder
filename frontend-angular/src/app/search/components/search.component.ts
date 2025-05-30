@@ -201,6 +201,19 @@ export class SearchComponent implements OnInit {
     this.seeingInstitutions = false;
   }
 
+  // change to the courses screen, and show the courses for that institution
+  searchCoursesByInstitutionId(institutionId: number): void {
+    this.courseInstitutionIdFilter.setValue([institutionId]);
+
+    if (this.courseNameFilter !== '') this.courseNameFilter = '';
+
+    if (this.courseTypeFilter && this.courseTypeFilter.length > 0)
+      this.courseTypeFilter = [];
+
+    this.onCoursesClick();
+    this.searchCourses(1, 10, true);
+  }
+
   // api call to get filtered and paginated courses
   searchCourses(
     pageNumber: number = 1,

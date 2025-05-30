@@ -102,7 +102,10 @@
         [hidden]="loadingInstitutions || errorInstitutions"
       >
         <li *ngFor="let institution of paginatedInstitutions">
-          <p class="font-bold !m-0">
+          <p
+            class="font-bold !m-0 cursor-pointer"
+            (click)="searchCoursesByInstitutionId(institution.id)"
+          >
             ({{ institution.id }}) {{ institution.name }}
           </p>
           <p class="italic">{{ institution.type }}</p>
