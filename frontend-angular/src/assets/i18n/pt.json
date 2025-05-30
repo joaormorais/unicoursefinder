@@ -25,7 +25,8 @@
   "filters": {
     "types": "Tipos",
     "districts": "Distritos",
-    "name": "Nome"
+    "name": "Nome",
+    "institutionsIds": "Instituição"
   },
   "pagination": {
     "select": "Selecionar página"

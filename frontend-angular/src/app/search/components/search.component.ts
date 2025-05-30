@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,6 +26,8 @@ import {
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { MatSelectModule } from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search',
@@ -40,6 +42,8 @@ import { debounceTime } from 'rxjs/operators';
     ButtonComponent,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
@@ -104,7 +108,7 @@ export class SearchComponent implements OnInit {
   // search filters that are going to be used to search for courses
   courseNameFilter = '';
   courseTypeFilter: string[] = [];
-  courseInstitutionIdFilter: number[] = [];
+  courseInstitutionIdFilter = new FormControl<number[]>([]);
 
   // methods that are going to be called when the component is created
   ngOnInit(): void {
@@ -150,7 +154,7 @@ export class SearchComponent implements OnInit {
       .pipe(debounceTime(500))
       .subscribe((value: string) => {
         this.courseNameFilter = value;
-        this.filterCourses();
+        this.searchCourses(1, 10, true);
       });
   }
 
@@ -189,13 +193,7 @@ export class SearchComponent implements OnInit {
         (loading) => (this.loadingTypesCourses = loading)
       );
 
-      // request to get paginated courses
-      const request: CourseSearchRequest = {
-        name: '',
-        types: [],
-        institutionIds: [],
-      };
-      this.searchCourses(request, 1, 10, true);
+      this.searchCourses(1, 10, true);
     }
 
     this.seeingInstitutions = false;
@@ -203,17 +201,23 @@ export class SearchComponent implements OnInit {
 
   // api call to get filtered and paginated courses
   searchCourses(
-    courseSearchRequest: CourseSearchRequest,
     pageNumber: number = 1,
     pageSize: number = 10,
     changePageSize: boolean
   ): void {
+    // get the institutions id's that are selected with the form control
+    const selectedIds = this.courseInstitutionIdFilter.value ?? [];
+    const institutionIds = selectedIds.map((id) => Number(id));
+
+    // create the request with filters
+    const request: CourseSearchRequest = {
+      name: this.courseNameFilter.toLocaleLowerCase().trim(),
+      types: this.courseTypeFilter,
+      institutionIds: institutionIds,
+    };
+
     this.handleApiCall(
-      this.courseService.searchCourses(
-        courseSearchRequest,
-        pageNumber,
-        pageSize
-      ),
+      this.courseService.searchCourses(request, pageNumber, pageSize),
       (data) => {
         this.paginatedCourses = data;
         if (changePageSize) {
@@ -257,17 +261,6 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  //TODO: pagination
-  // handle the pagination for courses
-  handlePageEventCourses($event: PageEvent): void {
-    const request: CourseSearchRequest = {
-      name: this.courseNameFilter.toLocaleLowerCase().trim(),
-      types: this.courseTypeFilter,
-      institutionIds: this.courseInstitutionIdFilter,
-    };
-    this.searchCourses(request, $event.pageIndex + 1, $event.pageSize, false);
-  }
-
   //TODO: filters
   // adds or removes a type/district from the filter for institutions and courses
   toggleFilters(
@@ -282,7 +275,7 @@ export class SearchComponent implements OnInit {
       arrayFilter.splice(index, 1);
     }
     if (institution) this.filterInstitutions();
-    else this.filterCourses();
+    else this.searchCourses(1, 10, true);
   }
 
   //TODO: filters
@@ -311,18 +304,6 @@ export class SearchComponent implements OnInit {
       this.filteredInstitutions.length,
       this.institutionsPaginator
     );
-  }
-
-  //TODO: filters
-  // filter the courses by name, type and institutions id's
-  filterCourses(): void {
-    // request with the courses's filters
-    const request: CourseSearchRequest = {
-      name: this.courseNameFilter.toLocaleLowerCase().trim(),
-      types: this.courseTypeFilter,
-      institutionIds: this.courseInstitutionIdFilter,
-    };
-    this.searchCourses(request, 1, 10, true);
   }
 
   //TODO: map

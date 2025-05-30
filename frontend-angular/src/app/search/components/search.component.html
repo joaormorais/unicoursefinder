@@ -103,8 +103,10 @@
         [hidden]="loadingInstitutions || errorInstitutions"
       >
         <li *ngFor="let institution of paginatedInstitutions">
-          <p class="font-bold !m-0">({{ institution.id }}) {{ institution.name }}</p>
-          <p class="italic">{{ institution.type}}</p>
+          <p class="font-bold !m-0">
+            ({{ institution.id }}) {{ institution.name }}
+          </p>
+          <p class="italic">{{ institution.type }}</p>
         </li>
       </ul>
       <!-- paginator for institutions list -->
@@ -128,7 +130,7 @@
     <!-- filters -->
     <div class="md:max-h-[200px] grid grid-cols-1 md:grid-cols-12 gap-4 m-5">
       <!-- types -->
-      <div class="md:col-span-4 inline-block overflow-hidden">
+      <div class="md:col-span-2 inline-block overflow-hidden">
         <p class="font-bold mb-2">{{ "filters.types" | translate }}:</p>
         <ul class="institutions-courses-list grid grid-col-1 gap-2">
           <li *ngFor="let type of typesCourses">
@@ -141,6 +143,20 @@
             <label [for]="'type-' + type">{{ type }}</label>
           </li>
         </ul>
+      </div>
+      <!-- institutions id's -->
+      <div class="md:col-span-8 block overflow-hidden mr-10">
+        <mat-form-field class="w-full">
+          <mat-label>{{ "filters.institutionsIds" | translate }}</mat-label>
+          <mat-select [formControl]="courseInstitutionIdFilter" (selectionChange)="searchCourses(1, 10, true)" multiple>
+            <mat-option
+              *ngFor="let institution of institutions"
+              [value]="institution.id"
+              
+              >{{ institution.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <!-- name -->
       <div class="md:col-span-2 inline-block overflow-hidden">
@@ -195,7 +211,7 @@
       <mat-paginator
         #coursesPaginator
         class="demo-paginator"
-        (page)="handlePageEventCourses($event)"
+        (page)="searchCourses($event.pageIndex + 1, $event.pageSize, false)"
         [length]="paginatedCourses.totalElements"
         [showFirstLastButtons]="true"
         [pageSizeOptions]="getPageSizeOptions(paginatedCourses.totalElements)"
