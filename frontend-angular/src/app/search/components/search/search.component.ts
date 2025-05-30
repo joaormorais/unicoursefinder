@@ -4,20 +4,20 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { Institution } from '../../shared/models/institution.model';
-import { InstitutionService } from '../../shared/services/institution.service';
+import { Institution } from '../../../shared/models/institution.model';
+import { InstitutionService } from '../../../shared/services/institution.service';
 import {
   Course,
   CourseSearchRequest,
   CoursesPaginated,
-} from '../../shared/models/course-paginated.model';
-import { InstitutionSearchService } from '../services/institution-search.service';
-import { CourseSearchService } from '../services/course-search.service';
+} from '../../../shared/models/course-paginated.model';
+import { InstitutionSearchService } from '../../services/institution-search.service';
+import { CourseSearchService } from '../../services/course-search.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { MapComponent } from '../../shared/components/map/map.component';
-import { ButtonComponent } from '../../shared/components/button/button.component';
-import { CourseService } from '../../shared/services/course.service';
+import { MapComponent } from '../../../shared/components/map/map.component';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { CourseService } from '../../../shared/services/course.service';
 import {
   MatPaginatorModule,
   MatPaginator,
