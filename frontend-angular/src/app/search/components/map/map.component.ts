@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
-import { Institution } from '../../models/institution.model';
+import { Institution } from '../../../shared/models/institution.model';
 
 @Component({
   selector: 'app-map',

@@ -15,7 +15,7 @@ import { InstitutionSearchService } from '../../services/institution-search.serv
 import { CourseSearchService } from '../../services/course-search.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { MapComponent } from '../../../shared/components/map/map.component';
+import { MapComponent } from '../map/map.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { CourseService } from '../../../shared/services/course.service';
 import {
