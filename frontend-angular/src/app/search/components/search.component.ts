@@ -109,6 +109,8 @@ export class SearchComponent implements OnInit {
   courseNameFilter = '';
   courseTypeFilter: string[] = [];
   courseInstitutionIdFilter = new FormControl<number[]>([]);
+  filteredInstitutionsByName: Institution[] = [];
+  courseInstitutionNameFilter = '';
 
   // methods that are going to be called when the component is created
   ngOnInit(): void {
@@ -304,6 +306,16 @@ export class SearchComponent implements OnInit {
       this.filteredInstitutions.length,
       this.institutionsPaginator
     );
+  }
+
+  //TODO: filters
+  // filter the institutions only by name
+  filterInstitutionsByName(): void {
+    const name = this.courseInstitutionNameFilter.toLowerCase().trim();
+    this.filteredInstitutionsByName = this.institutions.filter((inst) => {
+      const matchesName = !name || inst.name.toLowerCase().includes(name);
+      return matchesName;
+    });
   }
 
   //TODO: map

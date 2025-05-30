@@ -148,11 +148,22 @@
       <div class="md:col-span-8 block overflow-hidden mr-10">
         <mat-form-field class="w-full">
           <mat-label>{{ "filters.institutionsIds" | translate }}</mat-label>
-          <mat-select [formControl]="courseInstitutionIdFilter" (selectionChange)="searchCourses(1, 10, true)" multiple>
+          <mat-select
+            [formControl]="courseInstitutionIdFilter"
+            (selectionChange)="searchCourses(1, 10, true)"
+            multiple
+          >
+            <mat-form-field class="example-form-field"
+              ><input
+                matInput
+                type="text"
+                [(ngModel)]="courseInstitutionNameFilter"
+                (ngModelChange)="filterInstitutionsByName()"
+                placeholder="{{ 'institutions.name' | translate }}"
+            /></mat-form-field>
             <mat-option
-              *ngFor="let institution of institutions"
+              *ngFor="let institution of filteredInstitutionsByName"
               [value]="institution.id"
-              
               >{{ institution.name }}
             </mat-option>
           </mat-select>
