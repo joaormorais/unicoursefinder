@@ -36,12 +36,7 @@ public class Institution {
     @Column(name = "longitude", nullable = false, precision = 10, scale = 6)
     private BigDecimal longitude;
 
-    @ManyToMany
-    @JoinTable(
-            name = "institution_course",
-            joinColumns = @JoinColumn(name = "institution_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
+    @OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Course> courses;
 
 }

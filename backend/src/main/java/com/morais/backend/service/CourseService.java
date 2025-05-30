@@ -5,6 +5,10 @@ import com.morais.backend.dto.CourseSearchRequest;
 import com.morais.backend.entity.Course;
 import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.repository.CourseRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +18,23 @@ import static com.morais.backend.util.TextUtils.normalize;
 @Service
 public class CourseService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CourseService.class);
     private final CourseRepository courseRepository;
 
     public CourseService(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
+    }
+
+    public int countTotalCourses() {
+        logger.info("Returning total number of courses...");
+        List<Course> courses = courseRepository.findAll();
+
+        if (courses.isEmpty()) {
+            logger.warn("Didn't find any course");
+            return 0;
+        }
+
+        return courses.size();
     }
 
     /**
@@ -27,25 +44,34 @@ public class CourseService {
      * @return a list of distinct course types
      */
     public List<String> getDistinctTypes() {
+        logger.info("Returning every distinct type (courses)");
         List<String> types = courseRepository.findDistinctTypes();
-        if (types.isEmpty())
-            throw new ResourceNotFoundException("Didn't find any distinct types");
+
+        if (types.isEmpty()) {
+            logger.warn("Didn't find any distinct type (courses)");
+            throw new ResourceNotFoundException("Didn't find any distinct type (courses)");
+        }
 
         return types;
     }
 
     /**
-     * Retrieves courses based on a name, and optionally filters by type and institution.
+     * Retrieves courses optionally based on a name, type and institution.
+     * The results are paged
      * The name is normalized before querying.
      * Throws a ResourceNotFoundException if no courses match the filters.
      *
      * @param courseSearchRequest the search filters for courses
      * @return a list of matching courses as DTOs
      */
-    public List<CourseDTO> getInstitutionsByNameTypeAndInstitution(CourseSearchRequest courseSearchRequest) {
-        return courseRepository.findByNameTypeAndInstitution(normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds()).stream()
-                .map(this::mapToDTO)
-                .toList();
+    public Page<CourseDTO> getCoursesByNameTypeAndInstitution(CourseSearchRequest courseSearchRequest, Pageable pageable) {
+        logger.info("Returning every filtered course by name, type and institutionId");
+        Page<Course> resultPage = courseRepository.findByNameTypeAndInstitutionId(normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds(), pageable);
+
+        if (resultPage.isEmpty())
+            logger.warn("Didn't find any course with the filters: name[{}], types[{}], institutionsIds[{}]. Returning empty!", normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds());
+
+        return resultPage.map(this::mapToDTO);
     }
 
     /**
@@ -59,7 +85,8 @@ public class CourseService {
                 course.getId(),
                 course.getName(),
                 course.getType(),
-                course.getLink()
+                course.getLink(),
+                course.getInstitution().getId()
         );
     }
 }

@@ -4,5 +4,6 @@ public record CourseDTO(
         Long id,
         String name,
         String type,
-        String link
+        String link,
+        Long institutionId
 ) {}

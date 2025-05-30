@@ -9,6 +9,7 @@ export class InstitutionService {
 
   constructor(private http: HttpClient) {}
 
+  // api call to get every institution
   getAllInstitutions(): Observable<Institution[]> {
     return this.http.get<Institution[]>(this.apiUrl);
   }
