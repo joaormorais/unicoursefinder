@@ -197,7 +197,7 @@ export class SearchComponent implements OnInit {
 
       this.searchCourses(1, 10, true);
     }
-
+    this.filteredInstitutionsByName = this.institutions;
     this.seeingInstitutions = false;
   }
 

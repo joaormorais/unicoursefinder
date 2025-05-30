@@ -75,8 +75,8 @@
             (input)="filterInstitutions()"
             placeholder="{{ 'institutions.name' | translate }}"
           />
-          @if (institutionNameFilter) {
           <button
+            *ngIf="institutionNameFilter"
             matSuffix
             mat-icon-button
             aria-label="Clear"
@@ -84,7 +84,6 @@
           >
             <mat-icon>close</mat-icon>
           </button>
-          }
         </mat-form-field>
       </div>
     </div>
@@ -160,13 +159,34 @@
                 [(ngModel)]="courseInstitutionNameFilter"
                 (ngModelChange)="filterInstitutionsByName()"
                 placeholder="{{ 'institutions.name' | translate }}"
-            /></mat-form-field>
+              />
+              <button
+                *ngIf="courseInstitutionNameFilter"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="
+                  courseInstitutionNameFilter = ''; filterInstitutionsByName()
+                "
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
             <mat-option
               *ngFor="let institution of filteredInstitutionsByName"
               [value]="institution.id"
               >{{ institution.name }}
             </mat-option>
           </mat-select>
+          <button
+            *ngIf="courseInstitutionIdFilter"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="courseInstitutionIdFilter.setValue([])"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-form-field>
       </div>
       <!-- name -->
