@@ -61,21 +61,6 @@ export class MapComponent implements AfterViewInit {
     this.map.addLayer(this.markers);
   }
 
-  // update the map with new info
-  public updateMap(updatedInstitutions: Institution[]): void {
-    // remove the current markers
-    this.map.removeLayer(this.markers);
-    this.markers = L.markerClusterGroup();
-
-    // create the new group of markers
-    updatedInstitutions.forEach((newInstitution) => {
-      this.createMarkers(newInstitution, this.institutionIcon);
-    });
-
-    // add the new group of markers to the map
-    this.map.addLayer(this.markers);
-  }
-
   // create and add the markers to the marker group
   private createMarkers(
     institution: Institution,
@@ -116,5 +101,20 @@ export class MapComponent implements AfterViewInit {
 
     // add the marker to the group of markers
     this.markers.addLayer(marker);
+  }
+
+  // update the map with new info
+  public updateMap(updatedInstitutions: Institution[]): void {
+    // remove the current markers
+    this.map.removeLayer(this.markers);
+    this.markers = L.markerClusterGroup();
+
+    // create the new group of markers
+    updatedInstitutions.forEach((newInstitution) => {
+      this.createMarkers(newInstitution, this.institutionIcon);
+    });
+
+    // add the new group of markers to the map
+    this.map.addLayer(this.markers);
   }
 }
