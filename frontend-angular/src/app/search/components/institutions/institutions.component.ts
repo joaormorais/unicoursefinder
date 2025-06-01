@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Institution } from '../../../shared/models/institution.model';
-import { MapComponent } from '../map/map.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { InstitutionService } from '../../../shared/services/institution.service';
 import { InstitutionSearchService } from '../../services/institution-search.service';
