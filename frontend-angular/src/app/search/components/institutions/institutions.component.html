@@ -1,0 +1,115 @@
+<!-- filters -->
+<div class="md:max-h-[200px] grid grid-cols-1 md:grid-cols-12 gap-4 m-5">
+  <!-- types -->
+  <div class="md:col-span-4 inline-block overflow-hidden">
+    <p class="font-bold mb-2">{{ "filters.types" | translate }}:</p>
+    <ul class="institutions-courses-list grid grid-col-1 gap-2">
+      <li *ngFor="let type of typesInstitutions">
+        <input
+          type="checkbox"
+          [checked]="institutionTypeFilter.includes(type)"
+          (change)="
+            commonSearchService.toggleFilters(type, institutionTypeFilter);
+            filterInstitutions()
+          "
+          id="type-{{ type }}"
+        />
+        <label [for]="'type-' + type">{{ type }}</label>
+      </li>
+    </ul>
+  </div>
+  <!-- districts -->
+  <div class="md:col-span-6 inline-block overflow-hidden">
+    <p class="font-bold">{{ "filters.districts" | translate }}:</p>
+    <ul class="institutions-courses-list grid grid-col-1 md:grid-cols-4 gap-2">
+      <li *ngFor="let district of districtsInstitutions">
+        <input
+          type="checkbox"
+          [checked]="institutionDistrictFilter.includes(district)"
+          (change)="
+            commonSearchService.toggleFilters(
+              district,
+              institutionDistrictFilter
+            );
+            filterInstitutions()
+          "
+          id="district-{{ district }}"
+        />
+        <label [for]="'district-' + district">{{ district }}</label>
+      </li>
+    </ul>
+  </div>
+  <!-- name -->
+  <div class="md:col-span-2 inline-block overflow-hidden">
+    <p class="font-bold">{{ "filters.name" | translate }}:</p>
+    <mat-form-field class="example-form-field">
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="institutionNameFilter"
+        (input)="filterInstitutions()"
+        placeholder="{{ 'institutions.name' | translate }}"
+      />
+      <button
+        *ngIf="institutionNameFilter"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="institutionNameFilter = ''; filterInstitutions()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="m-5 p-3 outline-1 md:min-h-[340px] flex flex-col">
+  <!-- loading and error messages -->
+  <div
+    *ngIf="
+      (loadingInstitutions ||
+        loadingTypesInstitutions ||
+        loadingDistrictsInstitutions) &&
+      seeingInstitutions
+    "
+  >
+    <mat-spinner></mat-spinner>
+    <p class="!m-5 text-center">{{ "institutions.loading" | translate }}</p>
+  </div>
+  <div *ngIf="errorInstitutions && seeingInstitutions">
+    <p class="!m-5 text-center">{{ errorInstitutions }}</p>
+  </div>
+  <!-- list -->
+  <ul
+    class="institutions-courses-list"
+    [hidden]="
+      loadingInstitutions ||
+      loadingTypesInstitutions ||
+      loadingDistrictsInstitutions ||
+      errorInstitutions
+    "
+  >
+    <li *ngFor="let institution of institutionsPaginated">
+      <p
+        class="font-bold !m-0 cursor-pointer"
+        (click)="this.triggerActionSearch.emit(institution.id)"
+      >
+        ({{ institution.id }}) {{ institution.name }}
+      </p>
+      <p class="italic">{{ institution.type }}</p>
+    </li>
+  </ul>
+  <!-- paginator -->
+  <mat-paginator
+    #institutionsPaginator
+    class="demo-paginator"
+    (page)="handlePageEventInstitutions($event)"
+    [length]="institutionsFiltered.length"
+    [showFirstLastButtons]="true"
+    [pageSizeOptions]="
+      commonSearchService.getPageSizeOptions(institutionsFiltered.length)
+    "
+    [attr.aria-label]="'institutions.loading' | translate"
+  >
+  </mat-paginator>
+</div>
