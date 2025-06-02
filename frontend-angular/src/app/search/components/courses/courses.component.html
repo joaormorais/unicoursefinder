@@ -3,7 +3,10 @@
   <!-- types -->
   <div class="md:col-span-2 inline-block overflow-hidden">
     <p class="font-bold mb-2">{{ "filters.types" | translate }}:</p>
-    <ul class="institutions-courses-list grid grid-col-1 gap-2">
+    <ul
+      class="grid grid-col-1 gap-2"
+      aria-label="Lista de tipos de cursos"
+    >
       <li *ngFor="let type of typesCourses">
         <input
           type="checkbox"
@@ -34,12 +37,13 @@
             [(ngModel)]="courseInstitutionNameFilter"
             (ngModelChange)="filterInstitutionsByName()"
             placeholder="{{ 'institutions.name' | translate }}"
+            aria-label="Filtro por nome de instituições"
           />
           <button
             *ngIf="courseInstitutionNameFilter"
             matSuffix
             mat-icon-button
-            aria-label="Clear"
+            aria-label="Limpar filtro de nome de instituições"
             (click)="
               courseInstitutionNameFilter = ''; filterInstitutionsByName()
             "
@@ -57,7 +61,7 @@
         *ngIf="courseInstitutionIdFilter"
         matSuffix
         mat-icon-button
-        aria-label="Clear"
+        aria-label="Limpar seleção de instituições"
         (click)="courseInstitutionIdFilter.setValue([])"
       >
         <mat-icon>close</mat-icon>
@@ -74,12 +78,13 @@
         [(ngModel)]="courseNameFilter"
         (ngModelChange)="onCourseNameInput($event)"
         placeholder="{{ 'courses.name' | translate }}"
+        aria-label="Filtro por nome"
       />
       <button
         *ngIf="courseNameFilter"
         matSuffix
         mat-icon-button
-        aria-label="Clear"
+        aria-label="Limpar filtro de nome"
         (click)="onCourseNameInput('')"
       >
         <mat-icon>close</mat-icon>
@@ -88,7 +93,7 @@
   </div>
 </div>
 
-<div class="m-5 p-3 outline-1 md:min-h-[340px] flex flex-col">
+<div class="list-container">
   <!-- loading and error messages -->
   <div *ngIf="loadingPaginatedCourses && !seeingInstitutions">
     <mat-spinner></mat-spinner>
@@ -99,8 +104,9 @@
   </div>
   <!-- list -->
   <ul
-    class="institutions-courses-list grow"
+    class="grow"
     [hidden]="loadingPaginatedCourses || errorPaginatedCourses"
+    aria-label="Lista de instituições"
   >
     <li *ngFor="let course of coursesPaginated.courses; trackBy: trackByCourse">
       <a [href]="course.link" target="_blank">

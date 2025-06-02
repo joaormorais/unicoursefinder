@@ -32,8 +32,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     MatInputModule,
   ],
-  templateUrl: './institutions.component.html',
-  styleUrl: './institutions.component.scss',
+  templateUrl: './institutions.component.html'
 })
 export class InstitutionsComponent implements OnInit {
   //constructor

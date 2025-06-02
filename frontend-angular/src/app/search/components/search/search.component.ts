@@ -19,8 +19,7 @@ import { Institution } from '../../../shared/models/institution.model';
     InstitutionsComponent,
     CoursesComponent,
   ],
-  templateUrl: './search.component.html',
-  styleUrl: './search.component.scss',
+  templateUrl: './search.component.html'
 })
 export class SearchComponent {
   // add childs

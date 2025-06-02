@@ -3,7 +3,10 @@
   <!-- types -->
   <div class="md:col-span-4 inline-block overflow-hidden">
     <p class="font-bold mb-2">{{ "filters.types" | translate }}:</p>
-    <ul class="institutions-courses-list grid grid-col-1 gap-2">
+    <ul
+      class="grid grid-col-1 gap-2"
+      aria-label="Lista de tipos de instituições"
+    >
       <li *ngFor="let type of typesInstitutions">
         <input
           type="checkbox"
@@ -21,7 +24,10 @@
   <!-- districts -->
   <div class="md:col-span-6 inline-block overflow-hidden">
     <p class="font-bold">{{ "filters.districts" | translate }}:</p>
-    <ul class="institutions-courses-list grid grid-col-1 md:grid-cols-4 gap-2">
+    <ul
+      class="grid grid-col-1 md:grid-cols-4 gap-2"
+      aria-label="Lista de distritos de instituições"
+    >
       <li *ngFor="let district of districtsInstitutions">
         <input
           type="checkbox"
@@ -49,12 +55,13 @@
         [(ngModel)]="institutionNameFilter"
         (input)="filterInstitutions()"
         placeholder="{{ 'institutions.name' | translate }}"
+        aria-label="Filtro por nome"
       />
       <button
         *ngIf="institutionNameFilter"
         matSuffix
         mat-icon-button
-        aria-label="Clear"
+        aria-label="Limpar filtro de nome"
         (click)="institutionNameFilter = ''; filterInstitutions()"
       >
         <mat-icon>close</mat-icon>
@@ -63,7 +70,7 @@
   </div>
 </div>
 
-<div class="m-5 p-3 outline-1 md:min-h-[340px] flex flex-col">
+<div class="list-container">
   <!-- loading and error messages -->
   <div
     *ngIf="
@@ -81,19 +88,23 @@
   </div>
   <!-- list -->
   <ul
-    class="institutions-courses-list"
+    class=""
     [hidden]="
       loadingInstitutions ||
       loadingTypesInstitutions ||
       loadingDistrictsInstitutions ||
       errorInstitutions
     "
+    aria-label="Lista de instituições"
   >
-    <li *ngFor="let institution of institutionsPaginated">
-      <p
-        class="font-bold !m-0 cursor-pointer"
-        (click)="this.triggerActionSearch.emit(institution.id)"
-      >
+    <li
+      *ngFor="let institution of institutionsPaginated"
+      tabindex="0"
+      (click)="this.triggerActionSearch.emit(institution.id)"
+      (keydown.enter)="this.triggerActionSearch.emit(institution.id)"
+      (keydown.space)="this.triggerActionSearch.emit(institution.id)"
+    >
+      <p class="font-bold !m-0 cursor-pointer">
         ({{ institution.id }}) {{ institution.name }}
       </p>
       <p class="italic">{{ institution.type }}</p>

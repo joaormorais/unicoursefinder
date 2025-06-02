@@ -1,17 +1,24 @@
-<div class="button-container">
-  <div class="button-row-first">
-    <app-button class="button-left"
-      [label]="'buttons.search' | translate" routerLink="/search"
+<div class="h-full flex flex-col items-center justify-center">
+  <div class="mb-10">
+    <app-button
+      class="mr-5"
+      [label]="'buttons.search' | translate"
+      routerLink="/search"
+      aria-label="Procurar cursos"
     ></app-button>
-    <app-button class="button-right"
+    <app-button
+      class="ml-5"
       [label]="'buttons.help' | translate"
       routerLink="/help"
+      aria-label="Ajuda a procurar cursos"
     ></app-button>
   </div>
-  <div class="button-row-second">
-    <app-button class="button-bellow"
+  <div class="mt-10">
+    <app-button
+      class=""
       [label]="'buttons.forum' | translate"
       routerLink="/forum"
+      aria-label="Forum"
     ></app-button>
   </div>
 </div>

@@ -6,8 +6,7 @@ import { Institution } from '../../../shared/models/institution.model';
 @Component({
   selector: 'app-map',
   imports: [],
-  templateUrl: './map.component.html',
-  styleUrl: './map.component.scss',
+  templateUrl: './map.component.html'
 })
 export class MapComponent implements AfterViewInit {
   // input to receive the info of the institutions
