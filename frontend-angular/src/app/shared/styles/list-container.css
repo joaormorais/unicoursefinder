@@ -1,0 +1,4 @@
+.list-container {
+  /* Tailwind utilities */
+  @apply m-5 p-3 outline outline-1 flex flex-col md:min-h-[340px];
+}

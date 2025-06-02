@@ -4,7 +4,7 @@
   <div class="md:col-span-2 inline-block overflow-hidden">
     <p class="font-bold mb-2">{{ "filters.types" | translate }}:</p>
     <ul
-      class="institutions-courses-list grid grid-col-1 gap-2"
+      class="grid grid-col-1 gap-2"
       aria-label="Lista de tipos de cursos"
     >
       <li *ngFor="let type of typesCourses">
@@ -93,7 +93,7 @@
   </div>
 </div>
 
-<div class="m-5 p-3 outline-1 md:min-h-[340px] flex flex-col">
+<div class="list-container">
   <!-- loading and error messages -->
   <div *ngIf="loadingPaginatedCourses && !seeingInstitutions">
     <mat-spinner></mat-spinner>
@@ -104,7 +104,7 @@
   </div>
   <!-- list -->
   <ul
-    class="institutions-courses-list grow"
+    class="grow"
     [hidden]="loadingPaginatedCourses || errorPaginatedCourses"
     aria-label="Lista de instituições"
   >
