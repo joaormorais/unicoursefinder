@@ -3,10 +3,7 @@
   <!-- types -->
   <div class="md:col-span-2 inline-block overflow-hidden">
     <p class="font-bold mb-2">{{ "filters.types" | translate }}:</p>
-    <ul
-      class="grid grid-col-1 gap-2"
-      aria-label="Lista de tipos de cursos"
-    >
+    <ul class="grid grid-col-1 gap-2" aria-label="Lista de tipos de cursos">
       <li *ngFor="let type of typesCourses">
         <input
           type="checkbox"
@@ -104,15 +101,18 @@
   </div>
   <!-- list -->
   <ul
-    class="grow"
+    class=""
     [hidden]="loadingPaginatedCourses || errorPaginatedCourses"
     aria-label="Lista de instituições"
   >
-    <li *ngFor="let course of coursesPaginated.courses; trackBy: trackByCourse">
+    <li
+      *ngFor="let course of coursesPaginated.courses; trackBy: trackByCourse"
+      class="list-bullet-point"
+    >
       <a [href]="course.link" target="_blank">
-        <p class="font-bold !m-0">{{ course.name }}</p></a
-      >
-      <p class="italic">{{ getInstitutionName(course.institutionId) }}</p>
+        <p class="font-bold !m-0">{{ course.name }}</p>
+        <p class="italic">{{ getInstitutionName(course.institutionId) }}</p>
+      </a>
     </li>
   </ul>
   <!-- paginator -->

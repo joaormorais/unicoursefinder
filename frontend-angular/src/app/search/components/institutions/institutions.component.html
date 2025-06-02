@@ -103,11 +103,12 @@
       (click)="this.triggerActionSearch.emit(institution.id)"
       (keydown.enter)="this.triggerActionSearch.emit(institution.id)"
       (keydown.space)="this.triggerActionSearch.emit(institution.id)"
+      class="list-bullet-point"
     >
-      <p class="font-bold !m-0 cursor-pointer">
+      <p class="font-bold !m-0">
         ({{ institution.id }}) {{ institution.name }}
       </p>
-      <p class="italic">{{ institution.type }}</p>
+      <p class="italic !m-0">{{ institution.type }}</p>
     </li>
   </ul>
   <!-- paginator -->
