@@ -42,7 +42,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     CommonModule,
   ],
-  templateUrl: './courses.component.html'
+  templateUrl: './courses.component.html',
+  styleUrl: '../styles/search.scss'
 })
 export class CoursesComponent {
   // constructor

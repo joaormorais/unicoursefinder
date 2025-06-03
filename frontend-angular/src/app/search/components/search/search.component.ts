@@ -67,7 +67,7 @@ export class SearchComponent {
   onCoursesClick(): void {
     if ((this.seeingCoursesFirstTime = true))
       this.seeingCoursesFirstTime = false;
-    this.seeingInstitutions = !this.seeingInstitutions;
+    this.seeingInstitutions = false;
   }
 
   // methods calls to invoke functions from another component

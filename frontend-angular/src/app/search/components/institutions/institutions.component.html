@@ -1,8 +1,8 @@
 <!-- filters -->
-<div class="md:max-h-[200px] grid grid-cols-1 md:grid-cols-12 gap-4 m-5">
+<div class="filter-container">
   <!-- types -->
-  <div class="md:col-span-4 inline-block overflow-hidden">
-    <p class="font-bold mb-2">{{ "filters.types" | translate }}:</p>
+  <div class="md:col-span-4">
+    <p class="filter-titles">{{ "filters.types" | translate }}:</p>
     <ul
       class="grid grid-col-1 gap-2"
       aria-label="Lista de tipos de instituições"
@@ -22,8 +22,8 @@
     </ul>
   </div>
   <!-- districts -->
-  <div class="md:col-span-6 inline-block overflow-hidden">
-    <p class="font-bold">{{ "filters.districts" | translate }}:</p>
+  <div class="md:col-span-6">
+    <p class="filter-titles">{{ "filters.districts" | translate }}:</p>
     <ul
       class="grid grid-col-1 md:grid-cols-4 gap-2"
       aria-label="Lista de distritos de instituições"
@@ -46,9 +46,9 @@
     </ul>
   </div>
   <!-- name -->
-  <div class="md:col-span-2 inline-block overflow-hidden">
-    <p class="font-bold">{{ "filters.name" | translate }}:</p>
-    <mat-form-field class="example-form-field">
+  <div class="md:col-span-2">
+    <p class="filter-titles">{{ "filters.name" | translate }}:</p>
+    <mat-form-field class="example-form-field w-full">
       <input
         matInput
         type="text"
@@ -88,7 +88,6 @@
   </div>
   <!-- list -->
   <ul
-    class=""
     [hidden]="
       loadingInstitutions ||
       loadingTypesInstitutions ||

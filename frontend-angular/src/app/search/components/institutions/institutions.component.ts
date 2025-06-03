@@ -19,6 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import {MatListModule} from '@angular/material/list';
 
 @Component({
   selector: 'app-institutions',
@@ -31,8 +32,10 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     CommonModule,
     MatInputModule,
+    MatListModule
   ],
-  templateUrl: './institutions.component.html'
+  templateUrl: './institutions.component.html',
+  styleUrl: '../styles/search.scss'
 })
 export class InstitutionsComponent implements OnInit {
   //constructor
@@ -61,7 +64,7 @@ export class InstitutionsComponent implements OnInit {
 
   @Input() errorInstitutions?: string;
   @Output() errorInstitutionsOutput = new EventEmitter<string>();
-  
+
   @Input() seeingInstitutions?: boolean;
 
   // triggers to call functions from another child component
@@ -83,7 +86,7 @@ export class InstitutionsComponent implements OnInit {
 
   // run when the component is created
   ngOnInit(): void {
-    console.log("onInit");
+    console.log('onInit');
     // api call to get every institutions
     this.commonSearchService.handleApiCall(
       this.institutionService.getAllInstitutions(),
@@ -135,7 +138,9 @@ export class InstitutionsComponent implements OnInit {
       },
       (loading) => {
         this.loadingDistrictsInstitutions = loading;
-        this.loadingDistrictsInstitutionsOutput.emit(this.loadingDistrictsInstitutions);
+        this.loadingDistrictsInstitutionsOutput.emit(
+          this.loadingDistrictsInstitutions
+        );
         console.log(this.loadingDistrictsInstitutions);
       }
     );

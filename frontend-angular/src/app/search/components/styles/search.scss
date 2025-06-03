@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+.filter-container {
+  @apply rounded-2xl m-5 p-3 grid grid-cols-1 md:grid-cols-12 bg-white;
+}
+
+.filter-container > div {
+  @apply inline-block overflow-hidden p-1
+}
+
+.filter-titles{
+  @apply font-bold mb-2
+}
+
+.list-container {
+  @apply rounded-2xl m-5 p-3 flex flex-col md:min-h-[340px] bg-white;
+}
+
+.list-bullet-point {
+  @apply rounded-xl mb-3 p-1 cursor-pointer transition-colors duration-150;
+
+  &:hover {
+    background-color: var(--mat-sys-level2);
+    box-shadow: var(--mat-sys-level2);
+  }
+}
