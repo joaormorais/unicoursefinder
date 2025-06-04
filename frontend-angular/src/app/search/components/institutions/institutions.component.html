@@ -1,103 +1,105 @@
 <!-- filters -->
-<div class="filter-container">
-  <!-- types -->
-  <div class="md:col-span-4">
-    <p class="filter-titles">{{ "filters.types" | translate }}:</p>
-    <mat-form-field class="w-full">
-      <mat-label>{{ "filters.types" | translate }}</mat-label>
-      <mat-select
-        [formControl]="institutionTypeFilter"
-        multiple
-        (selectionChange)="filterInstitutions()"
-      >
-        <mat-select-trigger>
-          {{institutionTypeFilter.value?.[0] || ''}}
-          <span
-            *ngIf="(institutionTypeFilter.value?.length || 0) > 1"
-            class="example-additional-selection"
-          >
-            (+{{ (institutionTypeFilter.value?.length || 0) - 1 }})
-          </span>
-        </mat-select-trigger>
-        <mat-option *ngFor="let type of typesInstitutions" [value]="type">{{
-          type
-        }}</mat-option>
-      </mat-select>
-      <button
-        *ngIf="(institutionTypeFilter.value?.length ?? 0) > 0"
-        matSuffix
-        mat-icon-button
-        aria-label="Limpar seleção de tipos"
-        (click)="institutionTypeFilter.setValue([]); filterInstitutions()"
-        class="!p0 mx-2"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-  </div>
-  <!-- districts -->
-  <div class="md:col-span-4">
-    <p class="filter-titles">{{ "filters.districts" | translate }}:</p>
-    <mat-form-field class="w-full">
-      <mat-label>{{ "filters.districts" | translate }}</mat-label>
-      <mat-select
-        [formControl]="institutionDistrictFilter"
-        multiple
-        (selectionChange)="filterInstitutions()"
-      >
-        <mat-select-trigger>
-          {{institutionDistrictFilter.value?.[0] || ''}}
-          <span
-            *ngIf="(institutionDistrictFilter.value?.length || 0) > 1"
-            class="example-additional-selection"
-          >
-            (+{{ (institutionDistrictFilter.value?.length || 0) - 1 }})
-          </span>
-        </mat-select-trigger>
-        <mat-option
-          *ngFor="let district of districtsInstitutions"
-          [value]="district"
-          >{{ district }}</mat-option
+<mat-expansion-panel class="filter-expansion-panel">
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ "filters.filters" | translate }}:</mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="filter-container">
+    <!-- types -->
+    <div class="md:col-span-4">
+      <mat-form-field class="w-full">
+        <mat-label>{{ "filters.types" | translate }}</mat-label>
+        <mat-select
+          [formControl]="institutionTypeFilter"
+          multiple
+          (selectionChange)="filterInstitutions()"
         >
-      </mat-select>
-      <button
-        *ngIf="(institutionDistrictFilter.value?.length ?? 0) > 0"
-        matSuffix
-        mat-icon-button
-        aria-label="Limpar seleção de distritos"
-        (click)="institutionDistrictFilter.setValue([]); filterInstitutions()"
-        class="!p0 mx-2"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+          <mat-select-trigger>
+            {{institutionTypeFilter.value?.[0] || ''}}
+            <span
+              *ngIf="(institutionTypeFilter.value?.length || 0) > 1"
+              class="example-additional-selection"
+            >
+              (+{{ (institutionTypeFilter.value?.length || 0) - 1 }})
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let type of typesInstitutions" [value]="type">{{
+            type
+          }}</mat-option>
+        </mat-select>
+        <button
+          *ngIf="(institutionTypeFilter.value?.length ?? 0) > 0"
+          matSuffix
+          mat-icon-button
+          aria-label="Limpar seleção de tipos"
+          (click)="institutionTypeFilter.setValue([]); filterInstitutions()"
+          class="!p0 mx-2"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <!-- districts -->
+    <div class="md:col-span-4">
+      <mat-form-field class="w-full">
+        <mat-label>{{ "filters.districts" | translate }}</mat-label>
+        <mat-select
+          [formControl]="institutionDistrictFilter"
+          multiple
+          (selectionChange)="filterInstitutions()"
+        >
+          <mat-select-trigger>
+            {{institutionDistrictFilter.value?.[0] || ''}}
+            <span
+              *ngIf="(institutionDistrictFilter.value?.length || 0) > 1"
+              class="example-additional-selection"
+            >
+              (+{{ (institutionDistrictFilter.value?.length || 0) - 1 }})
+            </span>
+          </mat-select-trigger>
+          <mat-option
+            *ngFor="let district of districtsInstitutions"
+            [value]="district"
+            >{{ district }}</mat-option
+          >
+        </mat-select>
+        <button
+          *ngIf="(institutionDistrictFilter.value?.length ?? 0) > 0"
+          matSuffix
+          mat-icon-button
+          aria-label="Limpar seleção de distritos"
+          (click)="institutionDistrictFilter.setValue([]); filterInstitutions()"
+          class="!p0 mx-2"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <!-- name -->
+    <div class="md:col-span-4">
+      <mat-form-field class="w-full">
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="institutionNameFilter"
+          (input)="filterInstitutions()"
+          placeholder="{{ 'institutions.name' | translate }}"
+          aria-label="Filtro por nome"
+        />
+        <button
+          *ngIf="institutionNameFilter"
+          matSuffix
+          mat-icon-button
+          aria-label="Limpar filtro de nome"
+          (click)="institutionNameFilter = ''; filterInstitutions()"
+          class="!p0 mx-2"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
   </div>
-  <!-- name -->
-  <div class="md:col-span-4">
-    <p class="filter-titles">{{ "filters.name" | translate }}:</p>
-    <mat-form-field class="w-full">
-      <input
-        matInput
-        type="text"
-        [(ngModel)]="institutionNameFilter"
-        (input)="filterInstitutions()"
-        placeholder="{{ 'institutions.name' | translate }}"
-        aria-label="Filtro por nome"
-      />
-      <button
-        *ngIf="institutionNameFilter"
-        matSuffix
-        mat-icon-button
-        aria-label="Limpar filtro de nome"
-        (click)="institutionNameFilter = ''; filterInstitutions()"
-        class="!p0 mx-2"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-  </div>
-</div>
-<br />
+</mat-expansion-panel>
+
 <div class="list-container">
   <!-- loading and error messages -->
   <div

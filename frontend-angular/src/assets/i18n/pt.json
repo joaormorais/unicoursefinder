@@ -23,6 +23,7 @@
     "error": "Houve um problema no servidor! Não foi possível carregar os cursos."
   },
   "filters": {
+    "filters": "Filtros",
     "types": "Tipos",
     "districts": "Distritos",
     "name": "Nome",

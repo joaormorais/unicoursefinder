@@ -27,8 +27,8 @@ html {
   // Overrides for mat-list
   @include mat.list-overrides(
     (
-      list-item-hover-label-text-color: map.get(custom.$primary-palette, 40),
-      list-item-hover-state-layer-color: map.get(custom.$primary-palette, 40),
+      list-item-hover-label-text-color: map.get(custom.$primary-palette, 30),
+      list-item-hover-state-layer-color: map.get(custom.$primary-palette, 30),
     )
   );
 }

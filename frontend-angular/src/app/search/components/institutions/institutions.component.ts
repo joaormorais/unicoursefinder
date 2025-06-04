@@ -20,12 +20,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatListModule,
-  MatListOption,
-  MatSelectionListChange,
-} from '@angular/material/list';
-import { SelectionModel } from '@angular/cdk/collections';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-institutions',
@@ -41,6 +37,7 @@ import { SelectionModel } from '@angular/cdk/collections';
     MatListModule,
     MatSelectModule,
     ReactiveFormsModule,
+    MatExpansionModule
   ],
   templateUrl: './institutions.component.html',
   styleUrl: '../styles/search.scss',
@@ -167,8 +164,7 @@ export class InstitutionsComponent implements OnInit {
           .toLowerCase()
           .includes(this.institutionNameFilter.toLowerCase().trim());
       const matchesType =
-        selectedTypes.length === 0 ||
-        selectedTypes.includes(inst.type);
+        selectedTypes.length === 0 || selectedTypes.includes(inst.type);
       const matchesDistrict =
         selectedDistricts.length === 0 ||
         selectedDistricts.includes(inst.district);

@@ -27,6 +27,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-courses',
@@ -41,6 +43,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     ReactiveFormsModule,
     CommonModule,
+    MatListModule,
+    MatExpansionModule
   ],
   templateUrl: './courses.component.html',
   styleUrl: '../styles/search.scss',
@@ -90,7 +94,6 @@ export class CoursesComponent {
 
   // run when the component is created
   ngOnInit(): void {
-    console.log('componente dos cursos criado!');
     // add debounce to the name input for courses
     this.courseNameChanged$
       .pipe(debounceTime(500))
