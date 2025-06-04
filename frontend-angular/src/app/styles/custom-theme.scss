@@ -1,18 +1,18 @@
+@use "sass:map";
 @use "@angular/material" as mat;
 @use "custom-theme-colors" as custom;
-@use "sass:map";
-
 
 html {
   color-scheme: light;
-  background-color: map.get(custom.$primary-palette, 90);
+  background-color: map.get(map.get(custom.$primary-palette, secondary), 95);
 
-
+  // Theme
   @include mat.theme(
     (
       color: (
         primary: custom.$primary-palette,
         tertiary: custom.$tertiary-palette,
+        use-system-variables: true,
       ),
       typography: Roboto,
       density: 0,
@@ -23,4 +23,12 @@ html {
   @media (prefers-contrast: more) {
     @include custom.high-contrast-overrides(color-scheme);
   }
+
+  // Overrides for mat-list
+  @include mat.list-overrides(
+    (
+      list-item-hover-label-text-color: map.get(custom.$primary-palette, 40),
+      list-item-hover-state-layer-color: map.get(custom.$primary-palette, 40),
+    )
+  );
 }

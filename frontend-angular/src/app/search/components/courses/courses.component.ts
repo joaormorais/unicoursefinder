@@ -43,7 +43,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
   ],
   templateUrl: './courses.component.html',
-  styleUrl: '../styles/search.scss'
+  styleUrl: '../styles/search.scss',
 })
 export class CoursesComponent {
   // constructor
@@ -74,7 +74,7 @@ export class CoursesComponent {
 
   // search filters
   courseNameFilter = '';
-  courseTypeFilter: string[] = [];
+  courseTypeFilter = new FormControl<string[]>([]);
   courseInstitutionIdFilter = new FormControl<number[]>([]);
   courseInstitutionNameFilter = '';
 
@@ -119,14 +119,14 @@ export class CoursesComponent {
     changePageSize: boolean
   ): void {
     // get the institutions id's that are selected with the form control
+    const selectedTypes = this.courseTypeFilter.value ?? [];
     const selectedIds = this.courseInstitutionIdFilter.value ?? [];
-    const institutionIds = selectedIds.map((id) => Number(id));
 
     // create the request with filters
     const request: CourseSearchRequest = {
       name: this.courseNameFilter.toLocaleLowerCase().trim(),
-      types: this.courseTypeFilter,
-      institutionIds: institutionIds,
+      types: selectedTypes,
+      institutionIds: selectedIds,
     };
 
     this.commonSearchService.handleApiCall(
@@ -167,8 +167,9 @@ export class CoursesComponent {
 
     if (this.courseNameFilter !== '') this.courseNameFilter = '';
 
-    if (this.courseTypeFilter && this.courseTypeFilter.length > 0)
-      this.courseTypeFilter = [];
+    const selectedTypes = this.courseTypeFilter.value ?? [];
+    if (selectedTypes.length > 0)
+      this.courseTypeFilter = new FormControl<string[]>([]);
 
     this.seeingInstitutions = false;
     this.seeingInstitutionsOutput.emit(this.seeingInstitutions);

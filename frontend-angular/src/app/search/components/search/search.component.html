@@ -28,8 +28,6 @@
 
   <!-- institutions list and filters -->
   <div [hidden]="!seeingInstitutions">
-    <!-- title -->
-    <h2 class="!ms-5 !my-2">{{ "institutions.list" | translate }}:</h2>
     <app-institutions
       (triggerActionSearch)="callSearchCoursesByInstitutionId($event)"
       (triggerActionMap)="callUpdateMap()"
@@ -61,8 +59,6 @@
     "
     [hidden]="seeingInstitutions"
   >
-    <!-- title -->
-    <h2 class="!ms-5 !my-2">{{ "courses.list" | translate }}:</h2>
     <app-courses
       [institutions]="institutions"
       [seeingInstitutions]="seeingInstitutions"

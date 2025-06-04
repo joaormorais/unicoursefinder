@@ -1,32 +1,49 @@
 <!-- filters -->
 <div class="filter-container">
   <!-- types -->
-  <div class="md:col-span-2">
+  <div class="md:col-span-3">
     <p class="filter-titles">{{ "filters.types" | translate }}:</p>
-    <ul class="grid grid-col-1 gap-2" aria-label="Lista de tipos de cursos">
-      <li *ngFor="let type of typesCourses">
-        <input
-          type="checkbox"
-          [checked]="courseTypeFilter.includes(type)"
-          (change)="
-            commonSearchService.toggleFilters(type, courseTypeFilter);
-            searchCourses(1, 10, true)
-          "
-          id="type-{{ type }}"
-        />
-        <label [for]="'type-' + type">{{ type }}</label>
-      </li>
-    </ul>
+    <mat-form-field class="w-full">
+      <mat-label>{{ "filters.types" | translate }}</mat-label>
+      <mat-select
+        [formControl]="courseTypeFilter"
+        multiple
+        (selectionChange)="searchCourses(1, 10, true)"
+      >
+        <mat-select-trigger>
+          {{courseTypeFilter.value?.[0] || ''}}
+          <span
+            *ngIf="(courseTypeFilter.value?.length || 0) > 1"
+            class="example-additional-selection"
+          >
+            (+{{ (courseTypeFilter.value?.length || 0) - 1 }})
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let type of typesCourses" [value]="type">{{
+          type
+        }}</mat-option>
+      </mat-select>
+      <button
+        *ngIf="(courseTypeFilter.value?.length ?? 0) > 0"
+        matSuffix
+        mat-icon-button
+        aria-label="Limpar seleção de tipos"
+        (click)="courseTypeFilter.setValue([]); searchCourses(1, 10, true)"
+        class="!p0 mx-2"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
   </div>
   <!-- institutions id's -->
-  <div class="md:col-span-7">
+  <div class="md:col-span-6">
     <p class="filter-titles">{{ "filters.institutionsIds" | translate }}:</p>
     <mat-form-field class="w-full">
       <mat-label>{{ "filters.institutionsIds" | translate }}</mat-label>
       <mat-select
         [formControl]="courseInstitutionIdFilter"
-        (selectionChange)="searchCourses(1, 10, true)"
         multiple
+        (selectionChange)="searchCourses(1, 10, true)"
       >
         <mat-form-field class="w-full"
           ><input
@@ -45,6 +62,7 @@
             (click)="
               courseInstitutionNameFilter = ''; filterInstitutionsByName()
             "
+            class="!p0 mx-2"
           >
             <mat-icon>close</mat-icon>
           </button>
@@ -56,19 +74,21 @@
         </mat-option>
       </mat-select>
       <button
-        *ngIf="courseInstitutionIdFilter"
+        *ngIf="(courseInstitutionIdFilter.value?.length ?? 0) > 0"
         matSuffix
         mat-icon-button
         aria-label="Limpar seleção de instituições"
-        (click)="courseInstitutionIdFilter.setValue([])"
+        (click)="
+          courseInstitutionIdFilter.setValue([]); searchCourses(1, 10, true)
+        "
+        class="!p0 mx-2"
       >
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
   </div>
-  <div class="md:col-span-1"></div>
   <!-- name -->
-  <div class="md:col-span-2">
+  <div class="md:col-span-3">
     <p class="filter-titles">{{ "filters.name" | translate }}:</p>
     <mat-form-field class="example-form-field w-full">
       <input
@@ -85,6 +105,7 @@
         mat-icon-button
         aria-label="Limpar filtro de nome"
         (click)="onCourseNameInput('')"
+        class="!p0 mx-2"
       >
         <mat-icon>close</mat-icon>
       </button>

@@ -18,8 +18,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
-import {MatListModule} from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatListModule,
+  MatListOption,
+  MatSelectionListChange,
+} from '@angular/material/list';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-institutions',
@@ -32,10 +38,12 @@ import {MatListModule} from '@angular/material/list';
     FormsModule,
     CommonModule,
     MatInputModule,
-    MatListModule
+    MatListModule,
+    MatSelectModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './institutions.component.html',
-  styleUrl: '../styles/search.scss'
+  styleUrl: '../styles/search.scss',
 })
 export class InstitutionsComponent implements OnInit {
   //constructor
@@ -76,8 +84,8 @@ export class InstitutionsComponent implements OnInit {
 
   // search filters
   institutionNameFilter = '';
-  institutionTypeFilter: string[] = [];
-  institutionDistrictFilter: string[] = [];
+  institutionTypeFilter = new FormControl<string[]>([]);
+  institutionDistrictFilter = new FormControl<string[]>([]);
 
   // data
   institutionsPaginated: Institution[] = [];
@@ -148,25 +156,35 @@ export class InstitutionsComponent implements OnInit {
 
   // filter the institutions by name, type and district
   filterInstitutions(): void {
-    // normalize the name in order to make the filtering easier
-    const name = this.institutionNameFilter.toLowerCase().trim();
+    const selectedTypes = this.institutionTypeFilter.value ?? [];
+    const selectedDistricts = this.institutionDistrictFilter.value ?? [];
 
+    // filter the institutions
     this.institutionsFiltered = this.institutions.filter((inst) => {
-      const matchesName = !name || inst.name.toLowerCase().includes(name);
+      const matchesName =
+        !this.institutionNameFilter ||
+        inst.name
+          .toLowerCase()
+          .includes(this.institutionNameFilter.toLowerCase().trim());
       const matchesType =
-        this.institutionTypeFilter.length === 0 ||
-        this.institutionTypeFilter.includes(inst.type);
+        selectedTypes.length === 0 ||
+        selectedTypes.includes(inst.type);
       const matchesDistrict =
-        this.institutionDistrictFilter.length === 0 ||
-        this.institutionDistrictFilter.includes(inst.district);
+        selectedDistricts.length === 0 ||
+        selectedDistricts.includes(inst.district);
       return matchesName && matchesType && matchesDistrict;
     });
+
+    // emit the new value for the filtered institutions
     this.institutionsFilteredOutput.emit(this.institutionsFiltered);
 
+    // update the map
     this.triggerActionMap.emit();
 
+    // get the paginated institutions from the filtered institutions
     this.institutionsPaginated = this.institutionsFiltered.slice(0, 10);
 
+    // reset the values for the paginator
     this.institutionsPaginator.pageIndex = 0;
     this.institutionsPaginator.pageSizeOptions =
       this.commonSearchService.getPageSizeOptions(
