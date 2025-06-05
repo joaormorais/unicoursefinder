@@ -37,27 +37,8 @@ export class SearchComponent {
   loadingTypesInstitutions = true;
   loadingDistrictsInstitutions = true;
 
-  //shared strings for error messafes
+  // shared strings for error messafes
   errorInstitutions?: string;
-
-  // get info from the institutions in order to show on the map
-  get getFilteredInstitutions(): {
-    id: number;
-    name: string;
-    district: string;
-    type: string;
-    latitude: number;
-    longitude: number;
-  }[] {
-    return this.institutionsFiltered.map((inst) => ({
-      id: inst.id,
-      name: inst.name,
-      district: inst.district,
-      type: inst.type,
-      latitude: inst.latitude,
-      longitude: inst.longitude,
-    }));
-  }
 
   // methods calls to invoke functions from another component
   callSearchCoursesByInstitutionId(institutionId: number) {

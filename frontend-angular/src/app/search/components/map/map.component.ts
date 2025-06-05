@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { Institution } from '../../../shared/models/institution.model';
@@ -9,20 +9,14 @@ import { Institution } from '../../../shared/models/institution.model';
   templateUrl: './map.component.html'
 })
 export class MapComponent implements AfterViewInit {
-  // input to receive the info of the institutions
-  @Input() institutions: {
-    id: number;
-    name: string;
-    type: string;
-    district: string;
-    latitude: number;
-    longitude: number;
-  }[] = [];
+  // vars from the parent
+  @Input() institutionsFiltered: Institution[] = [];
 
-  // var for the map
+  // triggers to call functions from another child component
+  @Output() triggerActionSearch = new EventEmitter<number>();
+
+  // data
   private map!: L.Map;
-
-  // var for the marker group
   private markers = L.markerClusterGroup();
 
   // var for the custom icon of the markers
@@ -52,7 +46,7 @@ export class MapComponent implements AfterViewInit {
     }).addTo(this.map);
 
     // add the markers for the institutions
-    this.institutions.forEach((institution) => {
+    this.institutionsFiltered.forEach((institution) => {
       this.createMarkers(institution, this.institutionIcon);
     });
 
@@ -74,7 +68,7 @@ export class MapComponent implements AfterViewInit {
       className: 'custom-popup',
     }).setContent(
       `
-        <div style="font-family: Arial; font-size: 14px;">
+        <div style="font-size: 14px;">
           <strong>(${institution.id}) ${institution.name}</strong><br>
           Distrito: ${institution.district}<br>
           Tipo: ${institution.type}
@@ -89,13 +83,17 @@ export class MapComponent implements AfterViewInit {
       alt: 'Marker - ' + institution.name,
     });
 
-    // create hover behaviours to the markers
+    // create hover and click behaviours to the markers
     marker.on('mouseover', () => {
       popup.setLatLng(marker.getLatLng()).openOn(this.map);
     });
 
     marker.on('mouseout', () => {
       this.map.closePopup(popup);
+    });
+
+    marker.on('click', () => {
+      this.triggerActionSearch.emit(institution.id);
     });
 
     // add the marker to the group of markers
