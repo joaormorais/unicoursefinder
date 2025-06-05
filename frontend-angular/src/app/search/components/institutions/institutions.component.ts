@@ -18,7 +18,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-institutions',
@@ -31,8 +34,13 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     CommonModule,
     MatInputModule,
+    MatListModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatExpansionModule,
   ],
-  templateUrl: './institutions.component.html'
+  templateUrl: './institutions.component.html',
+  styleUrl: '../styles/search.scss',
 })
 export class InstitutionsComponent implements OnInit {
   //constructor
@@ -61,8 +69,6 @@ export class InstitutionsComponent implements OnInit {
 
   @Input() errorInstitutions?: string;
   @Output() errorInstitutionsOutput = new EventEmitter<string>();
-  
-  @Input() seeingInstitutions?: boolean;
 
   // triggers to call functions from another child component
   @Output() triggerActionSearch = new EventEmitter<number>();
@@ -73,8 +79,8 @@ export class InstitutionsComponent implements OnInit {
 
   // search filters
   institutionNameFilter = '';
-  institutionTypeFilter: string[] = [];
-  institutionDistrictFilter: string[] = [];
+  institutionTypeFilter = new FormControl<string[]>([]);
+  institutionDistrictFilter = new FormControl<string[]>([]);
 
   // data
   institutionsPaginated: Institution[] = [];
@@ -83,7 +89,6 @@ export class InstitutionsComponent implements OnInit {
 
   // run when the component is created
   ngOnInit(): void {
-    console.log("onInit");
     // api call to get every institutions
     this.commonSearchService.handleApiCall(
       this.institutionService.getAllInstitutions(),
@@ -106,7 +111,6 @@ export class InstitutionsComponent implements OnInit {
       (loading) => {
         this.loadingInstitutions = loading;
         this.loadingInstitutionsOutput.emit(this.loadingInstitutions);
-        console.log(this.loadingInstitutions);
       }
     );
 
@@ -121,7 +125,6 @@ export class InstitutionsComponent implements OnInit {
       (loading) => {
         this.loadingTypesInstitutions = loading;
         this.loadingTypesInstitutionsOutput.emit(this.loadingTypesInstitutions);
-        console.log(this.loadingTypesInstitutions);
       }
     );
 
@@ -135,33 +138,43 @@ export class InstitutionsComponent implements OnInit {
       },
       (loading) => {
         this.loadingDistrictsInstitutions = loading;
-        this.loadingDistrictsInstitutionsOutput.emit(this.loadingDistrictsInstitutions);
-        console.log(this.loadingDistrictsInstitutions);
+        this.loadingDistrictsInstitutionsOutput.emit(
+          this.loadingDistrictsInstitutions
+        );
       }
     );
   }
 
   // filter the institutions by name, type and district
   filterInstitutions(): void {
-    // normalize the name in order to make the filtering easier
-    const name = this.institutionNameFilter.toLowerCase().trim();
+    const selectedTypes = this.institutionTypeFilter.value ?? [];
+    const selectedDistricts = this.institutionDistrictFilter.value ?? [];
 
+    // filter the institutions
     this.institutionsFiltered = this.institutions.filter((inst) => {
-      const matchesName = !name || inst.name.toLowerCase().includes(name);
+      const matchesName =
+        !this.institutionNameFilter ||
+        inst.name
+          .toLowerCase()
+          .includes(this.institutionNameFilter.toLowerCase().trim());
       const matchesType =
-        this.institutionTypeFilter.length === 0 ||
-        this.institutionTypeFilter.includes(inst.type);
+        selectedTypes.length === 0 || selectedTypes.includes(inst.type);
       const matchesDistrict =
-        this.institutionDistrictFilter.length === 0 ||
-        this.institutionDistrictFilter.includes(inst.district);
+        selectedDistricts.length === 0 ||
+        selectedDistricts.includes(inst.district);
       return matchesName && matchesType && matchesDistrict;
     });
+
+    // emit the new value for the filtered institutions
     this.institutionsFilteredOutput.emit(this.institutionsFiltered);
 
+    // update the map
     this.triggerActionMap.emit();
 
+    // get the paginated institutions from the filtered institutions
     this.institutionsPaginated = this.institutionsFiltered.slice(0, 10);
 
+    // reset the values for the paginator
     this.institutionsPaginator.pageIndex = 0;
     this.institutionsPaginator.pageSizeOptions =
       this.commonSearchService.getPageSizeOptions(

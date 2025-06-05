@@ -6,68 +6,50 @@
 
   <!-- map and his title -->
   <div *ngIf="!loadingInstitutions && !errorInstitutions">
-    <!-- map title -->
-    <h2 class="!ms-5 !my-2">{{ "map.title" | translate }}:</h2>
     <!-- map of institutions -->
-    <app-map [institutions]="getFilteredInstitutions"></app-map>
-  </div>
-
-  <!-- buttons to choose between institutions and courses -->
-  <div class="flex justify-center gap-4 w-fit mx-auto my-2">
-    <app-button
-      [label]="'buttons.institutions' | translate"
-      (click)="seeingInstitutions = true"
-      aria-label="Encontrar instituições"
-    ></app-button>
-    <app-button
-      [label]="'buttons.courses' | translate"
-      (click)="onCoursesClick()"
-      aria-label="Encontrar cursos"
-    ></app-button>
-  </div>
-
-  <!-- institutions list and filters -->
-  <div [hidden]="!seeingInstitutions">
-    <!-- title -->
-    <h2 class="!ms-5 !my-2">{{ "institutions.list" | translate }}:</h2>
-    <app-institutions
+    <app-map
       (triggerActionSearch)="callSearchCoursesByInstitutionId($event)"
-      (triggerActionMap)="callUpdateMap()"
-      [institutions]="institutions"
-      (institutionsOutput)="institutions = $event"
       [institutionsFiltered]="institutionsFiltered"
-      (institutionsFilteredOutput)="institutionsFiltered = $event"
-      [loadingInstitutions]="loadingInstitutions"
-      (loadingInstitutionsOutput)="loadingInstitutions = $event"
-      [loadingTypesInstitutions]="loadingTypesInstitutions"
-      (loadingTypesInstitutionsOutput)="loadingTypesInstitutions = $event"
-      [loadingDistrictsInstitutions]="loadingDistrictsInstitutions"
-      (loadingDistrictsInstitutionsOutput)="
-        loadingDistrictsInstitutions = $event
-      "
-      [errorInstitutions]="errorInstitutions"
-      (errorInstitutionsOutput)="errorInstitutions = $event"
-      [seeingInstitutions]="seeingInstitutions"
-    >
-    </app-institutions>
+    ></app-map>
   </div>
 
-  <!-- courses list and filters -->
-  <div
-    *ngIf="
-      !loadingInstitutions &&
-      !loadingDistrictsInstitutions &&
-      !loadingTypesInstitutions
-    "
-    [hidden]="seeingInstitutions"
-  >
-    <!-- title -->
-    <h2 class="!ms-5 !my-2">{{ "courses.list" | translate }}</h2>
-    <app-courses
-      [institutions]="institutions"
-      [seeingInstitutions]="seeingInstitutions"
-      (seeingInstitutionsOutput)="seeingInstitutions = $event"
-    >
-    </app-courses>
-  </div>
+  <!-- choose between institutions and courses -->
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+    <mat-tab label="Instituições">
+      <!-- institutions list and filters -->
+      <div [hidden]="!seeingInstitutions">
+        <app-institutions
+          (triggerActionSearch)="callSearchCoursesByInstitutionId($event)"
+          (triggerActionMap)="callUpdateMap()"
+          [institutions]="institutions"
+          (institutionsOutput)="institutions = $event"
+          [institutionsFiltered]="institutionsFiltered"
+          (institutionsFilteredOutput)="institutionsFiltered = $event"
+          [loadingInstitutions]="loadingInstitutions"
+          (loadingInstitutionsOutput)="loadingInstitutions = $event"
+          [loadingTypesInstitutions]="loadingTypesInstitutions"
+          (loadingTypesInstitutionsOutput)="loadingTypesInstitutions = $event"
+          [loadingDistrictsInstitutions]="loadingDistrictsInstitutions"
+          (loadingDistrictsInstitutionsOutput)="
+            loadingDistrictsInstitutions = $event
+          "
+          [errorInstitutions]="errorInstitutions"
+          (errorInstitutionsOutput)="errorInstitutions = $event"
+        >
+        </app-institutions>
+      </div>
+    </mat-tab>
+    <mat-tab label="Cursos">
+      <!-- courses list and filters -->
+      <div
+        *ngIf="
+          !loadingInstitutions &&
+          !loadingTypesInstitutions &&
+          !loadingDistrictsInstitutions
+        "
+      >
+        <app-courses [institutions]="institutions"> </app-courses>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>

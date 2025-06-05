@@ -1,0 +1,35 @@
+@use "sass:map";
+@use "../../../styles/custom-theme-colors.scss" as custom;
+@import "tailwindcss";
+
+.filter-expansion-panel{
+  @apply m-5 transition-all duration-1000 overflow-hidden rounded-xl shadow-md;
+
+  &:not(.mat-expanded) {
+    width: fit-content;
+  }
+}
+
+.filter-container {
+  @apply rounded-2xl grid grid-cols-1 md:grid-cols-12;
+}
+
+.filter-container > div {
+  @apply inline-block overflow-hidden p-1
+}
+
+.filter-titles{
+  @apply font-bold mb-2
+}
+
+.list-container {
+  @apply rounded-2xl m-5 p-5 flex flex-col md:min-h-[340px] bg-white shadow-xl/40;
+}
+
+.list-bullet-point {
+  @apply rounded-xl mb-3 p-2 transition-colors !h-full;
+
+  &:hover{
+    @apply shadow-xl;
+  }
+}

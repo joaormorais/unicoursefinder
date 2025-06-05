@@ -1,8 +1,0 @@
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
-@import "tailwindcss";
-@import 'leaflet.markercluster/dist/MarkerCluster.css';
-@import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-@import './app/shared/styles/list-container';
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
