@@ -91,7 +91,7 @@
     </div>
     <!-- name -->
     <div class="md:col-span-3">
-      <mat-form-field class="example-form-field w-full">
+      <mat-form-field class="w-full">
         <input
           matInput
           type="text"
@@ -117,11 +117,11 @@
 
 <div class="list-container">
   <!-- loading and error messages -->
-  <div *ngIf="loadingPaginatedCourses && !seeingInstitutions">
+  <div *ngIf="loadingPaginatedCourses">
     <mat-spinner></mat-spinner>
     <p class="!m-5 text-center">{{ "courses.loading" | translate }}</p>
   </div>
-  <div *ngIf="errorPaginatedCourses && !seeingInstitutions">
+  <div *ngIf="errorPaginatedCourses">
     <p class="!m-5 text-center">{{ errorPaginatedCourses }}</p>
   </div>
   <!-- list -->

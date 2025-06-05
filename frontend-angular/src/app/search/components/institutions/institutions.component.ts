@@ -37,7 +37,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatListModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
   templateUrl: './institutions.component.html',
   styleUrl: '../styles/search.scss',
@@ -70,8 +70,6 @@ export class InstitutionsComponent implements OnInit {
   @Input() errorInstitutions?: string;
   @Output() errorInstitutionsOutput = new EventEmitter<string>();
 
-  @Input() seeingInstitutions?: boolean;
-
   // triggers to call functions from another child component
   @Output() triggerActionSearch = new EventEmitter<number>();
   @Output() triggerActionMap = new EventEmitter();
@@ -91,7 +89,6 @@ export class InstitutionsComponent implements OnInit {
 
   // run when the component is created
   ngOnInit(): void {
-    console.log('onInit');
     // api call to get every institutions
     this.commonSearchService.handleApiCall(
       this.institutionService.getAllInstitutions(),
@@ -114,7 +111,6 @@ export class InstitutionsComponent implements OnInit {
       (loading) => {
         this.loadingInstitutions = loading;
         this.loadingInstitutionsOutput.emit(this.loadingInstitutions);
-        console.log(this.loadingInstitutions);
       }
     );
 
@@ -129,7 +125,6 @@ export class InstitutionsComponent implements OnInit {
       (loading) => {
         this.loadingTypesInstitutions = loading;
         this.loadingTypesInstitutionsOutput.emit(this.loadingTypesInstitutions);
-        console.log(this.loadingTypesInstitutions);
       }
     );
 
@@ -146,7 +141,6 @@ export class InstitutionsComponent implements OnInit {
         this.loadingDistrictsInstitutionsOutput.emit(
           this.loadingDistrictsInstitutions
         );
-        console.log(this.loadingDistrictsInstitutions);
       }
     );
   }

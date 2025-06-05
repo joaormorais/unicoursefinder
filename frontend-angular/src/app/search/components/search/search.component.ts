@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MapComponent } from '../map/map.component';
-import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { InstitutionsComponent } from '../institutions/institutions.component';
 import { CoursesComponent } from '../courses/courses.component';
 import { Institution } from '../../../shared/models/institution.model';
+import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-search',
@@ -15,18 +15,17 @@ import { Institution } from '../../../shared/models/institution.model';
     FormsModule,
     TranslatePipe,
     MapComponent,
-    ButtonComponent,
     InstitutionsComponent,
     CoursesComponent,
+    MatTabsModule,
   ],
-  templateUrl: './search.component.html'
+  templateUrl: './search.component.html',
 })
 export class SearchComponent {
   // add childs
-  @ViewChild(InstitutionsComponent)
-  institutionsComponent!: InstitutionsComponent;
   @ViewChild(CoursesComponent) coursesComponent!: CoursesComponent;
   @ViewChild(MapComponent) mapComponent!: MapComponent;
+  @ViewChild(MatTabGroup) mapTabGroup!: MatTabGroup;
 
   // shared data between components
   institutions: Institution[] = [];
@@ -40,9 +39,6 @@ export class SearchComponent {
 
   //shared strings for error messafes
   errorInstitutions?: string;
-
-  // flags
-  seeingCoursesFirstTime = true;
 
   // get info from the institutions in order to show on the map
   get getFilteredInstitutions(): {
@@ -63,18 +59,12 @@ export class SearchComponent {
     }));
   }
 
-  // function that will handle the click on the button to see the courses
-  onCoursesClick(): void {
-    if ((this.seeingCoursesFirstTime = true))
-      this.seeingCoursesFirstTime = false;
-    this.seeingInstitutions = false;
-  }
-
   // methods calls to invoke functions from another component
   callSearchCoursesByInstitutionId(institutionId: number) {
+    this.mapTabGroup.selectedIndex = 1;
     this.coursesComponent.searchCoursesByInstitutionId(institutionId);
   }
-  
+
   callUpdateMap(): void {
     this.mapComponent.updateMap(this.institutionsFiltered);
   }

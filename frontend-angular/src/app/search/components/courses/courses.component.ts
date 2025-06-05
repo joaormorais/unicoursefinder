@@ -60,8 +60,6 @@ export class CoursesComponent {
 
   // vars from the parent
   @Input() institutions: Institution[] = [];
-  @Input() seeingInstitutions?: boolean;
-  @Output() seeingInstitutionsOutput = new EventEmitter<boolean>();
 
   // add child components
   @ViewChild('coursesPaginator') coursesPaginator!: MatPaginator;
@@ -174,8 +172,6 @@ export class CoursesComponent {
     if (selectedTypes.length > 0)
       this.courseTypeFilter = new FormControl<string[]>([]);
 
-    this.seeingInstitutions = false;
-    this.seeingInstitutionsOutput.emit(this.seeingInstitutions);
     this.searchCourses(1, 10, true);
   }
 

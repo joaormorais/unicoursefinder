@@ -104,16 +104,15 @@
   <!-- loading and error messages -->
   <div
     *ngIf="
-      (loadingInstitutions ||
-        loadingTypesInstitutions ||
-        loadingDistrictsInstitutions) &&
-      seeingInstitutions
+      loadingInstitutions ||
+      loadingTypesInstitutions ||
+      loadingDistrictsInstitutions
     "
   >
     <mat-spinner></mat-spinner>
     <p class="!m-5 text-center">{{ "institutions.loading" | translate }}</p>
   </div>
-  <div *ngIf="errorInstitutions && seeingInstitutions">
+  <div *ngIf="errorInstitutions">
     <p class="!m-5 text-center">{{ errorInstitutions }}</p>
   </div>
   <!-- list -->
