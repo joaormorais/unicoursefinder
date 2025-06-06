@@ -1,24 +1,29 @@
 <div class="h-full flex flex-col items-center justify-center">
   <div class="mb-10">
-    <app-button
+    <button
       class="mr-5"
-      [label]="'buttons.search' | translate"
+      mat-raised-button
       routerLink="/search"
       aria-label="Procurar cursos"
-    ></app-button>
-    <app-button
+    >
+      {{ "buttons.search" | translate }}
+    </button>
+    <button
       class="ml-5"
-      [label]="'buttons.help' | translate"
+      mat-raised-button
       routerLink="/help"
       aria-label="Ajuda a procurar cursos"
-    ></app-button>
+    >
+      {{ "buttons.help" | translate }}
+    </button>
   </div>
   <div class="mt-10">
-    <app-button
-      class=""
-      [label]="'buttons.forum' | translate"
+    <button
+      mat-raised-button
       routerLink="/forum"
       aria-label="Forum"
-    ></app-button>
+    >
+      {{ "buttons.forum" | translate }}
+    </button>
   </div>
 </div>

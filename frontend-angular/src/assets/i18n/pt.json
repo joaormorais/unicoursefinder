@@ -1,8 +1,11 @@
 {
   "buttons": {
     "forum": "Quero fazer perguntas em relação a um curso ou instituição!",
+    "forumSimple": "Forum",
     "help": "Não sei que curso escolher, ajuda-me!",
+    "helpSimple": "Ajuda",
     "search": "Quero pesquisar por cursos e instituições!",
+    "searchSimple": "Pesquisa",
     "institutions": "Instituições",
     "courses": "Cursos"
   },

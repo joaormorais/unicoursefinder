@@ -29,7 +29,6 @@
         <button
           *ngIf="(courseTypeFilter.value?.length ?? 0) > 0"
           matSuffix
-          mat-icon-button
           aria-label="Limpar seleção de tipos"
           (click)="courseTypeFilter.setValue([]); searchCourses(1, 10, true)"
           class="!p0 mx-2"
@@ -47,8 +46,9 @@
           multiple
           (selectionChange)="searchCourses(1, 10, true)"
         >
-          <mat-form-field class="w-full"
-            ><input
+          <mat-form-field class="w-full">
+            <mat-label>{{ "institutions.name" | translate }}</mat-label>
+            <input
               matInput
               type="text"
               [(ngModel)]="courseInstitutionNameFilter"
@@ -59,7 +59,6 @@
             <button
               *ngIf="courseInstitutionNameFilter"
               matSuffix
-              mat-icon-button
               aria-label="Limpar filtro de nome de instituições"
               (click)="
                 courseInstitutionNameFilter = ''; filterInstitutionsByName()
@@ -78,7 +77,6 @@
         <button
           *ngIf="(courseInstitutionIdFilter.value?.length ?? 0) > 0"
           matSuffix
-          mat-icon-button
           aria-label="Limpar seleção de instituições"
           (click)="
             courseInstitutionIdFilter.setValue([]); searchCourses(1, 10, true)
@@ -92,6 +90,7 @@
     <!-- name -->
     <div class="md:col-span-3">
       <mat-form-field class="w-full">
+        <mat-label>{{ "courses.name" | translate }}</mat-label>
         <input
           matInput
           type="text"
@@ -103,7 +102,6 @@
         <button
           *ngIf="courseNameFilter"
           matSuffix
-          mat-icon-button
           aria-label="Limpar filtro de nome"
           (click)="onCourseNameInput('')"
           class="!p0 mx-2"
@@ -117,9 +115,9 @@
 
 <div class="list-container">
   <!-- loading and error messages -->
-  <div *ngIf="loadingPaginatedCourses">
+  <div *ngIf="loadingPaginatedCourses" class="flex flex-col items-center">
     <mat-spinner></mat-spinner>
-    <p class="!m-5 text-center">{{ "courses.loading" | translate }}</p>
+    <p class="!m-5">{{ "courses.loading" | translate }}</p>
   </div>
   <div *ngIf="errorPaginatedCourses">
     <p class="!m-5 text-center">{{ errorPaginatedCourses }}</p>
