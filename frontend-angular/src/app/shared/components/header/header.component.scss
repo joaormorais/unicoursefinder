@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.header-routers {
+  @apply hidden md:inline;
+
+  &:hover {
+    @apply underline underline-offset-8;
+  }
+}
+
+.active-link {
+  @apply underline underline-offset-8;
+}

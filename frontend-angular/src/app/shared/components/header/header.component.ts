@@ -7,6 +7,7 @@ import {
   MatButtonToggleGroup,
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ import {
     TranslatePipe,
     RouterModule,
     MatButtonToggleModule,
+    MatMenuModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
