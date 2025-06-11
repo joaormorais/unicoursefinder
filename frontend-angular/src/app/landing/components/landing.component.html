@@ -1,29 +1,31 @@
-<div class="h-full flex flex-col items-center justify-center">
-  <div class="mb-10">
-    <button
-      class="mr-5"
-      mat-raised-button
-      routerLink="/search"
-      aria-label="Procurar cursos"
-    >
-      {{ "buttons.search" | translate }}
-    </button>
-    <button
-      class="ml-5"
-      mat-raised-button
-      routerLink="/help"
-      aria-label="Ajuda a procurar cursos"
-    >
-      {{ "buttons.help" | translate }}
-    </button>
-  </div>
-  <div class="mt-10">
-    <button
-      mat-raised-button
-      routerLink="/forum"
-      aria-label="Forum"
-    >
-      {{ "buttons.forum" | translate }}
-    </button>
+<div class="flex items-center justify-center w-full">
+  <div class="flex flex-col items-center">
+    <div class="mb-10">
+      <button
+        class="mr-5"
+        mat-raised-button
+        routerLink="/search"
+        aria-label="Procurar cursos"
+      >
+        {{ "buttons.search" | translate }}
+      </button>
+      <button
+        class="ml-5"
+        mat-raised-button
+        routerLink="/forum"
+        aria-label="Forum"
+      >
+        {{ "buttons.forum" | translate }}
+      </button>
+    </div>
+    <div class="mt-10">
+      <button
+        mat-raised-button
+        routerLink="/help"
+        aria-label="Ajuda a procurar cursos"
+      >
+        {{ "buttons.help" | translate }}
+      </button>
+    </div>
   </div>
 </div>

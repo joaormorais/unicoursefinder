@@ -8,5 +8,6 @@ import { RouterModule } from '@angular/router';
   selector: 'app-landing',
   imports: [CommonModule, TranslatePipe, MatButtonModule, RouterModule],
   templateUrl: './landing.component.html',
+  styleUrl: './landing.component.scss',
 })
 export class LandingComponent {}
