@@ -1,24 +1,75 @@
-<div class="h-full flex flex-col items-center justify-center">
-  <div class="mb-10">
-    <app-button
-      class="mr-5"
-      [label]="'buttons.search' | translate"
-      routerLink="/search"
-      aria-label="Procurar cursos"
-    ></app-button>
-    <app-button
-      class="ml-5"
-      [label]="'buttons.help' | translate"
-      routerLink="/help"
-      aria-label="Ajuda a procurar cursos"
-    ></app-button>
+<div class="grid grid-cols-3">
+  <div
+    class="column-container"
+    routerLink="/search"
+    aria-label="Procurar cursos"
+  >
+    <div class="image-container">
+      <img
+        src="/assets/images/landing/search.jpg"
+        alt="Search background"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="overlay"></div>
+    <div class="paragraph-container">
+      <p class="landing-text">
+        {{ "paragraphs.searchP" | translate }}
+      </p>
+      <mat-icon
+        class="paragraph-icon"
+        aria-hidden="false"
+        aria-label="Seguir para a próxima página"
+        fontIcon="arrow_right_alt"
+      ></mat-icon>
+    </div>
   </div>
-  <div class="mt-10">
-    <app-button
-      class=""
-      [label]="'buttons.forum' | translate"
-      routerLink="/forum"
-      aria-label="Forum"
-    ></app-button>
+
+  <div class="column-container" routerLink="/forum" aria-label="Forum">
+    <div class="image-container">
+      <img
+        src="/assets/images/landing/forum.jpg"
+        alt="Forum background"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="overlay"></div>
+    <div class="paragraph-container">
+      <p class="landing-text">
+        {{ "paragraphs.forumP" | translate }}
+      </p>
+      <mat-icon
+        class="paragraph-icon"
+        aria-hidden="false"
+        aria-label="Seguir para a próxima página"
+        fontIcon="arrow_right_alt"
+      ></mat-icon>
+    </div>
+  </div>
+
+  <div
+    class="column-container"
+    routerLink="/help"
+    aria-label="Ajuda a procurar cursos"
+  >
+    <div class="image-container">
+      <img
+        src="/assets/images/landing/help.jpg"
+        alt="Help background"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="overlay"></div>
+    <div class="paragraph-container">
+      <p class="landing-text">
+        {{ "paragraphs.helpP" | translate }}
+      </p>
+      <mat-icon
+        class="paragraph-icon"
+        aria-hidden="false"
+        aria-label="Seguir para a próxima página"
+        fontIcon="arrow_right_alt"
+      ></mat-icon>
+    </div>
   </div>
 </div>

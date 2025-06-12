@@ -2,7 +2,7 @@
 @use "../../../styles/custom-theme-colors.scss" as custom;
 @import "tailwindcss";
 
-.filter-expansion-panel{
+.filter-expansion-panel {
   @apply m-5 transition-all duration-1000 overflow-hidden rounded-xl shadow-md;
 
   &:not(.mat-expanded) {
@@ -15,11 +15,7 @@
 }
 
 .filter-container > div {
-  @apply inline-block overflow-hidden p-1
-}
-
-.filter-titles{
-  @apply font-bold mb-2
+  @apply p-1;
 }
 
 .list-container {
@@ -27,9 +23,9 @@
 }
 
 .list-bullet-point {
-  @apply rounded-xl mb-3 p-2 transition-colors !h-full;
+  @apply rounded-xl mb-3 p-2 !h-full;
 
-  &:hover{
+  &:hover {
     @apply shadow-xl;
   }
 }

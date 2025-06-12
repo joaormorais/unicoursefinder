@@ -29,7 +29,6 @@
         <button
           *ngIf="(institutionTypeFilter.value?.length ?? 0) > 0"
           matSuffix
-          mat-icon-button
           aria-label="Limpar seleção de tipos"
           (click)="institutionTypeFilter.setValue([]); filterInstitutions()"
           class="!p0 mx-2"
@@ -65,7 +64,6 @@
         <button
           *ngIf="(institutionDistrictFilter.value?.length ?? 0) > 0"
           matSuffix
-          mat-icon-button
           aria-label="Limpar seleção de distritos"
           (click)="institutionDistrictFilter.setValue([]); filterInstitutions()"
           class="!p0 mx-2"
@@ -77,6 +75,7 @@
     <!-- name -->
     <div class="md:col-span-4">
       <mat-form-field class="w-full">
+        <mat-label>{{ "institutions.name" | translate }}</mat-label>
         <input
           matInput
           type="text"
@@ -88,7 +87,6 @@
         <button
           *ngIf="institutionNameFilter"
           matSuffix
-          mat-icon-button
           aria-label="Limpar filtro de nome"
           (click)="institutionNameFilter = ''; filterInstitutions()"
           class="!p0 mx-2"
@@ -108,9 +106,10 @@
       loadingTypesInstitutions ||
       loadingDistrictsInstitutions
     "
+    class="flex flex-col items-center"
   >
     <mat-spinner></mat-spinner>
-    <p class="!m-5 text-center">{{ "institutions.loading" | translate }}</p>
+    <p class="!m-5">{{ "institutions.loading" | translate }}</p>
   </div>
   <div *ngIf="errorInstitutions">
     <p class="!m-5 text-center">{{ errorInstitutions }}</p>

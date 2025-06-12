@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+:host {
+  flex-grow: 1;
+  display: grid;
+}
+
+.column-container {
+  @apply relative cursor-pointer;
+
+  &:hover {
+    .image-container {
+      @apply absolute inset-0 z-10 transition duration-300 blur-none;
+    }
+
+    .overlay {
+      @apply absolute inset-0 z-20 transition duration-300 bg-black/25;
+    }
+  }
+}
+
+.image-container {
+  @apply absolute inset-0 z-10 blur-[3px];
+}
+
+.overlay {
+  @apply absolute inset-0 z-20 bg-black/55;
+}
+
+.paragraph-container {
+  @apply absolute inset-0 z-30 flex flex-col items-center p-4;
+}
+
+.landing-text {
+  @apply basis-[75%] pt-10 font-['Exo_2'] uppercase text-[45px] font-semibold tracking-wide text-left text-white text-shadow-lg;
+}
+
+.paragraph-icon {
+  @apply basis-[25%];
+
+  color: white;
+  font-size: 100px;
+  height: 100px;
+  width: 100px;
+}
