@@ -1,13 +1,15 @@
 {
   "buttons": {
-    "forum": "Quero fazer perguntas!",
-    "forumSimple": "Forum",
-    "help": "Não sei que curso escolher, ajuda-me!",
-    "helpSimple": "Ajuda",
-    "search": "Quero pesquisar por cursos e instituições!",
-    "searchSimple": "Pesquisa",
+    "search": "Pesquisa",
+    "forum": "Fórum",
+    "help": "Ajuda",
     "institutions": "Instituições",
     "courses": "Cursos"
+  },
+  "paragraphs": {
+    "searchP": "Descobre facilmente cursos e instituições em Portugal que se alinham com os teus interesses e objetivos.",
+    "forumP": "Tens dúvidas ou queres partilhar experiências? Junta-te à comunidade e participa nas conversas!",
+    "helpP": "Não sabes por onde começar? Responde a algumas perguntas e recebe sugestões personalizadas."
   },
   "map": {
     "title": "As instituições espalhadas pelo país",

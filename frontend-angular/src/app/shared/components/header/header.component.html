@@ -25,13 +25,13 @@
   </button>
   <mat-menu #headerMenu>
     <button mat-menu-item routerLink="/search">
-      {{ "buttons.searchSimple" | translate }}
+      {{ "buttons.search" | translate }}
     </button>
     <button mat-menu-item routerLink="/forum">
-      {{ "buttons.forumSimple" | translate }}
+      {{ "buttons.forum" | translate }}
     </button>
     <button mat-menu-item routerLink="/help">
-      {{ "buttons.helpSimple" | translate }}
+      {{ "buttons.help" | translate }}
     </button>
   </mat-menu>
 
@@ -39,16 +39,16 @@
     routerLink="/search"
     routerLinkActive="active-link"
     class="header-routers"
-    >{{ "buttons.searchSimple" | translate }}</a
+    >{{ "buttons.search" | translate }}</a
   >
   <a
     routerLink="/forum"
     routerLinkActive="active-link"
     class="header-routers"
-    >{{ "buttons.forumSimple" | translate }}</a
+    >{{ "buttons.forum" | translate }}</a
   >
   <a routerLink="/help" routerLinkActive="active-link" class="header-routers">{{
-    "buttons.helpSimple" | translate
+    "buttons.help" | translate
   }}</a>
 </div>
 

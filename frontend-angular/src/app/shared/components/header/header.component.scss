@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .header-routers {
-  @apply hidden md:inline;
+  @apply hidden md:inline font-['Exo_2'];
 
   &:hover {
     @apply underline underline-offset-8;
