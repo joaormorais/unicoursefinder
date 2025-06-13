@@ -31,7 +31,7 @@ public class Course {
     private String link;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "institution_dges_number", nullable = false)
+    @JoinColumn(name = "institution_id", nullable = false)
     private Institution institution;
 
 
