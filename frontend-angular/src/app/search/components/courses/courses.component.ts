@@ -121,13 +121,12 @@ export class CoursesComponent {
   ): void {
     // get the institutions id's that are selected with the form control
     const selectedTypes = this.courseTypeFilter.value ?? [];
-    const selectedIds = this.courseInstitutionIdFilter.value ?? [];
 
     // create the request with filters
     const request: CourseSearchRequest = {
       name: this.courseNameFilter.toLocaleLowerCase().trim(),
       types: selectedTypes,
-      institutionIds: selectedIds,
+      institutionIds: this.courseInstitutionIdFilter.value ?? [],
     };
 
     this.commonSearchService.handleApiCall(

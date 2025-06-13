@@ -7,6 +7,7 @@ export interface CoursesPaginated {
 
 export interface Course {
   id: number;
+  dgesNumber: number;
   name: string;
   type: string;
   link: string;

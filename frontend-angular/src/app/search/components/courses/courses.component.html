@@ -132,7 +132,9 @@
       class="list-bullet-point"
     >
       <a [href]="course.link" target="_blank">
-        <p class="font-bold !m-0">{{ course.name }}</p>
+        <p class="font-bold !m-0">
+          ({{ course.dgesNumber }}) {{ course.name }}
+        </p>
         <p class="italic">{{ getInstitutionName(course.institutionId) }}</p>
       </a>
     </mat-list-item>
