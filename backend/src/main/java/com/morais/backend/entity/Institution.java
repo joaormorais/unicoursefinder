@@ -18,6 +18,9 @@ public class Institution {
     @Id
     private Long id;
 
+    @Column(name = "dges_number", nullable = false)
+    private Long dgesNumber;
+
     @Column(name = "name", nullable = false)
     private String name;
 

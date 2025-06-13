@@ -85,6 +85,7 @@ public class InstitutionService {
     private InstitutionDTO mapToDTO(Institution institution) {
         return new InstitutionDTO(
                 institution.getId(),
+                institution.getDgesNumber(),
                 institution.getName(),
                 institution.getType(),
                 institution.getDistrict(),

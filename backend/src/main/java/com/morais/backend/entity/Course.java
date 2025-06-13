@@ -15,8 +15,8 @@ public class Course {
     @Id
     private Long id;
 
-    @Column(name = "course_number", nullable = false)
-    private String courseNumber;
+    @Column(name = "dges_number", nullable = false)
+    private String dgesNumber;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -31,7 +31,7 @@ public class Course {
     private String link;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "institution_id", nullable = false)
+    @JoinColumn(name = "institution_dges_number", nullable = false)
     private Institution institution;
 
 

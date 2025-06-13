@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public record InstitutionDTO(
         Long id,
+        Long dgesNumber,
         String name,
         String type,
         String district,

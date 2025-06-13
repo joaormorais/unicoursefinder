@@ -83,6 +83,7 @@ public class CourseService {
     private CourseDTO mapToDTO(Course course) {
         return new CourseDTO(
                 course.getId(),
+                course.getDgesNumber(),
                 course.getName(),
                 course.getType(),
                 course.getLink(),
