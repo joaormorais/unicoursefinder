@@ -44,7 +44,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ReactiveFormsModule,
     CommonModule,
     MatListModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
   templateUrl: './courses.component.html',
   styleUrl: '../styles/search.scss',
@@ -103,7 +103,7 @@ export class CoursesComponent {
     // api call to get every course type
     this.commonSearchService.handleApiCall(
       this.courseSearchService.getDistinctTypes(),
-      (data) => (this.typesCourses = data),
+      (data) => (this.typesCourses = data.sort((a, b) => a.localeCompare(b))),
       () =>
         (this.errorPaginatedCourses = this.translate.instant('courses.error')),
       (loading) => (this.loadingTypesCourses = loading)

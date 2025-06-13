@@ -93,7 +93,7 @@ export class InstitutionsComponent implements OnInit {
     this.commonSearchService.handleApiCall(
       this.institutionService.getAllInstitutions(),
       (data) => {
-        this.institutions = data;
+        this.institutions = data.sort((a, b) => a.name.localeCompare(b.name));
         this.institutionsOutput.emit(this.institutions);
         this.institutionsFiltered = data;
         this.institutionsFilteredOutput.emit(this.institutionsFiltered);
@@ -117,7 +117,8 @@ export class InstitutionsComponent implements OnInit {
     // api call to get every institution type
     this.commonSearchService.handleApiCall(
       this.institutionSearchService.getDistinctTypes(),
-      (data) => (this.typesInstitutions = data),
+      (data) =>
+        (this.typesInstitutions = data.sort((a, b) => a.localeCompare(b))),
       () => {
         this.errorInstitutions = this.translate.instant('institutions.error');
         this.errorInstitutionsOutput.emit(this.errorInstitutions);
@@ -131,7 +132,8 @@ export class InstitutionsComponent implements OnInit {
     // api call to get every institution distric
     this.commonSearchService.handleApiCall(
       this.institutionSearchService.getDistinctDistricts(),
-      (data) => (this.districtsInstitutions = data),
+      (data) =>
+        (this.districtsInstitutions = data.sort((a, b) => a.localeCompare(b))),
       () => {
         this.errorInstitutions = this.translate.instant('institutions.error');
         this.errorInstitutionsOutput.emit(this.errorInstitutions);
