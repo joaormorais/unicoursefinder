@@ -2,7 +2,7 @@
   <button
     mat-icon-button
     class="mt-2 mr-2 mb-2 ml-4"
-    aria-label="Página principal"
+    [attr.aria-label]="'ariaLabels.landing' | translate"
     (click)="clearToggles()"
     routerLink="/"
   >
@@ -16,7 +16,7 @@
   <button
     mat-icon-button
     class="mt-2 mr-2 mb-2 ml-4 !inline md:!hidden"
-    aria-label="Menu"
+    [attr.aria-label]="'ariaLabels.menu' | translate"
     [matMenuTriggerFor]="headerMenu"
   >
     <span class="flex items-center justify-center w-full h-full">
@@ -56,7 +56,7 @@
   <button
     mat-icon-button
     class="mt-2 mr-4 mb-2 ml-2"
-    aria-label="Iniciar sessão/Registo"
+    [attr.aria-label]="'ariaLabels.loginRegister' | translate"
   >
     <span class="flex items-center justify-center w-full h-full">
       <mat-icon>login</mat-icon>

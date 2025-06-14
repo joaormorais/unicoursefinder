@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { Institution } from '../../../shared/models/institution.model';
@@ -6,7 +12,7 @@ import { Institution } from '../../../shared/models/institution.model';
 @Component({
   selector: 'app-map',
   imports: [],
-  templateUrl: './map.component.html'
+  templateUrl: './map.component.html',
 })
 export class MapComponent implements AfterViewInit {
   // vars from the parent

@@ -1,4 +1,23 @@
 {
+  "ariaLabels": {
+    "search": "Procurar cursos",
+    "forum": "Procurar cursos",
+    "help": "Procurar cursos",
+    "landing": "Página principal",
+    "menu": "Menu",
+    "loginRegister": "Iniciar sessão/registo",
+    "nextIcon": "Ícone para a direita",
+    "institutionsList": "Lista de instituições",
+    "coursesList": "Lista de cursos",
+    "pagination": "Paginação",
+    "clearTypes": "Limpar a seleção de tipos",
+    "clearDistricts": "Limpar a seleção de distritos",
+    "clearInstitutions": "Limpar seleção de instituições",
+    "filterByInstitutionName": "Filtro por nome de instituições",
+    "clearInstitutionName": "Limpar filtro de nome de instituições",
+    "filterByName": "Filtro por nome",
+    "clearName": "Limpar filtro de nome"
+  },
   "buttons": {
     "search": "Pesquisa",
     "forum": "Fórum",

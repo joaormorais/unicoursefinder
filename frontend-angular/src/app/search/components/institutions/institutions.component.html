@@ -29,7 +29,7 @@
         <button
           *ngIf="(institutionTypeFilter.value?.length ?? 0) > 0"
           matSuffix
-          aria-label="Limpar seleção de tipos"
+          [attr.aria-label]="'ariaLabels.clearTypes' | translate"
           (click)="institutionTypeFilter.setValue([]); filterInstitutions()"
           class="!p0 mx-2"
         >
@@ -64,7 +64,7 @@
         <button
           *ngIf="(institutionDistrictFilter.value?.length ?? 0) > 0"
           matSuffix
-          aria-label="Limpar seleção de distritos"
+          [attr.aria-label]="'ariaLabels.clearDistricts' | translate"
           (click)="institutionDistrictFilter.setValue([]); filterInstitutions()"
           class="!p0 mx-2"
         >
@@ -82,12 +82,12 @@
           [(ngModel)]="institutionNameFilter"
           (input)="filterInstitutions()"
           placeholder="{{ 'institutions.name' | translate }}"
-          aria-label="Filtro por nome"
+          [attr.aria-label]="'ariaLabels.filterByName' | translate"
         />
         <button
           *ngIf="institutionNameFilter"
           matSuffix
-          aria-label="Limpar filtro de nome"
+          [attr.aria-label]="'ariaLabels.clearName' | translate"
           (click)="institutionNameFilter = ''; filterInstitutions()"
           class="!p0 mx-2"
         >
@@ -122,7 +122,7 @@
       loadingDistrictsInstitutions ||
       errorInstitutions
     "
-    aria-label="Lista de instituições"
+    [attr.aria-label]="'ariaLabels.institutionsList' | translate"
   >
     <mat-list-item
       *ngFor="let institution of institutionsPaginated"
@@ -149,7 +149,7 @@
     [pageSizeOptions]="
       commonSearchService.getPageSizeOptions(institutionsFiltered.length)
     "
-    [attr.aria-label]="'institutions.loading' | translate"
+    [attr.aria-label]="'ariaLabels.pagination' | translate"
   >
   </mat-paginator>
 </div>
