@@ -53,6 +53,7 @@ public class CourseController {
     ) {
         logger.info("New request! /courses/search");
 
+        // check if the pagination is being requested inside of bounds
         if (pageNumber < 0 || pageSize <= 0 || pageSize > courseService.countTotalCourses()) {
             logger.warn("Invalid page number or page size provided. pageNumber={}, pageSize={}.", pageNumber, pageSize);
             throw new IllegalArgumentException("Invalid pagination parameters: /courses/search");

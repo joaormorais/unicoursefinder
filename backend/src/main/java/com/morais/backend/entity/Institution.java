@@ -18,7 +18,7 @@ public class Institution {
     @Id
     private Long id;
 
-    @Column(name = "dges_number", nullable = false)
+    @Column(name = "dges_number", nullable = false, unique = true)
     private Long dgesNumber;
 
     @Column(name = "name", nullable = false)
