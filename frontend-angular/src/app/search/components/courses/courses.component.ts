@@ -3,7 +3,6 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
 import { CourseService } from '../../../shared/services/course.service';
 import { CourseSearchService } from '../../services/course-search.service';
@@ -40,10 +39,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatPaginatorModule,
     MatInputModule,
     ReactiveFormsModule,
-    CommonModule,
     MatListModule,
-    MatExpansionModule,
-  ],
+    MatExpansionModule
+],
   templateUrl: './courses.component.html',
   styleUrl: '../styles/search.scss',
 })
@@ -154,11 +152,7 @@ export class CoursesComponent {
     const institution = this.institutions.find((i) => i.id == institutionId);
     return institution ? institution.name : '';
   }
-
-  trackByCourse(index: number, course: Course): number {
-    return course.id;
-  }
-
+  
   // change to the courses screen, and show the courses for that institution
   searchCoursesByInstitutionId(institutionId: number): void {
     this.courseInstitutionIdFilter.setValue([institutionId]);

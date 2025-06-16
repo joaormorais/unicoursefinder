@@ -6,7 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Institution } from '../../../shared/models/institution.model';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { InstitutionService } from '../../../shared/services/institution.service';
@@ -32,13 +32,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     FormsModule,
-    CommonModule,
     MatInputModule,
     MatListModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatExpansionModule,
-  ],
+    MatExpansionModule
+],
   templateUrl: './institutions.component.html',
   styleUrl: '../styles/search.scss',
 })
