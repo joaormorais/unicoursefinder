@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,12 +53,13 @@ public class CourseController {
     ) {
         logger.info("New request! /courses/search");
 
+        // check if the pagination is being requested inside of bounds
         if (pageNumber < 0 || pageSize <= 0 || pageSize > courseService.countTotalCourses()) {
             logger.warn("Invalid page number or page size provided. pageNumber={}, pageSize={}.", pageNumber, pageSize);
             throw new IllegalArgumentException("Invalid pagination parameters: /courses/search");
         }
 
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("normalized_name").ascending());
         Page<CourseDTO> courseDTOPage = courseService.getCoursesByNameTypeAndInstitution(courseSearchRequest,pageable);
         return ResponseEntity.ok(new CoursePaginatedDTO(
                 courseDTOPage.getContent(),

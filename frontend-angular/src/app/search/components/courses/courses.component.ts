@@ -1,11 +1,8 @@
 import {
   Component,
-  EventEmitter,
   Input,
-  Output,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
 import { CourseService } from '../../../shared/services/course.service';
 import { CourseSearchService } from '../../services/course-search.service';
@@ -42,10 +39,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatPaginatorModule,
     MatInputModule,
     ReactiveFormsModule,
-    CommonModule,
     MatListModule,
     MatExpansionModule
-  ],
+],
   templateUrl: './courses.component.html',
   styleUrl: '../styles/search.scss',
 })
@@ -103,7 +99,7 @@ export class CoursesComponent {
     // api call to get every course type
     this.commonSearchService.handleApiCall(
       this.courseSearchService.getDistinctTypes(),
-      (data) => (this.typesCourses = data),
+      (data) => (this.typesCourses = data.sort((a, b) => a.localeCompare(b))),
       () =>
         (this.errorPaginatedCourses = this.translate.instant('courses.error')),
       (loading) => (this.loadingTypesCourses = loading)
@@ -156,11 +152,7 @@ export class CoursesComponent {
     const institution = this.institutions.find((i) => i.id == institutionId);
     return institution ? institution.name : '';
   }
-
-  trackByCourse(index: number, course: Course): number {
-    return course.id;
-  }
-
+  
   // change to the courses screen, and show the courses for that institution
   searchCoursesByInstitutionId(institutionId: number): void {
     this.courseInstitutionIdFilter.setValue([institutionId]);

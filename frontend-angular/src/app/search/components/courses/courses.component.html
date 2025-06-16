@@ -15,26 +15,26 @@
         >
           <mat-select-trigger>
             {{courseTypeFilter.value?.[0] || ''}}
-            <span
-              *ngIf="(courseTypeFilter.value?.length || 0) > 1"
-              class="example-additional-selection"
-            >
+            @if ((courseTypeFilter.value?.length || 0) > 1) {
+            <span class="example-additional-selection">
               (+{{ (courseTypeFilter.value?.length || 0) - 1 }})
             </span>
+            }
           </mat-select-trigger>
-          <mat-option *ngFor="let type of typesCourses" [value]="type">{{
-            type
-          }}</mat-option>
+          @for (type of typesCourses; track type) {
+          <mat-option [value]="type">{{ type }}</mat-option>
+          }
         </mat-select>
+        @if ((courseTypeFilter.value?.length ?? 0) > 0) {
         <button
-          *ngIf="(courseTypeFilter.value?.length ?? 0) > 0"
           matSuffix
-          aria-label="Limpar seleção de tipos"
+          [attr.aria-label]="'ariaLabels.clearTypes' | translate"
           (click)="courseTypeFilter.setValue([]); searchCourses(1, 10, true)"
           class="!p0 mx-2"
         >
           <mat-icon>close</mat-icon>
         </button>
+        }
       </mat-form-field>
     </div>
     <!-- institutions id's -->
@@ -54,12 +54,14 @@
               [(ngModel)]="courseInstitutionNameFilter"
               (ngModelChange)="filterInstitutionsByName()"
               placeholder="{{ 'institutions.name' | translate }}"
-              aria-label="Filtro por nome de instituições"
+              [attr.aria-label]="
+                'ariaLabels.filterByInstitutionName' | translate
+              "
             />
+            @if (courseInstitutionNameFilter) {
             <button
-              *ngIf="courseInstitutionNameFilter"
               matSuffix
-              aria-label="Limpar filtro de nome de instituições"
+              [attr.aria-label]="'ariaLabels.clearInstitutionName' | translate"
               (click)="
                 courseInstitutionNameFilter = ''; filterInstitutionsByName()
               "
@@ -67,17 +69,19 @@
             >
               <mat-icon>close</mat-icon>
             </button>
+            }
           </mat-form-field>
-          <mat-option
-            *ngFor="let institution of institutionsFilteredByName"
-            [value]="institution.id"
+          @for (institution of institutionsFilteredByName; track institution.id)
+          {
+          <mat-option [value]="institution.id"
             >{{ institution.name }}
           </mat-option>
+          }
         </mat-select>
+        @if ((courseInstitutionIdFilter.value?.length ?? 0) > 0) {
         <button
-          *ngIf="(courseInstitutionIdFilter.value?.length ?? 0) > 0"
           matSuffix
-          aria-label="Limpar seleção de instituições"
+          [attr.aria-label]="'ariaLabels.clearInstitutions' | translate"
           (click)="
             courseInstitutionIdFilter.setValue([]); searchCourses(1, 10, true)
           "
@@ -85,6 +89,7 @@
         >
           <mat-icon>close</mat-icon>
         </button>
+        }
       </mat-form-field>
     </div>
     <!-- name -->
@@ -97,17 +102,18 @@
           [(ngModel)]="courseNameFilter"
           (ngModelChange)="onCourseNameInput($event)"
           placeholder="{{ 'courses.name' | translate }}"
-          aria-label="Filtro por nome"
+          [attr.aria-label]="'ariaLabels.filterByName' | translate"
         />
+        @if (courseNameFilter) {
         <button
-          *ngIf="courseNameFilter"
           matSuffix
-          aria-label="Limpar filtro de nome"
+          [attr.aria-label]="'ariaLabels.clearName' | translate"
           (click)="onCourseNameInput('')"
           class="!p0 mx-2"
         >
           <mat-icon>close</mat-icon>
         </button>
+        }
       </mat-form-field>
     </div>
   </div>
@@ -115,22 +121,23 @@
 
 <div class="list-container">
   <!-- loading and error messages -->
-  <div *ngIf="loadingPaginatedCourses" class="flex flex-col items-center">
+  @if (loadingPaginatedCourses) {
+  <div class="flex flex-col items-center">
     <mat-spinner></mat-spinner>
     <p class="!m-5">{{ "courses.loading" | translate }}</p>
   </div>
-  <div *ngIf="errorPaginatedCourses">
+  } @if (errorPaginatedCourses) {
+  <div>
     <p class="!m-5 text-center">{{ errorPaginatedCourses }}</p>
   </div>
+  }
   <!-- list -->
   <mat-selection-list
     [hidden]="loadingPaginatedCourses || errorPaginatedCourses"
-    aria-label="Lista de instituições"
+    [attr.aria-label]="'ariaLabels.institutionsList' | translate"
   >
-    <mat-list-item
-      *ngFor="let course of coursesPaginated.courses; trackBy: trackByCourse"
-      class="list-bullet-point"
-    >
+    @for (course of coursesPaginated.courses; track course.id) {
+    <mat-list-item class="list-bullet-point">
       <a [href]="course.link" target="_blank">
         <p class="font-bold !m-0">
           ({{ course.dgesNumber }}) {{ course.name }}
@@ -138,6 +145,7 @@
         <p class="italic">{{ getInstitutionName(course.institutionId) }}</p>
       </a>
     </mat-list-item>
+    }
   </mat-selection-list>
   <!-- paginator -->
   <mat-paginator
@@ -149,7 +157,7 @@
     [pageSizeOptions]="
       commonSearchService.getPageSizeOptions(coursesPaginated.totalElements)
     "
-    [attr.aria-label]="'institutions.loading' | translate"
+    [attr.aria-label]="'ariaLabels.pagination' | translate"
   >
   </mat-paginator>
 </div>

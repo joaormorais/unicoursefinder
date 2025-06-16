@@ -25,16 +25,14 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
+    /**
+     * Retrieves the number of courses in the database.
+     *
+     * @return the total number of courses
+     */
     public int countTotalCourses() {
         logger.info("Returning total number of courses...");
-        List<Course> courses = courseRepository.findAll();
-
-        if (courses.isEmpty()) {
-            logger.warn("Didn't find any course");
-            return 0;
-        }
-
-        return courses.size();
+        return (int) courseRepository.count();
     }
 
     /**
@@ -57,7 +55,7 @@ public class CourseService {
 
     /**
      * Retrieves courses optionally based on a name, type and institution.
-     * The results are paged
+     * The results are paged.
      * The name is normalized before querying.
      * Throws a ResourceNotFoundException if no courses match the filters.
      *

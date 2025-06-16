@@ -6,7 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Institution } from '../../../shared/models/institution.model';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { InstitutionService } from '../../../shared/services/institution.service';
@@ -32,13 +32,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     FormsModule,
-    CommonModule,
     MatInputModule,
     MatListModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatExpansionModule,
-  ],
+    MatExpansionModule
+],
   templateUrl: './institutions.component.html',
   styleUrl: '../styles/search.scss',
 })
@@ -93,7 +92,7 @@ export class InstitutionsComponent implements OnInit {
     this.commonSearchService.handleApiCall(
       this.institutionService.getAllInstitutions(),
       (data) => {
-        this.institutions = data;
+        this.institutions = data.sort((a, b) => a.name.localeCompare(b.name));
         this.institutionsOutput.emit(this.institutions);
         this.institutionsFiltered = data;
         this.institutionsFilteredOutput.emit(this.institutionsFiltered);
@@ -117,7 +116,8 @@ export class InstitutionsComponent implements OnInit {
     // api call to get every institution type
     this.commonSearchService.handleApiCall(
       this.institutionSearchService.getDistinctTypes(),
-      (data) => (this.typesInstitutions = data),
+      (data) =>
+        (this.typesInstitutions = data.sort((a, b) => a.localeCompare(b))),
       () => {
         this.errorInstitutions = this.translate.instant('institutions.error');
         this.errorInstitutionsOutput.emit(this.errorInstitutions);
@@ -131,7 +131,8 @@ export class InstitutionsComponent implements OnInit {
     // api call to get every institution distric
     this.commonSearchService.handleApiCall(
       this.institutionSearchService.getDistinctDistricts(),
-      (data) => (this.districtsInstitutions = data),
+      (data) =>
+        (this.districtsInstitutions = data.sort((a, b) => a.localeCompare(b))),
       () => {
         this.errorInstitutions = this.translate.instant('institutions.error');
         this.errorInstitutionsOutput.emit(this.errorInstitutions);

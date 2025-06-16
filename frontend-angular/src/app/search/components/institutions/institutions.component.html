@@ -15,26 +15,26 @@
         >
           <mat-select-trigger>
             {{institutionTypeFilter.value?.[0] || ''}}
-            <span
-              *ngIf="(institutionTypeFilter.value?.length || 0) > 1"
-              class="example-additional-selection"
-            >
+            @if ((institutionTypeFilter.value?.length || 0) > 1) {
+            <span class="example-additional-selection">
               (+{{ (institutionTypeFilter.value?.length || 0) - 1 }})
             </span>
+            }
           </mat-select-trigger>
-          <mat-option *ngFor="let type of typesInstitutions" [value]="type">{{
-            type
-          }}</mat-option>
+          @for (type of typesInstitutions; track type) {
+          <mat-option [value]="type">{{ type }}</mat-option>
+          }
         </mat-select>
+        @if ((institutionTypeFilter.value?.length ?? 0) > 0) {
         <button
-          *ngIf="(institutionTypeFilter.value?.length ?? 0) > 0"
           matSuffix
-          aria-label="Limpar seleção de tipos"
+          [attr.aria-label]="'ariaLabels.clearTypes' | translate"
           (click)="institutionTypeFilter.setValue([]); filterInstitutions()"
           class="!p0 mx-2"
         >
           <mat-icon>close</mat-icon>
         </button>
+        }
       </mat-form-field>
     </div>
     <!-- districts -->
@@ -48,28 +48,26 @@
         >
           <mat-select-trigger>
             {{institutionDistrictFilter.value?.[0] || ''}}
-            <span
-              *ngIf="(institutionDistrictFilter.value?.length || 0) > 1"
-              class="example-additional-selection"
-            >
+            @if ((institutionDistrictFilter.value?.length || 0) > 1) {
+            <span class="example-additional-selection">
               (+{{ (institutionDistrictFilter.value?.length || 0) - 1 }})
             </span>
+            }
           </mat-select-trigger>
-          <mat-option
-            *ngFor="let district of districtsInstitutions"
-            [value]="district"
-            >{{ district }}</mat-option
-          >
+          @for (district of districtsInstitutions; track district) {
+          <mat-option [value]="district">{{ district }}</mat-option>
+          }
         </mat-select>
+        @if ((institutionDistrictFilter.value?.length ?? 0) > 0) {
         <button
-          *ngIf="(institutionDistrictFilter.value?.length ?? 0) > 0"
           matSuffix
-          aria-label="Limpar seleção de distritos"
+          [attr.aria-label]="'ariaLabels.clearDistricts' | translate"
           (click)="institutionDistrictFilter.setValue([]); filterInstitutions()"
           class="!p0 mx-2"
         >
           <mat-icon>close</mat-icon>
         </button>
+        }
       </mat-form-field>
     </div>
     <!-- name -->
@@ -82,17 +80,18 @@
           [(ngModel)]="institutionNameFilter"
           (input)="filterInstitutions()"
           placeholder="{{ 'institutions.name' | translate }}"
-          aria-label="Filtro por nome"
+          [attr.aria-label]="'ariaLabels.filterByName' | translate"
         />
+        @if (institutionNameFilter) {
         <button
-          *ngIf="institutionNameFilter"
           matSuffix
-          aria-label="Limpar filtro de nome"
+          [attr.aria-label]="'ariaLabels.clearName' | translate"
           (click)="institutionNameFilter = ''; filterInstitutions()"
           class="!p0 mx-2"
         >
           <mat-icon>close</mat-icon>
         </button>
+        }
       </mat-form-field>
     </div>
   </div>
@@ -100,20 +99,17 @@
 
 <div class="list-container">
   <!-- loading and error messages -->
-  <div
-    *ngIf="
-      loadingInstitutions ||
-      loadingTypesInstitutions ||
-      loadingDistrictsInstitutions
-    "
-    class="flex flex-col items-center"
-  >
+  @if ( loadingInstitutions || loadingTypesInstitutions ||
+  loadingDistrictsInstitutions ) {
+  <div class="flex flex-col items-center">
     <mat-spinner></mat-spinner>
     <p class="!m-5">{{ "institutions.loading" | translate }}</p>
   </div>
-  <div *ngIf="errorInstitutions">
+  } @if (errorInstitutions) {
+  <div>
     <p class="!m-5 text-center">{{ errorInstitutions }}</p>
   </div>
+  }
   <!-- list -->
   <mat-selection-list
     [hidden]="
@@ -122,10 +118,10 @@
       loadingDistrictsInstitutions ||
       errorInstitutions
     "
-    aria-label="Lista de instituições"
+    [attr.aria-label]="'ariaLabels.institutionsList' | translate"
   >
+    @for (institution of institutionsPaginated; track institution.id) {
     <mat-list-item
-      *ngFor="let institution of institutionsPaginated"
       tabindex="0"
       (click)="this.triggerActionSearch.emit(institution.id)"
       (keydown.enter)="this.triggerActionSearch.emit(institution.id)"
@@ -138,6 +134,7 @@
       <p class="italic !m-0">{{ institution.type }}</p>
       <p class="italic !m-0">{{ institution.district }}</p>
     </mat-list-item>
+    }
   </mat-selection-list>
   <!-- paginator -->
   <mat-paginator
@@ -149,7 +146,7 @@
     [pageSizeOptions]="
       commonSearchService.getPageSizeOptions(institutionsFiltered.length)
     "
-    [attr.aria-label]="'institutions.loading' | translate"
+    [attr.aria-label]="'ariaLabels.pagination' | translate"
   >
   </mat-paginator>
 </div>

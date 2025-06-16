@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MapComponent } from '../map/map.component';
@@ -11,14 +10,13 @@ import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 @Component({
   selector: 'app-search',
   imports: [
-    CommonModule,
     FormsModule,
     TranslatePipe,
     MapComponent,
     InstitutionsComponent,
     CoursesComponent,
-    MatTabsModule,
-  ],
+    MatTabsModule
+],
   templateUrl: './search.component.html',
 })
 export class SearchComponent {

@@ -1,8 +1,8 @@
-<div class="grid grid-cols-3">
+<div class="grid grid-cols-1 md:grid-cols-3">
   <div
     class="column-container"
     routerLink="/search"
-    aria-label="Procurar cursos"
+    [attr.aria-label]="'ariaLabels.search' | translate"
   >
     <div class="image-container">
       <img
@@ -19,13 +19,17 @@
       <mat-icon
         class="paragraph-icon"
         aria-hidden="false"
-        aria-label="Seguir para a próxima página"
+        [attr.aria-label]="'ariaLabels.nextIcon' | translate"
         fontIcon="arrow_right_alt"
       ></mat-icon>
     </div>
   </div>
 
-  <div class="column-container" routerLink="/forum" aria-label="Forum">
+  <div
+    class="column-container"
+    routerLink="/forum"
+    [attr.aria-label]="'ariaLabels.forum' | translate"
+  >
     <div class="image-container">
       <img
         src="/assets/images/landing/forum.jpg"
@@ -41,7 +45,7 @@
       <mat-icon
         class="paragraph-icon"
         aria-hidden="false"
-        aria-label="Seguir para a próxima página"
+        [attr.aria-label]="'ariaLabels.nextIcon' | translate"
         fontIcon="arrow_right_alt"
       ></mat-icon>
     </div>
@@ -50,7 +54,7 @@
   <div
     class="column-container"
     routerLink="/help"
-    aria-label="Ajuda a procurar cursos"
+    [attr.aria-label]="'ariaLabels.help' | translate"
   >
     <div class="image-container">
       <img
@@ -67,7 +71,7 @@
       <mat-icon
         class="paragraph-icon"
         aria-hidden="false"
-        aria-label="Seguir para a próxima página"
+        [attr.aria-label]="'ariaLabels.nextIcon' | translate"
         fontIcon="arrow_right_alt"
       ></mat-icon>
     </div>

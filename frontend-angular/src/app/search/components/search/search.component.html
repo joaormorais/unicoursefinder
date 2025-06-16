@@ -1,22 +1,22 @@
 <!-- loading message for map -->
-<div *ngIf="loadingInstitutions">
+@if (loadingInstitutions) {
   <p class="!m-5 text-center">{{ "map.loading" | translate }}</p>
-</div>
+}
 
 <!-- map and his title -->
-<div *ngIf="!loadingInstitutions && !errorInstitutions">
+@if (!loadingInstitutions && !errorInstitutions) {
   <!-- map of institutions -->
   <app-map
     (triggerActionSearch)="callSearchCoursesByInstitutionId($event)"
     [institutionsFiltered]="institutionsFiltered"
   ></app-map>
-</div>
+}
 
 <!-- choose between institutions and courses -->
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
   <mat-tab label="Instituições">
     <!-- institutions list and filters -->
-    <div [hidden]="!seeingInstitutions">
+    <div>
       <app-institutions
         (triggerActionSearch)="callSearchCoursesByInstitutionId($event)"
         (triggerActionMap)="callUpdateMap()"
@@ -34,20 +34,21 @@
         "
         [errorInstitutions]="errorInstitutions"
         (errorInstitutionsOutput)="errorInstitutions = $event"
-      >
+        >
       </app-institutions>
     </div>
   </mat-tab>
   <mat-tab label="Cursos">
     <!-- courses list and filters -->
-    <div
-      *ngIf="
-        !loadingInstitutions &&
-        !loadingTypesInstitutions &&
-        !loadingDistrictsInstitutions
-      "
-    >
-      <app-courses [institutions]="institutions"> </app-courses>
-    </div>
+    @if (
+      !loadingInstitutions &&
+      !loadingTypesInstitutions &&
+      !loadingDistrictsInstitutions
+      ) {
+      <div
+        >
+        <app-courses [institutions]="institutions"> </app-courses>
+      </div>
+    }
   </mat-tab>
 </mat-tab-group>
