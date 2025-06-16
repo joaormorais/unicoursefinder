@@ -16,7 +16,7 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
   <mat-tab label="Instituições">
     <!-- institutions list and filters -->
-    <div [hidden]="!seeingInstitutions">
+    <div>
       <app-institutions
         (triggerActionSearch)="callSearchCoursesByInstitutionId($event)"
         (triggerActionMap)="callUpdateMap()"

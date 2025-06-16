@@ -5,10 +5,11 @@ import {
   CoursesPaginated,
   CourseSearchRequest,
 } from '../models/course-paginated.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
-  private readonly apiUrl = 'http://localhost:8080/courses';
+  private readonly apiUrl = `${environment.apiBaseUrl}/courses`;
 
   constructor(private http: HttpClient) {}
 

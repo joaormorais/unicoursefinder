@@ -32,11 +32,12 @@
 }
 
 .landing-text {
-  @apply basis-[75%] pt-10 font-['Exo_2'] uppercase text-[45px] font-semibold tracking-wide text-left text-white text-shadow-lg;
+  @apply basis-[75%] pt-10 font-['Exo_2'] uppercase font-semibold tracking-wide text-left text-white text-shadow-lg;
+  @apply text-[clamp(5px,3vw,45px)];
 }
 
 .paragraph-icon {
-  @apply basis-[25%];
+
 
   color: white;
   font-size: 100px;
