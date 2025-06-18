@@ -1,36 +1,56 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { TranslatePipe } from '@ngx-translate/core';
+import { Component, inject, Signal } from '@angular/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
-import {
-  MatButtonToggleGroup,
-  MatButtonToggleModule,
-} from '@angular/material/button-toggle';
-import { MatMenuModule } from '@angular/material/menu';
+import { ButtonModule } from 'primeng/button';
+import { MenuItem } from 'primeng/api';
+import { Menu } from 'primeng/menu';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map, startWith, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-header',
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    TranslatePipe,
-    RouterModule,
-    MatButtonToggleModule,
-    MatMenuModule,
-  ],
+  imports: [TranslatePipe, RouterModule, ButtonModule, Menu],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  // add child components
-  @ViewChild('headerToggleGroup') headerToggleGroup!: MatButtonToggleGroup;
+  // inject translate service
+  private translate = inject(TranslateService);
 
-  // selected button
-  selectedToggle: string | null = null;
+  // used translations keys
+  private menuTranslationKeys = [
+    'buttons.search',
+    'buttons.forum',
+    'buttons.help',
+  ];
 
-  // clear the selected button when we come to the home page
-  clearToggles(): void {
-    this.selectedToggle = null;
-  }
+  // items for the mobile menu
+  readonly items: Signal<MenuItem[]> = toSignal(
+    this.translate.onLangChange.pipe(
+      startWith(null),
+      switchMap(() => this.translate.get(this.menuTranslationKeys)),
+      map((translations) => [
+        {
+          items: [
+            {
+              label: translations['buttons.search'],
+              icon: 'pi pi-search',
+              routerLink: '/search',
+            },
+            {
+              label: translations['buttons.forum'],
+              icon: 'pi pi-comments',
+              routerLink: '/forum',
+            },
+            {
+              label: translations['buttons.help'],
+              icon: 'pi pi-question',
+              routerLink: '/help',
+            },
+          ],
+        },
+      ])
+    ),
+    { initialValue: [] }
+  );
 }

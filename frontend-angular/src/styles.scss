@@ -2,6 +2,7 @@
 @use "sass:map";
 @use "./app/styles/_palette" as palette;
 @import "tailwindcss";
+@import "primeicons/primeicons.css";
 
 // todo: trocar de sitio
 @import "leaflet.markercluster/dist/MarkerCluster.css";
