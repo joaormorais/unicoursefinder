@@ -3,7 +3,7 @@ import { LandingComponent } from './landing/components/landing.component';
 import { SearchComponent } from './search/components/search/search.component';
 import { HelpComponent } from './help/components/help.component';
 import { ForumComponent } from './forum/components/forum.component';
-import { LoginComponent } from './login/components/login.component';
+import { LoginComponent } from './login/components/login/login.component';
 import { RegisterComponent } from './register/components/register.component';
 
 export const routes: Routes = [

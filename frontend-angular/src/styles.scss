@@ -1,9 +1,39 @@
-@import "./app/styles/custom-theme.scss";
-@import "leaflet.markercluster/dist/MarkerCluster.css";
-@import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+@use "@angular/material" as mat;
+@use "sass:map";
+@use "./app/styles/_palette" as palette;
 @import "tailwindcss";
 
-html,
+// todo: trocar de sitio
+@import "leaflet.markercluster/dist/MarkerCluster.css";
+@import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+
+html {
+  height: 100%;
+  color-scheme: light;
+  background-color: map.get(palette.$primary-palette, 98);
+
+  // theme
+  @include mat.theme(
+    (
+      color: (
+        primary: palette.$primary-palette,
+        tertiary: palette.$tertiary-palette,
+        use-system-variables: true,
+      ),
+      typography: Exo 2,
+      density: 0,
+    )
+  );
+
+  // use high contrast values when users prefer contrast
+  @media (prefers-contrast: more) {
+    @include palette.high-contrast-overrides(color-scheme);
+  }
+
+  // angular material overrides
+  @import "./app/styles/overrides";
+}
+
 body {
   height: 100%;
 }

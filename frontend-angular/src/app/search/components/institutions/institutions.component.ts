@@ -42,7 +42,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
   styleUrl: '../styles/search.scss',
 })
 export class InstitutionsComponent implements OnInit {
-  //constructor
+  // constructor
   constructor(
     private institutionService: InstitutionService,
     private institutionSearchService: InstitutionSearchService,
