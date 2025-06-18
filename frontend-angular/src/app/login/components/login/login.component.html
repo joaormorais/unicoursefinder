@@ -1,0 +1,29 @@
+<div
+  class="flex flex-col items-center w-xl mx-auto my-10 p-8 gap-6 bg-white/20 shadow-2xl rounded-xl"
+>
+  <h2 class="text-center font-bold">
+    {{ "auth.login" | translate }}
+  </h2>
+
+  <div class="login-inputs">
+    <app-email (emailChanged)="email = $event"></app-email>
+    <app-pw (passwordChanged)="password = $event"></app-pw>
+  </div>
+
+  <button mat-raised-button (click)="loginRequest()">
+    {{ "auth.loginRequest" | translate }}
+  </button>
+
+  <p class="mt-10 text-center text-sm text-gray-500">
+    <a href="#" class="font-semibold hover:font-bold hover:text-black">{{
+      "auth.pwRecover" | translate
+    }}</a>
+    <br />
+    {{ "auth.notRegistered" | translate }}
+    <a
+      routerLink="/register"
+      class="font-semibold hover:font-bold hover:text-black"
+      >{{ "auth.register" | translate }}</a
+    >
+  </p>
+</div>

@@ -1,13 +1,9 @@
 @use "sass:map";
-@use "styles/custom-theme-colors.scss" as custom;
+@use "./styles/palette" as palette;
 @import "tailwindcss";
 
 .header-container {
   @apply grid grid-cols-12 h-full w-full shadow-md;
 
-  background-color: map.get(map.get(custom.$primary-palette, secondary), 90);
-}
-
-.footer-container {
-  background-color: map.get(map.get(custom.$primary-palette, secondary), 90);
+  background-color: map.get(palette.$primary-palette, 40);
 }

@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.login-inputs {
+  @apply flex flex-col w-sm;
+}

@@ -60,6 +60,8 @@
   "auth": {
     "login": "Entra na tua conta",
     "email": "Email",
+    "emailRequired": "Tem de preencher o email",
+    "emailUnvalid": "Tem de introduzir um email válido",
     "pw": "Password",
     "pwRecover": "Esqueci-me da minha password",
     "loginRequest": "Entrar",
