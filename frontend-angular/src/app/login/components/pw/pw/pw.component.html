@@ -1,17 +1,9 @@
-<mat-form-field class="w-full">
-  <mat-label>{{ "auth.pw" | translate }}</mat-label>
-  <input
-    matInput
-    [type]="hide() ? 'password' : 'text'"
-    [formControl]="password"
+<p-floatlabel
+  ><p-password
+    [formControl]="passwordControl"
+    [feedback]="false"
+    [toggleMask]="true"
+    (blur)="onTouched()"
   />
-  <button
-    mat-icon-button
-    matSuffix
-    (click)="hidePW($event)"
-    [attr.aria-label]="'ariaLabels.hidePW' | translate"
-    [attr.aria-pressed]="hide()"
-  >
-    <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
-  </button>
-</mat-form-field>
+  <label for="on_label">{{ "auth.pw" | translate }}</label>
+</p-floatlabel>

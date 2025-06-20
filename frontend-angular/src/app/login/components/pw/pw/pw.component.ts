@@ -1,37 +1,57 @@
-import { Component, EventEmitter, Output, signal } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { Component, forwardRef } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { merge } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  FormControl,
+  NG_VALUE_ACCESSOR,
+  ControlValueAccessor,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { PasswordModule } from 'primeng/password';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-pw',
-  imports: [MatIconModule, MatInputModule, TranslatePipe, ReactiveFormsModule],
+  imports: [
+    TranslatePipe,
+    PasswordModule,
+    FloatLabelModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './pw.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => PwComponent),
+      multi: true,
+    },
+  ],
 })
-export class PwComponent {
-  // outputs
-  @Output() passwordChanged = new EventEmitter<string>();
+export class PwComponent implements ControlValueAccessor {
+  // input value
+  passwordControl = new FormControl('');
 
-  // data from the input
-  readonly password = new FormControl('', [Validators.required]);
+  onChange: (value: string) => void = () => {};
+  onTouched: () => void = () => {};
 
-  // signals
-  hide = signal(true);
-
-  // constructor
   constructor() {
-    merge(this.password.statusChanges, this.password.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.passwordChanged.emit(this.password.value ?? ''));
+    this.passwordControl.valueChanges.subscribe((value) => {
+      this.onChange(value || '');
+    });
   }
 
-  // change the state of the signal that is going to show/hide a button
-  hidePW(event: MouseEvent) {
-    this.hide.set(!this.hide());
-    event.stopPropagation();
+  writeValue(obj: any): void {
+    this.passwordControl.setValue(obj, { emitEvent: false });
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    isDisabled ? this.passwordControl.disable() : this.passwordControl.enable();
   }
 }

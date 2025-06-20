@@ -1,12 +1,4 @@
-<mat-form-field class="w-full">
-  <mat-label>{{ "auth.email" | translate }}</mat-label>
-  <input
-    matInput
-    placeholder="LopesDaSilva@exemplo.com"
-    [formControl]="this.email"
-    required
-  />
-  @if (this.email.invalid) {
-  <mat-error>{{ errorMessage() }}</mat-error>
-  }
-</mat-form-field>
+<p-floatlabel
+  ><input [formControl]="emailControl" type="text" pInputText />
+  <label for="on_label">{{ "auth.email" | translate }}</label>
+</p-floatlabel>

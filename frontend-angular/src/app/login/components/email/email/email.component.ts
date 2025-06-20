@@ -1,51 +1,57 @@
+import { Component, forwardRef } from '@angular/core';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-  signal,
-} from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { merge } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+  ControlValueAccessor,
+  FormControl,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-email',
-  imports: [MatInputModule, TranslatePipe, ReactiveFormsModule],
+  imports: [
+    InputTextModule,
+    TranslatePipe,
+    FloatLabelModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './email.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => EmailComponent),
+      multi: true,
+    },
+  ],
 })
-export class EmailComponent {
-  // outputs
-  @Output() emailChanged = new EventEmitter<string>();
+export class EmailComponent implements ControlValueAccessor {
+  // input value
+  emailControl = new FormControl('');
 
-  // data from the input
-  readonly email = new FormControl('', [Validators.required, Validators.email]);
+  onChange: (value: string) => void = () => {};
+  onTouched: () => void = () => {};
 
-  // signals
-  errorMessage = signal('');
-
-  // constructor
-  constructor(private translate: TranslateService) {
-    merge(this.email.statusChanges, this.email.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
-        this.updateErrorMessage();
-        this.emailChanged.emit(this.email.value ?? '');
-      });
+  constructor() {
+    this.emailControl.valueChanges.subscribe((value) => {
+      this.onChange(value || '');
+    });
   }
 
-  // update the error message for the email
-  updateErrorMessage() {
-    if (this.email.hasError('required')) {
-      this.errorMessage.set(this.translate.instant('auth.emailRequired'));
-    } else if (this.email.hasError('email')) {
-      this.errorMessage.set(this.translate.instant('auth.emailUnvalid'));
-    } else {
-      this.errorMessage.set('');
-    }
+  writeValue(obj: any): void {
+    this.emailControl.setValue(obj, { emitEvent: false });
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    isDisabled ? this.emailControl.disable() : this.emailControl.enable();
   }
 }
