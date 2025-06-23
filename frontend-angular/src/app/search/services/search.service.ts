@@ -246,7 +246,7 @@ export class SearchService {
 
   // courses
   //---------------------------------------------------------------------------
-    // get every information needed in order to display the courses component
+  // get every information needed in order to display the courses component
   startCourses(): void {
     // api call to get every course type
     this.handleApiCall(
@@ -387,11 +387,10 @@ export class SearchService {
   }
 
   // get the selection of the page size
-  getPageSize(max: number, paginator: MatPaginator): number {
+  getPageSize(max: number, pageSizeOptions: number[]): number {
     if (max >= 10) return 10;
     else if (max > 5 && max < 10) return max;
-    else if (max <= 5)
-      return paginator.pageSizeOptions[paginator.pageSizeOptions.length - 1];
+    else if (max <= 5) return pageSizeOptions[pageSizeOptions.length - 1];
 
     return 0;
   }

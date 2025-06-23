@@ -84,7 +84,7 @@ export class InstitutionsComponent implements OnInit {
       );
     this.institutionsPaginator.pageSize = this.searchService.getPageSize(
       this.searchService.institutionsFiltered().length,
-      this.institutionsPaginator
+      this.institutionsPaginator.pageSizeOptions
     );
   }
 }

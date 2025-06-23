@@ -101,7 +101,7 @@ export class CoursesComponent implements OnInit {
       );
     this.coursesPaginator.pageSize = this.searchService.getPageSize(
       this.searchService.coursesPaginated().totalElements,
-      this.coursesPaginator
+      this.coursesPaginator.pageSizeOptions
     );
   }
 
