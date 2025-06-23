@@ -11,7 +11,16 @@
         <mat-select
           [formControl]="courseTypeFilter"
           multiple
-          (selectionChange)="searchCourses(1, 10, true)"
+          (selectionChange)="
+            this.searchService.searchCourses(
+              1,
+              10,
+              true,
+              courseNameFilter,
+              courseTypeFilter.value,
+              courseInstitutionIdFilter.value
+            )
+          "
         >
           <mat-select-trigger>
             {{courseTypeFilter.value?.[0] || ''}}
@@ -21,7 +30,7 @@
             </span>
             }
           </mat-select-trigger>
-          @for (type of typesCourses; track type) {
+          @for (type of this.searchService.typesCourses(); track type) {
           <mat-option [value]="type">{{ type }}</mat-option>
           }
         </mat-select>
@@ -29,7 +38,17 @@
         <button
           matSuffix
           [attr.aria-label]="'ariaLabels.clearTypes' | translate"
-          (click)="courseTypeFilter.setValue([]); searchCourses(1, 10, true)"
+          (click)="
+            courseTypeFilter.setValue([]);
+            this.searchService.searchCourses(
+              1,
+              10,
+              true,
+              courseNameFilter,
+              courseTypeFilter.value,
+              courseInstitutionIdFilter.value
+            )
+          "
           class="!p0 mx-2"
         >
           <mat-icon>close</mat-icon>
@@ -44,7 +63,16 @@
         <mat-select
           [formControl]="courseInstitutionIdFilter"
           multiple
-          (selectionChange)="searchCourses(1, 10, true)"
+          (selectionChange)="
+            this.searchService.searchCourses(
+              1,
+              10,
+              true,
+              courseNameFilter,
+              courseTypeFilter.value,
+              courseInstitutionIdFilter.value
+            )
+          "
         >
           <mat-form-field class="w-full">
             <mat-label>{{ "institutions.name" | translate }}</mat-label>
@@ -52,7 +80,11 @@
               matInput
               type="text"
               [(ngModel)]="courseInstitutionNameFilter"
-              (ngModelChange)="filterInstitutionsByName()"
+              (ngModelChange)="
+                this.searchService.filterInstitutionsByName(
+                  courseInstitutionNameFilter
+                )
+              "
               placeholder="{{ 'institutions.name' | translate }}"
               [attr.aria-label]="
                 'ariaLabels.filterByInstitutionName' | translate
@@ -63,7 +95,10 @@
               matSuffix
               [attr.aria-label]="'ariaLabels.clearInstitutionName' | translate"
               (click)="
-                courseInstitutionNameFilter = ''; filterInstitutionsByName()
+                courseInstitutionNameFilter = '';
+                this.searchService.filterInstitutionsByName(
+                  courseInstitutionNameFilter
+                )
               "
               class="!p0 mx-2"
             >
@@ -71,8 +106,8 @@
             </button>
             }
           </mat-form-field>
-          @for (institution of institutionsFilteredByName; track institution.id)
-          {
+          @for (institution of this.searchService.institutionsFilteredByName();
+          track institution.id) {
           <mat-option [value]="institution.id"
             >{{ institution.name }}
           </mat-option>
@@ -83,7 +118,15 @@
           matSuffix
           [attr.aria-label]="'ariaLabels.clearInstitutions' | translate"
           (click)="
-            courseInstitutionIdFilter.setValue([]); searchCourses(1, 10, true)
+            courseInstitutionIdFilter.setValue([]);
+            this.searchService.searchCourses(
+              1,
+              10,
+              true,
+              courseNameFilter,
+              courseTypeFilter.value,
+              courseInstitutionIdFilter.value
+            )
           "
           class="!p0 mx-2"
         >
@@ -121,28 +164,36 @@
 
 <div class="list-container">
   <!-- loading and error messages -->
-  @if (loadingPaginatedCourses) {
+  @if (this.searchService.loadingPaginatedCourses()) {
   <div class="flex flex-col items-center">
     <mat-spinner></mat-spinner>
     <p class="!m-5">{{ "courses.loading" | translate }}</p>
   </div>
-  } @if (errorPaginatedCourses) {
+  } @if (this.searchService.errorPaginatedCourses()) {
   <div>
-    <p class="!m-5 text-center">{{ errorPaginatedCourses }}</p>
+    <p class="!m-5 text-center">
+      {{ this.searchService.errorPaginatedCourses() }}
+    </p>
   </div>
   }
   <!-- list -->
   <mat-selection-list
-    [hidden]="loadingPaginatedCourses || errorPaginatedCourses"
+    [hidden]="
+      this.searchService.loadingPaginatedCourses() ||
+      this.searchService.errorPaginatedCourses()
+    "
     [attr.aria-label]="'ariaLabels.institutionsList' | translate"
   >
-    @for (course of coursesPaginated.courses; track course.id) {
+    @for (course of this.searchService.coursesPaginated().courses; track
+    course.id) {
     <mat-list-item class="list-bullet-point">
       <a [href]="course.link" target="_blank">
         <p class="font-bold !m-0">
           ({{ course.dgesNumber }}) {{ course.name }}
         </p>
-        <p class="italic">{{ getInstitutionName(course.institutionId) }}</p>
+        <p class="italic">
+          {{ this.searchService.getInstitutionName(course.institutionId) }}
+        </p>
       </a>
     </mat-list-item>
     }
@@ -151,11 +202,13 @@
   <mat-paginator
     #coursesPaginator
     class="demo-paginator"
-    (page)="searchCourses($event.pageIndex + 1, $event.pageSize, false)"
-    [length]="coursesPaginated.totalElements"
+    (page)="handlePageEventCourses($event)"
+    [length]="this.searchService.coursesPaginated().totalElements"
     [showFirstLastButtons]="true"
     [pageSizeOptions]="
-      commonSearchService.getPageSizeOptions(coursesPaginated.totalElements)
+      this.searchService.getPageSizeOptions(
+        this.searchService.coursesPaginated().totalElements
+      )
     "
     [attr.aria-label]="'ariaLabels.pagination' | translate"
   >

@@ -1,21 +1,9 @@
-import {
-  Component,
-  Input,
-  ViewChild,
-} from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { CourseService } from '../../../shared/services/course.service';
-import { CourseSearchService } from '../../services/course-search.service';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import {
-  Course,
-  CourseSearchRequest,
-  CoursesPaginated,
-} from '../../../shared/models/course-paginated.model';
+import { Component, effect, inject, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { TranslatePipe } from '@ngx-translate/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, Subject } from 'rxjs';
-import { Institution } from '../../../shared/models/institution.model';
-import { CommonSearchService } from '../../services/common-search.service';
+import { SearchService } from '../../services/search.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
@@ -40,139 +28,92 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatInputModule,
     ReactiveFormsModule,
     MatListModule,
-    MatExpansionModule
-],
+    MatExpansionModule,
+  ],
   templateUrl: './courses.component.html',
   styleUrl: '../styles/search.scss',
 })
-export class CoursesComponent {
-  // constructor
-  constructor(
-    private courseService: CourseService,
-    private courseSearchService: CourseSearchService,
-    public commonSearchService: CommonSearchService,
-    private translate: TranslateService
-  ) {}
-
-  // vars from the parent
-  @Input() institutions: Institution[] = [];
+export class CoursesComponent implements OnInit {
+  // inject the main service of this feature
+  searchService = inject(SearchService);
 
   // add child components
   @ViewChild('coursesPaginator') coursesPaginator!: MatPaginator;
 
-  // subject that is going to be used for the debounce
-  courseNameChanged$ = new Subject<string>();
-
-  // flags to know if the api calls worked
-  loadingPaginatedCourses = true;
-  loadingTypesCourses = true;
-
-  // strings for error messages
-  errorPaginatedCourses: string | null = null;
-
-  // search filters
+  // local data
   courseNameFilter = '';
   courseTypeFilter = new FormControl<string[]>([]);
   courseInstitutionIdFilter = new FormControl<number[]>([]);
   courseInstitutionNameFilter = '';
 
-  // data
-  coursesPaginated: CoursesPaginated = {
-    courses: [],
-    totalElements: 0,
-    totalPages: 0,
-    currentPage: 0,
-  };
-  typesCourses: string[] = [];
-  institutionsFilteredByName: Institution[] = [];
+  // subject that is going to be used for the debounce
+  courseNameChanged$ = new Subject<string>();
+
+  constructor() {
+    effect(() => {
+      if (this.searchService.changePageSize() === true) this.resetPagination();
+    });
+    effect(() => {
+      const institutionId = this.searchService.searchedByInstitution();
+      if (institutionId !== 0) this.changeToCourses(institutionId);
+    });
+  }
 
   // run when the component is created
   ngOnInit(): void {
+    this.searchService.startCourses();
+
     // add debounce to the name input for courses
     this.courseNameChanged$
       .pipe(debounceTime(500))
       .subscribe((value: string) => {
         this.courseNameFilter = value;
-        this.searchCourses(1, 10, true);
+        this.searchService.searchCourses(
+          1,
+          10,
+          true,
+          this.courseNameFilter,
+          this.courseTypeFilter.value,
+          this.courseInstitutionIdFilter.value
+        );
       });
-
-    // api call to get every course type
-    this.commonSearchService.handleApiCall(
-      this.courseSearchService.getDistinctTypes(),
-      (data) => (this.typesCourses = data.sort((a, b) => a.localeCompare(b))),
-      () =>
-        (this.errorPaginatedCourses = this.translate.instant('courses.error')),
-      (loading) => (this.loadingTypesCourses = loading)
-    );
-
-    this.institutionsFilteredByName = this.institutions;
-    this.searchCourses(1, 10, true);
   }
 
-  // api call to get filtered and paginated courses
-  searchCourses(
-    pageNumber: number = 1,
-    pageSize: number = 10,
-    changePageSize: boolean
-  ): void {
-    // get the institutions id's that are selected with the form control
-    const selectedTypes = this.courseTypeFilter.value ?? [];
-
-    // create the request with filters
-    const request: CourseSearchRequest = {
-      name: this.courseNameFilter.toLocaleLowerCase().trim(),
-      types: selectedTypes,
-      institutionIds: this.courseInstitutionIdFilter.value ?? [],
-    };
-
-    this.commonSearchService.handleApiCall(
-      this.courseService.searchCourses(request, pageNumber, pageSize),
-      (data) => {
-        this.coursesPaginated = data;
-        if (changePageSize) {
-          this.coursesPaginator.pageIndex = 0;
-          this.coursesPaginator.pageSizeOptions =
-            this.commonSearchService.getPageSizeOptions(
-              this.coursesPaginated.totalElements
-            );
-          this.coursesPaginator.pageSize = this.commonSearchService.getPageSize(
-            this.coursesPaginated.totalElements,
-            this.coursesPaginator
-          );
-        }
-      },
-      () =>
-        (this.errorPaginatedCourses = this.translate.instant('courses.error')),
-      (loading) => (this.loadingPaginatedCourses = loading)
+  // handle the pagination for courses
+  handlePageEventCourses($event: PageEvent): void {
+    this.searchService.searchCourses(
+      $event.pageIndex + 1,
+      $event.pageSize,
+      false,
+      this.courseNameFilter,
+      this.courseTypeFilter.value,
+      this.courseInstitutionIdFilter.value
     );
   }
 
-  // getter in order to have the name of the institution in front of the course
-  getInstitutionName(institutionId: number): string {
-    const institution = this.institutions.find((i) => i.id == institutionId);
-    return institution ? institution.name : '';
+  // reset the pagination options after the courses change
+  resetPagination(): void {
+    // reset the values for the paginator
+    this.coursesPaginator.pageIndex = 0;
+    this.coursesPaginator.pageSizeOptions =
+      this.searchService.getPageSizeOptions(
+        this.searchService.coursesPaginated().totalElements
+      );
+    this.coursesPaginator.pageSize = this.searchService.getPageSize(
+      this.searchService.coursesPaginated().totalElements,
+      this.coursesPaginator
+    );
   }
-  
-  // change to the courses screen, and show the courses for that institution
-  searchCoursesByInstitutionId(institutionId: number): void {
+
+  // reset the filters for the search of courses for one institution
+  changeToCourses(institutionId: number): void {
+    // chamar esta função pelo effect
     this.courseInstitutionIdFilter.setValue([institutionId]);
 
     if (this.courseNameFilter !== '') this.courseNameFilter = '';
 
-    const selectedTypes = this.courseTypeFilter.value ?? [];
-    if (selectedTypes.length > 0)
+    if ((this.courseTypeFilter.value ?? []).length > 0)
       this.courseTypeFilter = new FormControl<string[]>([]);
-
-    this.searchCourses(1, 10, true);
-  }
-
-  // filter the institutions only by name
-  filterInstitutionsByName(): void {
-    const name = this.courseInstitutionNameFilter.toLowerCase().trim();
-    this.institutionsFilteredByName = this.institutions.filter((inst) => {
-      const matchesName = !name || inst.name.toLowerCase().includes(name);
-      return matchesName;
-    });
   }
 
   // handle for the input of the course name

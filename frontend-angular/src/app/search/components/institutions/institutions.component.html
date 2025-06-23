@@ -11,7 +11,13 @@
         <mat-select
           [formControl]="institutionTypeFilter"
           multiple
-          (selectionChange)="filterInstitutions()"
+          (selectionChange)="
+            this.searchService.filterInstitutions(
+              institutionNameFilter,
+              institutionTypeFilter.value,
+              institutionDistrictFilter.value
+            )
+          "
         >
           <mat-select-trigger>
             {{institutionTypeFilter.value?.[0] || ''}}
@@ -21,7 +27,7 @@
             </span>
             }
           </mat-select-trigger>
-          @for (type of typesInstitutions; track type) {
+          @for (type of this.searchService.typesInstitutions(); track type) {
           <mat-option [value]="type">{{ type }}</mat-option>
           }
         </mat-select>
@@ -29,7 +35,14 @@
         <button
           matSuffix
           [attr.aria-label]="'ariaLabels.clearTypes' | translate"
-          (click)="institutionTypeFilter.setValue([]); filterInstitutions()"
+          (click)="
+            institutionTypeFilter.setValue([]);
+            this.searchService.filterInstitutions(
+              institutionNameFilter,
+              institutionTypeFilter.value,
+              institutionDistrictFilter.value
+            )
+          "
           class="!p0 mx-2"
         >
           <mat-icon>close</mat-icon>
@@ -44,7 +57,13 @@
         <mat-select
           [formControl]="institutionDistrictFilter"
           multiple
-          (selectionChange)="filterInstitutions()"
+          (selectionChange)="
+            this.searchService.filterInstitutions(
+              institutionNameFilter,
+              institutionTypeFilter.value,
+              institutionDistrictFilter.value
+            )
+          "
         >
           <mat-select-trigger>
             {{institutionDistrictFilter.value?.[0] || ''}}
@@ -54,7 +73,8 @@
             </span>
             }
           </mat-select-trigger>
-          @for (district of districtsInstitutions; track district) {
+          @for (district of this.searchService.districtsInstitutions(); track
+          district) {
           <mat-option [value]="district">{{ district }}</mat-option>
           }
         </mat-select>
@@ -62,7 +82,14 @@
         <button
           matSuffix
           [attr.aria-label]="'ariaLabels.clearDistricts' | translate"
-          (click)="institutionDistrictFilter.setValue([]); filterInstitutions()"
+          (click)="
+            institutionDistrictFilter.setValue([]);
+            this.searchService.filterInstitutions(
+              institutionNameFilter,
+              institutionTypeFilter.value,
+              institutionDistrictFilter.value
+            )
+          "
           class="!p0 mx-2"
         >
           <mat-icon>close</mat-icon>
@@ -78,7 +105,13 @@
           matInput
           type="text"
           [(ngModel)]="institutionNameFilter"
-          (input)="filterInstitutions()"
+          (input)="
+            this.searchService.filterInstitutions(
+              institutionNameFilter,
+              institutionTypeFilter.value,
+              institutionDistrictFilter.value
+            )
+          "
           placeholder="{{ 'institutions.name' | translate }}"
           [attr.aria-label]="'ariaLabels.filterByName' | translate"
         />
@@ -86,7 +119,14 @@
         <button
           matSuffix
           [attr.aria-label]="'ariaLabels.clearName' | translate"
-          (click)="institutionNameFilter = ''; filterInstitutions()"
+          (click)="
+            institutionNameFilter = '';
+            this.searchService.filterInstitutions(
+              institutionNameFilter,
+              institutionTypeFilter.value,
+              institutionDistrictFilter.value
+            )
+          "
           class="!p0 mx-2"
         >
           <mat-icon>close</mat-icon>
@@ -99,33 +139,38 @@
 
 <div class="list-container">
   <!-- loading and error messages -->
-  @if ( loadingInstitutions || loadingTypesInstitutions ||
-  loadingDistrictsInstitutions ) {
+  @if ( this.searchService.loadingInstitutions() ||
+  this.searchService.loadingTypesInstitutions() ||
+  this.searchService.loadingDistrictsInstitutions() ) {
   <div class="flex flex-col items-center">
     <mat-spinner></mat-spinner>
     <p class="!m-5">{{ "institutions.loading" | translate }}</p>
   </div>
-  } @if (errorInstitutions) {
+  } @if (this.searchService.errorInstitutions()) {
   <div>
-    <p class="!m-5 text-center">{{ errorInstitutions }}</p>
+    <p class="!m-5 text-center">{{ this.searchService.errorInstitutions() }}</p>
   </div>
   }
   <!-- list -->
   <mat-selection-list
     [hidden]="
-      loadingInstitutions ||
-      loadingTypesInstitutions ||
-      loadingDistrictsInstitutions ||
-      errorInstitutions
+      this.searchService.loadingInstitutions() ||
+      this.searchService.loadingTypesInstitutions() ||
+      this.searchService.loadingDistrictsInstitutions() ||
+      this.searchService.errorInstitutions()
     "
     [attr.aria-label]="'ariaLabels.institutionsList' | translate"
   >
     @for (institution of institutionsPaginated; track institution.id) {
     <mat-list-item
       tabindex="0"
-      (click)="this.triggerActionSearch.emit(institution.id)"
-      (keydown.enter)="this.triggerActionSearch.emit(institution.id)"
-      (keydown.space)="this.triggerActionSearch.emit(institution.id)"
+      (click)="this.searchService.searchCoursesFromInstitution(institution.id)"
+      (keydown.enter)="
+        this.searchService.searchCoursesFromInstitution(institution.id)
+      "
+      (keydown.space)="
+        this.searchService.searchCoursesFromInstitution(institution.id)
+      "
       class="list-bullet-point"
     >
       <p class="font-bold !m-0">
@@ -141,10 +186,12 @@
     #institutionsPaginator
     class="demo-paginator"
     (page)="handlePageEventInstitutions($event)"
-    [length]="institutionsFiltered.length"
+    [length]="this.searchService.institutionsFiltered().length"
     [showFirstLastButtons]="true"
     [pageSizeOptions]="
-      commonSearchService.getPageSizeOptions(institutionsFiltered.length)
+      this.searchService.getPageSizeOptions(
+        this.searchService.institutionsFiltered().length
+      )
     "
     [attr.aria-label]="'ariaLabels.pagination' | translate"
   >
