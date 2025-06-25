@@ -1,13 +1,8 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { AfterViewInit, Component, effect, inject } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { Institution } from '../../../shared/models/institution.model';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-map',
@@ -15,11 +10,17 @@ import { Institution } from '../../../shared/models/institution.model';
   templateUrl: './map.component.html',
 })
 export class MapComponent implements AfterViewInit {
-  // vars from the parent
-  @Input() institutionsFiltered: Institution[] = [];
+  // inject the main service of this feature
+  searchService = inject(SearchService);
 
-  // triggers to call functions from another child component
-  @Output() triggerActionSearch = new EventEmitter<number>();
+  constructor() {
+    effect(() => {
+      const institutionsFiltered = this.searchService.institutionsFiltered();
+      if (this.map) {
+        this.updateMap(institutionsFiltered);
+      }
+    });
+  }
 
   // data
   private map!: L.Map;
@@ -52,7 +53,7 @@ export class MapComponent implements AfterViewInit {
     }).addTo(this.map);
 
     // add the markers for the institutions
-    this.institutionsFiltered.forEach((institution) => {
+    this.searchService.institutionsFiltered().forEach((institution) => {
       this.createMarkers(institution, this.institutionIcon);
     });
 
@@ -99,7 +100,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     marker.on('click', () => {
-      this.triggerActionSearch.emit(institution.id);
+      this.searchService.searchCoursesFromInstitution(institution.id);
     });
 
     // add the marker to the group of markers

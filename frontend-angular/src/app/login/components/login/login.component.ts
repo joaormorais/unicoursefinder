@@ -1,28 +1,49 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { EmailComponent } from '../email/email/email.component';
 import { PwComponent } from '../pw/pw/pw.component';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import {
+  ReactiveFormsModule,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   imports: [
     TranslatePipe,
-    MatButtonModule,
     RouterModule,
     EmailComponent,
     PwComponent,
+    ButtonModule,
+    CardModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './login.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  email!: string;
-  password!: string;
+  protected loginForm = new FormGroup({
+    password: new FormControl('', {
+      validators: [Validators.required, Validators.minLength(8)],
+      nonNullable: true,
+    }),
+    email: new FormControl('', {
+      validators: [Validators.required, Validators.email],
+      nonNullable: true,
+    }),
+  });
 
   loginRequest() {
-    console.log('Email:', this.email);
-    console.log('Password:', this.password);
+    if (this.loginForm.invalid) {
+      console.log('Form Invalid!');
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    console.log('Login request to API:', this.loginForm.value);
   }
 }

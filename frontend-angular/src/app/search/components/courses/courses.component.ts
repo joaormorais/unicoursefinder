@@ -1,182 +1,142 @@
 import {
   Component,
-  Input,
+  effect,
+  inject,
+  OnDestroy,
+  OnInit,
   ViewChild,
 } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { CourseService } from '../../../shared/services/course.service';
-import { CourseSearchService } from '../../services/course-search.service';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import {
-  Course,
-  CourseSearchRequest,
-  CoursesPaginated,
-} from '../../../shared/models/course-paginated.model';
-import { FormControl } from '@angular/forms';
-import { debounceTime, Subject } from 'rxjs';
-import { Institution } from '../../../shared/models/institution.model';
-import { CommonSearchService } from '../../services/common-search.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatListModule } from '@angular/material/list';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { TranslatePipe } from '@ngx-translate/core';
+import { SearchService } from '../../services/search.service';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { PanelModule } from 'primeng/panel';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { ButtonModule } from 'primeng/button';
+import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
+import { Paginator, PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { ProgressSpinner } from 'primeng/progressspinner';
+import { CourseFilters, PageOptions } from '../../models/search.model';
 
 @Component({
   selector: 'app-courses',
   imports: [
     TranslatePipe,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
-    MatInputModule,
     ReactiveFormsModule,
-    MatListModule,
-    MatExpansionModule
-],
+    PanelModule,
+    MultiSelectModule,
+    InputTextModule,
+    FloatLabelModule,
+    ButtonModule,
+    PaginatorModule,
+    ProgressSpinner,
+  ],
   templateUrl: './courses.component.html',
   styleUrl: '../styles/search.scss',
 })
-export class CoursesComponent {
-  // constructor
-  constructor(
-    private courseService: CourseService,
-    private courseSearchService: CourseSearchService,
-    public commonSearchService: CommonSearchService,
-    private translate: TranslateService
-  ) {}
+export class CoursesComponent implements OnInit, OnDestroy {
+  // inject the main service of this feature
+  searchService = inject(SearchService);
 
-  // vars from the parent
-  @Input() institutions: Institution[] = [];
+  // filters form
+  filtersFormGroup = new FormGroup({
+    name: new FormControl(''),
+    types: new FormControl<string[]>([]),
+    institutionsIds: new FormControl<number[]>([]),
+  });
+
+  // subscription to the filters
+  private filtersSubscription!: Subscription;
 
   // add child components
-  @ViewChild('coursesPaginator') coursesPaginator!: MatPaginator;
+  @ViewChild('coursesPaginator') coursesPaginator!: Paginator;
+  coursesPaginatorIndex: number = 0;
+  coursesPaginatorRows: number = 0;
+  coursesPaginatorTotalRecords: number = 0;
+  coursesPaginatorRowsPerPageOptions: number[] = [0];
 
-  // subject that is going to be used for the debounce
-  courseNameChanged$ = new Subject<string>();
-
-  // flags to know if the api calls worked
-  loadingPaginatedCourses = true;
-  loadingTypesCourses = true;
-
-  // strings for error messages
-  errorPaginatedCourses: string | null = null;
-
-  // search filters
-  courseNameFilter = '';
-  courseTypeFilter = new FormControl<string[]>([]);
-  courseInstitutionIdFilter = new FormControl<number[]>([]);
-  courseInstitutionNameFilter = '';
-
-  // data
-  coursesPaginated: CoursesPaginated = {
-    courses: [],
-    totalElements: 0,
-    totalPages: 0,
-    currentPage: 0,
-  };
-  typesCourses: string[] = [];
-  institutionsFilteredByName: Institution[] = [];
-
-  // run when the component is created
-  ngOnInit(): void {
-    // add debounce to the name input for courses
-    this.courseNameChanged$
-      .pipe(debounceTime(500))
-      .subscribe((value: string) => {
-        this.courseNameFilter = value;
-        this.searchCourses(1, 10, true);
-      });
-
-    // api call to get every course type
-    this.commonSearchService.handleApiCall(
-      this.courseSearchService.getDistinctTypes(),
-      (data) => (this.typesCourses = data.sort((a, b) => a.localeCompare(b))),
-      () =>
-        (this.errorPaginatedCourses = this.translate.instant('courses.error')),
-      (loading) => (this.loadingTypesCourses = loading)
-    );
-
-    this.institutionsFilteredByName = this.institutions;
-    this.searchCourses(1, 10, true);
-  }
-
-  // api call to get filtered and paginated courses
-  searchCourses(
-    pageNumber: number = 1,
-    pageSize: number = 10,
-    changePageSize: boolean
-  ): void {
-    // get the institutions id's that are selected with the form control
-    const selectedTypes = this.courseTypeFilter.value ?? [];
-
-    // create the request with filters
-    const request: CourseSearchRequest = {
-      name: this.courseNameFilter.toLocaleLowerCase().trim(),
-      types: selectedTypes,
-      institutionIds: this.courseInstitutionIdFilter.value ?? [],
-    };
-
-    this.commonSearchService.handleApiCall(
-      this.courseService.searchCourses(request, pageNumber, pageSize),
-      (data) => {
-        this.coursesPaginated = data;
-        if (changePageSize) {
-          this.coursesPaginator.pageIndex = 0;
-          this.coursesPaginator.pageSizeOptions =
-            this.commonSearchService.getPageSizeOptions(
-              this.coursesPaginated.totalElements
-            );
-          this.coursesPaginator.pageSize = this.commonSearchService.getPageSize(
-            this.coursesPaginated.totalElements,
-            this.coursesPaginator
-          );
-        }
-      },
-      () =>
-        (this.errorPaginatedCourses = this.translate.instant('courses.error')),
-      (loading) => (this.loadingPaginatedCourses = loading)
-    );
-  }
-
-  // getter in order to have the name of the institution in front of the course
-  getInstitutionName(institutionId: number): string {
-    const institution = this.institutions.find((i) => i.id == institutionId);
-    return institution ? institution.name : '';
-  }
-  
-  // change to the courses screen, and show the courses for that institution
-  searchCoursesByInstitutionId(institutionId: number): void {
-    this.courseInstitutionIdFilter.setValue([institutionId]);
-
-    if (this.courseNameFilter !== '') this.courseNameFilter = '';
-
-    const selectedTypes = this.courseTypeFilter.value ?? [];
-    if (selectedTypes.length > 0)
-      this.courseTypeFilter = new FormControl<string[]>([]);
-
-    this.searchCourses(1, 10, true);
-  }
-
-  // filter the institutions only by name
-  filterInstitutionsByName(): void {
-    const name = this.courseInstitutionNameFilter.toLowerCase().trim();
-    this.institutionsFilteredByName = this.institutions.filter((inst) => {
-      const matchesName = !name || inst.name.toLowerCase().includes(name);
-      return matchesName;
+  constructor() {
+    effect(() => {
+      if (this.searchService.changePageSize() === true) this.resetPagination();
+    });
+    effect(() => {
+      const institutionId = this.searchService.searchedByInstitution();
+      if (institutionId !== 0) this.changeToCourses(institutionId);
     });
   }
 
-  // handle for the input of the course name
-  onCourseNameInput(value: string): void {
-    this.courseNameChanged$.next(value);
+  // run when the component is created
+  ngOnInit(): void {
+    this.searchService.startCourses();
+    this.subscribeToFilterChanges();
+  }
+
+  // run when the component is destroyed
+  ngOnDestroy(): void {
+    if (this.filtersSubscription) {
+      this.filtersSubscription.unsubscribe();
+    }
+  }
+
+  private subscribeToFilterChanges(): void {
+    this.filtersSubscription = this.filtersFormGroup.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((formValues) => {
+        this.searchService.searchCourses(
+          { pageNumber: 1, pageSize: 10 } as PageOptions,
+          true,
+          formValues as CourseFilters
+        );
+      });
+  }
+
+  clearTypes(): void {
+    this.filtersFormGroup.get('types')?.setValue([]);
+  }
+
+  clearInstitutions(): void {
+    this.filtersFormGroup.get('institutionsIds')?.setValue([]);
+  }
+
+  // reset the filters for the search of courses for one institution
+  private changeToCourses(institutionId: number): void {
+    this.filtersFormGroup.get('institutionsIds')?.setValue([institutionId]);
+
+    if (this.filtersFormGroup.value.name !== '')
+      this.filtersFormGroup.get('name')?.setValue('');
+
+    if ((this.filtersFormGroup.value.types ?? []).length > 0)
+      this.filtersFormGroup.get('types')?.setValue([]);
+  }
+
+  // handle the pagination for courses
+  onPageChange($event: PaginatorState): void {
+    this.searchService.searchCourses(
+      {
+        pageNumber: $event.page ? $event.page + 1 : 1,
+        pageSize: $event.rows,
+      } as PageOptions,
+      false,
+      this.filtersFormGroup.value as CourseFilters
+    );
+  }
+
+  // reset the pagination options after the courses change
+  private resetPagination(): void {
+    this.coursesPaginatorIndex = 0;
+
+    this.coursesPaginatorTotalRecords =
+      this.searchService.coursesPaginated().totalElements;
+
+    this.coursesPaginatorRowsPerPageOptions =
+      this.searchService.getPageSizeOptions(
+        this.searchService.coursesPaginated().totalElements
+      );
+
+    this.coursesPaginatorRows = this.searchService.getPageSize(
+      this.coursesPaginatorTotalRecords,
+      this.coursesPaginatorRowsPerPageOptions
+    );
   }
 }

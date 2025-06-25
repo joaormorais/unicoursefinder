@@ -2,15 +2,11 @@
 @import "tailwindcss";
 
 .filter-expansion-panel {
-  @apply m-5 transition-all duration-1000 overflow-hidden rounded-xl shadow-md;
-
-  &:not(.mat-expanded) {
-    width: fit-content;
-  }
+  @apply m-5 overflow-hidden rounded-xl shadow-md;
 }
 
 .filter-container {
-  @apply rounded-2xl grid grid-cols-1 md:grid-cols-12;
+  @apply rounded-2xl grid grid-cols-1 md:grid-cols-12 mt-3;
 }
 
 .filter-container > div {
@@ -22,7 +18,7 @@
 }
 
 .list-bullet-point {
-  @apply rounded-xl mb-3 p-2 !h-full;
+  @apply rounded-xl mb-3 p-2 !h-full text-black cursor-pointer;
 
   &:hover {
     @apply shadow-xl;

@@ -1,54 +1,42 @@
 <!-- loading message for map -->
-@if (loadingInstitutions) {
-  <p class="!m-5 text-center">{{ "map.loading" | translate }}</p>
+@if (this.searchService.loadingInstitutions()) {
+<p class="!m-5 text-center">{{ "map.loading" | translate }}</p>
 }
 
 <!-- map and his title -->
-@if (!loadingInstitutions && !errorInstitutions) {
-  <!-- map of institutions -->
-  <app-map
-    (triggerActionSearch)="callSearchCoursesByInstitutionId($event)"
-    [institutionsFiltered]="institutionsFiltered"
-  ></app-map>
+@if (!this.searchService.loadingInstitutions() &&
+!this.searchService.errorInstitutions()) {
+<!-- map of institutions -->
+<app-map></app-map>
 }
 
 <!-- choose between institutions and courses -->
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-  <mat-tab label="Instituições">
-    <!-- institutions list and filters -->
-    <div>
-      <app-institutions
-        (triggerActionSearch)="callSearchCoursesByInstitutionId($event)"
-        (triggerActionMap)="callUpdateMap()"
-        [institutions]="institutions"
-        (institutionsOutput)="institutions = $event"
-        [institutionsFiltered]="institutionsFiltered"
-        (institutionsFilteredOutput)="institutionsFiltered = $event"
-        [loadingInstitutions]="loadingInstitutions"
-        (loadingInstitutionsOutput)="loadingInstitutions = $event"
-        [loadingTypesInstitutions]="loadingTypesInstitutions"
-        (loadingTypesInstitutionsOutput)="loadingTypesInstitutions = $event"
-        [loadingDistrictsInstitutions]="loadingDistrictsInstitutions"
-        (loadingDistrictsInstitutionsOutput)="
-          loadingDistrictsInstitutions = $event
-        "
-        [errorInstitutions]="errorInstitutions"
-        (errorInstitutionsOutput)="errorInstitutions = $event"
-        >
-      </app-institutions>
-    </div>
-  </mat-tab>
-  <mat-tab label="Cursos">
-    <!-- courses list and filters -->
-    @if (
-      !loadingInstitutions &&
-      !loadingTypesInstitutions &&
-      !loadingDistrictsInstitutions
-      ) {
-      <div
-        >
-        <app-courses [institutions]="institutions"> </app-courses>
-      </div>
-    }
-  </mat-tab>
-</mat-tab-group>
+<div class="card">
+  <p-tabs
+    [value]="this.searchService.tabValue()"
+    (valueChange)="searchService.changeTab($event)"
+  >
+    <p-tablist>
+      <p-tab value="0">{{ "buttons.institutions" | translate }}</p-tab>
+      <p-tab value="1">{{ "buttons.courses" | translate }}</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel value="0">
+        <!-- institutions list and filters -->
+        <div>
+          <app-institutions> </app-institutions>
+        </div>
+      </p-tabpanel>
+      <p-tabpanel value="1">
+        <!-- courses list and filters -->
+        @if ( !this.searchService.loadingInstitutions() &&
+        !this.searchService.loadingTypesInstitutions() &&
+        !this.searchService.loadingDistrictsInstitutions() ) {
+        <div>
+          <app-courses> </app-courses>
+        </div>
+        }
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+</div>

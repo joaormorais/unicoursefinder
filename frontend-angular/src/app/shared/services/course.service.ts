@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import {
   CoursesPaginated,
   CourseSearchRequest,
-} from '../models/course-paginated.model';
+} from '../models/courses.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
