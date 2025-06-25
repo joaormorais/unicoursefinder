@@ -49,4 +49,9 @@ export class HeaderComponent {
     ),
     { initialValue: [] }
   );
+
+  toggleDarkMode() {
+    const element = document.querySelector('html');
+    if (element) element.classList.toggle('my-app-dark');
+  }
 }

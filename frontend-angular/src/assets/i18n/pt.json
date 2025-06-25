@@ -18,7 +18,8 @@
     "filterByName": "Filtro por nome",
     "clearName": "Limpar filtro de nome",
     "hidePW": "Esconder/Mostrar a password",
-    "openLink": "Abrir os detalhes deste curso numa nova janela"
+    "openLink": "Abrir os detalhes deste curso numa nova janela",
+    "changeModes": "Alternar entre modo claro e modo escuro"
   },
   "buttons": {
     "search": "Pesquisa",

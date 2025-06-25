@@ -1,9 +1,5 @@
-@use "sass:map";
-@use "./styles/palette" as palette;
 @import "tailwindcss";
 
 .header-container {
   @apply grid grid-cols-12 h-full w-full shadow-md;
-
-  background-color: map.get(palette.$primary-palette, 40);
 }
