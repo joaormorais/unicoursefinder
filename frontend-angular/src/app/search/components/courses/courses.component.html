@@ -1,172 +1,86 @@
 <!-- filters -->
-<mat-expansion-panel class="filter-expansion-panel">
-  <mat-expansion-panel-header>
-    <mat-panel-title>{{ "filters.filters" | translate }}:</mat-panel-title>
-  </mat-expansion-panel-header>
-  <div class="filter-container">
+<p-panel
+  [header]="'filters.filters' | translate"
+  [toggleable]="true"
+  class="filter-expansion-panel"
+>
+  <form [formGroup]="filtersFormGroup" class="filter-container">
     <!-- types -->
-    <div class="md:col-span-3">
-      <mat-form-field class="w-full">
-        <mat-label>{{ "filters.types" | translate }}</mat-label>
-        <mat-select
-          [formControl]="courseTypeFilter"
-          multiple
-          (selectionChange)="
-            this.searchService.searchCourses(
-              1,
-              10,
-              true,
-              courseNameFilter,
-              courseTypeFilter.value,
-              courseInstitutionIdFilter.value
-            )
-          "
+    <div class="md:col-span-4">
+      <p-float-label>
+        <p-multiselect
+          [options]="this.searchService.typesCourses()"
+          formControlName="types"
+          [maxSelectedLabels]="3"
+          styleClass="w-full md:w-80"
         >
-          <mat-select-trigger>
-            {{courseTypeFilter.value?.[0] || ''}}
-            @if ((courseTypeFilter.value?.length || 0) > 1) {
-            <span class="example-additional-selection">
-              (+{{ (courseTypeFilter.value?.length || 0) - 1 }})
-            </span>
-            }
-          </mat-select-trigger>
-          @for (type of this.searchService.typesCourses(); track type) {
-          <mat-option [value]="type">{{ type }}</mat-option>
-          }
-        </mat-select>
-        @if ((courseTypeFilter.value?.length ?? 0) > 0) {
-        <button
-          matSuffix
-          [attr.aria-label]="'ariaLabels.clearTypes' | translate"
-          (click)="
-            courseTypeFilter.setValue([]);
-            this.searchService.searchCourses(
-              1,
-              10,
-              true,
-              courseNameFilter,
-              courseTypeFilter.value,
-              courseInstitutionIdFilter.value
-            )
-          "
-          class="!p0 mx-2"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-        }
-      </mat-form-field>
+          <ng-template #footer>
+            <div class="p-3 flex">
+              <p-button
+                [label]="'filters.remove' | translate"
+                severity="danger"
+                text
+                size="small"
+                icon="pi pi-times"
+                (click)="clearTypes()"
+              />
+            </div>
+          </ng-template>
+        </p-multiselect>
+        <label for="on_label">{{ "filters.types" | translate }}</label>
+      </p-float-label>
     </div>
-    <!-- institutions id's -->
-    <div class="md:col-span-6">
-      <mat-form-field class="w-full">
-        <mat-label>{{ "filters.institutionsIds" | translate }}</mat-label>
-        <mat-select
-          [formControl]="courseInstitutionIdFilter"
-          multiple
-          (selectionChange)="
-            this.searchService.searchCourses(
-              1,
-              10,
-              true,
-              courseNameFilter,
-              courseTypeFilter.value,
-              courseInstitutionIdFilter.value
-            )
-          "
+
+    <!--  institutions id's -->
+    <div class="md:col-span-4">
+      <p-float-label>
+        <p-multiselect
+          [options]="this.searchService.institutions()"
+          optionLabel="name"
+          optionValue="id"
+          formControlName="institutionsIds"
+          [maxSelectedLabels]="3"
+          styleClass="w-full md:w-80"
         >
-          <mat-form-field class="w-full">
-            <mat-label>{{ "institutions.name" | translate }}</mat-label>
-            <input
-              matInput
-              type="text"
-              [(ngModel)]="courseInstitutionNameFilter"
-              (ngModelChange)="
-                this.searchService.filterInstitutionsByName(
-                  courseInstitutionNameFilter
-                )
-              "
-              placeholder="{{ 'institutions.name' | translate }}"
-              [attr.aria-label]="
-                'ariaLabels.filterByInstitutionName' | translate
-              "
-            />
-            @if (courseInstitutionNameFilter) {
-            <button
-              matSuffix
-              [attr.aria-label]="'ariaLabels.clearInstitutionName' | translate"
-              (click)="
-                courseInstitutionNameFilter = '';
-                this.searchService.filterInstitutionsByName(
-                  courseInstitutionNameFilter
-                )
-              "
-              class="!p0 mx-2"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
-            }
-          </mat-form-field>
-          @for (institution of this.searchService.institutionsFilteredByName();
-          track institution.id) {
-          <mat-option [value]="institution.id"
-            >{{ institution.name }}
-          </mat-option>
-          }
-        </mat-select>
-        @if ((courseInstitutionIdFilter.value?.length ?? 0) > 0) {
-        <button
-          matSuffix
-          [attr.aria-label]="'ariaLabels.clearInstitutions' | translate"
-          (click)="
-            courseInstitutionIdFilter.setValue([]);
-            this.searchService.searchCourses(
-              1,
-              10,
-              true,
-              courseNameFilter,
-              courseTypeFilter.value,
-              courseInstitutionIdFilter.value
-            )
-          "
-          class="!p0 mx-2"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-        }
-      </mat-form-field>
+          <ng-template #footer>
+            <div class="p-3 flex">
+              <p-button
+                [label]="'filters.remove' | translate"
+                severity="danger"
+                text
+                size="small"
+                icon="pi pi-times"
+                (click)="clearInstitutions()"
+              />
+            </div>
+          </ng-template>
+        </p-multiselect>
+        <label for="on_label">{{
+          "filters.institutionsIds" | translate
+        }}</label>
+      </p-float-label>
     </div>
+
     <!-- name -->
-    <div class="md:col-span-3">
-      <mat-form-field class="w-full">
-        <mat-label>{{ "courses.name" | translate }}</mat-label>
-        <input
-          matInput
-          type="text"
-          [(ngModel)]="courseNameFilter"
-          (ngModelChange)="onCourseNameInput($event)"
-          placeholder="{{ 'courses.name' | translate }}"
-          [attr.aria-label]="'ariaLabels.filterByName' | translate"
-        />
-        @if (courseNameFilter) {
-        <button
-          matSuffix
-          [attr.aria-label]="'ariaLabels.clearName' | translate"
-          (click)="onCourseNameInput('')"
-          class="!p0 mx-2"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-        }
-      </mat-form-field>
+    <div class="md:col-span-4">
+      <p-floatlabel
+        ><input formControlName="name" type="text" pInputText />
+        <label for="on_label">{{ "filters.name" | translate }}</label>
+      </p-floatlabel>
     </div>
-  </div>
-</mat-expansion-panel>
+  </form>
+</p-panel>
 
 <div class="list-container">
   <!-- loading and error messages -->
   @if (this.searchService.loadingPaginatedCourses()) {
   <div class="flex flex-col items-center">
-    <mat-spinner></mat-spinner>
+    <p-progress-spinner
+      strokeWidth="8"
+      fill="transparent"
+      animationDuration=".5s"
+      [style]="{ width: '50px', height: '50px' }"
+    />
     <p class="!m-5">{{ "courses.loading" | translate }}</p>
   </div>
   } @if (this.searchService.errorPaginatedCourses()) {
@@ -177,7 +91,7 @@
   </div>
   }
   <!-- list -->
-  <mat-selection-list
+  <ul
     [hidden]="
       this.searchService.loadingPaginatedCourses() ||
       this.searchService.errorPaginatedCourses()
@@ -186,8 +100,12 @@
   >
     @for (course of this.searchService.coursesPaginated().courses; track
     course.id) {
-    <mat-list-item class="list-bullet-point">
-      <a [href]="course.link" target="_blank">
+    <li class="list-bullet-point">
+      <a
+        [href]="course.link"
+        target="_blank"
+        [attr.aria-label]="'ariaLabels.openLink' | translate"
+      >
         <p class="font-bold !m-0">
           ({{ course.dgesNumber }}) {{ course.name }}
         </p>
@@ -195,22 +113,17 @@
           {{ this.searchService.getInstitutionName(course.institutionId) }}
         </p>
       </a>
-    </mat-list-item>
+    </li>
     }
-  </mat-selection-list>
+  </ul>
   <!-- paginator -->
-  <mat-paginator
+  <p-paginator
     #coursesPaginator
-    class="demo-paginator"
-    (page)="handlePageEventCourses($event)"
-    [length]="this.searchService.coursesPaginated().totalElements"
-    [showFirstLastButtons]="true"
-    [pageSizeOptions]="
-      this.searchService.getPageSizeOptions(
-        this.searchService.coursesPaginated().totalElements
-      )
-    "
+    (onPageChange)="onPageChange($event)"
+    [first]="this.coursesPaginatorIndex"
+    [totalRecords]="this.coursesPaginatorTotalRecords"
+    [rowsPerPageOptions]="this.coursesPaginatorRowsPerPageOptions"
+    [rows]="this.coursesPaginatorRows"
     [attr.aria-label]="'ariaLabels.pagination' | translate"
-  >
-  </mat-paginator>
+  />
 </div>

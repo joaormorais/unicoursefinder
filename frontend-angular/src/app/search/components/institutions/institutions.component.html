@@ -1,141 +1,71 @@
 <!-- filters -->
-<mat-expansion-panel class="filter-expansion-panel">
-  <mat-expansion-panel-header>
-    <mat-panel-title>{{ "filters.filters" | translate }}:</mat-panel-title>
-  </mat-expansion-panel-header>
-  <div class="filter-container">
+<p-panel
+  [header]="'filters.filters' | translate"
+  [toggleable]="true"
+  class="filter-expansion-panel"
+>
+  <form [formGroup]="filtersFormGroup" class="filter-container">
     <!-- types -->
     <div class="md:col-span-4">
-      <mat-form-field class="w-full">
-        <mat-label>{{ "filters.types" | translate }}</mat-label>
-        <mat-select
-          [formControl]="institutionTypeFilter"
-          multiple
-          (selectionChange)="
-            this.searchService.filterInstitutions(
-              institutionNameFilter,
-              institutionTypeFilter.value,
-              institutionDistrictFilter.value
-            )
-          "
+      <p-float-label>
+        <p-multiselect
+          [options]="this.searchService.typesInstitutions()"
+          formControlName="types"
+          [maxSelectedLabels]="3"
+          styleClass="w-full md:w-80"
         >
-          <mat-select-trigger>
-            {{institutionTypeFilter.value?.[0] || ''}}
-            @if ((institutionTypeFilter.value?.length || 0) > 1) {
-            <span class="example-additional-selection">
-              (+{{ (institutionTypeFilter.value?.length || 0) - 1 }})
-            </span>
-            }
-          </mat-select-trigger>
-          @for (type of this.searchService.typesInstitutions(); track type) {
-          <mat-option [value]="type">{{ type }}</mat-option>
-          }
-        </mat-select>
-        @if ((institutionTypeFilter.value?.length ?? 0) > 0) {
-        <button
-          matSuffix
-          [attr.aria-label]="'ariaLabels.clearTypes' | translate"
-          (click)="
-            institutionTypeFilter.setValue([]);
-            this.searchService.filterInstitutions(
-              institutionNameFilter,
-              institutionTypeFilter.value,
-              institutionDistrictFilter.value
-            )
-          "
-          class="!p0 mx-2"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-        }
-      </mat-form-field>
+          <ng-template #footer>
+            <div class="p-3 flex">
+              <p-button
+                [label]="'filters.remove' | translate"
+                severity="danger"
+                text
+                size="small"
+                icon="pi pi-times"
+                (click)="clearTypes()"
+              />
+            </div>
+          </ng-template>
+        </p-multiselect>
+        <label for="on_label">{{ "filters.types" | translate }}</label>
+      </p-float-label>
     </div>
+
     <!-- districts -->
     <div class="md:col-span-4">
-      <mat-form-field class="w-full">
-        <mat-label>{{ "filters.districts" | translate }}</mat-label>
-        <mat-select
-          [formControl]="institutionDistrictFilter"
-          multiple
-          (selectionChange)="
-            this.searchService.filterInstitutions(
-              institutionNameFilter,
-              institutionTypeFilter.value,
-              institutionDistrictFilter.value
-            )
-          "
+      <p-float-label>
+        <p-multiselect
+          [options]="this.searchService.districtsInstitutions()"
+          formControlName="districts"
+          [maxSelectedLabels]="3"
+          styleClass="w-full md:w-80"
         >
-          <mat-select-trigger>
-            {{institutionDistrictFilter.value?.[0] || ''}}
-            @if ((institutionDistrictFilter.value?.length || 0) > 1) {
-            <span class="example-additional-selection">
-              (+{{ (institutionDistrictFilter.value?.length || 0) - 1 }})
-            </span>
-            }
-          </mat-select-trigger>
-          @for (district of this.searchService.districtsInstitutions(); track
-          district) {
-          <mat-option [value]="district">{{ district }}</mat-option>
-          }
-        </mat-select>
-        @if ((institutionDistrictFilter.value?.length ?? 0) > 0) {
-        <button
-          matSuffix
-          [attr.aria-label]="'ariaLabels.clearDistricts' | translate"
-          (click)="
-            institutionDistrictFilter.setValue([]);
-            this.searchService.filterInstitutions(
-              institutionNameFilter,
-              institutionTypeFilter.value,
-              institutionDistrictFilter.value
-            )
-          "
-          class="!p0 mx-2"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-        }
-      </mat-form-field>
+          <ng-template #footer>
+            <div class="p-3 flex">
+              <p-button
+                [label]="'filters.remove' | translate"
+                severity="danger"
+                text
+                size="small"
+                icon="pi pi-times"
+                (click)="clearDistricts()"
+              />
+            </div>
+          </ng-template>
+        </p-multiselect>
+        <label for="on_label">{{ "filters.districts" | translate }}</label>
+      </p-float-label>
     </div>
+
     <!-- name -->
     <div class="md:col-span-4">
-      <mat-form-field class="w-full">
-        <mat-label>{{ "institutions.name" | translate }}</mat-label>
-        <input
-          matInput
-          type="text"
-          [(ngModel)]="institutionNameFilter"
-          (input)="
-            this.searchService.filterInstitutions(
-              institutionNameFilter,
-              institutionTypeFilter.value,
-              institutionDistrictFilter.value
-            )
-          "
-          placeholder="{{ 'institutions.name' | translate }}"
-          [attr.aria-label]="'ariaLabels.filterByName' | translate"
-        />
-        @if (institutionNameFilter) {
-        <button
-          matSuffix
-          [attr.aria-label]="'ariaLabels.clearName' | translate"
-          (click)="
-            institutionNameFilter = '';
-            this.searchService.filterInstitutions(
-              institutionNameFilter,
-              institutionTypeFilter.value,
-              institutionDistrictFilter.value
-            )
-          "
-          class="!p0 mx-2"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-        }
-      </mat-form-field>
+      <p-floatlabel
+        ><input formControlName="name" type="text" pInputText />
+        <label for="on_label">{{ "filters.name" | translate }}</label>
+      </p-floatlabel>
     </div>
-  </div>
-</mat-expansion-panel>
+  </form>
+</p-panel>
 
 <div class="list-container">
   <!-- loading and error messages -->
@@ -143,7 +73,12 @@
   this.searchService.loadingTypesInstitutions() ||
   this.searchService.loadingDistrictsInstitutions() ) {
   <div class="flex flex-col items-center">
-    <mat-spinner></mat-spinner>
+    <p-progress-spinner
+      strokeWidth="8"
+      fill="transparent"
+      animationDuration=".5s"
+      [style]="{ width: '50px', height: '50px' }"
+    />
     <p class="!m-5">{{ "institutions.loading" | translate }}</p>
   </div>
   } @if (this.searchService.errorInstitutions()) {
@@ -152,7 +87,7 @@
   </div>
   }
   <!-- list -->
-  <mat-selection-list
+  <ul
     [hidden]="
       this.searchService.loadingInstitutions() ||
       this.searchService.loadingTypesInstitutions() ||
@@ -162,7 +97,8 @@
     [attr.aria-label]="'ariaLabels.institutionsList' | translate"
   >
     @for (institution of institutionsPaginated; track institution.id) {
-    <mat-list-item
+    <li
+      role="button"
       tabindex="0"
       (click)="this.searchService.searchCoursesFromInstitution(institution.id)"
       (keydown.enter)="
@@ -178,22 +114,17 @@
       </p>
       <p class="italic !m-0">{{ institution.type }}</p>
       <p class="italic !m-0">{{ institution.district }}</p>
-    </mat-list-item>
+    </li>
     }
-  </mat-selection-list>
+  </ul>
   <!-- paginator -->
-  <mat-paginator
+  <p-paginator
     #institutionsPaginator
-    class="demo-paginator"
-    (page)="handlePageEventInstitutions($event)"
-    [length]="this.searchService.institutionsFiltered().length"
-    [showFirstLastButtons]="true"
-    [pageSizeOptions]="
-      this.searchService.getPageSizeOptions(
-        this.searchService.institutionsFiltered().length
-      )
-    "
+    (onPageChange)="onPageChange($event)"
+    [first]="this.institutionsPaginatorIndex"
+    [totalRecords]="this.institutionsPaginatorTotalRecords"
+    [rowsPerPageOptions]="this.institutionsPaginatorRowsPerPageOptions"
+    [rows]="this.institutionsPaginatorRows"
     [attr.aria-label]="'ariaLabels.pagination' | translate"
-  >
-  </mat-paginator>
+  />
 </div>

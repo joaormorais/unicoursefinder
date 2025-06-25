@@ -1,39 +1,18 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { Observable } from 'rxjs';
-import { Institution } from '../../shared/models/institution.model';
 import { InstitutionService } from '../../shared/services/institution.service';
 import { InstitutionSearchService } from './institution-search.service';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  CourseSearchRequest,
-  CoursesPaginated,
-} from '../../shared/models/course-paginated.model';
+import { CourseSearchRequest } from '../../shared/models/courses.model';
 import { CourseService } from '../../shared/services/course.service';
 import { CourseSearchService } from './course-search.service';
-
-export interface InstitutionsSearchState {
-  institutions: Institution[];
-  institutionsFiltered: Institution[];
-  typesInstitutions: string[];
-  districtsInstitutions: string[];
-  seeingInstitutions: boolean;
-  loadingInstitutions: boolean;
-  loadingTypesInstitutions: boolean;
-  loadingDistrictsInstitutions: boolean;
-  errorInstitutions: string;
-}
-
-export interface CoursesSearchState {
-  coursesPaginated: CoursesPaginated;
-  typesCourses: string[];
-  institutionsFilteredByName: Institution[];
-  loadingPaginatedCourses: boolean;
-  loadingTypesCourses: boolean;
-  errorPaginatedCourses: string;
-  changePageSize: boolean;
-  searchedByInstitution: number;
-}
+import {
+  CourseFilters,
+  CoursesSearchState,
+  InstitutionFilters,
+  InstitutionsSearchState,
+  PageOptions,
+} from '../models/search.model';
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
@@ -150,7 +129,6 @@ export class SearchService {
           institutions: orderedData,
           institutionsFiltered: orderedData,
         }));
-        // aqui, quero fazer com que o o meu filho execute a função resetPagination()
       },
       () => {
         this.institutionsState.update((currentState) => ({
@@ -214,21 +192,17 @@ export class SearchService {
   }
 
   // filter the institutions by name, type and district
-  filterInstitutions(
-    institutionNameFilter: string,
-    institutionTypeFilter: string[] | null,
-    institutionDistrictFilter: string[] | null
-  ): void {
-    const selectedTypes = institutionTypeFilter ?? [];
-    const selectedDistricts = institutionDistrictFilter ?? [];
+  filterInstitutions(institutionsFilters: InstitutionFilters): void {
+    const selectedTypes = institutionsFilters.types ?? [];
+    const selectedDistricts = institutionsFilters.districts ?? [];
 
     // filter the institutions
     const newInstitutionsFiltered = this.institutions().filter((inst) => {
       const matchesName =
-        !institutionNameFilter ||
+        !institutionsFilters.name ||
         inst.name
           .toLowerCase()
-          .includes(institutionNameFilter.toLowerCase().trim());
+          .includes(institutionsFilters.name.toLowerCase().trim());
       const matchesType =
         selectedTypes.length === 0 || selectedTypes.includes(inst.type);
       const matchesDistrict =
@@ -276,27 +250,34 @@ export class SearchService {
       institutionsFilteredByName: this.institutions(),
     }));
 
-    this.searchCourses(1, 10, true, '', [], []);
+    this.searchCourses({ pageNumber: 1, pageSize: 10 }, true, {
+      name: '',
+      types: [],
+      institutionsIds: [],
+    });
   }
 
   // api call to get filtered and paginated courses
   searchCourses(
-    pageNumber: number = 1,
-    pageSize: number = 10,
+    pageOptions: PageOptions,
     changePageSize: boolean,
-    courseNameFilter: string,
-    courseTypeFilter: string[] | null,
-    courseInstitutionIdFilter: number[] | null
+    coursesFilters: CourseFilters
   ): void {
     // create the request with filters
     const request: CourseSearchRequest = {
-      name: courseNameFilter.toLocaleLowerCase().trim(),
-      types: courseTypeFilter ?? [],
-      institutionIds: courseInstitutionIdFilter ?? [],
+      name: coursesFilters.name
+        ? coursesFilters.name.toLocaleLowerCase().trim()
+        : '',
+      types: coursesFilters.types ?? [],
+      institutionIds: coursesFilters.institutionsIds ?? [],
     };
 
     this.handleApiCall(
-      this.courseService.searchCourses(request, pageNumber, pageSize),
+      this.courseService.searchCourses(
+        request,
+        pageOptions.pageNumber,
+        pageOptions.pageSize
+      ),
       (data) => {
         this.coursesState.update((currentState) => ({
           ...currentState,
@@ -332,7 +313,11 @@ export class SearchService {
       ...currentState,
       searchedByInstitution: institutionId,
     }));
-    this.searchCourses(1, 10, true, '', [], [institutionId]);
+    this.searchCourses({ pageNumber: 1, pageSize: 10 }, true, {
+      name: '',
+      types: [],
+      institutionsIds: [institutionId],
+    });
   }
 
   // filter the institutions from the select only by name

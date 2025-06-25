@@ -17,7 +17,8 @@
     "clearInstitutionName": "Limpar filtro de nome de instituições",
     "filterByName": "Filtro por nome",
     "clearName": "Limpar filtro de nome",
-    "hidePW": "Esconder/Mostrar a password"
+    "hidePW": "Esconder/Mostrar a password",
+    "openLink": "Abrir os detalhes deste curso numa nova janela"
   },
   "buttons": {
     "search": "Pesquisa",
@@ -52,7 +53,8 @@
     "types": "Tipos",
     "districts": "Distritos",
     "name": "Nome",
-    "institutionsIds": "Instituição"
+    "institutionsIds": "Instituição",
+    "remove": "Remover todos"
   },
   "pagination": {
     "select": "Selecionar página"

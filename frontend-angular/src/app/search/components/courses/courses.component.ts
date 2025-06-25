@@ -1,53 +1,60 @@
-import { Component, effect, inject, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import {
+  Component,
+  effect,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { FormControl } from '@angular/forms';
-import { debounceTime, Subject } from 'rxjs';
 import { SearchService } from '../../services/search.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatListModule } from '@angular/material/list';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { PanelModule } from 'primeng/panel';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InputTextModule } from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { ButtonModule } from 'primeng/button';
+import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
+import { Paginator, PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { ProgressSpinner } from 'primeng/progressspinner';
+import { CourseFilters, PageOptions } from '../../models/search.model';
 
 @Component({
   selector: 'app-courses',
   imports: [
     TranslatePipe,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
-    MatInputModule,
     ReactiveFormsModule,
-    MatListModule,
-    MatExpansionModule,
+    PanelModule,
+    MultiSelectModule,
+    InputTextModule,
+    FloatLabelModule,
+    ButtonModule,
+    PaginatorModule,
+    ProgressSpinner,
   ],
   templateUrl: './courses.component.html',
   styleUrl: '../styles/search.scss',
 })
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnInit, OnDestroy {
   // inject the main service of this feature
   searchService = inject(SearchService);
 
+  // filters form
+  filtersFormGroup = new FormGroup({
+    name: new FormControl(''),
+    types: new FormControl<string[]>([]),
+    institutionsIds: new FormControl<number[]>([]),
+  });
+
+  // subscription to the filters
+  private filtersSubscription!: Subscription;
+
   // add child components
-  @ViewChild('coursesPaginator') coursesPaginator!: MatPaginator;
-
-  // local data
-  courseNameFilter = '';
-  courseTypeFilter = new FormControl<string[]>([]);
-  courseInstitutionIdFilter = new FormControl<number[]>([]);
-  courseInstitutionNameFilter = '';
-
-  // subject that is going to be used for the debounce
-  courseNameChanged$ = new Subject<string>();
+  @ViewChild('coursesPaginator') coursesPaginator!: Paginator;
+  coursesPaginatorIndex: number = 0;
+  coursesPaginatorRows: number = 0;
+  coursesPaginatorTotalRecords: number = 0;
+  coursesPaginatorRowsPerPageOptions: number[] = [0];
 
   constructor() {
     effect(() => {
@@ -62,62 +69,74 @@ export class CoursesComponent implements OnInit {
   // run when the component is created
   ngOnInit(): void {
     this.searchService.startCourses();
+    this.subscribeToFilterChanges();
+  }
 
-    // add debounce to the name input for courses
-    this.courseNameChanged$
-      .pipe(debounceTime(500))
-      .subscribe((value: string) => {
-        this.courseNameFilter = value;
+  // run when the component is destroyed
+  ngOnDestroy(): void {
+    if (this.filtersSubscription) {
+      this.filtersSubscription.unsubscribe();
+    }
+  }
+
+  private subscribeToFilterChanges(): void {
+    this.filtersSubscription = this.filtersFormGroup.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((formValues) => {
         this.searchService.searchCourses(
-          1,
-          10,
+          { pageNumber: 1, pageSize: 10 } as PageOptions,
           true,
-          this.courseNameFilter,
-          this.courseTypeFilter.value,
-          this.courseInstitutionIdFilter.value
+          formValues as CourseFilters
         );
       });
   }
 
+  clearTypes(): void {
+    this.filtersFormGroup.get('types')?.setValue([]);
+  }
+
+  clearInstitutions(): void {
+    this.filtersFormGroup.get('institutionsIds')?.setValue([]);
+  }
+
+  // reset the filters for the search of courses for one institution
+  private changeToCourses(institutionId: number): void {
+    this.filtersFormGroup.get('institutionsIds')?.setValue([institutionId]);
+
+    if (this.filtersFormGroup.value.name !== '')
+      this.filtersFormGroup.get('name')?.setValue('');
+
+    if ((this.filtersFormGroup.value.types ?? []).length > 0)
+      this.filtersFormGroup.get('types')?.setValue([]);
+  }
+
   // handle the pagination for courses
-  handlePageEventCourses($event: PageEvent): void {
+  onPageChange($event: PaginatorState): void {
     this.searchService.searchCourses(
-      $event.pageIndex + 1,
-      $event.pageSize,
+      {
+        pageNumber: $event.page ? $event.page + 1 : 1,
+        pageSize: $event.rows,
+      } as PageOptions,
       false,
-      this.courseNameFilter,
-      this.courseTypeFilter.value,
-      this.courseInstitutionIdFilter.value
+      this.filtersFormGroup.value as CourseFilters
     );
   }
 
   // reset the pagination options after the courses change
-  resetPagination(): void {
-    // reset the values for the paginator
-    this.coursesPaginator.pageIndex = 0;
-    this.coursesPaginator.pageSizeOptions =
+  private resetPagination(): void {
+    this.coursesPaginatorIndex = 0;
+
+    this.coursesPaginatorTotalRecords =
+      this.searchService.coursesPaginated().totalElements;
+
+    this.coursesPaginatorRowsPerPageOptions =
       this.searchService.getPageSizeOptions(
         this.searchService.coursesPaginated().totalElements
       );
-    this.coursesPaginator.pageSize = this.searchService.getPageSize(
-      this.searchService.coursesPaginated().totalElements,
-      this.coursesPaginator.pageSizeOptions
+
+    this.coursesPaginatorRows = this.searchService.getPageSize(
+      this.coursesPaginatorTotalRecords,
+      this.coursesPaginatorRowsPerPageOptions
     );
-  }
-
-  // reset the filters for the search of courses for one institution
-  changeToCourses(institutionId: number): void {
-    // chamar esta função pelo effect
-    this.courseInstitutionIdFilter.setValue([institutionId]);
-
-    if (this.courseNameFilter !== '') this.courseNameFilter = '';
-
-    if ((this.courseTypeFilter.value ?? []).length > 0)
-      this.courseTypeFilter = new FormControl<string[]>([]);
-  }
-
-  // handle for the input of the course name
-  onCourseNameInput(value: string): void {
-    this.courseNameChanged$.next(value);
   }
 }
