@@ -9,10 +9,6 @@
   @apply mt-3 w-full;
 }
 
-.list-container {
-  @apply rounded-2xl mt-3 mx-5 p-5 flex flex-col md:min-h-[340px] shadow-xl/40;
-}
-
 .list-bullet-point {
   @apply rounded-xl mb-3 p-2 !h-full cursor-pointer border border-transparent;
 

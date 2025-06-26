@@ -28,6 +28,11 @@
     "institutions": "Instituições",
     "courses": "Cursos"
   },
+  "multiselect": {
+    "selectedItemsLabelTypes": "{0} tipos selecionados",
+    "selectedItemsLabelDistricts": "{0} distritos selecionados",
+    "selectedItemsLabelInstitutions": "{0} instituições selecionadas"
+  },
   "paragraphs": {
     "searchP": "Descobre facilmente cursos e instituições em Portugal que se alinham com os teus interesses e objetivos.",
     "forumP": "Tens dúvidas ou queres partilhar experiências? Junta-te à comunidade e participa nas conversas!",

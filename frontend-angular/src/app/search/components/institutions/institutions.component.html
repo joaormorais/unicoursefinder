@@ -9,6 +9,9 @@
             [options]="this.searchService.typesInstitutions()"
             formControlName="types"
             [maxSelectedLabels]="3"
+            [selectedItemsLabel]="
+              'multiselect.selectedItemsLabelTypes' | translate
+            "
             styleClass="w-full"
           >
             <ng-template #footer>
@@ -35,6 +38,9 @@
             [options]="this.searchService.districtsInstitutions()"
             formControlName="districts"
             [maxSelectedLabels]="3"
+            [selectedItemsLabel]="
+              'multiselect.selectedItemsLabelDistricts' | translate
+            "
             styleClass="w-full"
           >
             <ng-template #footer>

@@ -9,6 +9,9 @@
             [options]="this.searchService.typesCourses()"
             formControlName="types"
             [maxSelectedLabels]="3"
+            [selectedItemsLabel]="
+              'multiselect.selectedItemsLabelTypes' | translate
+            "
             styleClass="w-full"
           >
             <ng-template #footer>
@@ -37,6 +40,9 @@
             optionValue="id"
             formControlName="institutionsIds"
             [maxSelectedLabels]="3"
+            [selectedItemsLabel]="
+              'multiselect.selectedItemsLabelInstitutions' | translate
+            "
             styleClass="w-full"
           >
             <ng-template #footer>

@@ -22,16 +22,20 @@ export const MyPreset = definePreset(Aura, {
       colorScheme: {
         light: {
           root: {
-            background: 'rgba(250, 250, 250, .80)',
+            background:
+              'color-mix(in srgb, var(--p-content-background), transparent 50%)',
             borderRadius: '0',
-            borderColor: 'rgba(250, 250, 250, .80)',
+            borderColor:
+              'color-mix(in srgb, var(--p-content-border-color), transparent 50%)',
           },
         },
         dark: {
           root: {
-            background: 'rgba(24, 24, 27, .80)',
+            background:
+              'color-mix(in srgb, var(--p-content-background), transparent 50%)',
             borderRadius: '0',
-            borderColor: 'rgba(24, 24, 27, .80)',
+            borderColor:
+              'color-mix(in srgb, var(--p-content-border-color), transparent 50%)',
           },
         },
       },
