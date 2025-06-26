@@ -1,4 +1,4 @@
-import { Component, inject, Signal } from '@angular/core';
+import { Component, inject, signal, Signal } from '@angular/core';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -11,7 +11,6 @@ import { map, startWith, switchMap } from 'rxjs';
   selector: 'app-header',
   imports: [TranslatePipe, RouterModule, ButtonModule, Menubar],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
   // inject translate service
@@ -50,8 +49,17 @@ export class HeaderComponent {
     { initialValue: [] }
   );
 
+  lightIcon: string = 'pi pi-sun';
+  darkIcon: string = 'pi pi-moon';
+  themeIcon = signal<string>(this.darkIcon);
+
   toggleDarkMode() {
     const element = document.querySelector('html');
-    if (element) element.classList.toggle('my-app-dark');
+    if (element) {
+      element.classList.toggle('my-app-dark');
+      this.themeIcon.set(
+        this.themeIcon() == this.darkIcon ? this.lightIcon : this.darkIcon
+      );
+    }
   }
 }
