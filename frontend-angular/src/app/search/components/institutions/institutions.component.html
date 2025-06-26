@@ -1,74 +1,77 @@
 <!-- filters -->
-<p-panel
-  [header]="'filters.filters' | translate"
-  [toggleable]="true"
-  class="filter-expansion-panel"
->
-  <form [formGroup]="filtersFormGroup" class="filter-container">
-    <!-- types -->
-    <div class="md:col-span-4">
-      <p-float-label>
-        <p-multiselect
-          [options]="this.searchService.typesInstitutions()"
-          formControlName="types"
-          [maxSelectedLabels]="3"
-          styleClass="w-full md:w-80"
-        >
-          <ng-template #footer>
-            <div class="p-3 flex">
-              <p-button
-                [label]="'filters.remove' | translate"
-                severity="danger"
-                text
-                size="small"
-                icon="pi pi-times"
-                (click)="clearTypes()"
-              />
-            </div>
-          </ng-template>
-        </p-multiselect>
-        <label for="on_label">{{ "filters.types" | translate }}</label>
-      </p-float-label>
-    </div>
+<div class="mb-2">
+  <p-panel [header]="'filters.filters' | translate" [toggleable]="true">
+    <form [formGroup]="filtersFormGroup" class="filter-container">
+      <!-- types -->
+      <div class="md:col-span-4">
+        <p-float-label>
+          <p-multiselect
+            [options]="this.searchService.typesInstitutions()"
+            formControlName="types"
+            [maxSelectedLabels]="3"
+            styleClass="w-full"
+          >
+            <ng-template #footer>
+              <div class="p-3 flex">
+                <p-button
+                  [label]="'filters.remove' | translate"
+                  severity="danger"
+                  text
+                  size="small"
+                  icon="pi pi-times"
+                  (click)="clearTypes()"
+                />
+              </div>
+            </ng-template>
+          </p-multiselect>
+          <label for="on_label">{{ "filters.types" | translate }}</label>
+        </p-float-label>
+      </div>
 
-    <!-- districts -->
-    <div class="md:col-span-4">
-      <p-float-label>
-        <p-multiselect
-          [options]="this.searchService.districtsInstitutions()"
-          formControlName="districts"
-          [maxSelectedLabels]="3"
-          styleClass="w-full md:w-80"
-        >
-          <ng-template #footer>
-            <div class="p-3 flex">
-              <p-button
-                [label]="'filters.remove' | translate"
-                severity="danger"
-                text
-                size="small"
-                icon="pi pi-times"
-                (click)="clearDistricts()"
-              />
-            </div>
-          </ng-template>
-        </p-multiselect>
-        <label for="on_label">{{ "filters.districts" | translate }}</label>
-      </p-float-label>
-    </div>
+      <!-- districts -->
+      <div class="md:col-span-4">
+        <p-float-label>
+          <p-multiselect
+            [options]="this.searchService.districtsInstitutions()"
+            formControlName="districts"
+            [maxSelectedLabels]="3"
+            styleClass="w-full"
+          >
+            <ng-template #footer>
+              <div class="p-3 flex">
+                <p-button
+                  [label]="'filters.remove' | translate"
+                  severity="danger"
+                  text
+                  size="small"
+                  icon="pi pi-times"
+                  (click)="clearDistricts()"
+                />
+              </div>
+            </ng-template>
+          </p-multiselect>
+          <label for="on_label">{{ "filters.districts" | translate }}</label>
+        </p-float-label>
+      </div>
 
-    <!-- name -->
-    <div class="md:col-span-4">
-      <p-floatlabel
-        ><input formControlName="name" type="text" pInputText />
-        <label for="on_label">{{ "filters.name" | translate }}</label>
-      </p-floatlabel>
-    </div>
-  </form>
-</p-panel>
+      <!-- name -->
+      <div class="md:col-span-4">
+        <p-floatlabel
+          ><input
+            formControlName="name"
+            type="text"
+            class="w-full"
+            pInputText
+          />
+          <label for="on_label">{{ "filters.name" | translate }}</label>
+        </p-floatlabel>
+      </div>
+    </form>
+  </p-panel>
+</div>
 
-<div class="list-container">
-  <!-- loading and error messages -->
+<p-panel>
+  <!-- loading messages -->
   @if ( this.searchService.loadingInstitutions() ||
   this.searchService.loadingTypesInstitutions() ||
   this.searchService.loadingDistrictsInstitutions() ) {
@@ -81,11 +84,15 @@
     />
     <p class="!m-5">{{ "institutions.loading" | translate }}</p>
   </div>
-  } @if (this.searchService.errorInstitutions()) {
+  }
+
+  <!-- error messages -->
+  @if (this.searchService.errorInstitutions()) {
   <div>
     <p class="!m-5 text-center">{{ this.searchService.errorInstitutions() }}</p>
   </div>
   }
+
   <!-- list -->
   <ul
     [hidden]="
@@ -117,14 +124,17 @@
     </li>
     }
   </ul>
+
   <!-- paginator -->
-  <p-paginator
-    #institutionsPaginator
-    (onPageChange)="onPageChange($event)"
-    [first]="this.institutionsPaginatorIndex"
-    [totalRecords]="this.institutionsPaginatorTotalRecords"
-    [rowsPerPageOptions]="this.institutionsPaginatorRowsPerPageOptions"
-    [rows]="this.institutionsPaginatorRows"
-    [attr.aria-label]="'ariaLabels.pagination' | translate"
-  />
-</div>
+  <ng-template #footer>
+    <p-paginator
+      #institutionsPaginator
+      (onPageChange)="onPageChange($event)"
+      [first]="this.institutionsPaginatorIndex"
+      [totalRecords]="this.institutionsPaginatorTotalRecords"
+      [rowsPerPageOptions]="this.institutionsPaginatorRowsPerPageOptions"
+      [rows]="this.institutionsPaginatorRows"
+      [attr.aria-label]="'ariaLabels.pagination' | translate"
+    />
+  </ng-template>
+</p-panel>
