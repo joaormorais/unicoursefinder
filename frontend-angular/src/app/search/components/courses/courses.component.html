@@ -18,6 +18,7 @@
             <ng-template #footer>
               <div class="p-3 flex">
                 <p-button
+                  [attr.aria-label]="'ariaLabels.clearTypes' | translate"
                   [label]="'filters.remove' | translate"
                   severity="danger"
                   text
@@ -50,6 +51,7 @@
             <ng-template #footer>
               <div class="p-3 flex">
                 <p-button
+                  [attr.aria-label]="'ariaLabels.clearInstitutions' | translate"
                   [label]="'filters.remove' | translate"
                   severity="danger"
                   text
@@ -112,7 +114,7 @@
       this.searchService.loadingPaginatedCourses() ||
       this.searchService.errorPaginatedCourses()
     "
-    [attr.aria-label]="'ariaLabels.institutionsList' | translate"
+    [attr.aria-label]="'ariaLabels.coursesList' | translate"
   >
     @for (course of this.searchService.coursesPaginated().courses; track
     course.id) {

@@ -1,67 +1,35 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { DialogState } from '../components/models/auth.model';
-import { TranslateService } from '@ngx-translate/core';
-import { take } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { LoginModel, RegisterModel } from '../../shared/models/auth.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  // inject translate service
-  private translate = inject(TranslateService);
+  // dialog data
+  private dialogState = signal<boolean>(false);
 
-  // auth data
-  private dialogState = signal<DialogState>({
-    dialogVisible: false,
-    dialogTitle: '',
-  });
-
-  // expose auth data
-  public readonly dialogVisible = computed(
-    () => this.dialogState().dialogVisible
-  );
-  public readonly dialogTitle = computed(() => this.dialogState().dialogTitle);
-
-  constructor() {
-    this.translate
-      .get('auth.login')
-      .pipe(take(1))
-      .subscribe((translatedTitle) => {
-        this.dialogState.update((currentState) => ({
-          ...currentState,
-          dialogTitle: translatedTitle,
-        }));
-      });
-  }
+  // expose dialog data
+  public readonly dialogVisible = this.dialogState.asReadonly();
 
   // dialog
   //---------------------------------------------------------------------------
   showDialog(): void {
-    this.dialogState.update((currentState) => ({
-      ...currentState,
-      dialogVisible: true,
-    }));
+    this.dialogState.set(true);
   }
 
   hideDialog(): void {
-    this.dialogState.update((currentState) => ({
-      ...currentState,
-      dialogVisible: false,
-    }));
+    this.dialogState.set(false);
+  }
+  //---------------------------------------------------------------------------
+
+  // login & register
+  //---------------------------------------------------------------------------
+  login(loginValues: LoginModel): void {
+    console.log(loginValues);
   }
 
-  titleLogin(): void {
-    this.dialogState.update((currentState) => ({
-      ...currentState,
-      dialogTitle: this.translate.instant('auth.login'),
-    }));
-  }
-
-  titleRegister(): void {
-    this.dialogState.update((currentState) => ({
-      ...currentState,
-      dialogTitle: this.translate.instant('auth.register'),
-    }));
+  register(registerValues: RegisterModel): void {
+    console.log(registerValues);
   }
   //---------------------------------------------------------------------------
 }

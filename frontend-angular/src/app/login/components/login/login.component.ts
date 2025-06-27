@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../../core/services/auth.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
-import { EmailComponent } from '../email/email/email.component';
-import { PwComponent } from '../pw/pw/pw.component';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
 import {
   ReactiveFormsModule,
   FormGroup,
   Validators,
   FormControl,
 } from '@angular/forms';
+import { EmailComponent } from '../../../shared/components/email/email.component';
+import { PwComponent } from '../../../shared/components/pw/pw.component';
+import { ButtonModule } from 'primeng/button';
+import { LoginModel } from '../../../shared/models/auth.model';
 
 @Component({
   selector: 'app-login',
@@ -20,13 +21,16 @@ import {
     EmailComponent,
     PwComponent,
     ButtonModule,
-    CardModule,
     ReactiveFormsModule,
   ],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  protected loginForm = new FormGroup({
+  // inject auth service
+  authService = inject(AuthService);
+
+  // login form
+  loginForm = new FormGroup({
     password: new FormControl('', {
       validators: [Validators.required, Validators.minLength(8)],
       nonNullable: true,
@@ -37,13 +41,13 @@ export class LoginComponent {
     }),
   });
 
-  loginRequest() {
+  loginRequest(): void {
     if (this.loginForm.invalid) {
-      console.log('Form Invalid!');
+      // todo: toast message?
       this.loginForm.markAllAsTouched();
       return;
     }
 
-    console.log('Login request to API:', this.loginForm.value);
+    this.authService.login(this.loginForm.value as LoginModel);
   }
 }

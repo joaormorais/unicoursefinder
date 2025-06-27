@@ -17,7 +17,10 @@
   <a href="#" class="login-links">{{ "auth.pwRecover" | translate }}</a>
   <br />
   {{ "auth.notRegistered" | translate }}
-  <a routerLink="/register" class="login-links">{{
-    "auth.register" | translate
-  }}</a>
+  <a
+    routerLink="/register"
+    (click)="this.authService.hideDialog()"
+    class="login-links"
+    >{{ "auth.register" | translate }}</a
+  >
 </p>

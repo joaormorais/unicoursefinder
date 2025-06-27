@@ -1,1 +1,50 @@
-<p>register works!</p>
+<div class="flex flex-col items-center gap-3 mt-6">
+  <span class="p-dialog-title">{{ "auth.register" | translate }}</span>
+  <form
+    [formGroup]="registerForm"
+    (ngSubmit)="registerRequest()"
+    class="flex flex-col justify-center items-center gap-3 w-md"
+  >
+    <p-floatlabel class="w-full" variant="in"
+      ><input
+        id="userName"
+        formControlName="userName"
+        type="text"
+        class="w-full"
+        pInputText
+      />
+      <label for="userName">{{ "auth.userName" | translate }}</label>
+    </p-floatlabel>
+
+    <app-email formControlName="email" class="w-full"></app-email>
+    <app-pw formControlName="password" class="w-full"></app-pw>
+
+    <p-floatlabel class="w-full" variant="in"
+      ><input
+        id="displayName"
+        formControlName="displayName"
+        type="text"
+        class="w-full"
+        pInputText
+      />
+      <label for="displayName">{{ "auth.displayName" | translate }}</label>
+    </p-floatlabel>
+
+    <p-floatlabel class="w-full" variant="in"
+      ><p-datepicker
+        id="birthDate"
+        formControlName="birthDate"
+        dateFormat="dd.mm.yy"
+        [style]="{ width: '100%' }"
+        inputStyleClass="w-full"
+      />
+      <label for="birthDate">{{ "auth.birthDate" | translate }}</label>
+    </p-floatlabel>
+
+    <p-button
+      [label]="'auth.registerRequest' | translate"
+      [disabled]="registerForm.invalid"
+      type="submit"
+    />
+  </form>
+</div>

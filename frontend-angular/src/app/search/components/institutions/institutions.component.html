@@ -18,6 +18,7 @@
             <ng-template #footer>
               <div class="p-3 flex">
                 <p-button
+                  [attr.aria-label]="'ariaLabels.clearTypes' | translate"
                   [label]="'filters.remove' | translate"
                   severity="danger"
                   text
@@ -48,6 +49,7 @@
             <ng-template #footer>
               <div class="p-3 flex">
                 <p-button
+                  [attr.aria-label]="'ariaLabels.clearDistricts' | translate"
                   [label]="'filters.remove' | translate"
                   severity="danger"
                   text

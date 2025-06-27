@@ -4,7 +4,6 @@
     "forum": "Procurar cursos",
     "help": "Procurar cursos",
     "landing": "Página principal",
-    "menu": "Menu",
     "loginRegister": "Iniciar sessão/registo",
     "nextIcon": "Ícone para a direita",
     "institutionsList": "Lista de instituições",
@@ -13,11 +12,6 @@
     "clearTypes": "Limpar a seleção de tipos",
     "clearDistricts": "Limpar a seleção de distritos",
     "clearInstitutions": "Limpar seleção de instituições",
-    "filterByInstitutionName": "Filtro por nome de instituições",
-    "clearInstitutionName": "Limpar filtro de nome de instituições",
-    "filterByName": "Filtro por nome",
-    "clearName": "Limpar filtro de nome",
-    "hidePW": "Esconder/Mostrar a password",
     "openLink": "Abrir os detalhes deste curso numa nova janela",
     "changeModes": "Alternar entre modo claro e modo escuro"
   },
@@ -39,17 +33,14 @@
     "helpP": "Não sabes por onde começar? Responde a algumas perguntas e recebe sugestões personalizadas."
   },
   "map": {
-    "title": "As instituições espalhadas pelo país",
     "loading": "A carregar o mapa..."
   },
   "institutions": {
     "loading": "A carregar instituições...",
-    "name": "Nome da instituição",
     "error": "Houve um problema no servidor! Não foi possível carregar as instituições."
   },
   "courses": {
     "loading": "A carregar cursos...",
-    "name": "Nome do curso",
     "error": "Houve um problema no servidor! Não foi possível carregar os cursos."
   },
   "filters": {
@@ -60,9 +51,6 @@
     "institutionsIds": "Instituição",
     "remove": "Remover todos"
   },
-  "pagination": {
-    "select": "Selecionar página"
-  },
   "auth": {
     "login": "Entra na tua conta",
     "email": "Email",
@@ -70,6 +58,10 @@
     "pwRecover": "Esqueci-me da minha password",
     "loginRequest": "Entrar",
     "notRegistered": "Não és membro?",
-    "register": "Cria a tua conta"
+    "register": "Cria a tua conta",
+    "userName": "Nome de utilizador",
+    "displayName": "Nome de apresentação",
+    "birthDate": "Data de nascimento",
+    "registerRequest": "Registar"
   }
 }
