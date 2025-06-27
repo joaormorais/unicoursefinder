@@ -1,4 +1,4 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { InstitutionService } from '../../shared/services/institution.service';
 import { InstitutionSearchService } from './institution-search.service';
@@ -16,6 +16,13 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
+  // dependencies
+  public institutionService = inject(InstitutionService);
+  public institutionSearchService = inject(InstitutionSearchService);
+  private courseService = inject(CourseService);
+  private courseSearchService = inject(CourseSearchService);
+  private translate = inject(TranslateService);
+
   // parent data
   private parentState = signal<string | number>('0');
 
@@ -106,14 +113,6 @@ export class SearchService {
   public readonly searchedByInstitution = computed(
     () => this.coursesState().searchedByInstitution
   );
-
-  constructor(
-    public institutionService: InstitutionService,
-    public institutionSearchService: InstitutionSearchService,
-    private courseService: CourseService,
-    private courseSearchService: CourseSearchService,
-    private translate: TranslateService
-  ) {}
 
   // institutions
   //---------------------------------------------------------------------------
