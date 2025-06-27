@@ -6,6 +6,15 @@
   <main class="flex flex-grow flex-col z-0">
     <router-outlet class="h-full" />
   </main>
+  <p-dialog
+    [modal]="true"
+    [visible]="this.authService.dialogVisible()"
+    [style]="{ width: '25rem' }"
+    (visibleChange)="this.authService.hideDialog()"
+    [header]="this.authService.dialogTitle()"
+  >
+    <app-login></app-login>
+  </p-dialog>
 
   <footer class="h-[60px] w-full">
     <app-footer class="h-full" />

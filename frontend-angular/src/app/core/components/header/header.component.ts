@@ -6,6 +6,7 @@ import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, startWith, switchMap } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,17 +14,20 @@ import { map, startWith, switchMap } from 'rxjs';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
+  // inject auth service
+  authService = inject(AuthService);
+
   // inject translate service
   private translate = inject(TranslateService);
 
-  // used translations keys
+  // translations keys
   private menuTranslationKeys = [
     'buttons.search',
     'buttons.forum',
     'buttons.help',
   ];
 
-  // items for the mobile menu
+  // items for the menu
   readonly items: Signal<MenuItem[]> = toSignal(
     this.translate.onLangChange.pipe(
       startWith(null),
@@ -49,11 +53,16 @@ export class HeaderComponent {
     { initialValue: [] }
   );
 
+  // vars to control the icon of the theme mode
   lightIcon: string = 'pi pi-sun';
   darkIcon: string = 'pi pi-moon';
   themeIcon = signal<string>(this.darkIcon);
 
-  toggleDarkMode() {
+  // var to control the dialog
+  visible: boolean = false;
+
+  // change between light and dark mode
+  changeTheme() {
     const element = document.querySelector('html');
     if (element) {
       element.classList.toggle('my-app-dark');

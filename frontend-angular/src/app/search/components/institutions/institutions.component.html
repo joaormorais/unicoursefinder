@@ -6,6 +6,7 @@
       <div class="md:col-span-4">
         <p-float-label>
           <p-multiselect
+            id="filter_types"
             [options]="this.searchService.typesInstitutions()"
             formControlName="types"
             [maxSelectedLabels]="3"
@@ -27,7 +28,7 @@
               </div>
             </ng-template>
           </p-multiselect>
-          <label for="on_label">{{ "filters.types" | translate }}</label>
+          <label for="filter_types">{{ "filters.types" | translate }}</label>
         </p-float-label>
       </div>
 
@@ -35,6 +36,7 @@
       <div class="md:col-span-4">
         <p-float-label>
           <p-multiselect
+            id="filter_districts"
             [options]="this.searchService.districtsInstitutions()"
             formControlName="districts"
             [maxSelectedLabels]="3"
@@ -56,7 +58,9 @@
               </div>
             </ng-template>
           </p-multiselect>
-          <label for="on_label">{{ "filters.districts" | translate }}</label>
+          <label for="filter_districts">{{
+            "filters.districts" | translate
+          }}</label>
         </p-float-label>
       </div>
 
@@ -64,12 +68,13 @@
       <div class="md:col-span-4">
         <p-floatlabel
           ><input
+            id="filter_name"
             formControlName="name"
             type="text"
             class="w-full"
             pInputText
           />
-          <label for="on_label">{{ "filters.name" | translate }}</label>
+          <label for="filter_name">{{ "filters.name" | translate }}</label>
         </p-floatlabel>
       </div>
     </form>

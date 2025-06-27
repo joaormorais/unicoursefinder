@@ -1,4 +1,10 @@
-<p-floatlabel
-  ><input [formControl]="emailControl" type="text" pInputText />
-  <label for="on_label">{{ "auth.email" | translate }}</label>
+<p-floatlabel class="w-full"
+  ><input
+    id="email"
+    [formControl]="emailControl"
+    type="text"
+    class="w-full"
+    pInputText
+  />
+  <label for="email">{{ "auth.email" | translate }}</label>
 </p-floatlabel>

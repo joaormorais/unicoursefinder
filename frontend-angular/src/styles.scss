@@ -1,15 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 @import "primeicons/primeicons.css";
-
-// todo: trocar de sitio
 @import "leaflet.markercluster/dist/MarkerCluster.css";
 @import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
-html {
+@theme {
+  --default-font-family: "Exo 2", sans-serif;
+}
+
+// I have also tried this:
+/*@theme {
+  --font-sans: "Exo 2", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: "Exo 2", ui-serif, Georgia, Cambria, "Times New Roman", Times,
+    serif;
+  --font-mono: "Exo 2", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}*/
+
+html,
+body {
   height: 100%;
 }
 
-body {
-  height: 100%;
-  font-family: "Exo 2";
+.p-component {
+  font-family: inherit;
 }

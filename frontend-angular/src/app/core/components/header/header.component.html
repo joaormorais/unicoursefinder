@@ -13,13 +13,13 @@
         [icon]="themeIcon()"
         class="ml-2"
         [attr.aria-label]="'ariaLabels.changeModes' | translate"
-        (onClick)="toggleDarkMode()"
+        (onClick)="changeTheme()"
       />
       <p-button
         icon="pi pi-user"
         class="ml-2 mr-4"
         [attr.aria-label]="'ariaLabels.loginRegister' | translate"
-        routerLink="/login"
+        (click)="this.authService.showDialog()"
       />
     </div>
   </ng-template>

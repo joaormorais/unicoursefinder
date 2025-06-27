@@ -43,13 +43,11 @@
     "loading": "A carregar o mapa..."
   },
   "institutions": {
-    "list": "Lista de instituições",
     "loading": "A carregar instituições...",
     "name": "Nome da instituição",
     "error": "Houve um problema no servidor! Não foi possível carregar as instituições."
   },
   "courses": {
-    "list": "Lista de cursos",
     "loading": "A carregar cursos...",
     "name": "Nome do curso",
     "error": "Houve um problema no servidor! Não foi possível carregar os cursos."
@@ -68,8 +66,6 @@
   "auth": {
     "login": "Entra na tua conta",
     "email": "Email",
-    "emailRequired": "Tem de preencher o email",
-    "emailUnvalid": "Tem de introduzir um email válido",
     "pw": "Password",
     "pwRecover": "Esqueci-me da minha password",
     "loginRequest": "Entrar",

@@ -1,9 +1,12 @@
-<p-floatlabel
+<p-floatlabel class="w-full"
   ><p-password
+    id="password"
     [formControl]="passwordControl"
     [feedback]="false"
     [toggleMask]="true"
+    [style]="{ width: '100%' }"
+    inputStyleClass="w-full"
     (blur)="onTouched()"
   />
-  <label for="on_label">{{ "auth.pw" | translate }}</label>
+  <label for="password">{{ "auth.pw" | translate }}</label>
 </p-floatlabel>

@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
-.login-inputs {
-  @apply flex flex-col w-sm;
+.login-links {
+  @apply font-semibold;
+
+  &:hover {
+    color: #ff0000;
+    @apply font-bold;
+  }
 }
