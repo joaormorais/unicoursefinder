@@ -31,5 +31,13 @@ export class AuthService {
   register(registerValues: RegisterModel): void {
     console.log(registerValues);
   }
+
+  checkEmail(email: string): void {
+    console.log('to-do: check email on DB');
+  }
+
+  checkUserName(userName: string): void {
+    console.log('to-do: check userName on DB');
+  }
   //---------------------------------------------------------------------------
 }

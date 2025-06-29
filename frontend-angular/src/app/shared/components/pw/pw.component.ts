@@ -1,22 +1,18 @@
-import { Component, forwardRef } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
+import { Component, forwardRef, inject, Injector } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import {
-  FormControl,
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
-  ReactiveFormsModule,
+  NgControl,
 } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 import { PasswordModule } from 'primeng/password';
 import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-pw',
-  imports: [
-    TranslatePipe,
-    PasswordModule,
-    FloatLabelModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, TranslatePipe, PasswordModule, FloatLabelModule],
   templateUrl: './pw.component.html',
   providers: [
     {
@@ -27,20 +23,30 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   ],
 })
 export class PwComponent implements ControlValueAccessor {
-  // input value
-  passwordControl = new FormControl('');
+  // inject router service
+  router = inject(Router);
+
+  // used to check the validations on the parent
+  ngControl!: NgControl | null;
+
+  protected value: string = '';
+  protected isDisabled: boolean = false;
 
   onChange: (value: string) => void = () => {};
   onTouched: () => void = () => {};
 
-  constructor() {
-    this.passwordControl.valueChanges.subscribe((value) => {
-      this.onChange(value || '');
-    });
+  constructor(private injector: Injector) {}
+
+  ngOnInit(): void {
+    this.ngControl = this.injector.get(NgControl, null);
+
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
   }
 
   writeValue(obj: any): void {
-    this.passwordControl.setValue(obj, { emitEvent: false });
+    this.value = obj;
   }
 
   registerOnChange(fn: any): void {
@@ -52,6 +58,6 @@ export class PwComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    isDisabled ? this.passwordControl.disable() : this.passwordControl.enable();
+    this.isDisabled = isDisabled;
   }
 }

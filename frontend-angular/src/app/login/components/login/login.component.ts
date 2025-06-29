@@ -32,18 +32,25 @@ export class LoginComponent {
   // login form
   loginForm = new FormGroup({
     password: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(8)],
+      validators: [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(255),
+      ],
       nonNullable: true,
     }),
     email: new FormControl('', {
-      validators: [Validators.required, Validators.email],
+      validators: [
+        Validators.required,
+        Validators.email,
+        Validators.maxLength(255),
+      ],
       nonNullable: true,
     }),
   });
 
   loginRequest(): void {
     if (this.loginForm.invalid) {
-      // todo: toast message?
       this.loginForm.markAllAsTouched();
       return;
     }

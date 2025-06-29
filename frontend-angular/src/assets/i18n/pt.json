@@ -30,7 +30,8 @@
   "paragraphs": {
     "searchP": "Descobre facilmente cursos e instituições em Portugal que se alinham com os teus interesses e objetivos.",
     "forumP": "Tens dúvidas ou queres partilhar experiências? Junta-te à comunidade e participa nas conversas!",
-    "helpP": "Não sabes por onde começar? Responde a algumas perguntas e recebe sugestões personalizadas."
+    "helpP": "Não sabes por onde começar? Responde a algumas perguntas e recebe sugestões personalizadas.",
+    "footerP": "Este projeto foi idealizado e desenvolvido por "
   },
   "map": {
     "loading": "A carregar o mapa..."
@@ -53,15 +54,26 @@
   },
   "auth": {
     "login": "Entra na tua conta",
-    "email": "Email",
-    "pw": "Password",
-    "pwRecover": "Esqueci-me da minha password",
-    "loginRequest": "Entrar",
-    "notRegistered": "Não és membro?",
     "register": "Cria a tua conta",
+    "loginRequest": "Entrar",
+    "registerRequest": "Registar",
+    "pwRecover": "Esqueci-me da minha palavra-chave",
+    "notRegistered": "Não és membro?",
+    "email": "Email",
+    "pw": "Palavra-chave",
     "userName": "Nome de utilizador",
     "displayName": "Nome de apresentação",
     "birthDate": "Data de nascimento",
-    "registerRequest": "Registar"
+    "promptLabel": "Utiliza uma palavra-chave forte",
+    "weakLabel": "Fraca",
+    "mediumLabel": "Média",
+    "strongLabel": "Forte"
+  },
+  "errors": {
+    "required": "Este campo é obrigatório",
+    "email": "Não corresponde ao formato de email",
+    "maxLength": "Excede o limite de caracteres",
+    "minLength2": "Tem de ter pelo menos 2 caracteres",
+    "minLength3": "Tem de ter pelo menos 3 caracteres"
   }
 }

@@ -1,22 +1,19 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, inject, Injector } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {
   ControlValueAccessor,
-  FormControl,
   NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
+  NgControl,
 } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { AuthService } from '../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-email',
-  imports: [
-    InputTextModule,
-    TranslatePipe,
-    FloatLabelModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, InputTextModule, TranslatePipe, FloatLabelModule],
   templateUrl: './email.component.html',
   providers: [
     {
@@ -27,20 +24,33 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   ],
 })
 export class EmailComponent implements ControlValueAccessor {
-  // input value
-  emailControl = new FormControl('');
+  // inject auth service
+  authService = inject(AuthService);
+
+  // inject router service
+  router = inject(Router);
+
+  // used to check the validations on the parent
+  ngControl!: NgControl | null;
+
+  protected value: string = '';
+  protected isDisabled: boolean = false;
 
   onChange: (value: string) => void = () => {};
   onTouched: () => void = () => {};
 
-  constructor() {
-    this.emailControl.valueChanges.subscribe((value) => {
-      this.onChange(value || '');
-    });
+  constructor(private injector: Injector) {}
+
+  ngOnInit(): void {
+    this.ngControl = this.injector.get(NgControl, null);
+
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
   }
 
   writeValue(obj: any): void {
-    this.emailControl.setValue(obj, { emitEvent: false });
+    this.value = obj;
   }
 
   registerOnChange(fn: any): void {
@@ -52,6 +62,11 @@ export class EmailComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    isDisabled ? this.emailControl.disable() : this.emailControl.enable();
+    this.isDisabled = isDisabled;
+  }
+
+  checkEmail(): void {
+    if (this.router.url === '/register')
+      this.authService.checkEmail(this.value);
   }
 }

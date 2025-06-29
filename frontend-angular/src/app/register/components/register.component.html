@@ -11,10 +11,34 @@
         formControlName="userName"
         type="text"
         class="w-full"
+        (blur)="checkUserName()"
         pInputText
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            registerForm.controls.userName.invalid &&
+            registerForm.controls.userName.touched
+        }"
       />
       <label for="userName">{{ "auth.userName" | translate }}</label>
     </p-floatlabel>
+    @if (registerForm.controls.userName.invalid &&
+    registerForm.controls.userName.touched) {
+    <div class="w-full flex flex-col justify-start">
+      @if (registerForm.controls.userName.hasError('required')) {
+      <span style="color: var(--p-form-field-invalid-placeholder-color)">{{
+        "errors.required" | translate
+      }}</span>
+      } @if (registerForm.controls.userName.hasError('minlength')) {
+      <span style="color: var(--p-form-field-invalid-placeholder-color)">{{
+        "errors.minLength2" | translate
+      }}</span>
+      } @if (registerForm.controls.userName.hasError('maxlength')) {
+      <span style="color: var(--p-form-field-invalid-placeholder-color)">{{
+        "errors.maxLength" | translate
+      }}</span>
+      }
+    </div>
+    }
 
     <app-email formControlName="email" class="w-full"></app-email>
     <app-pw formControlName="password" class="w-full"></app-pw>
@@ -26,9 +50,32 @@
         type="text"
         class="w-full"
         pInputText
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            registerForm.controls.displayName.invalid &&
+            registerForm.controls.displayName.touched
+        }"
       />
       <label for="displayName">{{ "auth.displayName" | translate }}</label>
     </p-floatlabel>
+    @if (registerForm.controls.displayName.invalid &&
+    registerForm.controls.displayName.touched) {
+    <div class="w-full flex flex-col justify-start">
+      @if (registerForm.controls.displayName.hasError('required')) {
+      <span style="color: var(--p-form-field-invalid-placeholder-color)">{{
+        "errors.required" | translate
+      }}</span>
+      } @if (registerForm.controls.displayName.hasError('minlength')) {
+      <span style="color: var(--p-form-field-invalid-placeholder-color)">{{
+        "errors.minLength2" | translate
+      }}</span>
+      } @if (registerForm.controls.displayName.hasError('maxlength')) {
+      <span style="color: var(--p-form-field-invalid-placeholder-color)">{{
+        "errors.maxLength" | translate
+      }}</span>
+      }
+    </div>
+    }
 
     <p-floatlabel class="w-full" variant="in"
       ><p-datepicker
@@ -37,9 +84,25 @@
         dateFormat="dd.mm.yy"
         [style]="{ width: '100%' }"
         inputStyleClass="w-full"
+        [showIcon]="true"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            registerForm.controls.birthDate.invalid &&
+            registerForm.controls.birthDate.touched
+        }"
       />
       <label for="birthDate">{{ "auth.birthDate" | translate }}</label>
     </p-floatlabel>
+    @if (registerForm.controls.birthDate.invalid &&
+    registerForm.controls.birthDate.touched) {
+    <div class="w-full flex flex-col justify-start">
+      @if (registerForm.controls.birthDate.hasError('required')) {
+      <span style="color: var(--p-form-field-invalid-placeholder-color)">{{
+        "errors.required" | translate
+      }}</span>
+      }
+    </div>
+    }
 
     <p-button
       [label]="'auth.registerRequest' | translate"
