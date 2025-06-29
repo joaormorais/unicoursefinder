@@ -6,6 +6,7 @@ import { InstitutionsComponent } from '../institutions/institutions.component';
 import { CoursesComponent } from '../courses/courses.component';
 import { TabsModule } from 'primeng/tabs';
 import { SearchService } from '../../services/search.service';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 @Component({
   selector: 'app-search',
@@ -16,6 +17,7 @@ import { SearchService } from '../../services/search.service';
     InstitutionsComponent,
     CoursesComponent,
     TabsModule,
+    ScrollPanelModule,
   ],
   templateUrl: './search.component.html',
 })

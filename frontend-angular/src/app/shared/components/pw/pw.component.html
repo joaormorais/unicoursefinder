@@ -1,13 +1,11 @@
 <p-floatlabel class="w-full" variant="in"
   ><p-password
-
     #passwordInput
     id="password"
     [feedback]="router.url === '/register' ? true : false"
     [toggleMask]="true"
     [style]="{ width: '100%' }"
     inputStyleClass="w-full"
-    (keyup)="onChange(passwordInput.value ?? '')"
     (blur)="onTouched()"
     [ngClass]="{
       'ng-invalid ng-dirty': ngControl?.invalid && ngControl?.touched

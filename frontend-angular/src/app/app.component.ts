@@ -1,4 +1,6 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './core/components/header/header.component';
@@ -10,6 +12,7 @@ import { LoginComponent } from './login/components/login/login.component';
 @Component({
   selector: 'app-root',
   imports: [
+    CommonModule,
     TranslatePipe,
     RouterOutlet,
     HeaderComponent,
@@ -23,4 +26,8 @@ import { LoginComponent } from './login/components/login/login.component';
 export class AppComponent {
   // inject auth service
   authService = inject(AuthService);
+
+  // inject router service
+  router = inject(Router);
+
 }

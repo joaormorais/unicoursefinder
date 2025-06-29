@@ -30,7 +30,6 @@ export class PwComponent implements ControlValueAccessor {
   ngControl!: NgControl | null;
 
   protected value: string = '';
-  protected isDisabled: boolean = false;
 
   onChange: (value: string) => void = () => {};
   onTouched: () => void = () => {};
@@ -55,9 +54,5 @@ export class PwComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
   }
 }

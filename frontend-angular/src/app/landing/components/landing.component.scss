@@ -6,7 +6,7 @@
 }
 
 .column-container {
-  @apply relative cursor-pointer;
+  @apply relative cursor-pointer overflow-hidden;
 
   &:hover {
     .image-container {

@@ -6,8 +6,6 @@
     type="text"
     class="w-full"
     [value]="value"
-    [disabled]="isDisabled"
-    (input)="onChange(emailInput.value)"
     (blur)="onTouched(); checkEmail()"
     [ngClass]="{
       'ng-invalid ng-dirty': ngControl?.invalid && ngControl?.touched

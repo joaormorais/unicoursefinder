@@ -7,9 +7,10 @@
         <p-float-label>
           <p-multiselect
             id="filter_types"
+            display="chip"
             [options]="this.searchService.typesCourses()"
             formControlName="types"
-            [maxSelectedLabels]="3"
+            [maxSelectedLabels]="4"
             [selectedItemsLabel]="
               'multiselect.selectedItemsLabelTypes' | translate
             "
@@ -37,12 +38,13 @@
       <div class="md:col-span-4">
         <p-float-label>
           <p-multiselect
+            display="chip"
             id="filter_institutions"
             [options]="this.searchService.institutions()"
             optionLabel="name"
             optionValue="id"
             formControlName="institutionsIds"
-            [maxSelectedLabels]="3"
+            [maxSelectedLabels]="2"
             [selectedItemsLabel]="
               'multiselect.selectedItemsLabelInstitutions' | translate
             "
