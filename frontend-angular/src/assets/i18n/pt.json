@@ -34,7 +34,8 @@
     "footerP": "Este projeto foi idealizado e desenvolvido por "
   },
   "map": {
-    "loading": "A carregar o mapa..."
+    "loading": "A carregar o mapa...",
+    "credits": "Ícones universitários criados por nawicon - Flaticon"
   },
   "institutions": {
     "loading": "A carregar instituições...",
