@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, effect, inject } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { Institution } from '../../../shared/models/institution.model';
@@ -6,7 +7,7 @@ import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-map',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './map.component.html',
 })
 export class MapComponent implements AfterViewInit {
