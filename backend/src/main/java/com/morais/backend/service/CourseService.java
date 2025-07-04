@@ -1,8 +1,8 @@
 package com.morais.backend.service;
 
-import com.morais.backend.dto.CourseDTO;
-import com.morais.backend.dto.CourseSearchRequest;
-import com.morais.backend.entity.Course;
+import com.morais.backend.domain.dto.CourseDTO;
+import com.morais.backend.domain.dto.CourseSearchRequest;
+import com.morais.backend.domain.entity.Course;
 import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.repository.CourseRepository;
 import org.slf4j.Logger;

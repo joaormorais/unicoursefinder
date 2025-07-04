@@ -1,4 +1,4 @@
-package com.morais.backend.dto;
+package com.morais.backend.domain.dto;
 
 public record CourseDTO(
         Long id,

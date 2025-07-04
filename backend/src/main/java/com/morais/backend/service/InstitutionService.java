@@ -1,7 +1,7 @@
 package com.morais.backend.service;
 
-import com.morais.backend.dto.InstitutionDTO;
-import com.morais.backend.entity.Institution;
+import com.morais.backend.domain.dto.InstitutionDTO;
+import com.morais.backend.domain.entity.Institution;
 import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.repository.InstitutionRepository;
 import org.slf4j.Logger;

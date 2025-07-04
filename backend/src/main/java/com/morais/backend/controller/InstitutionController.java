@@ -1,6 +1,6 @@
 package com.morais.backend.controller;
 
-import com.morais.backend.dto.InstitutionDTO;
+import com.morais.backend.domain.dto.InstitutionDTO;
 import com.morais.backend.service.InstitutionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
 package com.morais.backend.repository;
 
-import com.morais.backend.entity.Course;
+import com.morais.backend.domain.entity.Course;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

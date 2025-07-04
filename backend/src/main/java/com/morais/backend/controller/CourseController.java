@@ -1,8 +1,8 @@
 package com.morais.backend.controller;
 
-import com.morais.backend.dto.CourseDTO;
-import com.morais.backend.dto.CoursePaginatedDTO;
-import com.morais.backend.dto.CourseSearchRequest;
+import com.morais.backend.domain.dto.CourseDTO;
+import com.morais.backend.domain.dto.CoursePaginatedDTO;
+import com.morais.backend.domain.dto.CourseSearchRequest;
 import com.morais.backend.service.CourseService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
