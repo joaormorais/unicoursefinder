@@ -1,0 +1,36 @@
+<p-floatlabel class="w-full" variant="in"
+  ><p-password
+    #passwordInput
+    id="password"
+    [feedback]="router.url === '/register' ? true : false"
+    [toggleMask]="true"
+    [style]="{ width: '100%' }"
+    inputStyleClass="w-full"
+    (blur)="onTouched()"
+    [ngClass]="{
+      'ng-invalid ng-dirty': ngControl?.invalid && ngControl?.touched
+    }"
+    [promptLabel]="'auth.promptLabel' | translate"
+    [weakLabel]="'auth.weakLabel' | translate"
+    [mediumLabel]="'auth.mediumLabel' | translate"
+    [strongLabel]="'auth.strongLabel' | translate"
+  />
+  <label for="password">{{ "auth.pw" | translate }}</label>
+</p-floatlabel>
+@if (ngControl?.invalid && ngControl?.touched) {
+<div class="w-full flex flex-col justify-start">
+  @if (ngControl?.hasError('required')) {
+  <span style="color: var(--p-form-field-invalid-placeholder-color)">{{
+    "errors.required" | translate
+  }}</span>
+  } @if (ngControl?.hasError('minlength')) {
+  <span style="color: var(--p-form-field-invalid-placeholder-color)">{{
+    "errors.minLength2" | translate
+  }}</span>
+  } @if (ngControl?.hasError('maxlength')) {
+  <span style="color: var(--p-form-field-invalid-placeholder-color)">{{
+    "errors.maxLength" | translate
+  }}</span>
+  }
+</div>
+}

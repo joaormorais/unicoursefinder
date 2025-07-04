@@ -6,7 +6,7 @@
 }
 
 .column-container {
-  @apply relative cursor-pointer;
+  @apply relative cursor-pointer overflow-hidden;
 
   &:hover {
     .image-container {
@@ -32,6 +32,6 @@
 }
 
 .landing-text {
-  @apply basis-[75%] pt-10 font-['Exo_2'] uppercase font-semibold tracking-wide text-left text-white text-shadow-lg;
+  @apply basis-[75%] pt-10 uppercase font-semibold tracking-wide text-left text-white text-shadow-lg;
   @apply text-[clamp(5px,3vw,45px)];
 }

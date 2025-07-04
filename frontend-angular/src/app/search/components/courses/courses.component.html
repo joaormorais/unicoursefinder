@@ -1,77 +1,93 @@
 <!-- filters -->
-<p-panel
-  [header]="'filters.filters' | translate"
-  [toggleable]="true"
-  class="filter-expansion-panel"
->
-  <form [formGroup]="filtersFormGroup" class="filter-container">
-    <!-- types -->
-    <div class="md:col-span-4">
-      <p-float-label>
-        <p-multiselect
-          [options]="this.searchService.typesCourses()"
-          formControlName="types"
-          [maxSelectedLabels]="3"
-          styleClass="w-full md:w-80"
-        >
-          <ng-template #footer>
-            <div class="p-3 flex">
-              <p-button
-                [label]="'filters.remove' | translate"
-                severity="danger"
-                text
-                size="small"
-                icon="pi pi-times"
-                (click)="clearTypes()"
-              />
-            </div>
-          </ng-template>
-        </p-multiselect>
-        <label for="on_label">{{ "filters.types" | translate }}</label>
-      </p-float-label>
-    </div>
+<div class="mb-2">
+  <p-panel [header]="'filters.filters' | translate" [toggleable]="true">
+    <form [formGroup]="filtersFormGroup" class="filter-container">
+      <!-- types -->
+      <div class="md:col-span-4">
+        <p-float-label>
+          <p-multiselect
+            id="filter_types"
+            display="chip"
+            [options]="this.searchService.typesCourses()"
+            formControlName="types"
+            [maxSelectedLabels]="4"
+            [selectedItemsLabel]="
+              'multiselect.selectedItemsLabelTypes' | translate
+            "
+            styleClass="w-full"
+          >
+            <ng-template #footer>
+              <div class="p-3 flex">
+                <p-button
+                  [attr.aria-label]="'ariaLabels.clearTypes' | translate"
+                  [label]="'filters.remove' | translate"
+                  severity="danger"
+                  text
+                  size="small"
+                  icon="pi pi-times"
+                  (click)="clearTypes()"
+                />
+              </div>
+            </ng-template>
+          </p-multiselect>
+          <label for="filter_types">{{ "filters.types" | translate }}</label>
+        </p-float-label>
+      </div>
 
-    <!--  institutions id's -->
-    <div class="md:col-span-4">
-      <p-float-label>
-        <p-multiselect
-          [options]="this.searchService.institutions()"
-          optionLabel="name"
-          optionValue="id"
-          formControlName="institutionsIds"
-          [maxSelectedLabels]="3"
-          styleClass="w-full md:w-80"
-        >
-          <ng-template #footer>
-            <div class="p-3 flex">
-              <p-button
-                [label]="'filters.remove' | translate"
-                severity="danger"
-                text
-                size="small"
-                icon="pi pi-times"
-                (click)="clearInstitutions()"
-              />
-            </div>
-          </ng-template>
-        </p-multiselect>
-        <label for="on_label">{{
-          "filters.institutionsIds" | translate
-        }}</label>
-      </p-float-label>
-    </div>
+      <!--  institutions id's -->
+      <div class="md:col-span-4">
+        <p-float-label>
+          <p-multiselect
+            display="chip"
+            id="filter_institutions"
+            [options]="this.searchService.institutions()"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="institutionsIds"
+            [maxSelectedLabels]="2"
+            [selectedItemsLabel]="
+              'multiselect.selectedItemsLabelInstitutions' | translate
+            "
+            styleClass="w-full"
+          >
+            <ng-template #footer>
+              <div class="p-3 flex">
+                <p-button
+                  [attr.aria-label]="'ariaLabels.clearInstitutions' | translate"
+                  [label]="'filters.remove' | translate"
+                  severity="danger"
+                  text
+                  size="small"
+                  icon="pi pi-times"
+                  (click)="clearInstitutions()"
+                />
+              </div>
+            </ng-template>
+          </p-multiselect>
+          <label for="filter_institutions">{{
+            "filters.institutionsIds" | translate
+          }}</label>
+        </p-float-label>
+      </div>
 
-    <!-- name -->
-    <div class="md:col-span-4">
-      <p-floatlabel
-        ><input formControlName="name" type="text" pInputText />
-        <label for="on_label">{{ "filters.name" | translate }}</label>
-      </p-floatlabel>
-    </div>
-  </form>
-</p-panel>
+      <!-- name -->
+      <div class="md:col-span-4">
+        <p-floatlabel
+          ><input
+            id="filter_name"
+            formControlName="name"
+            type="text"
+            class="w-full"
+            pInputText
+          />
+          <label for="filter_name">{{ "filters.name" | translate }}</label>
+        </p-floatlabel>
+      </div>
+    </form>
+  </p-panel>
+</div>
 
-<div class="list-container">
+<p-panel>
   <!-- loading and error messages -->
   @if (this.searchService.loadingPaginatedCourses()) {
   <div class="flex flex-col items-center">
@@ -83,20 +99,24 @@
     />
     <p class="!m-5">{{ "courses.loading" | translate }}</p>
   </div>
-  } @if (this.searchService.errorPaginatedCourses()) {
+  }
+
+  <!-- error messages -->
+  @if (this.searchService.errorPaginatedCourses()) {
   <div>
     <p class="!m-5 text-center">
       {{ this.searchService.errorPaginatedCourses() }}
     </p>
   </div>
   }
+
   <!-- list -->
   <ul
     [hidden]="
       this.searchService.loadingPaginatedCourses() ||
       this.searchService.errorPaginatedCourses()
     "
-    [attr.aria-label]="'ariaLabels.institutionsList' | translate"
+    [attr.aria-label]="'ariaLabels.coursesList' | translate"
   >
     @for (course of this.searchService.coursesPaginated().courses; track
     course.id) {
@@ -116,14 +136,17 @@
     </li>
     }
   </ul>
+
   <!-- paginator -->
-  <p-paginator
-    #coursesPaginator
-    (onPageChange)="onPageChange($event)"
-    [first]="this.coursesPaginatorIndex"
-    [totalRecords]="this.coursesPaginatorTotalRecords"
-    [rowsPerPageOptions]="this.coursesPaginatorRowsPerPageOptions"
-    [rows]="this.coursesPaginatorRows"
-    [attr.aria-label]="'ariaLabels.pagination' | translate"
-  />
-</div>
+  <ng-template #footer>
+    <p-paginator
+      #coursesPaginator
+      (onPageChange)="onPageChange($event)"
+      [first]="this.coursesPaginatorIndex"
+      [totalRecords]="this.coursesPaginatorTotalRecords"
+      [rowsPerPageOptions]="this.coursesPaginatorRowsPerPageOptions"
+      [rows]="this.coursesPaginatorRows"
+      [attr.aria-label]="'ariaLabels.pagination' | translate"
+    />
+  </ng-template>
+</p-panel>

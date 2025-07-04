@@ -1,27 +1,26 @@
-<p-card [header]="'auth.login' | translate">
-  <form [formGroup]="loginForm" (ngSubmit)="loginRequest()">
-    <div class="login-inputs">
-      <app-email formControlName="email"></app-email>
-      <app-pw formControlName="password"></app-pw>
-    </div>
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="loginRequest()"
+  class="flex flex-col justify-center items-center gap-3"
+>
+  <app-email formControlName="email" class="w-full"></app-email>
+  <app-pw formControlName="password" class="w-full"></app-pw>
 
-    <p-button
-      [label]="'auth.loginRequest' | translate"
-      [disabled]="loginForm.invalid"
-      type="submit"
-    />
-  </form>
+  <p-button
+    [label]="'auth.loginRequest' | translate"
+    [disabled]="loginForm.invalid"
+    type="submit"
+  />
+</form>
 
-  <p class="mt-10 text-center text-sm text-gray-500">
-    <a href="#" class="font-semibold hover:font-bold hover:text-black">{{
-      "auth.pwRecover" | translate
-    }}</a>
-    <br />
-    {{ "auth.notRegistered" | translate }}
-    <a
-      routerLink="/register"
-      class="font-semibold hover:font-bold hover:text-black"
-      >{{ "auth.register" | translate }}</a
-    >
-  </p>
-</p-card>
+<p class="mt-10 text-center text-sm text-gray-500">
+  <a href="#" class="login-links">{{ "auth.pwRecover" | translate }}</a>
+  <br />
+  {{ "auth.notRegistered" | translate }}
+  <a
+    routerLink="/register"
+    (click)="this.authService.hideDialog()"
+    class="login-links"
+    >{{ "auth.register" | translate }}</a
+  >
+</p>

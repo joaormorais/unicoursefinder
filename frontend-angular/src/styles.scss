@@ -1,15 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
+@plugin "tailwindcss-primeui";
+@custom-variant dark (&:where(.my-app-dark, .my-app-dark *));
 @import "primeicons/primeicons.css";
-
-// todo: trocar de sitio
 @import "leaflet.markercluster/dist/MarkerCluster.css";
 @import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
-html {
-  height: 100%;
+@theme {
+  --font-exo: "Exo 2", sans-serif;
 }
 
-body {
-  height: 100%;
-  font-family: "Exo 2";
+@layer base {
+  html,
+  body,
+  body .p-component {
+    font-family: var(--font-exo);
+  }
+}
+
+* {
+  font-family: "Exo 2", sans-serif;
 }

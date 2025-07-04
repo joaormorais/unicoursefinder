@@ -4,7 +4,6 @@
     "forum": "Procurar cursos",
     "help": "Procurar cursos",
     "landing": "Página principal",
-    "menu": "Menu",
     "loginRegister": "Iniciar sessão/registo",
     "nextIcon": "Ícone para a direita",
     "institutionsList": "Lista de instituições",
@@ -13,11 +12,6 @@
     "clearTypes": "Limpar a seleção de tipos",
     "clearDistricts": "Limpar a seleção de distritos",
     "clearInstitutions": "Limpar seleção de instituições",
-    "filterByInstitutionName": "Filtro por nome de instituições",
-    "clearInstitutionName": "Limpar filtro de nome de instituições",
-    "filterByName": "Filtro por nome",
-    "clearName": "Limpar filtro de nome",
-    "hidePW": "Esconder/Mostrar a password",
     "openLink": "Abrir os detalhes deste curso numa nova janela",
     "changeModes": "Alternar entre modo claro e modo escuro"
   },
@@ -28,25 +22,26 @@
     "institutions": "Instituições",
     "courses": "Cursos"
   },
+  "multiselect": {
+    "selectedItemsLabelTypes": "{0} tipos selecionados",
+    "selectedItemsLabelDistricts": "{0} distritos selecionados",
+    "selectedItemsLabelInstitutions": "{0} instituições selecionadas"
+  },
   "paragraphs": {
     "searchP": "Descobre facilmente cursos e instituições em Portugal que se alinham com os teus interesses e objetivos.",
     "forumP": "Tens dúvidas ou queres partilhar experiências? Junta-te à comunidade e participa nas conversas!",
-    "helpP": "Não sabes por onde começar? Responde a algumas perguntas e recebe sugestões personalizadas."
+    "helpP": "Não sabes por onde começar? Responde a algumas perguntas e recebe sugestões personalizadas.",
+    "footerP": "Este projeto foi idealizado e desenvolvido por "
   },
   "map": {
-    "title": "As instituições espalhadas pelo país",
     "loading": "A carregar o mapa..."
   },
   "institutions": {
-    "list": "Lista de instituições",
     "loading": "A carregar instituições...",
-    "name": "Nome da instituição",
     "error": "Houve um problema no servidor! Não foi possível carregar as instituições."
   },
   "courses": {
-    "list": "Lista de cursos",
     "loading": "A carregar cursos...",
-    "name": "Nome do curso",
     "error": "Houve um problema no servidor! Não foi possível carregar os cursos."
   },
   "filters": {
@@ -57,18 +52,28 @@
     "institutionsIds": "Instituição",
     "remove": "Remover todos"
   },
-  "pagination": {
-    "select": "Selecionar página"
-  },
   "auth": {
     "login": "Entra na tua conta",
-    "email": "Email",
-    "emailRequired": "Tem de preencher o email",
-    "emailUnvalid": "Tem de introduzir um email válido",
-    "pw": "Password",
-    "pwRecover": "Esqueci-me da minha password",
+    "register": "Cria a tua conta",
     "loginRequest": "Entrar",
+    "registerRequest": "Registar",
+    "pwRecover": "Esqueci-me da minha palavra-chave",
     "notRegistered": "Não és membro?",
-    "register": "Cria a tua conta"
+    "email": "Email",
+    "pw": "Palavra-chave",
+    "userName": "Nome de utilizador",
+    "displayName": "Nome de apresentação",
+    "birthDate": "Data de nascimento",
+    "promptLabel": "Utiliza uma palavra-chave forte",
+    "weakLabel": "Fraca",
+    "mediumLabel": "Média",
+    "strongLabel": "Forte"
+  },
+  "errors": {
+    "required": "Este campo é obrigatório",
+    "email": "Não corresponde ao formato de email",
+    "maxLength": "Excede o limite de caracteres",
+    "minLength2": "Tem de ter pelo menos 2 caracteres",
+    "minLength3": "Tem de ter pelo menos 3 caracteres"
   }
 }

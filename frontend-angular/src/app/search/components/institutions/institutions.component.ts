@@ -18,6 +18,7 @@ import { ButtonModule } from 'primeng/button';
 import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import { Paginator, PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { ProgressSpinner } from 'primeng/progressspinner';
+import { CardModule } from 'primeng/card';
 import { InstitutionFilters } from '../../models/search.model';
 
 @Component({
@@ -32,6 +33,7 @@ import { InstitutionFilters } from '../../models/search.model';
     ButtonModule,
     PaginatorModule,
     ProgressSpinner,
+    CardModule,
   ],
   templateUrl: './institutions.component.html',
   styleUrl: '../styles/search.scss',

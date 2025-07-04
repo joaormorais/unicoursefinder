@@ -1,42 +1,48 @@
-<!-- loading message for map -->
-@if (this.searchService.loadingInstitutions()) {
-<p class="!m-5 text-center">{{ "map.loading" | translate }}</p>
-}
+<div class="flex flex-col md:flex-row h-full">
+  <div class="h-2/5 md:h-full md:w-2/5">
+    <!-- loading message for map -->
+    @if (this.searchService.loadingInstitutions()) {
+    <p class="!m-5 text-center">{{ "map.loading" | translate }}</p>
+    }
 
-<!-- map and his title -->
-@if (!this.searchService.loadingInstitutions() &&
-!this.searchService.errorInstitutions()) {
-<!-- map of institutions -->
-<app-map></app-map>
-}
+    <!-- map and his title -->
+    @if (!this.searchService.loadingInstitutions() &&
+    !this.searchService.errorInstitutions()) {
+    <!-- map of institutions -->
+    <app-map> </app-map>
+    }
+  </div>
 
-<!-- choose between institutions and courses -->
-<div class="card">
-  <p-tabs
-    [value]="this.searchService.tabValue()"
-    (valueChange)="searchService.changeTab($event)"
-  >
-    <p-tablist>
-      <p-tab value="0">{{ "buttons.institutions" | translate }}</p-tab>
-      <p-tab value="1">{{ "buttons.courses" | translate }}</p-tab>
-    </p-tablist>
-    <p-tabpanels>
-      <p-tabpanel value="0">
-        <!-- institutions list and filters -->
-        <div>
-          <app-institutions> </app-institutions>
-        </div>
-      </p-tabpanel>
-      <p-tabpanel value="1">
-        <!-- courses list and filters -->
-        @if ( !this.searchService.loadingInstitutions() &&
-        !this.searchService.loadingTypesInstitutions() &&
-        !this.searchService.loadingDistrictsInstitutions() ) {
-        <div>
-          <app-courses> </app-courses>
-        </div>
-        }
-      </p-tabpanel>
-    </p-tabpanels>
-  </p-tabs>
+  <div class="h-3/5 md:h-full md:w-3/5 md:min-h-0">
+    <p-scroll-panel [style]="{ width: '100%', height: '100%' }"
+      ><!-- choose between institutions and courses -->
+      <p-tabs
+        [value]="this.searchService.tabValue()"
+        (valueChange)="searchService.changeTab($event)"
+      >
+        <p-tablist>
+          <p-tab value="0">{{ "buttons.institutions" | translate }}</p-tab>
+          <p-tab value="1">{{ "buttons.courses" | translate }}</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="0">
+            <!-- institutions list and filters -->
+            <div>
+              <app-institutions> </app-institutions>
+            </div>
+          </p-tabpanel>
+          <p-tabpanel value="1">
+            <!-- courses list and filters -->
+            @if ( !this.searchService.loadingInstitutions() &&
+            !this.searchService.loadingTypesInstitutions() &&
+            !this.searchService.loadingDistrictsInstitutions() ) {
+            <div>
+              <app-courses> </app-courses>
+            </div>
+            }
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </p-scroll-panel>
+  </div>
 </div>

@@ -1,26 +1,19 @@
 @use "sass:map";
 @import "tailwindcss";
 
-.filter-expansion-panel {
-  @apply m-5 overflow-hidden rounded-xl shadow-md;
-}
-
 .filter-container {
-  @apply rounded-2xl grid grid-cols-1 md:grid-cols-12 mt-3;
+  @apply grid grid-cols-1 md:grid-cols-12 gap-3;
 }
 
 .filter-container > div {
-  @apply p-1;
-}
-
-.list-container {
-  @apply rounded-2xl m-5 p-5 flex flex-col md:min-h-[340px] bg-white shadow-xl/40;
+  @apply mt-3 w-full;
 }
 
 .list-bullet-point {
-  @apply rounded-xl mb-3 p-2 !h-full text-black cursor-pointer;
+  @apply rounded-xl mb-3 p-2 !h-full cursor-pointer border border-transparent;
 
   &:hover {
-    @apply shadow-xl;
+    background-color: var(--p-list-option-focus-background);
+    @apply shadow-xl border border-inherit;
   }
 }
