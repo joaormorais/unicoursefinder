@@ -1,6 +1,6 @@
 package com.morais.backend.domain.entity;
 
-import  jakarta.persistence.*;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 public class Course {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "courseSeqGen")
+    @SequenceGenerator(name = "courseSeqGen", sequenceName = "course_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "dges_number", nullable = false)

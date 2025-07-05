@@ -18,6 +18,8 @@ import java.util.Set;
 public class Institution {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "institutionSeqGen")
+    @SequenceGenerator(name = "institutionSeqGen", sequenceName = "institution_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "dges_number", nullable = false, unique = true)
