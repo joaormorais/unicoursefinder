@@ -34,9 +34,7 @@ public class Course {
     @Column(name = "link", nullable = false, length = 512)
     private String link;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "institution_id", nullable = false)
     private Institution institution;
-
-
 }

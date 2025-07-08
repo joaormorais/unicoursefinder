@@ -5,8 +5,7 @@ import com.morais.backend.domain.dto.CoursePaginatedDTO;
 import com.morais.backend.domain.dto.CourseSearchRequest;
 import com.morais.backend.service.CourseService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
 
-    private static final Logger logger = LoggerFactory.getLogger(CourseController.class);
     private final CourseService courseService;
 
     public CourseController(CourseService courseService) {
@@ -34,7 +33,7 @@ public class CourseController {
      */
     @GetMapping("/types")
     public ResponseEntity<List<String>> getDistinctTypes() {
-        logger.info("New request! /courses/types");
+        log.info("New request! /courses/types");
         return ResponseEntity.ok(courseService.getDistinctTypes());
     }
 
@@ -51,11 +50,11 @@ public class CourseController {
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize
     ) {
-        logger.info("New request! /courses/search");
+        log.info("New request! /courses/search");
 
         // check if the pagination is being requested inside of bounds
         if (pageNumber < 0 || pageSize <= 0 || pageSize > courseService.countTotalCourses()) {
-            logger.warn("Invalid page number or page size provided. pageNumber={}, pageSize={}.", pageNumber, pageSize);
+            log.warn("Invalid page number or page size provided. pageNumber={}, pageSize={}.", pageNumber, pageSize);
             throw new IllegalArgumentException("Invalid pagination parameters: /courses/search");
         }
 

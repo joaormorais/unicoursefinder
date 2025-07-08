@@ -4,10 +4,10 @@ import com.morais.backend.domain.dto.CourseDTO;
 import com.morais.backend.domain.dto.CourseSearchRequest;
 import com.morais.backend.domain.entity.Course;
 import com.morais.backend.exception.ResourceNotFoundException;
+import com.morais.backend.mappers.CourseMapper;
 import com.morais.backend.repository.CourseRepository;
 import com.morais.backend.service.CourseService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,14 +16,16 @@ import java.util.List;
 
 import static com.morais.backend.util.TextUtils.normalize;
 
+@Slf4j
 @Service
 public class CourseServiceImpl implements CourseService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CourseServiceImpl.class);
     private final CourseRepository courseRepository;
+    private final CourseMapper courseMapper;
 
-    public CourseServiceImpl(CourseRepository courseRepository) {
+    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper) {
         this.courseRepository = courseRepository;
+        this.courseMapper = courseMapper;
     }
 
     /**
@@ -33,7 +35,7 @@ public class CourseServiceImpl implements CourseService {
      */
     @Override
     public int countTotalCourses() {
-        logger.info("Returning total number of courses...");
+        log.info("Returning total number of courses...");
         return (int) courseRepository.count();
     }
 
@@ -45,11 +47,11 @@ public class CourseServiceImpl implements CourseService {
      */
     @Override
     public List<String> getDistinctTypes() {
-        logger.info("Returning every distinct type (courses)");
+        log.info("Returning every distinct type (courses)");
         List<String> types = courseRepository.findDistinctTypes();
 
         if (types.isEmpty()) {
-            logger.warn("Didn't find any distinct type (courses)");
+            log.warn("Didn't find any distinct type (courses)");
             throw new ResourceNotFoundException("Didn't find any distinct type (courses)");
         }
 
@@ -67,29 +69,12 @@ public class CourseServiceImpl implements CourseService {
      */
     @Override
     public Page<CourseDTO> getCoursesByNameTypeAndInstitution(CourseSearchRequest courseSearchRequest, Pageable pageable) {
-        logger.info("Returning every filtered course by name, type and institutionId");
+        log.info("Returning every filtered course by name, type and institutionId");
         Page<Course> resultPage = courseRepository.findByNameTypeAndInstitutionId(normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds(), pageable);
 
         if (resultPage.isEmpty())
-            logger.warn("Didn't find any course with the filters: name[{}], types[{}], institutionsIds[{}]. Returning empty!", normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds());
+            log.warn("Didn't find any course with the filters: name[{}], types[{}], institutionsIds[{}]. Returning empty!", normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds());
 
-        return resultPage.map(this::mapToDTO);
-    }
-
-    /**
-     * Converts a Course entity into a CourseDTO.
-     *
-     * @param course the Course entity to be converted
-     * @return a CourseDTO containing course details and a list of associated institution IDs
-     */
-    private CourseDTO mapToDTO(Course course) {
-        return new CourseDTO(
-                course.getId(),
-                course.getDgesNumber(),
-                course.getName(),
-                course.getType(),
-                course.getLink(),
-                course.getInstitution().getId()
-        );
+        return resultPage.map(courseMapper::toDto);
     }
 }

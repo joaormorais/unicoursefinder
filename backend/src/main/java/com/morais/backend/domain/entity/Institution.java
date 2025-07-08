@@ -43,7 +43,6 @@ public class Institution {
     @Column(name = "longitude", nullable = false, precision = 10, scale = 6)
     private BigDecimal longitude;
 
-    @OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "institution")
     private Set<Course> courses;
-
 }
