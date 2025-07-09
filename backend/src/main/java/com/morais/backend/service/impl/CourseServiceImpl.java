@@ -1,11 +1,11 @@
 package com.morais.backend.service.impl;
 
 import com.morais.backend.domain.dto.CourseDTO;
-import com.morais.backend.domain.dto.CourseSearchRequest;
 import com.morais.backend.domain.entity.Course;
 import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.mappers.CourseMapper;
 import com.morais.backend.repository.CourseRepository;
+import com.morais.backend.repository.InstitutionRepository;
 import com.morais.backend.service.CourseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,17 +66,20 @@ public class CourseServiceImpl implements CourseService {
      * The name is normalized before querying.
      * Throws a ResourceNotFoundException if no courses match the filters.
      *
-     * @param courseSearchRequest the search filters for courses
+     * @param courseName             name filter
+     * @param coursesTypes           type filter
+     * @param coursesInstitutionsIds institution id filter
+     * @param pageable               pagination filter
      * @return a list of matching courses as DTOs
      */
     @Override
-    public Page<CourseDTO> getCoursesByNameTypeAndInstitution(CourseSearchRequest courseSearchRequest, Pageable pageable) {
+    public Page<CourseDTO> getCoursesByNameTypeAndInstitution(String courseName, List<String> coursesTypes, List<Long> coursesInstitutionsIds, Pageable pageable) {
         log.info("Returning every filtered course by name, type and institutionId");
-        Page<Course> resultPage = courseRepository.findByNameTypeAndInstitutionId(normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds(), pageable);
+        Page<Course> resultPage = courseRepository.findByNameTypeAndInstitutionId(normalize(courseName), coursesTypes, coursesInstitutionsIds, pageable);
 
         if (resultPage.isEmpty())
-            log.warn("Didn't find any course with the filters: name[{}], types[{}], institutionsIds[{}]. Returning empty!", normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds());
+            log.warn("Didn't find any course with the filters: name[{}], types[{}], institutionsIds[{}]. Returning empty!", normalize(courseName), coursesTypes, coursesInstitutionsIds);
 
-        return resultPage.map(courseMapper::toDto);
+        return resultPage.map(course -> courseMapper.toDto(course, course.getInstitution().getId()));
     }
 }

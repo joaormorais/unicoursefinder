@@ -1,7 +1,6 @@
 package com.morais.backend.service;
 
 import com.morais.backend.domain.dto.CourseDTO;
-import com.morais.backend.domain.dto.CourseSearchRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,5 +11,5 @@ public interface CourseService {
 
     List<String> getDistinctTypes();
 
-    Page<CourseDTO> getCoursesByNameTypeAndInstitution(CourseSearchRequest courseSearchRequest, Pageable pageable);
+    Page<CourseDTO> getCoursesByNameTypeAndInstitution(String courseName, List<String> coursesTypes, List<Long> coursesInstitutionsIds, Pageable pageable);
 }

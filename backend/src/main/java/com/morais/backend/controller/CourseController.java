@@ -2,9 +2,7 @@ package com.morais.backend.controller;
 
 import com.morais.backend.domain.dto.CourseDTO;
 import com.morais.backend.domain.dto.CoursePaginatedDTO;
-import com.morais.backend.domain.dto.CourseSearchRequest;
 import com.morais.backend.service.CourseService;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,12 +41,18 @@ public class CourseController {
      * Searches for courses with optional filters for name, type and institution.
      * The results are paged
      *
-     * @param courseSearchRequest the request body containing the search filters
+     * @param courseName            name filter
+     * @param coursesTypes          type filter
+     * @param coursesInstitutionsIds institution id filter
+     * @param pageNumber            pagination filter
+     * @param pageSize              pagination filter
      * @return a list of courses matching the search criteria
      */
-    @PostMapping("/search")
+    @GetMapping("/search")
     public ResponseEntity<CoursePaginatedDTO> searchCourses(
-            @RequestBody @Valid CourseSearchRequest courseSearchRequest,
+            @RequestParam(defaultValue = "0") String courseName,
+            @RequestParam(defaultValue = "") List<String> coursesTypes,
+            @RequestParam(defaultValue = "") List<Long> coursesInstitutionsIds,
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize
     ) {
@@ -60,8 +64,7 @@ public class CourseController {
             throw new IllegalArgumentException("Invalid pagination parameters: /courses/search");
         }
 
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("normalized_name").ascending());
-        Page<CourseDTO> courseDTOPage = courseService.getCoursesByNameTypeAndInstitution(courseSearchRequest,pageable);
+        Page<CourseDTO> courseDTOPage = courseService.getCoursesByNameTypeAndInstitution(courseName, coursesTypes, coursesInstitutionsIds, PageRequest.of(pageNumber, pageSize, Sort.by("normalized_name").ascending()));
         return ResponseEntity.ok(new CoursePaginatedDTO(
                 courseDTOPage.getContent(),
                 courseDTOPage.getTotalElements(),
