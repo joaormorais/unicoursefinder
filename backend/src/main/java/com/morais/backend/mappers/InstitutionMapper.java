@@ -4,7 +4,7 @@ import com.morais.backend.domain.dto.InstitutionDTO;
 import com.morais.backend.domain.entity.Institution;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface InstitutionMapper {
     InstitutionDTO toDto(Institution institution);
 }
