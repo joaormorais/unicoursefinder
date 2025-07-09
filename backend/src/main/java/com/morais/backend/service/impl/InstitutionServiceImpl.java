@@ -7,6 +7,7 @@ import com.morais.backend.mappers.InstitutionMapper;
 import com.morais.backend.repository.InstitutionRepository;
 import com.morais.backend.service.InstitutionService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class InstitutionServiceImpl implements InstitutionService {
     private final InstitutionRepository institutionRepository;
     private final InstitutionMapper institutionMapper;
 
+    @Autowired
     public InstitutionServiceImpl(InstitutionRepository institutionRepository, InstitutionMapper institutionMapper) {
         this.institutionRepository = institutionRepository;
         this.institutionMapper = institutionMapper;

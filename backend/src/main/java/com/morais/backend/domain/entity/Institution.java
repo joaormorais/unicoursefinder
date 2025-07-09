@@ -25,22 +25,22 @@ public class Institution {
     @Column(name = "dges_number", nullable = false, unique = true)
     private Long dgesNumber;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @Column(name = "normalized_name", nullable = false)
     private String normalizedName;
 
-    @Column(name = "type", nullable = false)
+    @Column(nullable = false)
     private String type;
 
-    @Column(name = "district", nullable = false)
+    @Column(nullable = false)
     private String district;
 
-    @Column(name = "latitude", nullable = false, precision = 9, scale = 6)
+    @Column(nullable = false, precision = 9, scale = 6)
     private BigDecimal latitude;
 
-    @Column(name = "longitude", nullable = false, precision = 10, scale = 6)
+    @Column(nullable = false, precision = 10, scale = 6)
     private BigDecimal longitude;
 
     @OneToMany(mappedBy = "institution")

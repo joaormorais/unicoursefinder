@@ -6,6 +6,7 @@ import com.morais.backend.domain.dto.CourseSearchRequest;
 import com.morais.backend.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ public class CourseController {
 
     private final CourseService courseService;
 
+    @Autowired
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
     }

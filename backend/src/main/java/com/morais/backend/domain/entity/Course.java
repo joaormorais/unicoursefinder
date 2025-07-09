@@ -22,16 +22,16 @@ public class Course {
     @Column(name = "dges_number", nullable = false)
     private String dgesNumber;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @Column(name = "normalized_name", nullable = false)
     private String normalizedName;
 
-    @Column(name = "type", nullable = false)
+    @Column(nullable = false)
     private String type;
 
-    @Column(name = "link", nullable = false, length = 512)
+    @Column(nullable = false, length = 512)
     private String link;
 
     @ManyToOne
