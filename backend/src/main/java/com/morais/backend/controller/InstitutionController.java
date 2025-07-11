@@ -4,6 +4,7 @@ import com.morais.backend.domain.dto.InstitutionDTO;
 import com.morais.backend.service.InstitutionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +20,6 @@ public class InstitutionController {
     @Autowired
     public InstitutionController(InstitutionService institutionService) {
         this.institutionService = institutionService;
-    }
-
-    /**
-     * Retrieves all institutions.
-     *
-     * @return a list of all institutions
-     */
-    @GetMapping
-    public ResponseEntity<List<InstitutionDTO>> getAllInstitutions() {
-        log.info("New request! /institutions");
-        return ResponseEntity.ok(institutionService.getInstitutions());
     }
 
     /**
@@ -52,5 +42,23 @@ public class InstitutionController {
     public ResponseEntity<List<String>> getDistinctDistricts() {
         log.info("New request! /institutions/districts");
         return ResponseEntity.ok(institutionService.getDistinctDistricts());
+    }
+
+    /**
+     * Retrieves all institutions.
+     *
+     * @return a list of all institutions
+     */
+    @GetMapping
+    public ResponseEntity<Page<InstitutionDTO>> searchInstitutions(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "name") String orderBy,
+            @RequestParam(defaultValue = "0") String institutionName,
+            @RequestParam(defaultValue = "") List<String> institutionTypes,
+            @RequestParam(defaultValue = "") List<String> institutionDistricts
+    ) {
+        log.info("New request! /institutions");
+        return ResponseEntity.ok(institutionService.getFilteredInstitutions(pageNumber, pageSize, orderBy, institutionName, institutionTypes, institutionDistricts));
     }
 }

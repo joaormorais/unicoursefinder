@@ -8,9 +8,14 @@ import com.morais.backend.repository.InstitutionRepository;
 import com.morais.backend.service.InstitutionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.morais.backend.util.TextUtils.normalize;
 
 @Slf4j
 @Service
@@ -23,27 +28,6 @@ public class InstitutionServiceImpl implements InstitutionService {
     public InstitutionServiceImpl(InstitutionRepository institutionRepository, InstitutionMapper institutionMapper) {
         this.institutionRepository = institutionRepository;
         this.institutionMapper = institutionMapper;
-    }
-
-    /**
-     * Retrieves all institutions and maps them to DTOs.
-     * Throws a ResourceNotFoundException if no institutions exist.
-     *
-     * @return a list of all institutions as DTOs
-     */
-    @Override
-    public List<InstitutionDTO> getInstitutions() {
-        log.info("Returning every institution");
-        List<Institution> institutions = institutionRepository.findAll();
-
-        if (institutions.isEmpty()) {
-            log.warn("Didn't find any institution");
-            throw new ResourceNotFoundException("Didn't find any institution");
-        }
-
-        return institutions.stream()
-                .map(institutionMapper::toDto)
-                .toList();
     }
 
     /**
@@ -82,5 +66,27 @@ public class InstitutionServiceImpl implements InstitutionService {
         }
 
         return districts;
+    }
+
+    /**
+     * Retrieves all institutions and maps them to DTOs.
+     * Throws a ResourceNotFoundException if no institutions exist.
+     *
+     * @return a list of all institutions as DTOs
+     */
+    @Override
+    public Page<InstitutionDTO> getFilteredInstitutions(int pageNumber, int pageSize, String orderBy, String institutionName, List<String> institutionTypes, List<String> institutionDistricts) {
+        log.info("Returning every filtered institution by name: ({}), type: ({}), and district: ({})", institutionName, institutionTypes, institutionDistricts);
+
+        log.info("Checking if pagination is inside of bounds");
+        if (pageNumber < 0 || pageSize <= 0 || pageSize > institutionRepository.count()) {
+            log.error("Invalid page number or page size provided. pageNumber={}, pageSize={}.", pageNumber, pageSize);
+            throw new IllegalArgumentException("Invalid pagination parameters: /institutions/search");
+        }
+
+        Page<Institution> resultPage = institutionRepository.findByNormalizedNameContainingAndTypeInAndDistrictIn(PageRequest.of(pageNumber, pageSize, Sort.by(orderBy)), normalize(institutionName), institutionTypes, institutionDistricts);
+        log.warn(resultPage.isEmpty() ? "Didn't find any institution. Returning empty!" : "Found institutions. Returning!");
+
+        return resultPage.map(institutionMapper::toDto);
     }
 }
