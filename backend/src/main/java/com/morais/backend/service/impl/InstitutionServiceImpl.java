@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -69,13 +71,20 @@ public class InstitutionServiceImpl implements InstitutionService {
     }
 
     /**
-     * Retrieves all institutions and maps them to DTOs.
-     * Throws a ResourceNotFoundException if no institutions exist.
+     * Retrieves institutions optionally based on name, type, and district.
+     * The results are paged.
+     * The name is normalized before querying.
+     * Throws a ResourceNotFoundException if no institutions match the filters.
      *
-     * @return a list of all institutions as DTOs
+     * @param pageNumber            number of the page that is going to be seen
+     * @param pageSize              number of elements per page
+     * @param institutionName       name filter
+     * @param institutionTypes      type filter
+     * @param institutionDistricts  district filter
+     * @return a list of matching institutions as DTOs
      */
     @Override
-    public Page<InstitutionDTO> getFilteredInstitutions(int pageNumber, int pageSize, String orderBy, String institutionName, List<String> institutionTypes, List<String> institutionDistricts) {
+    public Page<InstitutionDTO> getFilteredInstitutions(int pageNumber, int pageSize, String institutionName, List<String> institutionTypes, List<String> institutionDistricts) {
         log.info("Returning every filtered institution by name: ({}), type: ({}), and district: ({})", institutionName, institutionTypes, institutionDistricts);
 
         log.info("Checking if pagination is inside of bounds");
@@ -84,7 +93,16 @@ public class InstitutionServiceImpl implements InstitutionService {
             throw new IllegalArgumentException("Invalid pagination parameters: /institutions/search");
         }
 
-        Page<Institution> resultPage = institutionRepository.findByNormalizedNameContainingAndTypeInAndDistrictIn(PageRequest.of(pageNumber, pageSize, Sort.by(orderBy)), normalize(institutionName), institutionTypes, institutionDistricts);
+        Specification<Institution> specs = Specification.not(null);
+        if (!(institutionName == null || institutionName.isEmpty()))
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(institutionName) + "%")));
+        else if (!(institutionTypes == null || institutionTypes.isEmpty()))
+            specs = specs.and((root, query, criteriaBuilder) -> root.get("type").in(institutionTypes));
+        else if (!(institutionDistricts == null || institutionDistricts.isEmpty()))
+            specs = specs.and((root, query, criteriaBuilder) -> root.get("district").in(institutionDistricts));
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("name").ascending());
+        Page<Institution> resultPage = institutionRepository.findAll(specs, pageable);
         log.warn(resultPage.isEmpty() ? "Didn't find any institution. Returning empty!" : "Found institutions. Returning!");
 
         return resultPage.map(institutionMapper::toDto);

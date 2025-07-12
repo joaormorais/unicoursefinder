@@ -10,5 +10,5 @@ public interface InstitutionService {
 
     List<String> getDistinctDistricts();
 
-    Page<InstitutionDTO> getFilteredInstitutions(int pageNumber, int pageSize, String orderBy, String institutionName, List<String> institutionTypes, List<String> institutionDistricts);
+    Page<InstitutionDTO> getFilteredInstitutions(int pageNumber, int pageSize, String institutionName, List<String> institutionTypes, List<String> institutionDistricts);
 }

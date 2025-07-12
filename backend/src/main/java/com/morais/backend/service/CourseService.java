@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface CourseService {
     List<String> getDistinctTypes();
-    Page<CourseDTO> getFilteredCourses(int pageNumber, int pageSize, String orderBy, String courseName, List<String> courseTypes, List<Long> courseInstitutionIds);
+
+    Page<CourseDTO> getFilteredCourses(int pageNumber, int pageSize, String courseName, List<String> courseTypes, List<Long> courseInstitutionIds);
 }

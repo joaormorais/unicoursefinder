@@ -44,16 +44,15 @@ public class CourseController {
      * @param pageSize             pagination filter
      * @return a list of courses matching the search criteria
      */
-    @GetMapping("/search")
+    @GetMapping
     public ResponseEntity<Page<CourseDTO>> searchCourses(
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "name") String orderBy,
             @RequestParam(required = false) String courseName,
             @RequestParam(required = false) List<String> courseTypes,
             @RequestParam(required = false) List<Long> courseInstitutionIds
     ) {
-        log.info("New request! /courses/search");
-        return ResponseEntity.ok(courseService.getFilteredCourses(pageNumber, pageSize, orderBy, courseName, courseTypes, courseInstitutionIds));
+        log.info("New request! /courses");
+        return ResponseEntity.ok(courseService.getFilteredCourses(pageNumber, pageSize, courseName, courseTypes, courseInstitutionIds));
     }
 }

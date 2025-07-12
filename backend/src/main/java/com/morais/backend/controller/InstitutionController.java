@@ -45,20 +45,25 @@ public class InstitutionController {
     }
 
     /**
-     * Retrieves all institutions.
+     * Searches for institutions with optional filters for name, type, and district.
+     * The results are paged.
      *
-     * @return a list of all institutions
+     * @param pageNumber           pagination filter
+     * @param pageSize             pagination filter
+     * @param institutionName      name filter
+     * @param institutionTypes     type filter
+     * @param institutionDistricts district filter
+     * @return a list of institutions matching the search criteria
      */
     @GetMapping
     public ResponseEntity<Page<InstitutionDTO>> searchInstitutions(
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "name") String orderBy,
-            @RequestParam(defaultValue = "0") String institutionName,
-            @RequestParam(defaultValue = "") List<String> institutionTypes,
-            @RequestParam(defaultValue = "") List<String> institutionDistricts
+            @RequestParam(required = false) String institutionName,
+            @RequestParam(required = false) List<String> institutionTypes,
+            @RequestParam(required = false) List<String> institutionDistricts
     ) {
         log.info("New request! /institutions");
-        return ResponseEntity.ok(institutionService.getFilteredInstitutions(pageNumber, pageSize, orderBy, institutionName, institutionTypes, institutionDistricts));
+        return ResponseEntity.ok(institutionService.getFilteredInstitutions(pageNumber, pageSize, institutionName, institutionTypes, institutionDistricts));
     }
 }

@@ -59,14 +59,13 @@ public class CourseServiceImpl implements CourseService {
      *
      * @param pageNumber           number of the page that is going to be seen
      * @param pageSize             number of elements per page
-     * @param orderBy              element used to order the elements
      * @param courseName           name filter
      * @param courseTypes          type filter
      * @param courseInstitutionIds institution id filter
      * @return a list of matching courses as DTOs
      */
     @Override
-    public Page<CourseDTO> getFilteredCourses(int pageNumber, int pageSize, String orderBy, String courseName, List<String> courseTypes, List<Long> courseInstitutionIds) {
+    public Page<CourseDTO> getFilteredCourses(int pageNumber, int pageSize, String courseName, List<String> courseTypes, List<Long> courseInstitutionIds) {
         log.info("Returning every filtered course by name: ({}), type: ({}) and institutionId: ({})", courseName, courseTypes, courseInstitutionIds);
 
         log.info("Checking if pagination is inside of bounds");
@@ -76,16 +75,14 @@ public class CourseServiceImpl implements CourseService {
         }
 
         Specification<Course> specs = Specification.not(null);
-
-        if (!(courseName == null || courseName.isEmpty())) {
+        if (!(courseName == null || courseName.isEmpty()))
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(courseName) + "%")));
-        } else if (!(courseTypes == null || courseTypes.isEmpty())) {
+        else if (!(courseTypes == null || courseTypes.isEmpty()))
             specs = specs.and((root, query, criteriaBuilder) -> root.get("type").in(courseTypes));
-        } else if (!(courseInstitutionIds == null || courseInstitutionIds.isEmpty())) {
+        else if (!(courseInstitutionIds == null || courseInstitutionIds.isEmpty()))
             specs = specs.and((root, query, criteriaBuilder) -> root.get("institution").in(courseInstitutionIds));
-        }
 
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(orderBy));
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("name").ascending());
         Page<Course> resultPage = courseRepository.findAll(specs, pageable);
         log.warn(resultPage.isEmpty() ? "Didn't find any course. Returning empty!" : "Found courses. Returning!");
 
