@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.morais.backend.util.TextUtils.normalize;
@@ -48,6 +49,7 @@ public class CourseServiceImpl implements CourseService {
             throw new ResourceNotFoundException("Didn't find any distinct type (courses)");
         }
 
+        Collections.sort(types);
         return types;
     }
 

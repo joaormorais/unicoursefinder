@@ -15,7 +15,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "institution")
-public class Institution {
+public class Institution implements Comparable<Institution> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "institutionSeqGen")
@@ -45,4 +45,9 @@ public class Institution {
 
     @OneToMany(mappedBy = "institution")
     private Set<Course> courses;
+
+    @Override
+    public int compareTo(Institution o) {
+        return this.name.compareToIgnoreCase(o.name);
+    }
 }

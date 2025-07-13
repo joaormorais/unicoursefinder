@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -41,6 +42,7 @@ public class InstitutionServiceImpl implements InstitutionService {
             throw new ResourceNotFoundException("Didn't find any distinct type (institutions)");
         }
 
+        Collections.sort(types);
         return types;
     }
 
@@ -60,6 +62,7 @@ public class InstitutionServiceImpl implements InstitutionService {
             throw new ResourceNotFoundException("Didn't find any distinct district (institutions)");
         }
 
+        Collections.sort(districts);
         return districts;
     }
 
@@ -78,6 +81,7 @@ public class InstitutionServiceImpl implements InstitutionService {
             throw new ResourceNotFoundException("Didn't find any institutions");
         }
 
+        Collections.sort(institutions);
         return institutions.stream().map(institutionMapper::toDto).toList();
     }
 }
