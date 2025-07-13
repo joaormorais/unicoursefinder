@@ -4,7 +4,6 @@ import com.morais.backend.domain.dto.InstitutionDTO;
 import com.morais.backend.service.InstitutionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,25 +44,13 @@ public class InstitutionController {
     }
 
     /**
-     * Searches for institutions with optional filters for name, type, and district.
-     * The results are paged.
+     * Get every institution.
      *
-     * @param pageNumber           pagination filter
-     * @param pageSize             pagination filter
-     * @param institutionName      name filter
-     * @param institutionTypes     type filter
-     * @param institutionDistricts district filter
      * @return a list of institutions matching the search criteria
      */
     @GetMapping
-    public ResponseEntity<Page<InstitutionDTO>> searchInstitutions(
-            @RequestParam(defaultValue = "0") int pageNumber,
-            @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(required = false) String institutionName,
-            @RequestParam(required = false) List<String> institutionTypes,
-            @RequestParam(required = false) List<String> institutionDistricts
-    ) {
+    public ResponseEntity<List<InstitutionDTO>> getInstitutions() {
         log.info("New request! /institutions");
-        return ResponseEntity.ok(institutionService.getFilteredInstitutions(pageNumber, pageSize, institutionName, institutionTypes, institutionDistricts));
+        return ResponseEntity.ok(institutionService.getInstitutions());
     }
 }

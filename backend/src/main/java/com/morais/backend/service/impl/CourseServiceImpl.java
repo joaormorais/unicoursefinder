@@ -84,7 +84,7 @@ public class CourseServiceImpl implements CourseService {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("name").ascending());
         Page<Course> resultPage = courseRepository.findAll(specs, pageable);
-        log.warn(resultPage.isEmpty() ? "Didn't find any course. Returning empty!" : "Found courses. Returning!");
+        log.info(resultPage.isEmpty() ? "Didn't find any course. Returning empty!" : "Found courses. Returning!");
 
         return resultPage.map(course -> courseMapper.toDto(course, course.getInstitution().getId()));
     }
