@@ -6,8 +6,8 @@ import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.mappers.CourseMapper;
 import com.morais.backend.repository.CourseRepository;
 import com.morais.backend.service.CourseService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,16 +22,11 @@ import static com.morais.backend.util.TextUtils.normalize;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
-
-    @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper) {
-        this.courseRepository = courseRepository;
-        this.courseMapper = courseMapper;
-    }
 
     /**
      * Retrieves a list of all distinct course types.
