@@ -5,6 +5,7 @@ import com.morais.backend.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,24 +32,22 @@ public class CourseController {
 
     /**
      * Searches for courses with optional filters for name, type and institution.
-     * The results are paged
+     * The results are paged and sorted.
      *
-     * @param courseName           name filter
-     * @param courseTypes          type filter
+     * @param pageable object that is going to be used to pagination and sorting
+     * @param courseName name filter
+     * @param courseTypes type filter
      * @param courseInstitutionIds institution id filter
-     * @param pageNumber           pagination filter
-     * @param pageSize             pagination filter
      * @return a list of courses matching the search criteria
      */
     @GetMapping
     public ResponseEntity<Page<CourseDTO>> searchCourses(
-            @RequestParam(defaultValue = "0") int pageNumber,
-            @RequestParam(defaultValue = "10") int pageSize,
+            Pageable pageable,
             @RequestParam(required = false) String courseName,
             @RequestParam(required = false) List<String> courseTypes,
             @RequestParam(required = false) List<Long> courseInstitutionIds
     ) {
         log.info("New request! /courses");
-        return ResponseEntity.ok(courseService.getFilteredCourses(pageNumber, pageSize, courseName, courseTypes, courseInstitutionIds));
+        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, courseName, courseTypes, courseInstitutionIds));
     }
 }

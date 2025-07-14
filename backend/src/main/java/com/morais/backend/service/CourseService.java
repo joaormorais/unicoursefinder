@@ -48,23 +48,22 @@ public class CourseService {
 
     /**
      * Retrieves courses optionally based on a name, type and institution.
-     * The results are paged.
+     * The results are paged and sorted.
      * The name is normalized before querying.
      * Throws a ResourceNotFoundException if no courses match the filters.
      *
-     * @param pageNumber           number of the page that is going to be seen
-     * @param pageSize             number of elements per page
-     * @param courseName           name filter
-     * @param courseTypes          type filter
+     * @param pageable object that is going to be used to pagination and sorting
+     * @param courseName name filter
+     * @param courseTypes type filter
      * @param courseInstitutionIds institution id filter
      * @return a list of matching courses as DTOs
      */
-    public Page<CourseDTO> getFilteredCourses(int pageNumber, int pageSize, String courseName, List<String> courseTypes, List<Long> courseInstitutionIds) {
+    public Page<CourseDTO> getFilteredCourses(Pageable pageable, String courseName, List<String> courseTypes, List<Long> courseInstitutionIds) {
         log.info("Returning every filtered course by name: ({}), type: ({}) and institutionId: ({})", courseName, courseTypes, courseInstitutionIds);
 
         log.info("Checking if pagination is inside of bounds");
-        if (pageNumber < 0 || pageSize <= 0 || pageSize > courseRepository.count()) {
-            log.error("Invalid page number or page size provided. pageNumber={}, pageSize={}.", pageNumber, pageSize);
+        if (pageable.getPageNumber() < 0 || pageable.getPageSize() <= 0 || pageable.getPageSize() > courseRepository.count()) {
+            log.error("Invalid page number or page size provided. pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
             throw new IllegalArgumentException("Invalid pagination parameters: /courses/search");
         }
 
@@ -76,7 +75,6 @@ public class CourseService {
         else if (!(courseInstitutionIds == null || courseInstitutionIds.isEmpty()))
             specs = specs.and((root, query, criteriaBuilder) -> root.get("institution").in(courseInstitutionIds));
 
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("name").ascending());
         Page<Course> resultPage = courseRepository.findAll(specs, pageable);
         log.info(resultPage.isEmpty() ? "Didn't find any course. Returning empty!" : "Found courses. Returning!");
 
