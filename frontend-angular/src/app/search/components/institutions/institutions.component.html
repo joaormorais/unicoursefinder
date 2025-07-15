@@ -106,8 +106,10 @@
   <div>
     <p class="!m-5 text-center">{{ this.searchService.errorInstitutions() }}</p>
   </div>
-  }
-
+  } @if(!(this.searchService.loadingInstitutions() ||
+  this.searchService.loadingTypesInstitutions() ||
+  this.searchService.loadingDistrictsInstitutions()) &&
+  !this.searchService.errorInstitutions()){
   <!-- list -->
   <ul
     [hidden]="
@@ -118,7 +120,8 @@
     "
     [attr.aria-label]="'ariaLabels.institutionsList' | translate"
   >
-    @for (institution of institutionsPaginated; track institution.id) {
+    @for (institution of this.searchService.institutionsFiltered(); track
+    institution.id) {
     <li
       role="button"
       tabindex="0"
@@ -150,6 +153,6 @@
       [rowsPerPageOptions]="this.institutionsPaginatorRowsPerPageOptions"
       [rows]="this.institutionsPaginatorRows"
       [attr.aria-label]="'ariaLabels.pagination' | translate"
-    />
-  </ng-template>
+    /> </ng-template
+  >}
 </p-panel>

@@ -16,9 +16,9 @@ export class MapComponent implements AfterViewInit {
 
   constructor() {
     effect(() => {
-      const institutionsFiltered = this.searchService.institutionsFiltered();
+      const institutions = this.searchService.institutionsFiltered();
       if (this.map) {
-        this.updateMap(institutionsFiltered);
+        this.updateMap(institutions);
       }
     });
   }

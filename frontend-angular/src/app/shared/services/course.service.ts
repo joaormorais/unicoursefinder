@@ -1,32 +1,32 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {
-  CoursesPaginated,
-  CourseSearchRequest,
-} from '../models/courses.model';
+import { Courses } from '../models/courses.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
   private readonly apiUrl = `${environment.apiBaseUrl}/courses`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  // api call to get filtered and paginated courses
+  getCourses(
+    page: number,
+    size: number,
+    courseName: string,
+    courseTypes: string[],
+    courseInstitutionIds: number[]
+  ): Observable<Courses> {
+    let sort = "name,asc"
+    const baseParams = new HttpParams().set('page', page);
+    baseParams.append('size', size);
+    baseParams.append('sort', sort);
+    baseParams.append('courseName', courseName);
+    baseParams.append('courseTypes', courseTypes.toString());
+    baseParams.append('courseInstitutionIds', courseInstitutionIds.toString());
 
-  // api call to get every course
-  searchCourses(
-    courseSearchRequest: CourseSearchRequest,
-    pageNumber: number = 0,
-    pageSize: number = 10
-  ): Observable<CoursesPaginated> {
-    const params = new HttpParams()
-      .set('pageNumber', (pageNumber - 1).toString())
-      .set('pageSize', pageSize.toString());
-
-    return this.http.post<CoursesPaginated>(
-      `${this.apiUrl}/search`,
-      courseSearchRequest,
-      { params }
-    );
+    return this.http.get<Courses>(this.apiUrl, {
+      params: baseParams,
+    });
   }
 }

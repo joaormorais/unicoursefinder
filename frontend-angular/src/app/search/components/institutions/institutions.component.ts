@@ -9,7 +9,6 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { SearchService } from '../../services/search.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Institution } from '../../../shared/models/institution.model';
 import { PanelModule } from 'primeng/panel';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputTextModule } from 'primeng/inputtext';
@@ -19,7 +18,8 @@ import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
 import { Paginator, PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { CardModule } from 'primeng/card';
-import { InstitutionFilters } from '../../models/search.model';
+import { InstitutionsFilters } from '../../models/search.model';
+import { Institution } from '../../../shared/models/institution.model';
 
 @Component({
   selector: 'app-institutions',
@@ -88,7 +88,9 @@ export class InstitutionsComponent implements OnInit, OnDestroy {
     this.filtersSubscription = this.filtersFormGroup.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((formValues) => {
-        this.searchService.filterInstitutions(formValues as InstitutionFilters);
+        this.searchService.filterInstitutions(
+          formValues as InstitutionsFilters
+        );
       });
   }
 
