@@ -27,12 +27,12 @@ public class InstitutionService {
      * @return a list of unique institution types
      */
     public List<String> getDistinctTypes() {
-        log.info("Returning every distinct type (institutions)");
+        log.info("Returning every distinct types for institutions");
         List<String> types = institutionRepository.findDistinctTypes();
 
         if (types.isEmpty()) {
-            log.warn("Didn't find any distinct type (institutions)");
-            throw new ResourceNotFoundException("Didn't find any distinct type (institutions)");
+            log.warn("Didn't find any distinct types for institutions");
+            throw new ResourceNotFoundException("Didn't find any distinct types for institutions");
         }
 
         Collections.sort(types);
@@ -46,12 +46,12 @@ public class InstitutionService {
      * @return a list of unique districts
      */
     public List<String> getDistinctDistricts() {
-        log.info("Returning every distinct district (institutions)");
+        log.info("Returning every distinct districts for institutions");
         List<String> districts = institutionRepository.findDistinctDistricts();
 
         if (districts.isEmpty()) {
-            log.warn("Didn't find any distinct district (institutions)");
-            throw new ResourceNotFoundException("Didn't find any distinct district (institutions)");
+            log.warn("Didn't find any distinct districts for institutions");
+            throw new ResourceNotFoundException("Didn't find any distinct districts for institutions");
         }
 
         Collections.sort(districts);
@@ -64,7 +64,7 @@ public class InstitutionService {
      * @return a list of institutions
      */
     public List<InstitutionDTO> getInstitutions() {
-        log.info("Returning every institution (institutions)");
+        log.info("Returning every institution");
         List<Institution> institutions = institutionRepository.findAll();
 
         if (institutions.isEmpty()) {

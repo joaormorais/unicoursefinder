@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +43,7 @@ public class CourseController {
      */
     @GetMapping
     public ResponseEntity<Page<CourseDTO>> searchCourses(
-            Pageable pageable,
+            @PageableDefault(page = 0, size = 10, sort = "normalizedName,asc") Pageable pageable,
             @RequestParam(required = false) String courseName,
             @RequestParam(required = false) List<String> courseTypes,
             @RequestParam(required = false) List<Long> courseInstitutionIds

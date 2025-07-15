@@ -8,9 +8,7 @@ import com.morais.backend.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +32,12 @@ public class CourseService {
      * @return a list of distinct course types
      */
     public List<String> getDistinctTypes() {
-        log.info("Returning every distinct type (courses)");
+        log.info("Returning every distinct types for courses");
         List<String> types = courseRepository.findDistinctTypes();
 
         if (types.isEmpty()) {
-            log.warn("Didn't find any distinct type (courses)");
-            throw new ResourceNotFoundException("Didn't find any distinct type (courses)");
+            log.warn("Didn't find any distinct types for courses");
+            throw new ResourceNotFoundException("Didn't find any distinct types for courses");
         }
 
         Collections.sort(types);
@@ -50,7 +48,6 @@ public class CourseService {
      * Retrieves courses optionally based on a name, type and institution.
      * The results are paged and sorted.
      * The name is normalized before querying.
-     * Throws a ResourceNotFoundException if no courses match the filters.
      *
      * @param pageable object that is going to be used to pagination and sorting
      * @param courseName name filter
