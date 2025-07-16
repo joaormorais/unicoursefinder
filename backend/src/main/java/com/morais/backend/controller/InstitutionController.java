@@ -11,7 +11,6 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/institutions")
 @RequiredArgsConstructor
 public class InstitutionController {
 
@@ -22,7 +21,7 @@ public class InstitutionController {
      *
      * @return a list of unique institution types
      */
-    @GetMapping("/types")
+    @GetMapping("institutions/types")
     public ResponseEntity<List<String>> getDistinctTypes() {
         log.info("New request! /institutions/types");
         return ResponseEntity.ok(institutionService.getDistinctTypes());
@@ -33,7 +32,7 @@ public class InstitutionController {
      *
      * @return a list of unique district names
      */
-    @GetMapping("/districts")
+    @GetMapping("institutions/districts")
     public ResponseEntity<List<String>> getDistinctDistricts() {
         log.info("New request! /institutions/districts");
         return ResponseEntity.ok(institutionService.getDistinctDistricts());
@@ -44,7 +43,7 @@ public class InstitutionController {
      *
      * @return a list of institutions matching the search criteria
      */
-    @GetMapping
+    @GetMapping("institutions")
     public ResponseEntity<List<InstitutionDTO>> getInstitutions() {
         log.info("New request! /institutions");
         return ResponseEntity.ok(institutionService.getInstitutions());

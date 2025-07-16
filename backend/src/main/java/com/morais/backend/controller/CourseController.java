@@ -14,7 +14,6 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/courses")
 @RequiredArgsConstructor
 public class CourseController {
 
@@ -25,14 +24,14 @@ public class CourseController {
      *
      * @return a list of unique course types
      */
-    @GetMapping("/types")
+    @GetMapping("courses/types")
     public ResponseEntity<List<String>> getDistinctTypes() {
         log.info("New request! /courses/types");
         return ResponseEntity.ok(courseService.getDistinctTypes());
     }
 
     /**
-     * Searches for courses with optional filters for name, type and institution.
+     * Searches for courses with optional filters for name, types and institutions.
      * The results are paged and sorted.
      *
      * @param pageable object that is going to be used to pagination and sorting
@@ -41,7 +40,7 @@ public class CourseController {
      * @param courseInstitutionIds institution id filter
      * @return a list of courses matching the search criteria
      */
-    @GetMapping
+    @GetMapping("courses")
     public ResponseEntity<Page<CourseDTO>> searchCourses(
             @PageableDefault(page = 0, size = 10, sort = "normalizedName,asc") Pageable pageable,
             @RequestParam(required = false) String courseName,

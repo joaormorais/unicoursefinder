@@ -27,12 +27,12 @@ public class InstitutionService {
      * @return a list of unique institution types
      */
     public List<String> getDistinctTypes() {
-        log.info("Returning every distinct types for institutions");
+        log.info("Returning types of institutions");
         List<String> types = institutionRepository.findDistinctTypes();
 
         if (types.isEmpty()) {
-            log.warn("Didn't find any distinct types for institutions");
-            throw new ResourceNotFoundException("Didn't find any distinct types for institutions");
+            log.warn("Didn't find any types for institutions");
+            throw new ResourceNotFoundException();
         }
 
         Collections.sort(types);
@@ -46,12 +46,12 @@ public class InstitutionService {
      * @return a list of unique districts
      */
     public List<String> getDistinctDistricts() {
-        log.info("Returning every distinct districts for institutions");
+        log.info("Returning districts of institutions");
         List<String> districts = institutionRepository.findDistinctDistricts();
 
         if (districts.isEmpty()) {
-            log.warn("Didn't find any distinct districts for institutions");
-            throw new ResourceNotFoundException("Didn't find any distinct districts for institutions");
+            log.warn("Didn't find any districts for institutions");
+            throw new ResourceNotFoundException();
         }
 
         Collections.sort(districts);
@@ -64,12 +64,12 @@ public class InstitutionService {
      * @return a list of institutions
      */
     public List<InstitutionDTO> getInstitutions() {
-        log.info("Returning every institution");
+        log.info("Returning institutions");
         List<Institution> institutions = institutionRepository.findAll();
 
         if (institutions.isEmpty()) {
             log.warn("Didn't find any institutions");
-            throw new ResourceNotFoundException("Didn't find any institutions");
+            throw new ResourceNotFoundException();
         }
 
         Collections.sort(institutions);
