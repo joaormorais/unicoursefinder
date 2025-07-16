@@ -101,7 +101,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     marker.on('click', () => {
-      this.searchService.searchCoursesFromInstitution(institution.id);
+      //this.searchService.searchCoursesFromInstitution(institution.id);
     });
 
     // add the marker to the group of markers

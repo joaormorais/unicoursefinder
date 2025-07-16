@@ -13,15 +13,17 @@ export class CourseService {
   getCourses(
     page: number,
     size: number,
+    sort: string,
     courseName: string,
+    courseNameMatchMode: string,
     courseTypes: string[],
     courseInstitutionIds: number[]
   ): Observable<Courses> {
-    let sort = "name,asc"
     const baseParams = new HttpParams().set('page', page);
     baseParams.append('size', size);
     baseParams.append('sort', sort);
     baseParams.append('courseName', courseName);
+    baseParams.append('courseNameMatchMode', courseNameMatchMode);
     baseParams.append('courseTypes', courseTypes.toString());
     baseParams.append('courseInstitutionIds', courseInstitutionIds.toString());
 

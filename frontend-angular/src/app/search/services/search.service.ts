@@ -4,11 +4,7 @@ import { InstitutionSearchService } from './institution-search.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CourseService } from '../../shared/services/course.service';
 import { CourseSearchService } from './course-search.service';
-import {
-  CoursesFilters,
-  CoursesState,
-  InstitutionsState,
-} from '../models/search.model';
+import { CoursesState, InstitutionsState } from '../models/search.model';
 import { Institution } from '../../shared/models/institution.model';
 
 @Injectable({ providedIn: 'root' })
@@ -71,21 +67,15 @@ export class SearchService {
   private coursesState = signal<CoursesState>({
     courses: null,
     typesCourses: [],
-    institutionsFilteredByName: [],
     loadingCourses: true,
     loadingTypesCourses: true,
     errorCourses: '',
-    courseResetPagination: false,
-    searchedByInstitution: 0,
   });
 
   // expose courses data
   public readonly courses = computed(() => this.coursesState().courses);
   public readonly typesCourses = computed(
     () => this.coursesState().typesCourses
-  );
-  public readonly institutionsFilteredByName = computed(
-    () => this.coursesState().institutionsFilteredByName
   );
   public readonly loadingCourses = computed(
     () => this.coursesState().loadingCourses
@@ -95,12 +85,6 @@ export class SearchService {
   );
   public readonly errorCourses = computed(
     () => this.coursesState().errorCourses
-  );
-  public readonly courseResetPagination = computed(
-    () => this.coursesState().courseResetPagination
-  );
-  public readonly searchedByInstitution = computed(
-    () => this.coursesState().searchedByInstitution
   );
 
   // institutions
@@ -192,30 +176,35 @@ export class SearchService {
       institutionsFilteredByName: this.tempTotalInstitutions,
     }));
 
-    this.getCourses(0, 10, { name: '', types: [], institutionsIds: [] }, true);
+    //this.getCourses(0, 10, { name: '', types: [], institutionsIds: [] }, true);
   }
 
   // api call to get filtered and paginated courses
   getCourses(
-    pageNumber: number,
-    pageSize: number,
-    coursesFilters: CoursesFilters,
-    courseResetPagination: boolean
+    page: number,
+    size: number,
+    sort: string,
+    courseName: string,
+    courseNameMatchMode: string,
+    courseTypes: string[],
+    courseInstitutionIds: number[]
   ): void {
+    // TODO: fazer a logica do 1 ou -1 para ter asc ou desc
     this.courseService
       .getCourses(
-        pageNumber,
-        pageSize,
-        coursesFilters.name,
-        coursesFilters.types,
-        coursesFilters.institutionsIds
+        page,
+        size,
+        sort,
+        courseName,
+        courseNameMatchMode,
+        courseTypes,
+        courseInstitutionIds
       )
       .subscribe({
         next: (data) => {
           this.coursesState.update((currentState) => ({
             ...currentState,
             courses: data,
-            courseResetPagination: courseResetPagination,
             loadingPaginatedCourses: false,
           }));
         },
@@ -235,7 +224,7 @@ export class SearchService {
   }
 
   // change to the courses screen, and show the courses for that institution
-  searchCoursesFromInstitution(institutionId: number): void {
+  /*searchCoursesFromInstitution(institutionId: number): void {
     this.changeTab('1');
     this.coursesState.update((currentState) => ({
       ...currentState,
@@ -247,7 +236,7 @@ export class SearchService {
       { name: '', types: [], institutionsIds: [institutionId] },
       true
     );
-  }
+  }*/
 
   // filter the institutions from the select only by name
   filterInstitutionsByName(name: string): void {

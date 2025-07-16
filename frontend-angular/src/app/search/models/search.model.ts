@@ -17,17 +17,7 @@ export interface InstitutionsState {
 export interface CoursesState {
   courses: Courses | null;
   typesCourses: string[];
-  institutionsFilteredByName: Institution[] | undefined;
   loadingCourses: boolean;
   loadingTypesCourses: boolean;
   errorCourses: string;
-  courseResetPagination: boolean;
-  searchedByInstitution: number;
-}
-
-// model that represents the filters for courses
-export interface CoursesFilters {
-  name: string;
-  types: string[];
-  institutionsIds: number[];
 }
