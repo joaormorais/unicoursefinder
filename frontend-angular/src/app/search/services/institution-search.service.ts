@@ -8,13 +8,13 @@ export class InstitutionSearchService {
   private readonly apiUrl = `${environment.apiBaseUrl}/institutions`;
   private http = inject(HttpClient);
 
-  // api call to get every districts whre institutions are place
-  getDistinctDistricts(): Observable<string[]> {
-    return this.http.get<string[]>(this.apiUrl);
-  }
-
   // api call to get every type of institution
   getDistinctTypes(): Observable<string[]> {
-    return this.http.get<string[]>(this.apiUrl);
+    return this.http.get<string[]>(this.apiUrl + '/types');
+  }
+
+  // api call to get every districts whre institutions are place
+  getDistinctDistricts(): Observable<string[]> {
+    return this.http.get<string[]>(this.apiUrl + '/districts');
   }
 }

@@ -1,158 +1,109 @@
-<!-- filters -->
-<div class="mb-2">
-  <p-panel [header]="'filters.filters' | translate" [toggleable]="true">
-    <form [formGroup]="filtersFormGroup" class="filter-container">
-      <!-- types -->
-      <div class="md:col-span-4">
-        <p-float-label>
-          <p-multiselect
-            id="filter_types"
-            display="chip"
-            [options]="this.searchService.typesInstitutions()"
-            formControlName="types"
-            [maxSelectedLabels]="2"
-            [selectedItemsLabel]="
-              'multiselect.selectedItemsLabelTypes' | translate
-            "
-            styleClass="w-full"
-          >
-            <ng-template #footer>
-              <div class="p-3 flex">
-                <p-button
-                  [attr.aria-label]="'ariaLabels.clearTypes' | translate"
-                  [label]="'filters.remove' | translate"
-                  severity="danger"
-                  text
-                  size="small"
-                  icon="pi pi-times"
-                  (click)="clearTypes()"
-                />
-              </div>
-            </ng-template>
-          </p-multiselect>
-          <label for="filter_types">{{ "filters.types" | translate }}</label>
-        </p-float-label>
-      </div>
-
-      <!-- districts -->
-      <div class="md:col-span-4">
-        <p-float-label>
-          <p-multiselect
-            id="filter_districts"
-            display="chip"
-            [options]="this.searchService.districtsInstitutions()"
-            formControlName="districts"
-            [maxSelectedLabels]="5"
-            [selectedItemsLabel]="
-              'multiselect.selectedItemsLabelDistricts' | translate
-            "
-            styleClass="w-full"
-          >
-            <ng-template #footer>
-              <div class="p-3 flex">
-                <p-button
-                  [attr.aria-label]="'ariaLabels.clearDistricts' | translate"
-                  [label]="'filters.remove' | translate"
-                  severity="danger"
-                  text
-                  size="small"
-                  icon="pi pi-times"
-                  (click)="clearDistricts()"
-                />
-              </div>
-            </ng-template>
-          </p-multiselect>
-          <label for="filter_districts">{{
-            "filters.districts" | translate
-          }}</label>
-        </p-float-label>
-      </div>
-
-      <!-- name -->
-      <div class="md:col-span-4">
-        <p-floatlabel
-          ><input
-            id="filter_name"
-            formControlName="name"
-            type="text"
-            class="w-full"
-            pInputText
-          />
-          <label for="filter_name">{{ "filters.name" | translate }}</label>
-        </p-floatlabel>
-      </div>
-    </form>
-  </p-panel>
-</div>
-
-<p-panel>
-  <!-- loading messages -->
-  @if ( this.searchService.loadingInstitutions() ||
-  this.searchService.loadingTypesInstitutions() ||
-  this.searchService.loadingDistrictsInstitutions() ) {
-  <div class="flex flex-col items-center">
-    <p-progress-spinner
-      strokeWidth="8"
-      fill="transparent"
-      animationDuration=".5s"
-      [style]="{ width: '50px', height: '50px' }"
-    />
-    <p class="!m-5">{{ "institutions.loading" | translate }}</p>
-  </div>
-  }
-
-  <!-- error messages -->
-  @if (this.searchService.errorInstitutions()) {
-  <div>
-    <p class="!m-5 text-center">{{ this.searchService.errorInstitutions() }}</p>
-  </div>
-  } @if(!(this.searchService.loadingInstitutions() ||
-  this.searchService.loadingTypesInstitutions() ||
-  this.searchService.loadingDistrictsInstitutions()) &&
-  !this.searchService.errorInstitutions()){
-  <!-- list -->
-  <ul
-    [hidden]="
-      this.searchService.loadingInstitutions() ||
-      this.searchService.loadingTypesInstitutions() ||
-      this.searchService.loadingDistrictsInstitutions() ||
-      this.searchService.errorInstitutions()
-    "
-    [attr.aria-label]="'ariaLabels.institutionsList' | translate"
-  >
-    @for (institution of this.searchService.institutionsFiltered(); track
-    institution.id) {
-    <li
-      role="button"
-      tabindex="0"
-      (click)="this.searchService.searchCoursesFromInstitution(institution.id)"
-      (keydown.enter)="
-        this.searchService.searchCoursesFromInstitution(institution.id)
-      "
-      (keydown.space)="
-        this.searchService.searchCoursesFromInstitution(institution.id)
-      "
-      class="list-bullet-point"
-    >
-      <p class="font-bold !m-0">
-        ({{ institution.dgesNumber }}) {{ institution.name }}
-      </p>
-      <p class="italic !m-0">{{ institution.type }}</p>
-      <p class="italic !m-0">{{ institution.district }}</p>
-    </li>
-    }
-  </ul>
-
-  <!-- paginator -->
-  <ng-template #footer>
-    <p-paginator
-      #institutionsPaginator
-      (onPageChange)="onPageChange($event)"
-      [first]="this.institutionsPaginatorIndex"
-      [totalRecords]="this.institutionsPaginatorTotalRecords"
-      [rowsPerPageOptions]="this.institutionsPaginatorRowsPerPageOptions"
-      [rows]="this.institutionsPaginatorRows"
-      [attr.aria-label]="'ariaLabels.pagination' | translate"
-    /> </ng-template
-  >}
-</p-panel>
+<p-table
+  #institutionsTable
+  [value]="searchService.institutions()"
+  [paginator]="true"
+  [rows]="5"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [rowsPerPageOptions]="[5, 10, 20, 50]"
+  dataKey="id"
+  [loading]="
+    searchService.loadingInstitutions() &&
+    searchService.loadingTypesInstitutions() &&
+    searchService.loadingDistrictsInstitutions()
+  "
+  [globalFilterFields]="['name', 'type', 'district']"
+>
+  <ng-template #caption>
+    <div class="flex">
+      <p-iconfield iconPosition="left" class="ml-auto">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+        <input
+          pInputText
+          #filterInput
+          type="text"
+          (input)="
+            institutionsTable.filterGlobal(filterInput.value, 'contains')
+          "
+          placeholder="Search keyword"
+        />
+      </p-iconfield>
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th style="width: 25%">{{ "tables.dges" | translate }}</th>
+      <th style="width: 25%">{{ "tables.name" | translate }}</th>
+      <th style="width: 25%">{{ "tables.type" | translate }}</th>
+      <th style="width: 25%">{{ "tables.district" | translate }}</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="name"
+          placeholder="Search by name"
+          ariaLabel="Filter Name"
+        ></p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter
+          field="representative"
+          matchMode="in"
+          [showMenu]="false"
+        >
+          <ng-template #filter let-value let-filter="filterCallback">
+            <p-multiselect
+              [(ngModel)]="selectedInstitutionTypes"
+              [options]="searchService.typesInstitutions()"
+              placeholder="Any"
+              (onChange)="filter($event.value)"
+              optionLabel="name"
+              [panelStyle]="{ minWidth: '16rem' }"
+            >
+              <ng-template let-option #item>
+                <div class="flex items-center gap-2">
+                  <span>{{ option }}</span>
+                </div>
+              </ng-template>
+            </p-multiselect>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter
+          field="representative"
+          matchMode="in"
+          [showMenu]="false"
+        >
+          <ng-template #filter let-value let-filter="filterCallback">
+            <p-multiselect
+              [(ngModel)]="selectedInstitutionDistricts"
+              [options]="searchService.districtsInstitutions()"
+              placeholder="Any"
+              (onChange)="filter($event.value)"
+              optionLabel="name"
+              [panelStyle]="{ minWidth: '16rem' }"
+            >
+              <ng-template let-option #item>
+                <div class="flex items-center gap-2">
+                  <span>{{ option }}</span>
+                </div>
+              </ng-template>
+            </p-multiselect>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-institution>
+    <tr>
+      <td>{{ institution.dgesNumber }}</td>
+      <td>{{ institution.name }}</td>
+      <td>{{ institution.type }}</td>
+      <td>{{ institution.district }}</td>
+    </tr>
+  </ng-template>
+</p-table>

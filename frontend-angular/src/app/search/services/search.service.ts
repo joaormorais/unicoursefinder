@@ -106,7 +106,6 @@ export class SearchService {
 
   // institutions
   //---------------------------------------------------------------------------
-  // get every information needed in order to display the institutions component
   startInstitutions(): void {
     // api call to get every institution type
     this.institutionSearchService.getDistinctTypes().subscribe({
@@ -165,32 +164,6 @@ export class SearchService {
         }));
       },
     });
-  }
-
-  // filter the institutions by name, type and district
-  filterInstitutions(institutionsFilters: InstitutionsFilters): void {
-    const selectedTypes = institutionsFilters.types ?? [];
-    const selectedDistricts = institutionsFilters.districts ?? [];
-
-    // filter the institutions
-    const newInstitutionsFiltered = this.institutions().filter((inst) => {
-      const matchesName =
-        !institutionsFilters.name ||
-        inst.name
-          .toLowerCase()
-          .includes(institutionsFilters.name.toLowerCase().trim());
-      const matchesType =
-        selectedTypes.length === 0 || selectedTypes.includes(inst.type);
-      const matchesDistrict =
-        selectedDistricts.length === 0 ||
-        selectedDistricts.includes(inst.district);
-      return matchesName && matchesType && matchesDistrict;
-    });
-
-    this.institutionsState.update((currentState) => ({
-      ...currentState,
-      institutionsFiltered: newInstitutionsFiltered,
-    }));
   }
   //---------------------------------------------------------------------------
 
