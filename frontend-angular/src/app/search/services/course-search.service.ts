@@ -10,6 +10,6 @@ export class CourseSearchService {
 
   // api call to get every type of course
   getDistinctTypes(): Observable<string[]> {
-    return this.http.get<string[]>(this.apiUrl + '/types');
+    return this.http.get<string[]>(this.apiUrl);
   }
 }

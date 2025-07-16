@@ -25,13 +25,6 @@ export interface CoursesState {
   searchedByInstitution: number;
 }
 
-// model that represents the filters for institutions
-export interface InstitutionsFilters {
-  name: string;
-  types: string[];
-  districts: string[];
-}
-
 // model that represents the filters for courses
 export interface CoursesFilters {
   name: string;

@@ -13,5 +13,5 @@ export const routes: Routes = [
   { path: 'forum', component: ForumComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: '**', redirectTo: '' }, //fallback: if the route doesn't exist, it goes back to the landing page
+  { path: '**', redirectTo: '' },
 ];

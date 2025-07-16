@@ -3,7 +3,7 @@
   [value]="searchService.institutions()"
   [paginator]="true"
   [rows]="5"
-  [tableStyle]="{ 'min-width': '50rem' }"
+  [tableStyle]="{ 'width': '100%' }"
   [rowsPerPageOptions]="[5, 10, 20, 50]"
   dataKey="id"
   [loading]="
@@ -11,7 +11,10 @@
     searchService.loadingTypesInstitutions() &&
     searchService.loadingDistrictsInstitutions()
   "
-  [globalFilterFields]="['name', 'type', 'district']"
+  [globalFilterFields]="['dgesNumber', 'name', 'type', 'district']"
+  sortField="name"
+  [sortOrder]="1"
+  (onFilter)="onFilter($event)"
 >
   <ng-template #caption>
     <div class="flex">
@@ -33,10 +36,18 @@
   </ng-template>
   <ng-template #header>
     <tr>
-      <th style="width: 25%">{{ "tables.dges" | translate }}</th>
-      <th style="width: 25%">{{ "tables.name" | translate }}</th>
-      <th style="width: 25%">{{ "tables.type" | translate }}</th>
-      <th style="width: 25%">{{ "tables.district" | translate }}</th>
+      <th style="width: 25%" pSortableColumn="dgesNumber">
+        {{ "tables.dges" | translate }} <p-sortIcon field="dgesNumber" />
+      </th>
+      <th style="width: 25%" pSortableColumn="name">
+        {{ "tables.name" | translate }} <p-sortIcon field="name" />
+      </th>
+      <th style="width: 25%" pSortableColumn="type">
+        {{ "tables.type" | translate }} <p-sortIcon field="type" />
+      </th>
+      <th style="width: 25%" pSortableColumn="district">
+        {{ "tables.district" | translate }} <p-sortIcon field="district" />
+      </th>
     </tr>
     <tr>
       <th></th>
@@ -49,18 +60,13 @@
         ></p-columnFilter>
       </th>
       <th>
-        <p-columnFilter
-          field="representative"
-          matchMode="in"
-          [showMenu]="false"
-        >
+        <p-columnFilter field="type" matchMode="in" [showMenu]="false">
           <ng-template #filter let-value let-filter="filterCallback">
             <p-multiselect
               [(ngModel)]="selectedInstitutionTypes"
               [options]="searchService.typesInstitutions()"
               placeholder="Any"
               (onChange)="filter($event.value)"
-              optionLabel="name"
               [panelStyle]="{ minWidth: '16rem' }"
             >
               <ng-template let-option #item>
@@ -73,18 +79,13 @@
         </p-columnFilter>
       </th>
       <th>
-        <p-columnFilter
-          field="representative"
-          matchMode="in"
-          [showMenu]="false"
-        >
+        <p-columnFilter field="district" matchMode="in" [showMenu]="false">
           <ng-template #filter let-value let-filter="filterCallback">
             <p-multiselect
               [(ngModel)]="selectedInstitutionDistricts"
               [options]="searchService.districtsInstitutions()"
               placeholder="Any"
               (onChange)="filter($event.value)"
-              optionLabel="name"
               [panelStyle]="{ minWidth: '16rem' }"
             >
               <ng-template let-option #item>

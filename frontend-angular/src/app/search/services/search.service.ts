@@ -7,7 +7,6 @@ import { CourseSearchService } from './course-search.service';
 import {
   CoursesFilters,
   CoursesState,
-  InstitutionsFilters,
   InstitutionsState,
 } from '../models/search.model';
 import { Institution } from '../../shared/models/institution.model';

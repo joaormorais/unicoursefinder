@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SearchService } from '../../services/search.service';
 import { CardModule } from 'primeng/card';
-import { TableModule } from 'primeng/table';
+import { TableFilterEvent, TableModule } from 'primeng/table';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -38,5 +38,9 @@ export class InstitutionsComponent implements OnInit {
   // run when the component is created
   ngOnInit(): void {
     this.searchService.startInstitutions();
+  }
+
+  onFilter($event: TableFilterEvent): void {
+    console.log($event);
   }
 }
