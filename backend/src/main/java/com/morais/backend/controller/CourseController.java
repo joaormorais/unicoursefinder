@@ -15,6 +15,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("course")
 public class CourseController {
 
     private final CourseService courseService;
@@ -24,9 +25,8 @@ public class CourseController {
      *
      * @return a list of unique course types
      */
-    @GetMapping("courses/types")
+    @GetMapping("/types")
     public ResponseEntity<List<String>> getDistinctTypes() {
-        log.info("New request! /courses/types");
         return ResponseEntity.ok(courseService.getDistinctTypes());
     }
 
@@ -40,14 +40,13 @@ public class CourseController {
      * @param courseInstitutionIds institution id filter
      * @return a list of courses matching the search criteria
      */
-    @GetMapping("courses")
-    public ResponseEntity<Page<CourseDTO>> searchCourses(
+    @GetMapping
+    public ResponseEntity<Page<CourseDTO>> searchCourses( //TODO: receber o matchMode do name
             @PageableDefault(page = 0, size = 10, sort = "normalizedName,asc") Pageable pageable,
             @RequestParam(required = false) String courseName,
             @RequestParam(required = false) List<String> courseTypes,
             @RequestParam(required = false) List<Long> courseInstitutionIds
     ) {
-        log.info("New request! /courses");
         return ResponseEntity.ok(courseService.getFilteredCourses(pageable, courseName, courseTypes, courseInstitutionIds));
     }
 }
