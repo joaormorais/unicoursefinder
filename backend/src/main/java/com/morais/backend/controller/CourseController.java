@@ -41,12 +41,13 @@ public class CourseController {
      * @return a list of courses matching the search criteria
      */
     @GetMapping
-    public ResponseEntity<Page<CourseDTO>> searchCourses( //TODO: receber o matchMode do name
-            @PageableDefault(page = 0, size = 10, sort = "normalizedName,asc") Pageable pageable,
-            @RequestParam(required = false) String courseName,
-            @RequestParam(required = false) List<String> courseTypes,
-            @RequestParam(required = false) List<Long> courseInstitutionIds
+    public ResponseEntity<Page<CourseDTO>> searchCourses(
+            @PageableDefault(size = 5, sort = "normalizedName,asc") Pageable pageable,
+            @RequestParam(required = false, defaultValue = "") String courseName,
+            @RequestParam(required = false, defaultValue = "") String courseNameMatchMode,
+            @RequestParam(required = false, defaultValue = "") List<String> courseTypes,
+            @RequestParam(required = false, defaultValue = "") List<Long> courseInstitutionIds
     ) {
-        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, courseName, courseTypes, courseInstitutionIds));
+        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, courseName, courseNameMatchMode, courseTypes, courseInstitutionIds));
     }
 }

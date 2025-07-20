@@ -58,11 +58,12 @@ public class CourseService {
      *
      * @param pageable             object that is going to be used to pagination and sorting
      * @param courseName           name filter
+     * @param courseNameMatchMode  match mode for the name filter
      * @param courseTypes          type filter
      * @param courseInstitutionIds institution id filter
      * @return a list of matching courses as DTOs
      */
-    public Page<CourseDTO> getFilteredCourses(Pageable pageable, String courseName, List<String> courseTypes, List<Long> courseInstitutionIds) {
+    public Page<CourseDTO> getFilteredCourses(Pageable pageable, String courseName, String courseNameMatchMode, List<String> courseTypes, List<Long> courseInstitutionIds) {
         log.info("Returning every filtered course by name: ({}), type: ({}) and institutionId: ({})", courseName, courseTypes, courseInstitutionIds);
         log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
 
@@ -79,7 +80,15 @@ public class CourseService {
 
         Specification<Course> specs = Specification.not(null);
         if (!(courseName == null || courseName.isEmpty()))
-            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(courseName) + "%")));
+            switch (courseNameMatchMode) { //TODO: continuar com os matchmodes
+                case "like":
+                    specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(courseName) + "%")));
+                    break;
+                case "contains":
+                    break;
+                default:
+                    break;
+            }
         else if (!(courseTypes == null || courseTypes.isEmpty()))
             specs = specs.and((root, query, criteriaBuilder) -> root.get("type").in(courseTypes));
         else if (!(courseInstitutionIds == null || courseInstitutionIds.isEmpty()))
