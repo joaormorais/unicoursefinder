@@ -2,6 +2,7 @@ package com.morais.backend.service;
 
 import com.morais.backend.domain.dto.CourseDTO;
 import com.morais.backend.domain.entity.Course;
+import com.morais.backend.domain.entity.enums.CourseType;
 import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.mappers.CourseMapper;
 import com.morais.backend.repository.CourseRepository;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -28,14 +30,17 @@ public class CourseService {
     private final CourseMapper courseMapper;
 
     /**
-     * Retrieves a list of all distinct course types.
+     * Retrieves a list of all course types.
      * Throws a ResourceNotFoundException if no types are found.
      *
-     * @return a list of distinct course types
+     * @return a list of course types
      */
-    public List<String> getDistinctTypes() {
+    public List<String> getTypes() {
         log.info("Returning types of courses");
-        List<String> types = courseRepository.findDistinctTypes();
+        List<String> types = new ArrayList<>();
+
+        for (CourseType type : CourseType.values())
+            types.add(type.name());
 
         if (types.isEmpty()) {
             log.error("Didn't find any types for courses");

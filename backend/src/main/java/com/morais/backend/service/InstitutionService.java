@@ -2,6 +2,8 @@ package com.morais.backend.service;
 
 import com.morais.backend.domain.dto.InstitutionDTO;
 import com.morais.backend.domain.entity.Institution;
+import com.morais.backend.domain.entity.enums.InstitutionDistrict;
+import com.morais.backend.domain.entity.enums.InstitutionType;
 import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.mappers.InstitutionMapper;
 import com.morais.backend.repository.InstitutionRepository;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,14 +24,17 @@ public class InstitutionService {
     private final InstitutionMapper institutionMapper;
 
     /**
-     * Retrieves a list of all distinct institution types.
+     * Retrieves a list of all institution types.
      * Throws a ResourceNotFoundException if no types are found.
      *
-     * @return a list of unique institution types
+     * @return a list of institution types
      */
-    public List<String> getDistinctTypes() {
+    public List<String> getTypes() {
         log.info("Returning types of institutions");
-        List<String> types = institutionRepository.findDistinctTypes();
+        List<String> types = new ArrayList<>();
+
+        for (InstitutionType type : InstitutionType.values())
+            types.add(type.name());
 
         if (types.isEmpty()) {
             log.warn("Didn't find any types for institutions");
@@ -40,14 +46,18 @@ public class InstitutionService {
     }
 
     /**
-     * Retrieves a list of all distinct districts.
+     * Retrieves a list of all districts.
      * Throws a ResourceNotFoundException if no districts are found.
      *
-     * @return a list of unique districts
+     * @return a list of districts
      */
-    public List<String> getDistinctDistricts() {
+    public List<String> getDistricts() {
         log.info("Returning districts of institutions");
-        List<String> districts = institutionRepository.findDistinctDistricts();
+        List<String> districts = new ArrayList<>();
+
+        for (InstitutionDistrict district : InstitutionDistrict.values()) {
+            districts.add(district.name());
+        }
 
         if (districts.isEmpty()) {
             log.warn("Didn't find any districts for institutions");

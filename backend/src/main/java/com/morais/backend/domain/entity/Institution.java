@@ -21,7 +21,7 @@ public class Institution implements Comparable<Institution> {
     private UUID uuid;
 
     @Column(name = "dges_number", nullable = false, unique = true)
-    private Long dgesNumber;
+    private String dgesNumber;
 
     @Column(nullable = false)
     private String name;

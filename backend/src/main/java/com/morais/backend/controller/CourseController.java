@@ -21,13 +21,13 @@ public class CourseController {
     private final CourseService courseService;
 
     /**
-     * Retrieves a list of all distinct course types.
+     * Retrieves a list of all course types.
      *
      * @return a list of unique course types
      */
     @GetMapping("/types")
-    public ResponseEntity<List<String>> getDistinctTypes() {
-        return ResponseEntity.ok(courseService.getDistinctTypes());
+    public ResponseEntity<List<String>> getTypes() {
+        return ResponseEntity.ok(courseService.getTypes());
     }
 
     /**

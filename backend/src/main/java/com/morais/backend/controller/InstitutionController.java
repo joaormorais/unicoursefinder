@@ -18,23 +18,23 @@ public class InstitutionController {
     private final InstitutionService institutionService;
 
     /**
-     * Retrieves a list of all distinct institution types.
+     * Retrieves a list of all institution types.
      *
      * @return a list of unique institution types
      */
     @GetMapping("/types")
-    public ResponseEntity<List<String>> getDistinctTypes() {
-        return ResponseEntity.ok(institutionService.getDistinctTypes());
+    public ResponseEntity<List<String>> getTypes() {
+        return ResponseEntity.ok(institutionService.getTypes());
     }
 
     /**
-     * Retrieves a list of all distinct districts from institutions.
+     * Retrieves a list of all districts from institutions.
      *
      * @return a list of unique district names
      */
     @GetMapping("/districts")
-    public ResponseEntity<List<String>> getDistinctDistricts() {
-        return ResponseEntity.ok(institutionService.getDistinctDistricts());
+    public ResponseEntity<List<String>> getDistricts() {
+        return ResponseEntity.ok(institutionService.getDistricts());
     }
 
     /**
