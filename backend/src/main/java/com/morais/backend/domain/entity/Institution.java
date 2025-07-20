@@ -1,10 +1,12 @@
 package com.morais.backend.domain.entity;
 
+import com.morais.backend.domain.entity.enums.InstitutionDistrict;
+import com.morais.backend.domain.entity.enums.InstitutionType;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Entity
@@ -12,9 +14,11 @@ import java.util.Set;
 public class Institution implements Comparable<Institution> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "institutionSeqGen")
-    @SequenceGenerator(name = "institutionSeqGen", sequenceName = "institution_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private UUID uuid;
 
     @Column(name = "dges_number", nullable = false, unique = true)
     private Long dgesNumber;
@@ -26,19 +30,18 @@ public class Institution implements Comparable<Institution> {
     private String normalizedName;
 
     @Column(nullable = false)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private InstitutionType type;
 
     @Column(nullable = false)
-    private String district;
+    @Enumerated(EnumType.STRING)
+    private InstitutionDistrict district;
 
     @Column(nullable = false, precision = 9, scale = 6)
     private BigDecimal latitude;
 
     @Column(nullable = false, precision = 10, scale = 6)
     private BigDecimal longitude;
-
-    @OneToMany(mappedBy = "institution")
-    private Set<Course> courses;
 
     @Override
     public int compareTo(Institution o) {

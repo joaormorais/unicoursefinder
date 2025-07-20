@@ -1,7 +1,10 @@
 package com.morais.backend.domain.entity;
 
+import com.morais.backend.domain.entity.enums.CourseType;
 import jakarta.persistence.*;
 import lombok.Getter;
+
+import java.util.UUID;
 
 @Getter
 @Entity
@@ -9,9 +12,15 @@ import lombok.Getter;
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "courseSeqGen")
-    @SequenceGenerator(name = "courseSeqGen", sequenceName = "course_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "institution_id", nullable = false)
+    private Institution institution;
+
+    @Column(nullable = false, unique = true)
+    private UUID uuid;
 
     @Column(name = "dges_number", nullable = false)
     private String dgesNumber;
@@ -23,12 +32,9 @@ public class Course {
     private String normalizedName;
 
     @Column(nullable = false)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private CourseType type;
 
     @Column(nullable = false, length = 512)
     private String link;
-
-    @ManyToOne
-    @JoinColumn(name = "institution_id", nullable = false)
-    private Institution institution;
 }

@@ -83,6 +83,6 @@ public class CourseService {
         Page<Course> resultPage = courseRepository.findAll(specs, pageable);
         log.info(resultPage.isEmpty() ? "Didn't find any course. Returning empty!" : "Found courses. Returning!");
 
-        return resultPage.map(course -> courseMapper.toDto(course, course.getInstitution().getId()));
+        return resultPage.map(courseMapper::toDto);
     }
 }
