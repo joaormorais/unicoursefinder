@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
-  private readonly apiUrl = `${environment.apiBaseUrl}/courses`;
+  private readonly apiUrl = `${environment.apiBaseUrl}/course`;
   private http = inject(HttpClient);
 
   // api call to get filtered and paginated courses

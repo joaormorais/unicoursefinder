@@ -29,6 +29,43 @@
     "district": "Distrito",
     "institution": "Instituição"
   },
+  "filters": {
+    "institutionTypes": {
+      "PRIVATE_UNIVERSITY": "Ensino Superior Privado Universitário",
+      "PRIVATE_POLYTECHNIC": "Ensino Superior Privado Politécnico",
+      "PUBLIC_MILITARY_POLICE": "Ensino Superior Público Militar e Policial",
+      "PUBLIC_UNIVERSITY": "Ensino Superior Público Universitário",
+      "PUBLIC_POLYTECHNIC": "Ensino Superior Público Politécnico"
+    },
+    "institutionDistricts": {
+      "GUARDA": "Guarda",
+      "VISEU": "Viseu",
+      "CASTELO_BRANCO": "Castelo Branco",
+      "BRAGA": "Braga",
+      "MADEIRA": "Madeira",
+      "PORTO": "Porto",
+      "AZORES": "Açores",
+      "SETUBAL": "Setúbal",
+      "COIMBRA": "Coimbra",
+      "VIANA_DO_CASTELO": "Viana do Castelo",
+      "BEJA": "Beja",
+      "BRAGANCA": "Bragança",
+      "PORTALEGRE": "Portalegre",
+      "AVEIRO": "Aveiro",
+      "SANTAREM": "Santarém",
+      "FARO": "Faro",
+      "LEIRIA": "Leiria",
+      "LISBON": "Lisboa",
+      "VILA_REAL": "Vila Real",
+      "EVORA": "Évora"
+    },
+    "courseTypes": {
+      "BACHELOR_PREPARATORY_CYCLE": "Ciclo Preparatório de Licenciatura",
+      "BACHELOR_FIRST_CYCLE": "Licenciatura (1.º Ciclo)",
+      "INTEGRATED_MASTER_PREPARATORY": "Ciclo Preparatório de Mestrado Integrado",
+      "INTEGRATED_MASTER": "Mestrado Integrado"
+    }
+  },
   "multiselect": {
     "selectedItemsLabelTypes": "{0} tipos selecionados",
     "selectedItemsLabelDistricts": "{0} distritos selecionados",
@@ -51,14 +88,6 @@
   "courses": {
     "loading": "A carregar cursos...",
     "error": "Houve um problema no servidor! Não foi possível carregar os cursos."
-  },
-  "filters": {
-    "filters": "Filtros",
-    "types": "Tipos",
-    "districts": "Distritos",
-    "name": "Nome",
-    "institutionsIds": "Instituição",
-    "remove": "Remover todos"
   },
   "auth": {
     "login": "Entra na tua conta",

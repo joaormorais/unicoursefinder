@@ -6,7 +6,7 @@ import { Institution } from '../models/institution.model';
 
 @Injectable({ providedIn: 'root' })
 export class InstitutionService {
-  private readonly apiUrl = `${environment.apiBaseUrl}/institutions`;
+  private readonly apiUrl = `${environment.apiBaseUrl}/institution`;
   private http = inject(HttpClient);
 
   // api call to get filtered and paginated institutions

@@ -1,152 +1,23 @@
-<!-- filters -->
-<div class="mb-2">
-  <p-panel [header]="'filters.filters' | translate" [toggleable]="true">
-    <form [formGroup]="filtersFormGroup" class="filter-container">
-      <!-- types -->
-      <div class="md:col-span-4">
-        <p-float-label>
-          <p-multiselect
-            id="filter_types"
-            display="chip"
-            [options]="this.searchService.typesCourses()"
-            formControlName="types"
-            [maxSelectedLabels]="4"
-            [selectedItemsLabel]="
-              'multiselect.selectedItemsLabelTypes' | translate
-            "
-            styleClass="w-full"
-          >
-            <ng-template #footer>
-              <div class="p-3 flex">
-                <p-button
-                  [attr.aria-label]="'ariaLabels.clearTypes' | translate"
-                  [label]="'filters.remove' | translate"
-                  severity="danger"
-                  text
-                  size="small"
-                  icon="pi pi-times"
-                  (click)="clearTypes()"
-                />
-              </div>
-            </ng-template>
-          </p-multiselect>
-          <label for="filter_types">{{ "filters.types" | translate }}</label>
-        </p-float-label>
-      </div>
+<p-table
+  #coursesTable
+  [value]="searchService.courses()?.courses!"
+  [lazy]="true"
+  (onLazyLoad)="onLazyLoad($event)"
+  [paginator]="true"
+  [rows]="5"
+  [first]="first()"
+  [rowsPerPageOptions]="[5, 10, 25, 50]"
+  [tableStyle]="{ width: '100%' }"
+  dataKey="id"
+  [loading]="
+    searchService.loadingCourses() &&
+    searchService.loadingTypesCourses()
+  "
+  [globalFilterFields]="['dgesNumber', 'name', 'type', 'institutionId']"
+  sortField="name"
+  [sortOrder]="1"
+  rowHover="true"
+>
+</p-table>
 
-      <!--  institutions id's -->
-      <div class="md:col-span-4">
-        <p-float-label>
-          <p-multiselect
-            display="chip"
-            id="filter_institutions"
-            [options]="this.searchService.institutions()"
-            optionLabel="name"
-            optionValue="id"
-            formControlName="institutionsIds"
-            [maxSelectedLabels]="2"
-            [selectedItemsLabel]="
-              'multiselect.selectedItemsLabelInstitutions' | translate
-            "
-            styleClass="w-full"
-          >
-            <ng-template #footer>
-              <div class="p-3 flex">
-                <p-button
-                  [attr.aria-label]="'ariaLabels.clearInstitutions' | translate"
-                  [label]="'filters.remove' | translate"
-                  severity="danger"
-                  text
-                  size="small"
-                  icon="pi pi-times"
-                  (click)="clearInstitutions()"
-                />
-              </div>
-            </ng-template>
-          </p-multiselect>
-          <label for="filter_institutions">{{
-            "filters.institutionsIds" | translate
-          }}</label>
-        </p-float-label>
-      </div>
-
-      <!-- name -->
-      <div class="md:col-span-4">
-        <p-floatlabel
-          ><input
-            id="filter_name"
-            formControlName="name"
-            type="text"
-            class="w-full"
-            pInputText
-          />
-          <label for="filter_name">{{ "filters.name" | translate }}</label>
-        </p-floatlabel>
-      </div>
-    </form>
-  </p-panel>
-</div>
-
-<p-panel>
-  <!-- loading and error messages -->
-  @if (this.searchService.loadingCourses()) {
-  <div class="flex flex-col items-center">
-    <p-progress-spinner
-      strokeWidth="8"
-      fill="transparent"
-      animationDuration=".5s"
-      [style]="{ width: '50px', height: '50px' }"
-    />
-    <p class="!m-5">{{ "courses.loading" | translate }}</p>
-  </div>
-  }
-
-  <!-- error messages -->
-  @if (this.searchService.errorCourses()) {
-  <div>
-    <p class="!m-5 text-center">
-      {{ this.searchService.errorCourses() }}
-    </p>
-  </div>
-  } @if(!(this.searchService.loadingCourses() ||
-  this.searchService.loadingTypesCourses) &&
-  !this.searchService.errorCourses()){
-  <!-- list -->
-  <ul
-    [hidden]="
-      this.searchService.loadingCourses() || this.searchService.errorCourses()
-    "
-    [attr.aria-label]="'ariaLabels.coursesList' | translate"
-  >
-    @for (course of this.searchService.courses()!.courses; track course.id) {
-    <li class="list-bullet-point">
-      <a
-        [href]="course.link"
-        target="_blank"
-        [attr.aria-label]="'ariaLabels.openLink' | translate"
-      >
-        <p class="font-bold !m-0">
-          ({{ course.dgesNumber }}) {{ course.name }}
-        </p>
-        <p class="italic">
-          {{ this.searchService.getInstitutionName(course.institutionId) }}
-        </p>
-      </a>
-    </li>
-    }
-  </ul>
-
-  <!-- paginator -->
-  <ng-template #footer>
-    <p-paginator
-      #coursesPaginator
-      (onPageChange)="onPageChange($event)"
-      [first]="this.coursesPaginatorIndex"
-      [totalRecords]="this.coursesPaginatorTotalRecords"
-      [rowsPerPageOptions]="this.coursesPaginatorRowsPerPageOptions"
-      [rows]="this.coursesPaginatorRows"
-      [attr.aria-label]="'ariaLabels.pagination' | translate"
-    />
-  </ng-template>
-  }
-</p-panel>
+<!--{{ this.searchService.getInstitutionName(course.institutionId) }}-->

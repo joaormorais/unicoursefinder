@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class InstitutionSearchService {
-  private readonly apiUrl = `${environment.apiBaseUrl}/institutions`;
+  private readonly apiUrl = `${environment.apiBaseUrl}/institution`;
   private http = inject(HttpClient);
 
   // api call to get every type of institution
