@@ -14,23 +14,33 @@
   sortField="name"
   [sortOrder]="1"
   rowHover="true"
+  [filterDelay]="300"
 >
   <ng-template #caption>
-    <div class="flex">
-      <p-iconfield iconPosition="left" class="ml-auto">
-        <p-inputicon>
-          <i class="pi pi-search"></i>
-        </p-inputicon>
-        <input
-          pInputText
-          #filterInput
-          type="text"
-          (input)="
-            institutionsTable.filterGlobal(filterInput.value, 'contains')
-          "
-          placeholder="Search keyword"
-        />
-      </p-iconfield>
+    <div class="flex flex-col items-end">
+      <div>
+        <label
+          for="filterInput"
+          style="font-weight: var(--p-datatable-column-title-font-weight)"
+        >
+          {{ "filters.global" | translate }}
+        </label>
+        <p-iconfield iconPosition="left">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input
+            pInputText
+            #filterInput
+            id="filterInput"
+            type="text"
+            (input)="
+              institutionsTable.filterGlobal(filterInput.value, 'contains')
+            "
+            [placeholder]="'filters.keyword' | translate"
+          />
+        </p-iconfield>
+      </div>
     </div>
   </ng-template>
   <ng-template #header>
@@ -49,16 +59,69 @@
       </th>
     </tr>
     <tr>
-      <th></th>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="dgesNumber"
+          [placeholder]="'filters.dgesNumber' | translate"
+          matchMode="contains"
+          [showMenu]="false"
+          [showClearButton]="false"
+        >
+          <ng-template #filter let-value let-filter="filterCallback">
+            <div class="flex">
+              <p-iconfield iconPosition="left" class="ml-auto">
+                <p-inputicon>
+                  <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input
+                  type="text"
+                  pInputText
+                  [ngModel]="value"
+                  (ngModelChange)="filter($event)"
+                  class="p-inputtext"
+                  placeholder="search"
+                />
+              </p-iconfield>
+            </div>
+          </ng-template>
+        </p-columnFilter>
+      </th>
       <th>
         <p-columnFilter
           type="text"
           field="name"
           [placeholder]="'filters.name' | translate"
-        ></p-columnFilter>
+          matchMode="contains"
+          [showMenu]="false"
+          [showClearButton]="false"
+        >
+          <ng-template #filter let-value let-filter="filterCallback">
+            <div class="flex">
+              <p-iconfield iconPosition="left" class="ml-auto">
+                <p-inputicon>
+                  <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input
+                  type="text"
+                  pInputText
+                  [ngModel]="value"
+                  (ngModelChange)="filter($event)"
+                  class="p-inputtext"
+                  placeholder="search"
+                />
+              </p-iconfield>
+            </div>
+          </ng-template>
+        </p-columnFilter>
       </th>
       <th>
-        <p-columnFilter field="type" matchMode="in" [showMenu]="false">
+        <p-columnFilter
+          field="type"
+          matchMode="in"
+          [showMenu]="false"
+          [showClearButton]="false"
+        >
           <ng-template #filter let-value let-filter="filterCallback">
             <p-multiselect
               [(ngModel)]="selectedInstitutionTypes"
@@ -66,22 +129,24 @@
               [placeholder]="'filters.all' | translate"
               (onChange)="filter($event.value)"
               [panelStyle]="{ minWidth: '16rem' }"
+              display="chip"
+              [maxSelectedLabels]="2"
+              [selectedItemsLabel]="
+                'filters.selectedItemsLabelTypes'
+                  | translate : { value: selectedInstitutionTypes.length }
+              "
             >
-              <ng-template let-option #item>
-                <div class="flex items-center gap-2">
-                  <span>{{option.label}}</span>
-                </div>
-              </ng-template>
-
-              <ng-template let-option #selecteditems>
-                <span>{{option}}</span>
-              </ng-template>
             </p-multiselect>
           </ng-template>
         </p-columnFilter>
       </th>
       <th>
-        <p-columnFilter field="district" matchMode="in" [showMenu]="false">
+        <p-columnFilter
+          field="district"
+          matchMode="in"
+          [showMenu]="false"
+          [showClearButton]="false"
+        >
           <ng-template #filter let-value let-filter="filterCallback">
             <p-multiselect
               [(ngModel)]="selectedInstitutionDistricts"
@@ -89,16 +154,13 @@
               [placeholder]="'filters.all' | translate"
               (onChange)="filter($event.value)"
               [panelStyle]="{ minWidth: '16rem' }"
+              display="chip"
+              [maxSelectedLabels]="4"
+              [selectedItemsLabel]="
+                'filters.selectedItemsLabelDistricts'
+                  | translate : { value: selectedInstitutionTypes.length }
+              "
             >
-              <ng-template let-option #item>
-                <div class="flex items-center gap-2">
-                  <span>{{option.label}}</span>
-                </div>
-              </ng-template>
-
-              <ng-template let-option #selecteditems>
-                <span>{{option}}</span>
-              </ng-template>
             </p-multiselect>
           </ng-template>
         </p-columnFilter>

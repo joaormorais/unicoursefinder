@@ -30,9 +30,14 @@
     "institution": "Instituição"
   },
   "filters": {
-    "global": "Procurar",
+    "global": "Procura geral",
+    "keyword": "Palavras-chave",
+    "dgesNumber": "Procurar por código DGES",
     "name": "Procurar por nome",
     "all": "Todos",
+    "selectedItemsLabelTypes": "{0} tipos selecionados",
+    "selectedItemsLabelDistricts": "{0} distritos selecionados",
+    "selectedItemsLabelInstitutions": "{0} instituições selecionadas",
     "institutionTypes": {
       "PRIVATE_UNIVERSITY": "Ensino Superior Privado Universitário",
       "PRIVATE_POLYTECHNIC": "Ensino Superior Privado Politécnico",
@@ -68,11 +73,6 @@
       "INTEGRATED_MASTER_PREPARATORY": "Preparação para Mestrado Integrado",
       "INTEGRATED_MASTER": "Mestrado Integrado"
     }
-  },
-  "multiselect": {
-    "selectedItemsLabelTypes": "{0} tipos selecionados",
-    "selectedItemsLabelDistricts": "{0} distritos selecionados",
-    "selectedItemsLabelInstitutions": "{0} instituições selecionadas"
   },
   "paragraphs": {
     "searchP": "Descobre facilmente cursos e instituições em Portugal que se alinham com os teus interesses e objetivos.",

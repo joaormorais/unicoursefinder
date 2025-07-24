@@ -9,6 +9,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
+import { DropdownDto } from '../../models/search.model';
 
 @Component({
   selector: 'app-institutions',
@@ -30,8 +31,8 @@ export class InstitutionsComponent implements OnInit {
   // inject the main service of this feature
   searchService = inject(SearchService);
 
-  selectedInstitutionTypes: string[] = [];
-  selectedInstitutionDistricts: string[] = [];
+  selectedInstitutionTypes: DropdownDto[] = [];
+  selectedInstitutionDistricts: DropdownDto[] = [];
 
   // run when the component is created
   ngOnInit(): void {
