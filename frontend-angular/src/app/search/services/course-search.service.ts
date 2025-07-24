@@ -9,7 +9,7 @@ export class CourseSearchService {
   private http = inject(HttpClient);
 
   // api call to get every type of course
-  getDistinctTypes(): Observable<string[]> {
+  getTypes(): Observable<string[]> {
     return this.http.get<string[]>(this.apiUrl);
   }
 }

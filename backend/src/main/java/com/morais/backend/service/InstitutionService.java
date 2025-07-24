@@ -4,7 +4,6 @@ import com.morais.backend.domain.dto.InstitutionDTO;
 import com.morais.backend.domain.entity.Institution;
 import com.morais.backend.domain.entity.enums.InstitutionDistrict;
 import com.morais.backend.domain.entity.enums.InstitutionType;
-import com.morais.backend.exception.ResourceNotFoundException;
 import com.morais.backend.mappers.InstitutionMapper;
 import com.morais.backend.repository.InstitutionRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +37,7 @@ public class InstitutionService {
 
         if (types.isEmpty()) {
             log.warn("Didn't find any types for institutions");
-            throw new ResourceNotFoundException();
+            throw new RuntimeException("Didn't find any types for institutions");
         }
 
         Collections.sort(types);
@@ -61,7 +60,7 @@ public class InstitutionService {
 
         if (districts.isEmpty()) {
             log.warn("Didn't find any districts for institutions");
-            throw new ResourceNotFoundException();
+            throw new RuntimeException("Didn't find any districts for institutions");
         }
 
         Collections.sort(districts);
@@ -79,7 +78,7 @@ public class InstitutionService {
 
         if (institutions.isEmpty()) {
             log.warn("Didn't find any institutions");
-            throw new ResourceNotFoundException();
+            throw new RuntimeException("Didn't find any institutions");
         }
 
         Collections.sort(institutions);

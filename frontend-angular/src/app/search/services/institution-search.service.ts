@@ -9,12 +9,12 @@ export class InstitutionSearchService {
   private http = inject(HttpClient);
 
   // api call to get every type of institution
-  getDistinctTypes(): Observable<string[]> {
+  getTypes(): Observable<string[]> {
     return this.http.get<string[]>(this.apiUrl + '/types');
   }
 
   // api call to get every districts whre institutions are place
-  getDistinctDistricts(): Observable<string[]> {
+  getDistricts(): Observable<string[]> {
     return this.http.get<string[]>(this.apiUrl + '/districts');
   }
 }

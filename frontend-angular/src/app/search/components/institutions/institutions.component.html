@@ -3,7 +3,7 @@
   [value]="searchService.institutions()"
   [paginator]="true"
   [rows]="5"
-  [tableStyle]="{ 'width': '100%' }"
+  [tableStyle]="{ width: '100%' }"
   [rowsPerPageOptions]="[5, 10, 20, 50]"
   [loading]="
     searchService.loadingInstitutions() &&
@@ -54,8 +54,7 @@
         <p-columnFilter
           type="text"
           field="name"
-          placeholder="Search by name"
-          ariaLabel="Filter Name"
+          [placeholder]="'filters.name' | translate"
         ></p-columnFilter>
       </th>
       <th>
@@ -64,14 +63,18 @@
             <p-multiselect
               [(ngModel)]="selectedInstitutionTypes"
               [options]="searchService.typesInstitutions()"
-              placeholder="Any"
+              [placeholder]="'filters.all' | translate"
               (onChange)="filter($event.value)"
               [panelStyle]="{ minWidth: '16rem' }"
             >
               <ng-template let-option #item>
                 <div class="flex items-center gap-2">
-                  <span>{{ ('filters.institutionTypes.' + option) | translate }}</span>
+                  <span>{{option.label}}</span>
                 </div>
+              </ng-template>
+
+              <ng-template let-option #selecteditems>
+                <span>{{option}}</span>
               </ng-template>
             </p-multiselect>
           </ng-template>
@@ -83,14 +86,18 @@
             <p-multiselect
               [(ngModel)]="selectedInstitutionDistricts"
               [options]="searchService.districtsInstitutions()"
-              placeholder="Any"
+              [placeholder]="'filters.all' | translate"
               (onChange)="filter($event.value)"
               [panelStyle]="{ minWidth: '16rem' }"
             >
               <ng-template let-option #item>
                 <div class="flex items-center gap-2">
-                  <span>{{ ('filters.institutionDistricts.' + option) | translate }}</span>
+                  <span>{{option.label}}</span>
                 </div>
+              </ng-template>
+
+              <ng-template let-option #selecteditems>
+                <span>{{option}}</span>
               </ng-template>
             </p-multiselect>
           </ng-template>
@@ -102,8 +109,10 @@
     <tr>
       <td>{{ institution.dgesNumber }}</td>
       <td>{{ institution.name }}</td>
-      <td>{{ ('filters.institutionTypes.' + institution.type) | translate }}</td>
-      <td>{{ ('filters.institutionDistricts.' + institution.district) | translate }}</td>
+      <td>{{ "filters.institutionTypes." + institution.type | translate }}</td>
+      <td>
+        {{ "filters.institutionDistricts." + institution.district | translate }}
+      </td>
     </tr>
   </ng-template>
 </p-table>

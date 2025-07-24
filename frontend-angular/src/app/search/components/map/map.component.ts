@@ -77,7 +77,7 @@ export class MapComponent implements AfterViewInit {
     }).setContent(
       `
         <div style="font-size: 14px;">
-          <strong>(${institution.id}) ${institution.name}</strong><br>
+          <strong>(${institution.dgesNumber}) ${institution.name}</strong><br>
           Distrito: ${institution.district}<br>
           Tipo: ${institution.type}
         </div>

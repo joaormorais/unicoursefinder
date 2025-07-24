@@ -1,5 +1,5 @@
 export interface Institution {
-  id: number;
+  uuid: number;
   dgesNumber: number;
   name: string;
   type: string;

@@ -19,13 +19,14 @@ export class CourseService {
     courseTypes: string[],
     courseInstitutionIds: number[]
   ): Observable<Courses> {
-    const baseParams = new HttpParams().set('page', page);
-    baseParams.append('size', size);
-    baseParams.append('sort', sort);
-    baseParams.append('courseName', courseName);
-    baseParams.append('courseNameMatchMode', courseNameMatchMode);
-    baseParams.append('courseTypes', courseTypes.toString());
-    baseParams.append('courseInstitutionIds', courseInstitutionIds.toString());
+    const baseParams = new HttpParams()
+      .set('page', page)
+      .set('size', size)
+      .set('sort', sort)
+      .set('courseName', courseName)
+      .set('courseNameMatchMode', courseNameMatchMode)
+      .set('courseTypes', courseTypes.toString())
+      .set('courseInstitutionIds', courseInstitutionIds.toString());
 
     return this.http.get<Courses>(this.apiUrl, {
       params: baseParams,

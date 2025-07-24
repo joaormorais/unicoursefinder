@@ -4,8 +4,11 @@ import { InstitutionSearchService } from './institution-search.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CourseService } from '../../shared/services/course.service';
 import { CourseSearchService } from './course-search.service';
-import { CoursesState, InstitutionsState } from '../models/search.model';
-import { Institution } from '../../shared/models/institution.model';
+import {
+  CoursesState,
+  DropdownDto,
+  InstitutionsState,
+} from '../models/search.model';
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
@@ -15,9 +18,6 @@ export class SearchService {
   private courseService = inject(CourseService);
   private courseSearchService = inject(CourseSearchService);
   private translate = inject(TranslateService);
-
-  // helper var
-  private tempTotalInstitutions: Institution[] | undefined;
 
   // parent data
   private parentState = signal<string | number>('0');
@@ -65,7 +65,13 @@ export class SearchService {
 
   // courses data
   private coursesState = signal<CoursesState>({
-    courses: null,
+    paginatedCourses: {
+      courses: [],
+      totalElements: 0,
+      totalPages: 0,
+      size: 0,
+      number: 0,
+    },
     typesCourses: [],
     loadingCourses: true,
     loadingTypesCourses: true,
@@ -73,7 +79,9 @@ export class SearchService {
   });
 
   // expose courses data
-  public readonly courses = computed(() => this.coursesState().courses);
+  public readonly paginatedCourses = computed(
+    () => this.coursesState().paginatedCourses
+  );
   public readonly typesCourses = computed(
     () => this.coursesState().typesCourses
   );
@@ -91,11 +99,15 @@ export class SearchService {
   //---------------------------------------------------------------------------
   startInstitutions(): void {
     // api call to get every institution type
-    this.institutionSearchService.getDistinctTypes().subscribe({
+    this.institutionSearchService.getTypes().subscribe({
       next: (data) => {
+        let dropdownTypes: DropdownDto[] = data.map((type) => ({
+          value: type,
+          label: this.translate.instant(`filters.institutionTypes.${type}`),
+        }));
         this.institutionsState.update((currentState) => ({
           ...currentState,
-          typesInstitutions: data,
+          typesInstitutions: dropdownTypes,
           loadingTypesInstitutions: false,
         }));
       },
@@ -108,11 +120,17 @@ export class SearchService {
     });
 
     // api call to get every institution distric
-    this.institutionSearchService.getDistinctDistricts().subscribe({
+    this.institutionSearchService.getDistricts().subscribe({
       next: (data) => {
+        let dropdownDistricts: DropdownDto[] = data.map((district) => ({
+          value: district,
+          label: this.translate.instant(
+            `filters.institutionDistricts.${district}`
+          ),
+        }));
         this.institutionsState.update((currentState) => ({
           ...currentState,
-          districtsInstitutions: data,
+          districtsInstitutions: dropdownDistricts,
           loadingDistrictsInstitutions: false,
         }));
       },
@@ -155,11 +173,15 @@ export class SearchService {
   // get every information needed in order to display the courses component
   startCourses(): void {
     // api call to get every course type
-    this.courseSearchService.getDistinctTypes().subscribe({
+    this.courseSearchService.getTypes().subscribe({
       next: (data) => {
+        let dropdownDistricts: DropdownDto[] = data.map((type) => ({
+          value: type,
+          label: this.translate.instant(`filters.courseTypes.${type}`),
+        }));
         this.coursesState.update((currentState) => ({
           ...currentState,
-          typesCourses: data,
+          typesCourses: dropdownDistricts,
           loadingTypesCourses: false,
         }));
       },
@@ -170,13 +192,6 @@ export class SearchService {
         }));
       },
     });
-
-    this.coursesState.update((currentState) => ({
-      ...currentState,
-      institutionsFilteredByName: this.tempTotalInstitutions,
-    }));
-
-    //this.getCourses(0, 10, { name: '', types: [], institutionsIds: [] }, true);
   }
 
   // api call to get filtered and paginated courses
@@ -204,24 +219,28 @@ export class SearchService {
         next: (data) => {
           this.coursesState.update((currentState) => ({
             ...currentState,
-            courses: data,
-            loadingPaginatedCourses: false,
+            paginatedCourses: data,
+            loadingCourses: false,
           }));
         },
         error: () => {
           this.coursesState.update((currentState) => ({
             ...currentState,
-            errorPaginatedCourses: this.translate.instant('courses.error'),
+            errorCourses: this.translate.instant('courses.error'),
           }));
         },
       });
   }
 
   // getter in order to have the name of the institution in front of the course
-  getInstitutionName(institutionId: number): string {
-    const institution = this.institutions()?.find((i) => i.id == institutionId);
+  getInstitutionName(institutionUuid: number): string {
+    const institution = this.institutions()?.find(
+      (i) => i.uuid == institutionUuid
+    );
     return institution ? institution.name : '';
   }
+
+  filterGlobalCourse(value: string, matchmode: string) {}
 
   // change to the courses screen, and show the courses for that institution
   /*searchCoursesFromInstitution(institutionId: number): void {
@@ -237,20 +256,6 @@ export class SearchService {
       true
     );
   }*/
-
-  // filter the institutions from the select only by name
-  filterInstitutionsByName(name: string): void {
-    const trimmedName = name.toLowerCase().trim();
-
-    this.coursesState.update((currentState) => ({
-      ...currentState,
-      institutionsFilteredByName: this.institutions()?.filter((inst) => {
-        const matchesName =
-          !trimmedName || inst.name.toLowerCase().includes(trimmedName);
-        return matchesName;
-      }),
-    }));
-  }
   //---------------------------------------------------------------------------
 
   // public helpers

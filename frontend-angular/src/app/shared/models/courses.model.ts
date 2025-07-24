@@ -7,7 +7,7 @@ export interface Courses {
 }
 
 export interface Course {
-  id: number;
+  uuid: number;
   dgesNumber: number;
   name: string;
   type: string;

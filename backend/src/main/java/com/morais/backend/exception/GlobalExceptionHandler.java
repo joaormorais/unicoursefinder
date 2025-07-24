@@ -14,21 +14,21 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        ErrorResponse error = new ErrorResponse("Resource not found!", LocalDateTime.now());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    @ExceptionHandler(AppException.class)
+    public ResponseEntity<ErrorResponse> handleAppException(AppException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), LocalDateTime.now(), ex.getStatus());
+        return new ResponseEntity<>(error, error.getStatus());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
-        ErrorResponse error = new ErrorResponse("Illegal arguments on the request!", LocalDateTime.now());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        ErrorResponse error = new ErrorResponse("ILLEGAL_ARGUMENTS", LocalDateTime.now(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, error.getStatus());
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
-        ErrorResponse error = new ErrorResponse("If you are seeing this, it's not your fault! There was an error on the server.", LocalDateTime.now());
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        ErrorResponse error = new ErrorResponse("INTERNAL_SERVER_ERROR", LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, error.getStatus());
     }
 }

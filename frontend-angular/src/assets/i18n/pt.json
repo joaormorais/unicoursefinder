@@ -30,6 +30,9 @@
     "institution": "Instituição"
   },
   "filters": {
+    "global": "Procurar",
+    "name": "Procurar por nome",
+    "all": "Todos",
     "institutionTypes": {
       "PRIVATE_UNIVERSITY": "Ensino Superior Privado Universitário",
       "PRIVATE_POLYTECHNIC": "Ensino Superior Privado Politécnico",
@@ -60,9 +63,9 @@
       "EVORA": "Évora"
     },
     "courseTypes": {
-      "BACHELOR_PREPARATORY_CYCLE": "Ciclo Preparatório de Licenciatura",
-      "BACHELOR_FIRST_CYCLE": "Licenciatura (1.º Ciclo)",
-      "INTEGRATED_MASTER_PREPARATORY": "Ciclo Preparatório de Mestrado Integrado",
+      "BACHELOR_PREPARATORY_CYCLE": "Preparação para Licenciatura",
+      "BACHELOR_FIRST_CYCLE": "Licenciatura",
+      "INTEGRATED_MASTER_PREPARATORY": "Preparação para Mestrado Integrado",
       "INTEGRATED_MASTER": "Mestrado Integrado"
     }
   },

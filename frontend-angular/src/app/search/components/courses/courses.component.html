@@ -1,12 +1,13 @@
 <p-table
   #coursesTable
-  [value]="searchService.courses()?.courses!"
+  [value]="searchService.paginatedCourses().courses"
   [lazy]="true"
   (onLazyLoad)="onLazyLoad($event)"
   [paginator]="true"
   [rows]="5"
-  [first]="first()"
+  [first]="first"
   [rowsPerPageOptions]="[5, 10, 25, 50]"
+  [totalRecords]="searchService.paginatedCourses().totalElements"
   [tableStyle]="{ width: '100%' }"
   dataKey="id"
   [loading]="
@@ -18,6 +19,92 @@
   [sortOrder]="1"
   rowHover="true"
 >
+<ng-template #caption>
+    <div class="flex">
+      <p-iconfield iconPosition="left" class="ml-auto">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+        <input
+          pInputText
+          #filterInput
+          type="text"
+          (input)="
+            searchService.filterGlobalCourse(filterInput.value, 'contains')
+          "
+          [placeholder]="'filters.global' | translate"
+        />
+      </p-iconfield>
+    </div>
+  </ng-template>
+<ng-template #header>
+    <tr>
+      <th style="width: 25%" pSortableColumn="dgesNumber">
+        {{ "tables.dges" | translate }} <p-sortIcon field="dgesNumber" />
+      </th>
+      <th style="width: 25%" pSortableColumn="name">
+        {{ "tables.name" | translate }} <p-sortIcon field="name" />
+      </th>
+      <th style="width: 25%" pSortableColumn="type">
+        {{ "tables.type" | translate }} <p-sortIcon field="type" />
+      </th>
+      <th style="width: 25%" pSortableColumn="district">
+        {{ "tables.institution" | translate }} <p-sortIcon field="institution" />
+      </th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="name"
+          [placeholder]="'filters.name' | translate"
+        ></p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter field="type" matchMode="in" [showMenu]="false">
+          <ng-template #filter let-value let-filter="filterCallback">
+            <p-multiselect
+              [(ngModel)]="selectedCourseTypes"
+              [options]="searchService.typesCourses()"
+              [placeholder]="'filters.all' | translate"
+              [panelStyle]="{ minWidth: '16rem' }"
+            >
+              <ng-template let-option #item>
+                <div class="flex items-center gap-2">
+                  <span>{{ ('filters.courseTypes.' + option) | translate }}</span>
+                </div>
+              </ng-template>
+            </p-multiselect>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter field="institution" matchMode="in" [showMenu]="false">
+          <ng-template #filter let-value let-filter="filterCallback">
+            <p-multiselect
+              [(ngModel)]="selectedCourseInstitutions"
+              [options]="searchService.institutions()"
+              [placeholder]="'filters.all' | translate"
+              [panelStyle]="{ minWidth: '16rem' }"
+            >
+              <ng-template let-option #item>
+                <div class="flex items-center gap-2">
+                  <span>{{ option }}</span>
+                </div>
+              </ng-template>
+            </p-multiselect>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+    </tr>
+  </ng-template>
+<ng-template #body let-course>
+    <tr>
+      <td>{{ course.dgesNumber }}</td>
+      <td>{{ course.name }}</td>
+      <td>{{ ('filters.courseTypes.' + course.type) | translate }}</td>
+      <td>{{ searchService.getInstitutionName(course.institutionUuid) }}</td>
+    </tr>
+  </ng-template>
 </p-table>
-
-<!--{{ this.searchService.getInstitutionName(course.institutionId) }}-->
