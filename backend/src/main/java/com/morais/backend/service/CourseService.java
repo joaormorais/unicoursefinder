@@ -27,10 +27,10 @@ public class CourseService {
 
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
-    private final String DGES_NUMBER = "dgesNumber";
-    private final String NAME = "name";
-    private final String TYPE = "type";
-    private final String INSTITUTION_ID = "institutionId";
+    private final static String DGES_NUMBER = "dgesNumber";
+    private final static String NAME = "name";
+    private final static String TYPE = "type";
+    private final static String INSTITUTION_ID = "institutionId";
 
     /**
      * Retrieves a list of all course types.
@@ -59,14 +59,13 @@ public class CourseService {
      * The results are paged and sorted.
      * The name is normalized before querying.
      *
-     * @param pageable object that is going to be used to pagination and sorting
-     * @param courseName name filter
-     * @param courseNameMatchMode match mode for the name filter
-     * @param courseTypes type filter
+     * @param pageable             object that is going to be used to pagination and sorting
+     * @param courseName           name filter
+     * @param courseTypes          type filter
      * @param courseInstitutionIds institution id filter
      * @return a list of matching courses as DTOs
      */
-    public Page<CourseDTO> getFilteredCourses(Pageable pageable, String courseName, String courseNameMatchMode, List<String> courseTypes, List<Long> courseInstitutionIds) {
+    public Page<CourseDTO> getFilteredCourses(Pageable pageable, String courseName, List<String> courseTypes, List<Long> courseInstitutionIds) {
         log.info("Returning every filtered course by name: ({}), type: ({}) and institutionId: ({})", courseName, courseTypes, courseInstitutionIds);
         log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
 
@@ -78,28 +77,7 @@ public class CourseService {
 
         Specification<Course> specs = Specification.not(null);
         if (!(courseName == null || courseName.isEmpty()))
-            switch (courseNameMatchMode) {
-                case "startsWith":
-                    specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(courseName) + "%")));
-                    break;
-                case "contains":
-                    specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(courseName) + "%")));
-                    break; //TODO: fix query
-                case "notContains":
-                    specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(courseName) + "%")));
-                    break; //TODO: fix query
-                case "endsWith":
-                    specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(courseName) + "%")));
-                    break; //TODO: fix query
-                case "equals":
-                    specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(courseName) + "%")));
-                    break; //TODO: fix query
-                case "notEquals":
-                    specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(courseName) + "%")));
-                    break; //TODO: fix query
-                default:
-                    break;
-            }
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(courseName) + "%")));
         else if (!(courseTypes == null || courseTypes.isEmpty()))
             specs = specs.and((root, query, criteriaBuilder) -> root.get("type").in(courseTypes));
         else if (!(courseInstitutionIds == null || courseInstitutionIds.isEmpty()))
