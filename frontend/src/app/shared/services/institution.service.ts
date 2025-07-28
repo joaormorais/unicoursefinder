@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Institution } from '../models/institution.model';
+import { Institution } from '../models/shared.model';
 
 @Injectable({ providedIn: 'root' })
 export class InstitutionService {

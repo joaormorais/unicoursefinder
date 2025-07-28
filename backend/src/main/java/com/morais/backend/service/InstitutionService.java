@@ -1,5 +1,6 @@
 package com.morais.backend.service;
 
+import com.morais.backend.domain.dto.DropdownDTO;
 import com.morais.backend.domain.dto.InstitutionDTO;
 import com.morais.backend.domain.entity.Institution;
 import com.morais.backend.domain.entity.enums.InstitutionDistrict;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
@@ -65,6 +68,15 @@ public class InstitutionService {
 
         Collections.sort(districts);
         return districts;
+    }
+
+    /**
+     * Retrieves every institution mapped to a dropdownDTO
+     *
+     * @return a list of institutions
+     */
+    public List<DropdownDTO> getDropdown() {
+        return institutionRepository.findAll().stream().map(value -> new DropdownDTO(value.getUuid().toString(), value.getName())).collect(Collectors.toList());
     }
 
     /**

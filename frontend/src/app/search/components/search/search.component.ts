@@ -24,4 +24,26 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 export class SearchComponent {
   // inject the main service of this feature
   searchService = inject(SearchService);
+
+  loadingInstitutions: boolean = true;
+  loadingTypesInstitutions: boolean
+  loadingCourses: boolean = true;
+  errorInstitutions: boolean = false;
+  errorCourses: boolean = false;
+
+  changeLoadingInstitutions(value: boolean) {
+    this.loadingInstitutions = value;
+  }
+
+  changeLoadingCourses(value: boolean) {
+    this.loadingCourses = value;
+  }
+
+  changeErrorInstitutions(value: boolean) {
+    this.errorInstitutions = value;
+  }
+
+  changeErrorCourses(value: boolean) {
+    this.errorCourses = value;
+  }
 }

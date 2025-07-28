@@ -2,8 +2,8 @@ import { AfterViewInit, Component, effect, inject } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
-import { Institution } from '../../../shared/models/institution.model';
 import { SearchService } from '../../services/search.service';
+import { Institution } from '../../../shared/models/shared.model';
 
 @Component({
   selector: 'app-map',
@@ -16,7 +16,7 @@ export class MapComponent implements AfterViewInit {
 
   constructor() {
     effect(() => {
-      const institutions = this.searchService.institutionsFiltered();
+      const institutions = this.searchService.filteredInstitutionsValue();
       if (this.map) {
         this.updateMap(institutions);
       }
@@ -54,7 +54,7 @@ export class MapComponent implements AfterViewInit {
     }).addTo(this.map);
 
     // add the markers for the institutions
-    this.searchService.institutionsFiltered().forEach((institution) => {
+    this.searchService.filteredInstitutionsValue().forEach((institution) => {
       this.createMarkers(institution, this.institutionIcon);
     });
 

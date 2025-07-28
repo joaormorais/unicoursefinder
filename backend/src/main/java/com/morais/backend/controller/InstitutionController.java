@@ -1,5 +1,6 @@
 package com.morais.backend.controller;
 
+import com.morais.backend.domain.dto.DropdownDTO;
 import com.morais.backend.domain.dto.InstitutionDTO;
 import com.morais.backend.service.InstitutionService;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +39,19 @@ public class InstitutionController {
     }
 
     /**
+     * Retrieves a list of all institutions but ready for the dropdown.
+     *
+     * @return a list of institutions
+     */
+    @GetMapping("/dropdown")
+    public ResponseEntity<List<DropdownDTO>> getDropdown() {
+        return ResponseEntity.ok(institutionService.getDropdown());
+    }
+
+    /**
      * Get every institution.
      *
-     * @return a list of institutions matching the search criteria
+     * @return a list of institutions
      */
     @GetMapping
     public ResponseEntity<List<InstitutionDTO>> getInstitutions() {

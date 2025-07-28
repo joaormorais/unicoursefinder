@@ -13,5 +13,5 @@ public class CourseDTO {
     private String name;
     private String type;
     private String link;
-    private UUID institutionUuid;
+    private InstitutionDTO institutionDto;
 }

@@ -1,15 +1,10 @@
 <p-table
   #institutionsTable
-  [value]="searchService.institutions()"
+  [value]="institutions"
   [paginator]="true"
   [rows]="5"
   [tableStyle]="{ width: '100%' }"
   [rowsPerPageOptions]="[5, 10, 20, 50]"
-  [loading]="
-    searchService.loadingInstitutions() &&
-    searchService.loadingTypesInstitutions() &&
-    searchService.loadingDistrictsInstitutions()
-  "
   [globalFilterFields]="['dgesNumber', 'name', 'type', 'district']"
   sortField="name"
   [sortOrder]="1"
@@ -124,8 +119,8 @@
         >
           <ng-template #filter let-value let-filter="filterCallback">
             <p-multiselect
-              [(ngModel)]="selectedInstitutionTypes"
-              [options]="searchService.typesInstitutions()"
+              [(ngModel)]="selectedTypes"
+              [options]="types"
               [placeholder]="'filters.all' | translate"
               (onChange)="filter($event.value)"
               [panelStyle]="{ minWidth: '16rem' }"
@@ -133,7 +128,7 @@
               [maxSelectedLabels]="2"
               [selectedItemsLabel]="
                 'filters.selectedItemsLabelTypes'
-                  | translate : { value: selectedInstitutionTypes.length }
+                  | translate : { value: selectedTypes.length }
               "
             >
             </p-multiselect>
@@ -149,8 +144,8 @@
         >
           <ng-template #filter let-value let-filter="filterCallback">
             <p-multiselect
-              [(ngModel)]="selectedInstitutionDistricts"
-              [options]="searchService.districtsInstitutions()"
+              [(ngModel)]="selectedDistricts"
+              [options]="districts"
               [placeholder]="'filters.all' | translate"
               (onChange)="filter($event.value)"
               [panelStyle]="{ minWidth: '16rem' }"
@@ -158,7 +153,7 @@
               [maxSelectedLabels]="4"
               [selectedItemsLabel]="
                 'filters.selectedItemsLabelDistricts'
-                  | translate : { value: selectedInstitutionTypes.length }
+                  | translate : { value: selectedTypes.length }
               "
             >
             </p-multiselect>
@@ -178,3 +173,4 @@
     </tr>
   </ng-template>
 </p-table>
+<p-toast position="top-right" />
