@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/api';
 export class SearchService {
   // dependencies
   private translate = inject(TranslateService);
-  messageService = inject(MessageService);
+  private messageService = inject(MessageService);
 
   // parent data
   private parentState = signal<string | number>('0');
@@ -31,6 +31,7 @@ export class SearchService {
         ' (' +
         err.error.timestamp +
         ')',
+      sticky: true,
     });
   }
   //---------------------------------------------------------------------------

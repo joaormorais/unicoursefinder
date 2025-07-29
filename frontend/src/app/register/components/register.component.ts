@@ -13,10 +13,10 @@ import { EmailComponent } from '../../shared/components/email/email.component';
 import { PwComponent } from '../../shared/components/pw/pw.component';
 import { ButtonModule } from 'primeng/button';
 import { DatePicker } from 'primeng/datepicker';
-import { RegisterModel } from '../../shared/models/auth.model';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { FluidModule } from 'primeng/fluid';
+import { RegisterModel } from '../../shared/models/shared.model';
 
 @Component({
   selector: 'app-register',

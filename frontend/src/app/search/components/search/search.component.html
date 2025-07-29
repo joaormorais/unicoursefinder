@@ -1,16 +1,7 @@
 <div class="flex flex-col md:flex-row h-full">
   <div class="h-2/5 md:h-full md:w-2/5">
-    <!-- loading message for map -->
-    @if (this.loadingInstitutions) {
-    <p class="!m-5 text-center">{{ "map.loading" | translate }}</p>
-    }
-
-    <!-- map and his title -->
-    @if (!this.loadingInstitutions &&
-    !this.errorInstitutions) {
     <!-- map of institutions -->
     <app-map> </app-map>
-    }
   </div>
 
   <div class="h-3/5 md:h-full md:w-3/5 md:min-h-0">
@@ -33,13 +24,9 @@
           </p-tabpanel>
           <p-tabpanel value="1">
             <!-- courses list and filters -->
-            @if ( !this.loadingInstitutions &&
-            !this.loadingTypesInstitutions &&
-            !this.loadingDistrictsInstitutions ) {
             <div>
               <app-courses> </app-courses>
             </div>
-            }
           </p-tabpanel>
         </p-tabpanels>
       </p-tabs>

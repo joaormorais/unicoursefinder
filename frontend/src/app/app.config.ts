@@ -7,6 +7,7 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import { MyPreset } from './styles';
+import { MessageService } from 'primeng/api';
 
 export function httpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -38,5 +39,6 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
+    MessageService
   ],
 };

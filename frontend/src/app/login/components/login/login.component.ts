@@ -11,7 +11,7 @@ import {
 import { EmailComponent } from '../../../shared/components/email/email.component';
 import { PwComponent } from '../../../shared/components/pw/pw.component';
 import { ButtonModule } from 'primeng/button';
-import { LoginModel } from '../../../shared/models/auth.model';
+import { LoginModel } from '../../../shared/models/shared.model';
 
 @Component({
   selector: 'app-login',

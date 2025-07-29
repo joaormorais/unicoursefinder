@@ -31,7 +31,6 @@ import { InstitutionService } from '../../../shared/services/institution.service
   ],
   templateUrl: './institutions.component.html',
   styleUrl: '../styles/search.scss',
-  providers: [MessageService],
 })
 export class InstitutionsComponent implements OnInit {
   // inject the main service of this feature

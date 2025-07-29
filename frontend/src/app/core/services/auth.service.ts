@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { LoginModel, RegisterModel } from '../../shared/models/auth.model';
+import { LoginModel, RegisterModel } from '../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root',

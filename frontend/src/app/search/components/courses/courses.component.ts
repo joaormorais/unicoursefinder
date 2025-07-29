@@ -31,7 +31,6 @@ import {
   ],
   templateUrl: './courses.component.html',
   styleUrl: '../styles/search.scss',
-  providers: [MessageService],
 })
 export class CoursesComponent implements OnInit {
   searchService = inject(SearchService);
