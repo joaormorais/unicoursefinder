@@ -24,7 +24,7 @@ export class SearchService {
     this.messageService.add({
       severity: 'error',
       summary: this.translate.instant('errors.genericSummary', {
-        status: err.error.httpStatus,
+        status: err.error.status,
       }),
       detail:
         this.translate.instant(`errors.${err.error.message}`) +
@@ -35,16 +35,6 @@ export class SearchService {
     });
   }
   //---------------------------------------------------------------------------
-
-  // institutions
-  //---------------------------------------------------------------------------
-
-  //---------------------------------------------------------------------------
-
-  // courses
-  //---------------------------------------------------------------------------
-
-  filterGlobalCourse(value: string, matchmode: string) {}
 
   // change to the courses screen, and show the courses for that institution
   /*searchCoursesFromInstitution(institutionId: number): void {

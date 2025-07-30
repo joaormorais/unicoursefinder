@@ -13,7 +13,6 @@ import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { DropdownDto, Institution } from '../../../shared/models/shared.model';
 import { InstitutionSearchService } from '../../services/institution-search.service';
-import { InstitutionService } from '../../../shared/services/institution.service';
 
 @Component({
   selector: 'app-institutions',
@@ -36,7 +35,6 @@ export class InstitutionsComponent implements OnInit {
   // inject the main service of this feature
   searchService = inject(SearchService);
   institutionSearchService = inject(InstitutionSearchService);
-  institutionService = inject(InstitutionService);
   translate = inject(TranslateService);
   messageService = inject(MessageService);
 
@@ -84,7 +82,7 @@ export class InstitutionsComponent implements OnInit {
   }
 
   getInstitutions(): void {
-    this.institutionService.getInstitutions().subscribe({
+    this.institutionSearchService.getInstitutions().subscribe({
       next: (data) => {
         this.institutions= data;
       },

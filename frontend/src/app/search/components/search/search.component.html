@@ -10,6 +10,7 @@
       <p-tabs
         [value]="this.searchService.tabValue()"
         (valueChange)="searchService.changeTab($event)"
+        class="h-full"
       >
         <p-tablist>
           <p-tab value="0">{{ "buttons.institutions" | translate }}</p-tab>

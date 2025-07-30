@@ -38,6 +38,7 @@ export class CoursesComponent implements OnInit {
   translate = inject(TranslateService);
   messageService = inject(MessageService);
 
+  currentFilter = signal('');
   courses: PaginatedCourses = {
     content: [],
     totalElements: 0,
@@ -56,7 +57,6 @@ export class CoursesComponent implements OnInit {
   ngOnInit(): void {
     this.getTypes();
     this.getInstitutions();
-    this.getCourses();
   }
 
   onLazyLoad(event: TableLazyLoadEvent): void {
@@ -64,11 +64,13 @@ export class CoursesComponent implements OnInit {
       return;
     }
 
+    console.log(event);
+
     let first = event.first ? event.first : this.first;
     let rows = event.rows ? event.rows : this.rows;
 
     // sort
-    /*if (event.sortField === undefined) {
+    if (event.sortField === undefined) {
       this.currentFilter.set('name,asc');
     } else {
       this.currentFilter.set(
@@ -76,21 +78,42 @@ export class CoursesComponent implements OnInit {
           ? event.sortField + ',asc'
           : event.sortField + ',desc'
       );
-    }*/
+    }
 
-    /*this.searchService.getCourses(
-      first / rows,
-      rows,
-      event.sort,
-      event.filters.name.value,
-      event.filters.institution.value,
-      event.filters.type.value
-    );*/
+    // group of filters
+    const filters = event.filters || {};
+
+    const name = filters['name'] ? (filters['name'] as any) : '';
+    const types: string[] = filters['type']
+      ? (filters['type'] as any).value
+      : [];
+    const institutionIds: number[] = filters['institution']
+      ? (filters['institution'] as any).value
+      : [];
+
+    this.courseSearchService
+      .getCourses(
+        first / rows,
+        rows,
+        event.sortField!.toString(),
+        name,
+        types,
+        institutionIds
+      )
+      .subscribe({
+        next: (data) => {
+          this.data.set(data);
+        },
+        error: (err) => {
+          this.searchService.showErrorToast(err);
+        },
+      });
   }
 
   getTypes(): void {
     this.courseSearchService.getTypes().subscribe({
       next: (data) => {
+        console.log("obti types");
         this.types = data.map((type) => ({
           value: type,
           label: this.translate.instant(`filters.courseTypes.${type}`),
@@ -105,6 +128,7 @@ export class CoursesComponent implements OnInit {
   getInstitutions(): void {
     this.courseSearchService.getInstitutions().subscribe({
       next: (data) => {
+        console.log("obti institutions");
         this.institutions = data;
       },
       error: (err) => {
@@ -113,5 +137,5 @@ export class CoursesComponent implements OnInit {
     });
   }
 
-  getCourses(): void {}
+  filterGlobalCourse(value: string, matchmode: string) {}
 }

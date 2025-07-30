@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
@@ -76,7 +74,8 @@ public class InstitutionService {
      * @return a list of institutions
      */
     public List<DropdownDTO> getDropdown() {
-        return institutionRepository.findAll().stream().map(value -> new DropdownDTO(value.getUuid().toString(), value.getName())).collect(Collectors.toList());
+        log.info("Returning institutions for the dropdown");
+        return institutionRepository.findAll().stream().map(value -> new DropdownDTO(value.getUuid().toString(),value.getName())).toList();
     }
 
     /**
