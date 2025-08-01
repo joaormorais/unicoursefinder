@@ -39,13 +39,12 @@ export class CoursesComponent implements OnInit {
   messageService = inject(MessageService);
 
   currentFilter = signal('');
-  courses: PaginatedCourses = {
+  data = signal<PaginatedCourses>({
     content: [],
     totalElements: 0,
     size: 0,
     number: 0,
-  };
-  data = signal(this.courses);
+  });
   rows: number = 5;
   first: number = 0;
   types: DropdownDto[] = [];
@@ -64,38 +63,38 @@ export class CoursesComponent implements OnInit {
       return;
     }
 
-    console.log(event);
-
     let first = event.first ? event.first : this.first;
     let rows = event.rows ? event.rows : this.rows;
 
     // sort
-    if (event.sortField === undefined) {
-      this.currentFilter.set('name,asc');
-    } else {
-      this.currentFilter.set(
-        event.sortOrder === 1
-          ? event.sortField + ',asc'
-          : event.sortField + ',desc'
-      );
-    }
+    const sortField = event.sortField || 'name';
+    const sortOrder = event.sortOrder === 1 ? 'asc' : 'desc';
+    this.currentFilter.set(`${sortField},${sortOrder}`);
 
     // group of filters
     const filters = event.filters || {};
 
-    const name = filters['name'] ? (filters['name'] as any) : '';
+    const name = filters['name'] ? (filters['name'] as any).value : '';
     const types: string[] = filters['type']
       ? (filters['type'] as any).value
+        ? (filters['type'] as any).value
+        : []
       : [];
     const institutionIds: number[] = filters['institution']
       ? (filters['institution'] as any).value
+        ? (filters['institution'] as any).value
+        : []
       : [];
+
+    console.log(name);
+    console.log(types);
+    console.log(institutionIds);
 
     this.courseSearchService
       .getCourses(
         first / rows,
         rows,
-        event.sortField!.toString(),
+        this.currentFilter(),
         name,
         types,
         institutionIds
@@ -113,7 +112,6 @@ export class CoursesComponent implements OnInit {
   getTypes(): void {
     this.courseSearchService.getTypes().subscribe({
       next: (data) => {
-        console.log("obti types");
         this.types = data.map((type) => ({
           value: type,
           label: this.translate.instant(`filters.courseTypes.${type}`),
@@ -128,7 +126,6 @@ export class CoursesComponent implements OnInit {
   getInstitutions(): void {
     this.courseSearchService.getInstitutions().subscribe({
       next: (data) => {
-        console.log("obti institutions");
         this.institutions = data;
       },
       error: (err) => {

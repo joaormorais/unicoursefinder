@@ -63,12 +63,15 @@
             <p-multiselect
               [(ngModel)]="selectedTypes"
               [options]="types"
+              optionLabel="label"
+              optionValue="value"
+              (onChange)="filter($event.value)" 
               [placeholder]="'filters.all' | translate"
               [panelStyle]="{ minWidth: '16rem' }"
             >
               <ng-template let-option #item>
                 <div class="flex items-center gap-2">
-                  <span>{{ "filters.courseTypes." + option | translate }}</span>
+                  <span>{{ option.label }}</span>
                 </div>
               </ng-template>
             </p-multiselect>
@@ -81,6 +84,9 @@
             <p-multiselect
               [(ngModel)]="selectedInstitutions"
               [options]="institutions"
+              optionLabel="label"
+              optionValue="value"
+              (onChange)="filter($event.value)" 
               [placeholder]="'filters.all' | translate"
               [panelStyle]="{ minWidth: '16rem' }"
             >
