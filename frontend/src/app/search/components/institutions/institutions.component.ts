@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../../services/search.service';
 import { CardModule } from 'primeng/card';
@@ -43,6 +43,17 @@ export class InstitutionsComponent implements OnInit {
   districts: DropdownDto[] = [];
   selectedTypes: DropdownDto[] = [];
   selectedDistricts: DropdownDto[] = [];
+  apiError = signal(false);
+  gettingTypes = signal(true);
+  gettingDistricts = signal(true);
+  gettingInstitutions = signal(true);
+  loading = computed(
+    () =>
+      this.gettingTypes() ||
+      this.gettingDistricts() ||
+      this.gettingInstitutions()
+  );
+  filterTimeouts: { [key: string]: any } = {};
 
   // run when the component is created
   ngOnInit(): void {
@@ -58,9 +69,14 @@ export class InstitutionsComponent implements OnInit {
           value: type,
           label: this.translate.instant(`filters.institutionTypes.${type}`),
         }));
+        this.gettingTypes.set(false);
       },
       error: (err) => {
-        this.searchService.showErrorToast(err);
+        this.searchService.showErrorToast(
+          err,
+          'errors.summary.gettingInstitutionsTypes'
+        );
+        this.apiError.set(true);
       },
     });
   }
@@ -70,11 +86,18 @@ export class InstitutionsComponent implements OnInit {
       next: (data) => {
         this.districts = data.map((district) => ({
           value: district,
-          label: this.translate.instant(`filters.institutionDistricts.${district}`),
+          label: this.translate.instant(
+            `filters.institutionDistricts.${district}`
+          ),
         }));
+        this.gettingDistricts.set(false);
       },
       error: (err) => {
-        this.searchService.showErrorToast(err);
+        this.searchService.showErrorToast(
+          err,
+          'errors.summary.gettingInstitutionsDistricts'
+        );
+        this.apiError.set(true);
       },
     });
   }
@@ -82,11 +105,28 @@ export class InstitutionsComponent implements OnInit {
   getInstitutions(): void {
     this.institutionSearchService.getInstitutions().subscribe({
       next: (data) => {
-        this.institutions= data;
+        this.institutions = data;
+        this.gettingInstitutions.set(false);
       },
       error: (err) => {
-        this.searchService.showErrorToast(err);
+        this.searchService.showErrorToast(
+          err,
+          'errors.summary.gettingInstitutions'
+        );
+        this.apiError.set(true);
       },
     });
+  }
+
+  debounceFilter(
+    event: Event,
+    field: string,
+    filterCallback: (value: any) => void
+  ) {
+    clearTimeout(this.filterTimeouts[field]);
+    const value = (event.target as HTMLInputElement).value;
+    this.filterTimeouts[field] = setTimeout(() => {
+      filterCallback(value);
+    }, 300);
   }
 }

@@ -20,17 +20,14 @@ export class SearchService {
 
   //common to childs
   //---------------------------------------------------------------------------
-  showErrorToast(err: any): void {
+  showErrorToast(err: any, summary: string): void {
     this.messageService.add({
       severity: 'error',
-      summary: this.translate.instant('errors.genericSummary', {
-        status: err.error.status,
-      }),
+      summary: this.translate.instant(summary),
       detail:
-        this.translate.instant(`errors.${err.error.message}`) +
-        ' (' +
-        err.error.timestamp +
-        ')',
+        err.error.message !== undefined
+          ? this.translate.instant(`errors.${err.error.message}`)
+          : this.translate.instant(`errors.CANT_REACH_SERVER`),
       sticky: true,
     });
   }

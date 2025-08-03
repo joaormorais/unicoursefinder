@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../../services/search.service';
 import { PanelModule } from 'primeng/panel';
@@ -49,6 +49,15 @@ export class CoursesComponent implements OnInit {
   institutions: DropdownDto[] = [];
   selectedTypes: DropdownDto[] = [];
   selectedInstitutions: DropdownDto[] = [];
+  apiError = signal(false);
+  gettingTypes = signal(true);
+  gettingInstitutions = signal(true);
+  gettingCourses = signal(true);
+  loading = computed(
+    () =>
+      this.gettingTypes() || this.gettingInstitutions() || this.gettingCourses()
+  );
+  filterTimeouts: { [key: string]: any } = {};
 
   // run when the component is created
   ngOnInit(): void {
@@ -72,6 +81,11 @@ export class CoursesComponent implements OnInit {
     // group of filters
     const filters = event.filters || {};
 
+    const dgesNumber = filters['dgesNumber']
+      ? (filters['dgesNumber'] as any).value
+        ? (filters['dgesNumber'] as any).value
+        : ''
+      : '';
     const name = filters['name']
       ? (filters['name'] as any).value
         ? (filters['name'] as any).value
@@ -88,15 +102,12 @@ export class CoursesComponent implements OnInit {
         : []
       : [];
 
-    console.log(name);
-    console.log(types);
-    console.log(institutionIds);
-
     this.courseSearchService
       .getCourses(
         first / rows,
         rows,
         this.currentFilter(),
+        dgesNumber,
         name,
         types,
         institutionIds
@@ -104,9 +115,14 @@ export class CoursesComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.data.set(data);
+          this.gettingCourses.set(false);
         },
         error: (err) => {
-          this.searchService.showErrorToast(err);
+          this.searchService.showErrorToast(
+            err,
+            'errors.summary.gettingCourses'
+          );
+          this.apiError.set(true);
         },
       });
   }
@@ -118,9 +134,14 @@ export class CoursesComponent implements OnInit {
           value: type,
           label: this.translate.instant(`filters.courseTypes.${type}`),
         }));
+        this.gettingTypes.set(false);
       },
       error: (err) => {
-        this.searchService.showErrorToast(err);
+        this.searchService.showErrorToast(
+          err,
+          'errors.summary.gettingCoursesTypes'
+        );
+        this.apiError.set(true);
       },
     });
   }
@@ -129,12 +150,29 @@ export class CoursesComponent implements OnInit {
     this.courseSearchService.getInstitutions().subscribe({
       next: (data) => {
         this.institutions = data;
+        this.gettingInstitutions.set(false);
       },
       error: (err) => {
-        this.searchService.showErrorToast(err);
+        this.searchService.showErrorToast(
+          err,
+          'errors.summary.gettingCoursesInstitutions'
+        );
+        this.apiError.set(true);
       },
     });
   }
 
   filterGlobalCourse(value: string, matchmode: string) {}
+
+  debounceFilter(
+    event: Event,
+    field: string,
+    filterCallback: (value: any) => void
+  ) {
+    clearTimeout(this.filterTimeouts[field]);
+    const value = (event.target as HTMLInputElement).value;
+    this.filterTimeouts[field] = setTimeout(() => {
+      filterCallback(value);
+    }, 300);
+  }
 }

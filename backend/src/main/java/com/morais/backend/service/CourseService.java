@@ -30,7 +30,7 @@ public class CourseService {
     private final static String DGES_NUMBER = "dgesNumber";
     private final static String NAME = "name";
     private final static String TYPE = "type";
-    private final static String INSTITUTION_ID = "institution";
+    private final static String INSTITUTION = "institution";
 
     /**
      * Retrieves a list of all course types.
@@ -59,29 +59,32 @@ public class CourseService {
      * The results are paged and sorted.
      * The name is normalized before querying.
      *
-     * @param pageable             object that is going to be used to pagination and sorting
-     * @param courseName           name filter
-     * @param courseTypes          type filter
-     * @param courseInstitutionIds institution id filter
+     * @param pageable object that is going to be used to pagination and sorting
+     * @param dgesNumber dgesNumber filter
+     * @param name name filter
+     * @param types type filter
+     * @param courseInstitutions institution id filter
      * @return a list of matching courses as DTOs
      */
-    public Page<CourseDTO> getFilteredCourses(Pageable pageable, String courseName, List<String> courseTypes, List<Long> courseInstitutionIds) {
-        log.info("Returning every filtered course by name: ({}), type: ({}) and institutionId: ({})", courseName, courseTypes, courseInstitutionIds);
+    public Page<CourseDTO> getFilteredCourses(Pageable pageable, String dgesNumber, String name, List<String> types, List<Long> courseInstitutions) {
+        log.info("Returning every filtered course by dgesNumber: ({}), name: ({}), type: ({}) and institution: ({})", dgesNumber, name, types, courseInstitutions);
         log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
 
         for (Sort.Order order : pageable.getSort())
-            if (!Arrays.asList(DGES_NUMBER, NAME, TYPE, INSTITUTION_ID).contains(order.getProperty())) {
+            if (!Arrays.asList(DGES_NUMBER, NAME, TYPE, INSTITUTION).contains(order.getProperty())) {
                 log.error("Invalid sort attribute");
                 throw new IllegalArgumentException();
             }
 
         Specification<Course> specs = Specification.not(null);
-        if (!(courseName == null || courseName.isEmpty()))
-            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(courseName) + "%")));
-        else if (!(courseTypes == null || courseTypes.isEmpty()))
-            specs = specs.and((root, query, criteriaBuilder) -> root.get("type").in(courseTypes));
-        else if (!(courseInstitutionIds == null || courseInstitutionIds.isEmpty()))
-            specs = specs.and((root, query, criteriaBuilder) -> root.get("institution").in(courseInstitutionIds));
+        if(!(dgesNumber == null || dgesNumber.isEmpty()))
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("dgesNumber"), "%" + dgesNumber + "%")));
+        if (!(name == null || name.isEmpty()))
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(name) + "%")));
+        else if (!(types == null || types.isEmpty()))
+            specs = specs.and((root, query, criteriaBuilder) -> root.get("type").in(types));
+        else if (!(courseInstitutions == null || courseInstitutions.isEmpty()))
+            specs = specs.and((root, query, criteriaBuilder) -> root.get("institution").in(courseInstitutions));
 
         Page<Course> resultPage = courseRepository.findAll(specs, pageable);
         log.info(resultPage.isEmpty() ? "Didn't find any course. Returning empty!" : "Found courses. Returning!");

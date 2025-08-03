@@ -110,9 +110,17 @@
     "strongLabel": "Forte"
   },
   "errors": {
-    "genericSummary": "Erro [{{status}}]",
+    "summary": {
+      "gettingInstitutions": "Ocorreu um erro a obter instituições",
+      "gettingCourses": "Ocorreu um erro a obter cursos",
+      "gettingCoursesInstitutions": "Ocorreu um erro a obter instituições para filtragem de cursos",
+      "gettingCoursesTypes": "Ocorreu um erro a obter tipos para a filtragem de cursos",
+      "gettingInstitutionsTypes": "Ocorreu um erro a obter tipos para a filtragem de instituições",
+      "gettingInstitutionsDistricts": "Ocorreu um erro a obter distritos para a filtragem de instituições"
+    },
+    "CANT_REACH_SERVER": "Não foi possível fazer contacto com o servidor",
+    "INTERNAL_SERVER_ERROR": "Ocorreu um erro no servidor",
     "ILLEGAL_ARGUMENTS": "Pedido incorreto",
-    "INTERNAL_SERVER_ERROR": "Ocorreu um erro no servidor. A culpa não é sua! Contacte a administração",
     "required": "Este campo é obrigatório",
     "email": "Não corresponde ao formato de email",
     "maxLength": "Excede o limite de caracteres",

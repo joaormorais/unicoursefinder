@@ -35,18 +35,20 @@ public class CourseController {
      * The results are paged and sorted.
      *
      * @param pageable object that is going to be used to pagination and sorting
-     * @param courseName name filter
-     * @param courseTypes type filter
-     * @param courseInstitutionIds institution id filter
+     * @param dgesNumber dgesNumber filter
+     * @param name name filter
+     * @param types type filter
+     * @param courseInstitutions institution id filter
      * @return a list of courses matching the search criteria
      */
     @GetMapping
     public ResponseEntity<Page<CourseDTO>> searchCourses(
             @PageableDefault(size = 5, sort = "normalizedName,asc") Pageable pageable,
-            @RequestParam(required = false, defaultValue = "") String courseName,
-            @RequestParam(required = false, defaultValue = "") List<String> courseTypes,
-            @RequestParam(required = false, defaultValue = "") List<Long> courseInstitutionIds
+            @RequestParam(required = false, defaultValue = "") String dgesNumber,
+            @RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false, defaultValue = "") List<String> types,
+            @RequestParam(required = false, defaultValue = "") List<Long> courseInstitutions
     ) {
-        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, courseName, courseTypes, courseInstitutionIds));
+        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, dgesNumber, name, types, courseInstitutions));
     }
 }
