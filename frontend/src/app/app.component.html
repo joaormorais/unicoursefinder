@@ -6,6 +6,7 @@
   class="flex flex-col pt-[52px]"
   [ngClass]="{ 'h-screen': router.url === '/search' }"
 >
+  <p-toast class="z-51" position="top-right" />
   <main
     class="z-0"
     [ngClass]="{ 'flex-grow overflow-hidden': router.url === '/search' }"

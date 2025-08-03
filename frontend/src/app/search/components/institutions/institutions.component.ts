@@ -9,7 +9,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
-import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { DropdownDto, Institution } from '../../../shared/models/shared.model';
 import { InstitutionSearchService } from '../../services/institution-search.service';
@@ -26,7 +25,6 @@ import { InstitutionSearchService } from '../../services/institution-search.serv
     TagModule,
     InputTextModule,
     FormsModule,
-    Toast,
   ],
   templateUrl: './institutions.component.html',
   styleUrl: '../styles/search.scss',

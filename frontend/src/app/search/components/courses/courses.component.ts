@@ -8,7 +8,6 @@ import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { FormsModule } from '@angular/forms';
-import { Toast } from 'primeng/toast';
 import { CourseSearchService } from '../../services/course-search.service';
 import { MessageService } from 'primeng/api';
 import {
@@ -27,7 +26,6 @@ import {
     IconFieldModule,
     InputIconModule,
     FormsModule,
-    Toast,
   ],
   templateUrl: './courses.component.html',
   styleUrl: '../styles/search.scss',
