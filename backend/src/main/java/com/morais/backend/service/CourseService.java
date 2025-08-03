@@ -30,7 +30,7 @@ public class CourseService {
     private final static String DGES_NUMBER = "dgesNumber";
     private final static String NAME = "name";
     private final static String TYPE = "type";
-    private final static String INSTITUTION_ID = "institutionId";
+    private final static String INSTITUTION_ID = "institution";
 
     /**
      * Retrieves a list of all course types.

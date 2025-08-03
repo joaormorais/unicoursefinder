@@ -74,7 +74,11 @@ export class CoursesComponent implements OnInit {
     // group of filters
     const filters = event.filters || {};
 
-    const name = filters['name'] ? (filters['name'] as any).value : '';
+    const name = filters['name']
+      ? (filters['name'] as any).value
+        ? (filters['name'] as any).value
+        : ''
+      : '';
     const types: string[] = filters['type']
       ? (filters['type'] as any).value
         ? (filters['type'] as any).value
