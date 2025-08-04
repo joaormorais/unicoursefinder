@@ -1,5 +1,5 @@
 @if(apiError()){
-{{ "courses.error" | translate }}
+{{ "errors.courses" | translate }}
 } @else{
 <p-table
   #coursesTable
@@ -118,18 +118,16 @@
             <p-multiselect
               [(ngModel)]="selectedTypes"
               [options]="types"
-              optionLabel="label"
-              optionValue="value"
               (onChange)="filter($event.value)"
               [placeholder]="'filters.all' | translate"
               [panelStyle]="{ minWidth: '16rem' }"
-            >
-              <ng-template let-option #item>
-                <div class="flex items-center gap-2">
-                  <span>{{ option.label }}</span>
-                </div>
-              </ng-template>
-            </p-multiselect>
+              display="chip"
+              [maxSelectedLabels]="2"
+              [selectedItemsLabel]="
+                'filters.selectedItemsLabelTypes'
+                  | translate : { value: selectedTypes.length }
+              "
+            />
           </ng-template>
         </p-columnFilter>
       </th>
@@ -142,13 +140,13 @@
               (onChange)="filter($event.value)"
               [placeholder]="'filters.all' | translate"
               [panelStyle]="{ minWidth: '16rem' }"
-            >
-              <ng-template let-option #item>
-                <div class="flex items-center gap-2">
-                  <span>{{ option }}</span>
-                </div>
-              </ng-template>
-            </p-multiselect>
+              display="chip"
+              [maxSelectedLabels]="2"
+              [selectedItemsLabel]="
+                'filters.selectedItemsLabelInstitutions'
+                  | translate : { value: selectedTypes.length }
+              "
+            />
           </ng-template>
         </p-columnFilter>
       </th>

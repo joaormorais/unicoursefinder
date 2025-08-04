@@ -18,7 +18,7 @@ export class SearchService {
   public readonly filteredInstitutionsValue =
     this.filteredInstitutions.asReadonly();
 
-  //common to childs
+  // common to childs
   //---------------------------------------------------------------------------
   showErrorToast(err: any, summary: string): void {
     this.messageService.add({
@@ -31,6 +31,16 @@ export class SearchService {
       sticky: true,
     });
   }
+  //---------------------------------------------------------------------------
+
+  // map
+  //---------------------------------------------------------------------------
+
+  updateFilteredInstitutions(filteredInstitutions: Institution[]): void {
+    console.log(filteredInstitutions);
+    this.filteredInstitutions.set(filteredInstitutions);
+  }
+
   //---------------------------------------------------------------------------
 
   // change to the courses screen, and show the courses for that institution

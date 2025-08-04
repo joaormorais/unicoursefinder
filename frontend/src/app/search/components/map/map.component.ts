@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, effect, inject } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { SearchService } from '../../services/search.service';
@@ -11,8 +11,8 @@ import { Institution } from '../../../shared/models/shared.model';
   templateUrl: './map.component.html',
 })
 export class MapComponent implements AfterViewInit {
-  // inject the main service of this feature
   searchService = inject(SearchService);
+  translate = inject(TranslateService);
 
   constructor() {
     effect(() => {
@@ -67,6 +67,13 @@ export class MapComponent implements AfterViewInit {
     institution: Institution,
     institutionIcon: L.Icon
   ): void {
+    const district = this.translate.instant(
+      `filters.institutionDistricts.${institution.district}`
+    );
+    const type = this.translate.instant(
+      `filters.institutionTypes.${institution.type}`
+    );
+
     // popup for the hover of the marker
     const popup = L.popup({
       closeButton: false,
@@ -78,8 +85,8 @@ export class MapComponent implements AfterViewInit {
       `
         <div style="font-size: 14px;">
           <strong>(${institution.dgesNumber}) ${institution.name}</strong><br>
-          Distrito: ${institution.district}<br>
-          Tipo: ${institution.type}
+          Distrito: ${district}<br>
+          Tipo: ${type}
         </div>
       `
     );

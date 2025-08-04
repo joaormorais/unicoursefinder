@@ -6,12 +6,6 @@
     "landing": "Página principal",
     "loginRegister": "Iniciar sessão/registo",
     "nextIcon": "Ícone para a direita",
-    "institutionsList": "Lista de instituições",
-    "coursesList": "Lista de cursos",
-    "pagination": "Paginação",
-    "clearTypes": "Limpar a seleção de tipos",
-    "clearDistricts": "Limpar a seleção de distritos",
-    "clearInstitutions": "Limpar seleção de instituições",
     "openLink": "Abrir os detalhes deste curso numa nova janela",
     "changeModes": "Alternar entre modo claro e modo escuro"
   },
@@ -81,16 +75,7 @@
     "footerP": "Este projeto foi idealizado e desenvolvido por "
   },
   "map": {
-    "loading": "A carregar o mapa...",
     "credits": "Ícones universitários criados por nawicon - Flaticon"
-  },
-  "institutions": {
-    "loading": "A carregar instituições...",
-    "error": "Houve um problema no servidor! Não foi possível carregar as instituições."
-  },
-  "courses": {
-    "loading": "A carregar cursos...",
-    "error": "Houve um problema no servidor! Não foi possível carregar os cursos."
   },
   "auth": {
     "login": "Entra na tua conta",
@@ -111,20 +96,20 @@
   },
   "errors": {
     "summary": {
-      "gettingInstitutions": "Ocorreu um erro a obter instituições",
       "gettingCourses": "Ocorreu um erro a obter cursos",
-      "gettingCoursesInstitutions": "Ocorreu um erro a obter instituições para filtragem de cursos",
       "gettingCoursesTypes": "Ocorreu um erro a obter tipos para a filtragem de cursos",
+      "gettingCoursesInstitutions": "Ocorreu um erro a obter instituições para filtragem de cursos",
       "gettingInstitutionsTypes": "Ocorreu um erro a obter tipos para a filtragem de instituições",
-      "gettingInstitutionsDistricts": "Ocorreu um erro a obter distritos para a filtragem de instituições"
+      "gettingInstitutionsDistricts": "Ocorreu um erro a obter distritos para a filtragem de instituições",
+      "gettingInstitutions": "Ocorreu um erro a obter instituições"
     },
     "CANT_REACH_SERVER": "Não foi possível fazer contacto com o servidor",
     "INTERNAL_SERVER_ERROR": "Ocorreu um erro no servidor",
     "ILLEGAL_ARGUMENTS": "Pedido incorreto",
+    "institutions": "Houve um problema no servidor! Não foi possível carregar as instituições.",
+    "courses": "Houve um problema no servidor! Não foi possível carregar os cursos",
     "required": "Este campo é obrigatório",
     "email": "Não corresponde ao formato de email",
-    "maxLength": "Excede o limite de caracteres",
-    "minLength2": "Tem de ter pelo menos 2 caracteres",
-    "minLength3": "Tem de ter pelo menos 3 caracteres"
+    "maxLength": "Excede o limite de caracteres"
   }
 }

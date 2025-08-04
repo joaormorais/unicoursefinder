@@ -2,7 +2,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../../services/search.service';
 import { CardModule } from 'primeng/card';
-import { TableModule } from 'primeng/table';
+import { TableFilterEvent, TableModule } from 'primeng/table';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -128,5 +128,11 @@ export class InstitutionsComponent implements OnInit {
     this.filterTimeouts[field] = setTimeout(() => {
       filterCallback(value);
     }, 300);
+  }
+
+  onFilter(event: TableFilterEvent, dt: any) {
+    this.searchService.updateFilteredInstitutions(
+      event.filteredValue as Institution[]
+    );
   }
 }

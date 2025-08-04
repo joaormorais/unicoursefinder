@@ -165,6 +165,7 @@ export class CoursesComponent implements OnInit {
       next: (data) => {
         this.institutions = data;
         this.gettingInstitutions.set(false);
+        console.log(this.institutions)
       },
       error: (err) => {
         this.searchService.showErrorToast(
