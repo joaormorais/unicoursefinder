@@ -1,4 +1,11 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../../services/search.service';
 import { PanelModule } from 'primeng/panel';
@@ -36,6 +43,8 @@ export class CoursesComponent implements OnInit {
   translate = inject(TranslateService);
   messageService = inject(MessageService);
 
+  @ViewChild('coursesTable') coursesTable: any;
+
   currentFilter = signal('');
   data = signal<PaginatedCourses>({
     content: [],
@@ -58,6 +67,8 @@ export class CoursesComponent implements OnInit {
       this.gettingTypes() || this.gettingInstitutions() || this.gettingCourses()
   );
   filterTimeouts: { [key: string]: any } = {};
+  lastTableLazyLoadEvent!: TableLazyLoadEvent;
+  globalFilterValue: string = '';
 
   // run when the component is created
   ngOnInit(): void {
@@ -69,6 +80,8 @@ export class CoursesComponent implements OnInit {
     if (!event) {
       return;
     }
+
+    this.lastTableLazyLoadEvent = event;
 
     let first = event.first ? event.first : this.first;
     let rows = event.rows ? event.rows : this.rows;
@@ -96,7 +109,7 @@ export class CoursesComponent implements OnInit {
         ? (filters['type'] as any).value
         : []
       : [];
-    const institutionIds: number[] = filters['institution']
+    const institutionIds: string[] = filters['institution']
       ? (filters['institution'] as any).value
         ? (filters['institution'] as any).value
         : []
@@ -107,6 +120,7 @@ export class CoursesComponent implements OnInit {
         first / rows,
         rows,
         this.currentFilter(),
+        this.globalFilterValue,
         dgesNumber,
         name,
         types,
@@ -162,7 +176,14 @@ export class CoursesComponent implements OnInit {
     });
   }
 
-  filterGlobalCourse(value: string, matchmode: string) {}
+  onGlobalFilter(event: Event, field: string) {
+    clearTimeout(this.filterTimeouts[field]);
+    const value = (event.target as HTMLInputElement).value;
+    this.filterTimeouts[field] = setTimeout(() => {
+      this.globalFilterValue = value;
+      this.onLazyLoad(this.lastTableLazyLoadEvent);
+    }, 300);
+  }
 
   debounceFilter(
     event: Event,

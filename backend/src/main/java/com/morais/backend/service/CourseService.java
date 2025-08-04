@@ -13,10 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.morais.backend.util.TextUtils.normalize;
 
@@ -59,15 +56,16 @@ public class CourseService {
      * The results are paged and sorted.
      * The name is normalized before querying.
      *
-     * @param pageable object that is going to be used to pagination and sorting
-     * @param dgesNumber dgesNumber filter
-     * @param name name filter
-     * @param types type filter
+     * @param pageable           object that is going to be used to pagination and sorting
+     * @param globalFilterValue  keywords to every filter
+     * @param dgesNumber         dgesNumber filter
+     * @param name               name filter
+     * @param types              type filter
      * @param courseInstitutions institution id filter
      * @return a list of matching courses as DTOs
      */
-    public Page<CourseDTO> getFilteredCourses(Pageable pageable, String dgesNumber, String name, List<String> types, List<Long> courseInstitutions) {
-        log.info("Returning every filtered course by dgesNumber: ({}), name: ({}), type: ({}) and institution: ({})", dgesNumber, name, types, courseInstitutions);
+    public Page<CourseDTO> getFilteredCourses(Pageable pageable, String globalFilterValue, String dgesNumber, String name, List<String> types, List<String> courseInstitutions) {
+        log.info("Returning every filtered course by globalFilterValue: ({}), dgesNumber: ({}), name: ({}), type: ({}) and institution: ({})", globalFilterValue, dgesNumber, name, types, courseInstitutions);
         log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
 
         for (Sort.Order order : pageable.getSort())
@@ -77,14 +75,32 @@ public class CourseService {
             }
 
         Specification<Course> specs = Specification.not(null);
-        if(!(dgesNumber == null || dgesNumber.isEmpty()))
+
+        // global filter
+        if (!(globalFilterValue == null || globalFilterValue.isEmpty())) {
+            String normalizedGlobalFilterValue = normalize(globalFilterValue);
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.or(
+                    criteriaBuilder.like(root.get("dgesNumber"), "%" + normalizedGlobalFilterValue + "%"),
+                    criteriaBuilder.like(root.get("normalizedName"), "%" + normalizedGlobalFilterValue + "%"),
+                    criteriaBuilder.like(root.get("type"), "%" + normalizedGlobalFilterValue + "%"),
+                    criteriaBuilder.like(root.get("institution").get("normalizedName"), "%" + normalizedGlobalFilterValue + "%")
+            )));
+        }
+
+        // normal filters
+        if (!(dgesNumber == null || dgesNumber.isEmpty()))
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("dgesNumber"), "%" + dgesNumber + "%")));
         if (!(name == null || name.isEmpty()))
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(name) + "%")));
-        else if (!(types == null || types.isEmpty()))
+        if (!(types == null || types.isEmpty()))
             specs = specs.and((root, query, criteriaBuilder) -> root.get("type").in(types));
-        else if (!(courseInstitutions == null || courseInstitutions.isEmpty()))
-            specs = specs.and((root, query, criteriaBuilder) -> root.get("institution").in(courseInstitutions));
+        if (!(courseInstitutions == null || courseInstitutions.isEmpty())) {
+            List<UUID> institutionUuids = new ArrayList<>();
+            for (String institution : courseInstitutions) {
+                institutionUuids.add(UUID.fromString(institution));
+            }
+            specs = specs.and((root, query, criteriaBuilder) -> root.get("institution").get("uuid").in(institutionUuids));
+        }
 
         Page<Course> resultPage = courseRepository.findAll(specs, pageable);
         log.info(resultPage.isEmpty() ? "Didn't find any course. Returning empty!" : "Found courses. Returning!");

@@ -4,7 +4,7 @@ export interface DropdownDto {
 }
 
 export interface Institution {
-  uuid: number;
+  uuid: string;
   dgesNumber: number;
   name: string;
   type: string;
@@ -21,7 +21,7 @@ export interface PaginatedCourses {
 }
 
 export interface Course {
-  uuid: number;
+  uuid: string;
   dgesNumber: number;
   name: string;
   type: string;

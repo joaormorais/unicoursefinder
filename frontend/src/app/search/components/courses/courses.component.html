@@ -19,19 +19,28 @@
   [loading]="loading()"
 >
   <ng-template #caption>
-    <div class="flex">
-      <p-iconfield iconPosition="left" class="ml-auto">
-        <p-inputicon>
-          <i class="pi pi-search"></i>
-        </p-inputicon>
-        <input
-          pInputText
-          #filterInput
-          type="text"
-          (input)="filterGlobalCourse(filterInput.value, 'contains')"
-          [placeholder]="'filters.global' | translate"
-        />
-      </p-iconfield>
+    <div class="flex flex-col items-end">
+      <div>
+        <label
+          for="filterInput"
+          style="font-weight: var(--p-datatable-column-title-font-weight)"
+        >
+          {{ "filters.global" | translate }}
+        </label>
+        <p-iconfield iconPosition="left">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input
+            pInputText
+            #filterInput
+            id="filterInput"
+            type="text"
+            (input)="onGlobalFilter($event, 'globalFilter')"
+            [placeholder]="'filters.keyword' | translate"
+          />
+        </p-iconfield>
+      </div>
     </div>
   </ng-template>
   <ng-template #header>
@@ -130,8 +139,6 @@
             <p-multiselect
               [(ngModel)]="selectedInstitutions"
               [options]="institutions"
-              optionLabel="label"
-              optionValue="value"
               (onChange)="filter($event.value)"
               [placeholder]="'filters.all' | translate"
               [panelStyle]="{ minWidth: '16rem' }"

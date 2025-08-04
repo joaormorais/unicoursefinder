@@ -27,15 +27,17 @@ export class CourseSearchService {
     page: number,
     size: number,
     sort: string,
+    globalFilterValue: string,
     dgesNumber: string,
     name: string,
     types: string[],
-    courseInstitutions: number[]
+    courseInstitutions: string[]
   ): Observable<PaginatedCourses> {
     const baseParams = new HttpParams()
       .set('page', page)
       .set('size', size)
       .set('sort', sort)
+      .set('globalFilterValue', globalFilterValue)
       .set('dgesNumber', dgesNumber)
       .set('name', name)
       .set('types', types.toString())

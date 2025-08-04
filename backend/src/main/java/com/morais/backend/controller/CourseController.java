@@ -44,11 +44,12 @@ public class CourseController {
     @GetMapping
     public ResponseEntity<Page<CourseDTO>> searchCourses(
             @PageableDefault(size = 5, sort = "normalizedName,asc") Pageable pageable,
+            @RequestParam(required = false, defaultValue = "") String globalFilterValue,
             @RequestParam(required = false, defaultValue = "") String dgesNumber,
             @RequestParam(required = false, defaultValue = "") String name,
             @RequestParam(required = false, defaultValue = "") List<String> types,
-            @RequestParam(required = false, defaultValue = "") List<Long> courseInstitutions
+            @RequestParam(required = false, defaultValue = "") List<String> courseInstitutions
     ) {
-        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, dgesNumber, name, types, courseInstitutions));
+        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, globalFilterValue, dgesNumber, name, types, courseInstitutions));
     }
 }
