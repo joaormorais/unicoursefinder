@@ -37,7 +37,6 @@ export class SearchService {
   //---------------------------------------------------------------------------
 
   updateFilteredInstitutions(filteredInstitutions: Institution[]): void {
-    console.log(filteredInstitutions);
     this.filteredInstitutions.set(filteredInstitutions);
   }
 

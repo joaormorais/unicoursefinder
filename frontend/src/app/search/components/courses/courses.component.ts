@@ -165,7 +165,6 @@ export class CoursesComponent implements OnInit {
       next: (data) => {
         this.institutions = data;
         this.gettingInstitutions.set(false);
-        console.log(this.institutions)
       },
       error: (err) => {
         this.searchService.showErrorToast(
@@ -196,5 +195,10 @@ export class CoursesComponent implements OnInit {
     this.filterTimeouts[field] = setTimeout(() => {
       filterCallback(value);
     }, 300);
+  }
+
+  goToLink(url: string) {
+    console.log(url);
+    window.open(url, '_blank');
   }
 }

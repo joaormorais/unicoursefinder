@@ -153,7 +153,7 @@
     </tr>
   </ng-template>
   <ng-template #body let-course>
-    <tr>
+    <tr (click)="goToLink(course.link)">
       <td>{{ course.dgesNumber }}</td>
       <td>{{ course.name }}</td>
       <td>{{ "filters.courseTypes." + course.type | translate }}</td>
