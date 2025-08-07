@@ -1,0 +1,29 @@
+<header class="h-[52px] w-full z-50 fixed top-0 left-0 right-0">
+  <app-header class="header-container" />
+</header>
+
+<div
+  class="flex flex-col pt-[52px]"
+  [ngClass]="{ 'h-screen': router.url === '/search' }"
+>
+  <p-toast class="z-51" position="top-right" />
+  <main
+    class="z-0"
+    [ngClass]="{ 'flex-grow overflow-hidden': router.url === '/search' }"
+  >
+    <router-outlet class="h-full" />
+  </main>
+  <p-dialog
+    [modal]="true"
+    [visible]="this.authService.dialogVisible()"
+    [style]="{ width: '25rem' }"
+    (visibleChange)="this.authService.hideDialog()"
+    [header]="'auth.login' | translate"
+  >
+    <app-login></app-login>
+  </p-dialog>
+
+  <footer class="h-[50px] w-full">
+    <app-footer class="h-full" />
+  </footer>
+</div>

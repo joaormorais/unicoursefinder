@@ -1,0 +1,164 @@
+@if(apiError()){
+{{ "errors.courses" | translate }}
+} @else{
+<p-table
+  #coursesTable
+  [value]="data().content"
+  [lazy]="true"
+  (onLazyLoad)="onLazyLoad($event)"
+  [paginator]="true"
+  [rows]="rows"
+  [first]="first"
+  [rowsPerPageOptions]="[5, 10, 25, 50]"
+  [totalRecords]="data().totalElements"
+  [tableStyle]="{ width: '100%' }"
+  dataKey="id"
+  sortField="name"
+  [sortOrder]="1"
+  rowHover="true"
+  [loading]="loading()"
+>
+  <ng-template #caption>
+    <div class="flex flex-col items-end">
+      <div>
+        <label
+          for="filterInput"
+          style="font-weight: var(--p-datatable-column-title-font-weight)"
+        >
+          {{ "filters.global" | translate }}
+        </label>
+        <p-iconfield iconPosition="left">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input
+            pInputText
+            #filterInput
+            id="filterInput"
+            type="text"
+            (input)="onGlobalFilter($event, 'globalFilter')"
+            [placeholder]="'filters.keyword' | translate"
+          />
+        </p-iconfield>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th style="width: 25%" pSortableColumn="dgesNumber">
+        {{ "tables.dges" | translate }} <p-sortIcon field="dgesNumber" />
+      </th>
+      <th style="width: 25%" pSortableColumn="name">
+        {{ "tables.name" | translate }} <p-sortIcon field="name" />
+      </th>
+      <th style="width: 25%" pSortableColumn="type">
+        {{ "tables.type" | translate }} <p-sortIcon field="type" />
+      </th>
+      <th style="width: 25%" pSortableColumn="institution">
+        {{ "tables.institution" | translate }}
+        <p-sortIcon field="institution" />
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="dgesNumber"
+          [showMenu]="false"
+          [showClearButton]="false"
+        >
+          <ng-template #filter let-value let-filter="filterCallback">
+            <div class="flex">
+              <p-iconfield iconPosition="left" class="ml-auto">
+                <p-inputicon>
+                  <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input
+                  type="text"
+                  pInputText
+                  [ngModel]="value"
+                  (input)="debounceFilter($event, 'dgesNumber', filter)"
+                  class="p-inputtext"
+                  [placeholder]="'filters.dgesNumber' | translate"
+                />
+              </p-iconfield>
+            </div>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="name"
+          [showMenu]="false"
+          [showClearButton]="false"
+        >
+          <ng-template #filter let-value let-filter="filterCallback">
+            <div class="flex">
+              <p-iconfield iconPosition="left" class="ml-auto">
+                <p-inputicon>
+                  <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input
+                  type="text"
+                  pInputText
+                  [ngModel]="value"
+                  (input)="debounceFilter($event, 'name', filter)"
+                  class="p-inputtext"
+                  [placeholder]="'filters.name' | translate"
+                />
+              </p-iconfield>
+            </div>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter field="type" matchMode="in" [showMenu]="false">
+          <ng-template #filter let-value let-filter="filterCallback">
+            <p-multiselect
+              [(ngModel)]="selectedTypes"
+              [options]="types"
+              (onChange)="filter($event.value)"
+              [placeholder]="'filters.all' | translate"
+              [panelStyle]="{ minWidth: '16rem' }"
+              display="chip"
+              [maxSelectedLabels]="2"
+              [selectedItemsLabel]="
+                'filters.selectedItemsLabelTypes'
+                  | translate : { value: selectedTypes.length }
+              "
+            />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter field="institution" matchMode="in" [showMenu]="false">
+          <ng-template #filter let-value let-filter="filterCallback">
+            <p-multiselect
+              [(ngModel)]="selectedInstitutions"
+              [options]="institutions"
+              (onChange)="filter($event.value)"
+              [placeholder]="'filters.all' | translate"
+              [panelStyle]="{ minWidth: '16rem' }"
+              display="chip"
+              [maxSelectedLabels]="2"
+              [selectedItemsLabel]="
+                'filters.selectedItemsLabelInstitutions'
+                  | translate : { value: selectedInstitutions.length }
+              "
+            />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-course>
+    <tr (click)="goToLink(course.link)">
+      <td>{{ course.dgesNumber }}</td>
+      <td>{{ course.name }}</td>
+      <td>{{ "filters.courseTypes." + course.type | translate }}</td>
+      <td>{{ course.institution?.name }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+}

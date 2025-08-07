@@ -1,96 +1,98 @@
 package com.morais.backend.service;
 
-import com.morais.backend.dto.InstitutionDTO;
-import com.morais.backend.entity.Institution;
-import com.morais.backend.exception.ResourceNotFoundException;
+import com.morais.backend.domain.dto.DropdownDTO;
+import com.morais.backend.domain.dto.InstitutionDTO;
+import com.morais.backend.domain.entity.Institution;
+import com.morais.backend.domain.entity.enums.InstitutionDistrict;
+import com.morais.backend.domain.entity.enums.InstitutionType;
+import com.morais.backend.mappers.InstitutionMapper;
 import com.morais.backend.repository.InstitutionRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class InstitutionService {
 
-    private static final Logger logger = LoggerFactory.getLogger(InstitutionService.class);
     private final InstitutionRepository institutionRepository;
-
-    public InstitutionService(InstitutionRepository institutionRepository) {
-        this.institutionRepository = institutionRepository;
-    }
+    private final InstitutionMapper institutionMapper;
 
     /**
-     * Retrieves all institutions and maps them to DTOs.
-     * Throws a ResourceNotFoundException if no institutions exist.
-     *
-     * @return a list of all institutions as DTOs
-     */
-    public List<InstitutionDTO> getInstitutions() {
-        logger.info("Returning every institution");
-        List<Institution> institutions = institutionRepository.findAll();
-
-        if(institutions.isEmpty()) {
-            logger.warn("Didn't find any institution");
-            throw new ResourceNotFoundException("Didn't find any institution");
-        }
-
-        return institutions.stream()
-                .map(this::mapToDTO)
-                .toList();
-    }
-
-    /**
-     * Retrieves a list of all distinct institution types.
+     * Retrieves a list of all institution types.
      * Throws a ResourceNotFoundException if no types are found.
      *
-     * @return a list of unique institution types
+     * @return a list of institution types
      */
-    public List<String> getDistinctTypes() {
-        logger.info("Returning every distinct type (institutions)");
-        List<String> types = institutionRepository.findDistinctTypes();
+    public List<String> getTypes() {
+        log.info("Returning types of institutions");
+        List<String> types = new ArrayList<>();
 
-        if (types.isEmpty()){
-            logger.warn("Didn't find any distinct type (institutions)");
-            throw new ResourceNotFoundException("Didn't find any distinct type (institutions)");
+        for (InstitutionType type : InstitutionType.values())
+            types.add(type.name());
+
+        if (types.isEmpty()) {
+            log.warn("Didn't find any types for institutions");
+            throw new RuntimeException("Didn't find any types for institutions");
         }
 
+        Collections.sort(types);
         return types;
     }
 
     /**
-     * Retrieves a list of all distinct districts.
+     * Retrieves a list of all districts.
      * Throws a ResourceNotFoundException if no districts are found.
      *
-     * @return a list of unique districts
+     * @return a list of districts
      */
-    public List<String> getDistinctDistricts() {
-        logger.info("Returning every distinct district (institutions)");
-        List<String> districts = institutionRepository.findDistinctDistricts();
+    public List<String> getDistricts() {
+        log.info("Returning districts of institutions");
+        List<String> districts = new ArrayList<>();
 
-        if (districts.isEmpty()){
-            logger.warn("Didn't find any distinct district (institutions)");
-            throw new ResourceNotFoundException("Didn't find any distinct district (institutions)");
+        for (InstitutionDistrict district : InstitutionDistrict.values()) {
+            districts.add(district.name());
         }
 
+        if (districts.isEmpty()) {
+            log.warn("Didn't find any districts for institutions");
+            throw new RuntimeException("Didn't find any districts for institutions");
+        }
+
+        Collections.sort(districts);
         return districts;
     }
 
     /**
-     * Converts an Institution entity into an InstitutionDTO.
+     * Retrieves every institution mapped to a dropdownDTO
      *
-     * @param institution the Institution entity to be converted
-     * @return an InstitutionDTO containing institution details and a list of associated course IDs
+     * @return a list of institutions
      */
-    private InstitutionDTO mapToDTO(Institution institution) {
-        return new InstitutionDTO(
-                institution.getId(),
-                institution.getDgesNumber(),
-                institution.getName(),
-                institution.getType(),
-                institution.getDistrict(),
-                institution.getLatitude(),
-                institution.getLongitude()
-        );
+    public List<DropdownDTO> getDropdown() {
+        log.info("Returning institutions for the dropdown");
+        return institutionRepository.findAll().stream().map(value -> new DropdownDTO(value.getUuid().toString(),value.getName())).toList();
+    }
+
+    /**
+     * Retrieves every institution on the database.
+     *
+     * @return a list of institutions
+     */
+    public List<InstitutionDTO> getInstitutions() {
+        log.info("Returning institutions");
+        List<Institution> institutions = institutionRepository.findAll();
+
+        if (institutions.isEmpty()) {
+            log.warn("Didn't find any institutions");
+            throw new RuntimeException("Didn't find any institutions");
+        }
+
+        Collections.sort(institutions);
+        return institutions.stream().map(institutionMapper::toDto).toList();
     }
 }

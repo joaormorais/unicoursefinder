@@ -1,91 +1,110 @@
 package com.morais.backend.service;
 
-import com.morais.backend.dto.CourseDTO;
-import com.morais.backend.dto.CourseSearchRequest;
-import com.morais.backend.entity.Course;
-import com.morais.backend.exception.ResourceNotFoundException;
+import com.morais.backend.domain.dto.CourseDTO;
+import com.morais.backend.domain.entity.Course;
+import com.morais.backend.domain.entity.enums.CourseType;
+import com.morais.backend.mappers.CourseMapper;
 import com.morais.backend.repository.CourseRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 import static com.morais.backend.util.TextUtils.normalize;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class CourseService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CourseService.class);
     private final CourseRepository courseRepository;
-
-    public CourseService(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
-    }
-
-    /**
-     * Retrieves the number of courses in the database.
-     *
-     * @return the total number of courses
-     */
-    public int countTotalCourses() {
-        logger.info("Returning total number of courses...");
-        return (int) courseRepository.count();
-    }
+    private final CourseMapper courseMapper;
+    private final static String DGES_NUMBER = "dgesNumber";
+    private final static String NAME = "name";
+    private final static String TYPE = "type";
+    private final static String INSTITUTION = "institution";
 
     /**
-     * Retrieves a list of all distinct course types.
+     * Retrieves a list of all course types.
      * Throws a ResourceNotFoundException if no types are found.
      *
-     * @return a list of distinct course types
+     * @return a list of course types
      */
-    public List<String> getDistinctTypes() {
-        logger.info("Returning every distinct type (courses)");
-        List<String> types = courseRepository.findDistinctTypes();
+    public List<String> getTypes() {
+        log.info("Returning types of courses");
+        List<String> types = new ArrayList<>();
+
+        for (CourseType type : CourseType.values())
+            types.add(type.name());
 
         if (types.isEmpty()) {
-            logger.warn("Didn't find any distinct type (courses)");
-            throw new ResourceNotFoundException("Didn't find any distinct type (courses)");
+            log.error("Didn't find any types for courses");
+            throw new RuntimeException("Didn't find any types for courses");
         }
 
+        Collections.sort(types);
         return types;
     }
 
     /**
-     * Retrieves courses optionally based on a name, type and institution.
-     * The results are paged.
+     * Retrieves courses optionally based on a name, types, and institutions.
+     * The results are paged and sorted.
      * The name is normalized before querying.
-     * Throws a ResourceNotFoundException if no courses match the filters.
      *
-     * @param courseSearchRequest the search filters for courses
+     * @param pageable           object that is going to be used to pagination and sorting
+     * @param globalFilterValue  keywords to every filter
+     * @param dgesNumber         dgesNumber filter
+     * @param name               name filter
+     * @param types              type filter
+     * @param courseInstitutions institution id filter
      * @return a list of matching courses as DTOs
      */
-    public Page<CourseDTO> getCoursesByNameTypeAndInstitution(CourseSearchRequest courseSearchRequest, Pageable pageable) {
-        logger.info("Returning every filtered course by name, type and institutionId");
-        Page<Course> resultPage = courseRepository.findByNameTypeAndInstitutionId(normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds(), pageable);
+    public Page<CourseDTO> getFilteredCourses(Pageable pageable, String globalFilterValue, String dgesNumber, String name, List<String> types, List<String> courseInstitutions) {
+        log.info("Returning every filtered course by globalFilterValue: ({}), dgesNumber: ({}), name: ({}), type: ({}) and institution: ({})", globalFilterValue, dgesNumber, name, types, courseInstitutions);
+        log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
 
-        if (resultPage.isEmpty())
-            logger.warn("Didn't find any course with the filters: name[{}], types[{}], institutionsIds[{}]. Returning empty!", normalize(courseSearchRequest.name()), courseSearchRequest.types(), courseSearchRequest.institutionIds());
+        for (Sort.Order order : pageable.getSort())
+            if (!Arrays.asList(DGES_NUMBER, NAME, TYPE, INSTITUTION).contains(order.getProperty())) {
+                log.error("Invalid sort attribute");
+                throw new IllegalArgumentException();
+            }
 
-        return resultPage.map(this::mapToDTO);
-    }
+        Specification<Course> specs = Specification.not(null);
 
-    /**
-     * Converts a Course entity into a CourseDTO.
-     *
-     * @param course the Course entity to be converted
-     * @return a CourseDTO containing course details and a list of associated institution IDs
-     */
-    private CourseDTO mapToDTO(Course course) {
-        return new CourseDTO(
-                course.getId(),
-                course.getDgesNumber(),
-                course.getName(),
-                course.getType(),
-                course.getLink(),
-                course.getInstitution().getId()
-        );
+        // global filter
+        if (!(globalFilterValue == null || globalFilterValue.isEmpty())) {
+            String normalizedGlobalFilterValue = normalize(globalFilterValue);
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.or(
+                    criteriaBuilder.like(root.get("dgesNumber"), "%" + normalizedGlobalFilterValue + "%"),
+                    criteriaBuilder.like(root.get("normalizedName"), "%" + normalizedGlobalFilterValue + "%"),
+                    criteriaBuilder.like(root.get("type"), "%" + normalizedGlobalFilterValue + "%"),
+                    criteriaBuilder.like(root.get("institution").get("normalizedName"), "%" + normalizedGlobalFilterValue + "%")
+            )));
+        }
+
+        // normal filters
+        if (!(dgesNumber == null || dgesNumber.isEmpty()))
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("dgesNumber"), dgesNumber + "%")));
+        if (!(name == null || name.isEmpty()))
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(name) + "%")));
+        if (!(types == null || types.isEmpty()))
+            specs = specs.and((root, query, criteriaBuilder) -> root.get("type").in(types));
+        if (!(courseInstitutions == null || courseInstitutions.isEmpty())) {
+            List<UUID> institutionUuids = new ArrayList<>();
+            for (String institution : courseInstitutions) {
+                institutionUuids.add(UUID.fromString(institution));
+            }
+            specs = specs.and((root, query, criteriaBuilder) -> root.get("institution").get("uuid").in(institutionUuids));
+        }
+
+        Page<Course> resultPage = courseRepository.findAll(specs, pageable);
+        log.info(resultPage.isEmpty() ? "Didn't find any course. Returning empty!" : "Found courses. Returning!");
+
+        return resultPage.map(courseMapper::toDto);
     }
 }

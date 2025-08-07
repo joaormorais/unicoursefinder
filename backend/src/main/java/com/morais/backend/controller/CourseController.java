@@ -1,71 +1,55 @@
 package com.morais.backend.controller;
 
-import com.morais.backend.dto.CourseDTO;
-import com.morais.backend.dto.CoursePaginatedDTO;
-import com.morais.backend.dto.CourseSearchRequest;
+import com.morais.backend.domain.dto.CourseDTO;
 import com.morais.backend.service.CourseService;
-import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
-@RequestMapping("/courses")
+@RequiredArgsConstructor
+@RequestMapping("course")
 public class CourseController {
 
-    private static final Logger logger = LoggerFactory.getLogger(CourseController.class);
     private final CourseService courseService;
 
-    public CourseController(CourseService courseService) {
-        this.courseService = courseService;
-    }
-
     /**
-     * Retrieves a list of all distinct course types.
+     * Retrieves a list of all course types.
      *
      * @return a list of unique course types
      */
     @GetMapping("/types")
-    public ResponseEntity<List<String>> getDistinctTypes() {
-        logger.info("New request! /courses/types");
-        return ResponseEntity.ok(courseService.getDistinctTypes());
+    public ResponseEntity<List<String>> getTypes() {
+        return ResponseEntity.ok(courseService.getTypes());
     }
 
     /**
-     * Searches for courses with optional filters for name, type and institution.
-     * The results are paged
+     * Searches for courses with optional filters for name, types and institutions.
+     * The results are paged and sorted.
      *
-     * @param courseSearchRequest the request body containing the search filters
+     * @param pageable object that is going to be used to pagination and sorting
+     * @param dgesNumber dgesNumber filter
+     * @param name name filter
+     * @param types type filter
+     * @param courseInstitutions institution id filter
      * @return a list of courses matching the search criteria
      */
-    @PostMapping("/search")
-    public ResponseEntity<CoursePaginatedDTO> searchCourses(
-            @RequestBody @Valid CourseSearchRequest courseSearchRequest,
-            @RequestParam(defaultValue = "0") int pageNumber,
-            @RequestParam(defaultValue = "10") int pageSize
+    @GetMapping
+    public ResponseEntity<Page<CourseDTO>> searchCourses(
+            @PageableDefault(size = 5, sort = "normalizedName,asc") Pageable pageable,
+            @RequestParam(required = false, defaultValue = "") String globalFilterValue,
+            @RequestParam(required = false, defaultValue = "") String dgesNumber,
+            @RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false, defaultValue = "") List<String> types,
+            @RequestParam(required = false, defaultValue = "") List<String> courseInstitutions
     ) {
-        logger.info("New request! /courses/search");
-
-        // check if the pagination is being requested inside of bounds
-        if (pageNumber < 0 || pageSize <= 0 || pageSize > courseService.countTotalCourses()) {
-            logger.warn("Invalid page number or page size provided. pageNumber={}, pageSize={}.", pageNumber, pageSize);
-            throw new IllegalArgumentException("Invalid pagination parameters: /courses/search");
-        }
-
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("normalized_name").ascending());
-        Page<CourseDTO> courseDTOPage = courseService.getCoursesByNameTypeAndInstitution(courseSearchRequest,pageable);
-        return ResponseEntity.ok(new CoursePaginatedDTO(
-                courseDTOPage.getContent(),
-                courseDTOPage.getTotalElements(),
-                courseDTOPage.getTotalPages(),
-                courseDTOPage.getNumber()
-        ));
+        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, globalFilterValue, dgesNumber, name, types, courseInstitutions));
     }
 }
