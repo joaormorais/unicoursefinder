@@ -8,7 +8,7 @@
     <p-scroll-panel [style]="{ width: '100%', height: '100%' }"
       ><!-- choose between institutions and courses -->
       <p-tabs
-        [value]="this.searchService.tabValue()"
+        [value]="this.searchService.tabValue$()"
         (valueChange)="searchService.changeTab($event)"
         class="h-full"
       >

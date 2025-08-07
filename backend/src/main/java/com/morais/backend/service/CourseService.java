@@ -89,7 +89,7 @@ public class CourseService {
 
         // normal filters
         if (!(dgesNumber == null || dgesNumber.isEmpty()))
-            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("dgesNumber"), "%" + dgesNumber + "%")));
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("dgesNumber"), dgesNumber + "%")));
         if (!(name == null || name.isEmpty()))
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(name) + "%")));
         if (!(types == null || types.isEmpty()))
