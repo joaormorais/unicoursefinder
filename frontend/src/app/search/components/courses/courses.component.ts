@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   inject,
   OnInit,
   signal,
@@ -11,7 +12,7 @@ import { SearchService } from '../../services/search.service';
 import { PanelModule } from 'primeng/panel';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputTextModule } from 'primeng/inputtext';
-import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { FormsModule } from '@angular/forms';
@@ -43,7 +44,7 @@ export class CoursesComponent implements OnInit {
   translate = inject(TranslateService);
   messageService = inject(MessageService);
 
-  @ViewChild('coursesTable') coursesTable: any;
+  @ViewChild('coursesTable') coursesTable!: Table;
 
   currentFilter = signal('');
   data = signal<PaginatedCourses>({
@@ -56,8 +57,8 @@ export class CoursesComponent implements OnInit {
   first: number = 0;
   types: DropdownDto[] = [];
   institutions: DropdownDto[] = [];
-  selectedTypes: DropdownDto[] = [];
-  selectedInstitutions: DropdownDto[] = [];
+  selectedTypes: string[] = [];
+  selectedInstitutions: string[] = [];
   apiError = signal(false);
   gettingTypes = signal(true);
   gettingInstitutions = signal(true);
@@ -69,6 +70,36 @@ export class CoursesComponent implements OnInit {
   filterTimeouts: { [key: string]: any } = {};
   lastTableLazyLoadEvent!: TableLazyLoadEvent;
   globalFilterValue: string = '';
+
+  constructor() {
+    effect(() => {
+      const institutionUuid = this.searchService.institutionToSearch$();
+
+      if (institutionUuid === null) return;
+
+      this.institutions.map((item) => {
+        if (item.value === institutionUuid) {
+          // clean filters
+          this.globalFilterValue = '';
+          this.selectedTypes = [];
+          this.selectedInstitutions = [];
+          this.coursesTable.reset();
+
+          // insert new filter for institutions
+          this.selectedInstitutions.push(item.value);
+
+          // filter the table
+          this.coursesTable.filter(
+            [this.institutions.find((i) => i.value === institutionUuid)!.value],
+            'institution',
+            'in'
+          );
+
+          return;
+        }
+      });
+    });
+  }
 
   // run when the component is created
   ngOnInit(): void {
@@ -198,7 +229,6 @@ export class CoursesComponent implements OnInit {
   }
 
   goToLink(url: string) {
-    console.log(url);
     window.open(url, '_blank');
   }
 }

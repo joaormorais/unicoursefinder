@@ -16,7 +16,7 @@ export class MapComponent implements AfterViewInit {
 
   constructor() {
     effect(() => {
-      const institutions = this.searchService.filteredInstitutionsValue();
+      const institutions = this.searchService.filteredInstitutions$();
       if (this.map) {
         this.updateMap(institutions);
       }
@@ -54,7 +54,7 @@ export class MapComponent implements AfterViewInit {
     }).addTo(this.map);
 
     // add the markers for the institutions
-    this.searchService.filteredInstitutionsValue().forEach((institution) => {
+    this.searchService.filteredInstitutions$().forEach((institution) => {
       this.createMarkers(institution, this.institutionIcon);
     });
 
@@ -108,7 +108,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     marker.on('click', () => {
-      //this.searchService.searchCoursesFromInstitution(institution.id);
+      this.searchService.searchCoursesFromInstitution(institution.uuid);
     });
 
     // add the marker to the group of markers

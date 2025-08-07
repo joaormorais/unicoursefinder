@@ -41,8 +41,8 @@ export class InstitutionsComponent implements OnInit {
   first: number = 0;
   types: DropdownDto[] = [];
   districts: DropdownDto[] = [];
-  selectedTypes: DropdownDto[] = [];
-  selectedDistricts: DropdownDto[] = [];
+  selectedTypes: string[] = [];
+  selectedDistricts: string[] = [];
   apiError = signal(false);
   gettingTypes = signal(true);
   gettingDistricts = signal(true);

@@ -10,13 +10,15 @@ export class SearchService {
   private messageService = inject(MessageService);
 
   // parent data
-  private parentState = signal<string | number>('0');
+  private tabValue = signal<string | number>('0');
   private filteredInstitutions = signal<Institution[]>([]);
+  private institutionToSearch = signal<string | null>(null);
 
   // expose parent data
-  public readonly tabValue = this.parentState.asReadonly();
-  public readonly filteredInstitutionsValue =
+  public readonly tabValue$ = this.tabValue.asReadonly();
+  public readonly filteredInstitutions$ =
     this.filteredInstitutions.asReadonly();
+  public readonly institutionToSearch$ = this.institutionToSearch.asReadonly();
 
   // common to childs
   //---------------------------------------------------------------------------
@@ -36,26 +38,20 @@ export class SearchService {
   // map
   //---------------------------------------------------------------------------
 
+  // change the institutions that appear on the map
   updateFilteredInstitutions(filteredInstitutions: Institution[]): void {
     this.filteredInstitutions.set(filteredInstitutions);
   }
+  //---------------------------------------------------------------------------
 
+  // public helpers
   //---------------------------------------------------------------------------
 
   // change to the courses screen, and show the courses for that institution
-  /*searchCoursesFromInstitution(institutionId: number): void {
+  searchCoursesFromInstitution(institutionUuid: string): void {
     this.changeTab('1');
-    this.coursesState.update((currentState) => ({
-      ...currentState,
-      searchedByInstitution: institutionId,
-    }));
-    this.getCourses(
-      0,
-      10,
-      { name: '', types: [], institutionsIds: [institutionId] },
-      true
-    );
-  }*/
+    this.institutionToSearch.set(institutionUuid);
+  }
   //---------------------------------------------------------------------------
 
   // public helpers
@@ -63,7 +59,7 @@ export class SearchService {
 
   // change the current active tab
   public changeTab(value: string | number) {
-    this.parentState.set(value);
+    this.tabValue.set(value);
   }
   //---------------------------------------------------------------------------
 }

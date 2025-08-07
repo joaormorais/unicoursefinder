@@ -164,7 +164,9 @@
     </tr>
   </ng-template>
   <ng-template #body let-institution>
-    <tr>
+    <tr 
+      (click)="searchService.searchCoursesFromInstitution(institution.uuid)"
+    >
       <td>{{ institution.dgesNumber }}</td>
       <td>{{ institution.name }}</td>
       <td>{{ "filters.institutionTypes." + institution.type | translate }}</td>
