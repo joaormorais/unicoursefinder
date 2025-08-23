@@ -8,6 +8,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import { MyPreset } from './styles';
 import { MessageService } from 'primeng/api';
+import { provideKeycloak } from 'keycloak-angular';
+import { environment } from '../environments/environment';
+import { KeycloakOnLoad } from 'keycloak-js';
 
 export function httpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -39,6 +42,13 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    MessageService
+    MessageService,
+    provideKeycloak({
+      config: {
+        url: environment.keycloak.config.url,
+        realm: environment.keycloak.config.realm,
+        clientId: environment.keycloak.config.clientId,
+      },
+    }),
   ],
 };
