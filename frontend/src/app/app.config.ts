@@ -10,7 +10,6 @@ import { MyPreset } from './styles';
 import { MessageService } from 'primeng/api';
 import { provideKeycloak } from 'keycloak-angular';
 import { environment } from '../environments/environment';
-import { KeycloakOnLoad } from 'keycloak-js';
 
 export function httpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
