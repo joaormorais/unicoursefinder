@@ -15,12 +15,21 @@
         [attr.aria-label]="'ariaLabels.changeModes' | translate"
         (onClick)="changeTheme()"
       />
+      @if(this.authService.isAuthenticated()){
+      <p-button
+        icon="pi pi-sign-out"
+        class="ml-2 mr-4"
+        [attr.aria-label]="'ariaLabels.logout' | translate"
+        (click)="this.authService.logout()"
+      />
+      }@else{
       <p-button
         icon="pi pi-user"
         class="ml-2 mr-4"
         [attr.aria-label]="'ariaLabels.loginRegister' | translate"
-        (click)="this.authService.showDialog()"
+        (click)="this.authService.login()"
       />
+      }
     </div>
   </ng-template>
 </p-menubar>

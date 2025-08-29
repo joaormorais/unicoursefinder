@@ -1,6 +1,10 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, HttpClient } from '@angular/common/http';
+import {
+  provideHttpClient,
+  HttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
@@ -8,18 +12,33 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import { MyPreset } from './styles';
 import { MessageService } from 'primeng/api';
-import { provideKeycloak } from 'keycloak-angular';
+import {
+  AutoRefreshTokenService,
+  createInterceptorCondition,
+  INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+  IncludeBearerTokenCondition,
+  includeBearerTokenInterceptor,
+  provideKeycloak,
+  UserActivityService,
+  withAutoRefreshToken,
+} from 'keycloak-angular';
 import { environment } from '../environments/environment';
 
 export function httpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+const localhostCondition =
+  createInterceptorCondition<IncludeBearerTokenCondition>({
+    urlPattern: /^(http:\/\/localhost:8080)(\/.*)?$/i,
+  });
+
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
     provideTranslateService({
       defaultLanguage: 'pt',
       loader: {
@@ -41,13 +60,28 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    MessageService,
     provideKeycloak({
-      config: {
-        url: environment.keycloak.config.url,
-        realm: environment.keycloak.config.realm,
-        clientId: environment.keycloak.config.clientId,
+      config: environment.keycloak.config,
+      initOptions: {
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html',
+        redirectUri: window.location.origin + '',
       },
+      features: [
+        withAutoRefreshToken({
+          onInactivityTimeout: 'logout',
+          sessionTimeout: 600000,
+        }),
+      ],
+      providers: [
+        AutoRefreshTokenService,
+        UserActivityService,
+        {
+          provide: INCLUDE_BEARER_TOKEN_INTERCEPTOR_CONFIG,
+          useValue: [localhostCondition],
+        },
+      ],
     }),
   ],
 };
