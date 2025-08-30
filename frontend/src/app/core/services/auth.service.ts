@@ -1,43 +1,52 @@
-import { Injectable, signal } from '@angular/core';
-import { LoginModel, RegisterModel } from '../../shared/models/shared.model';
+import { effect, inject, Injectable } from '@angular/core';
+import {
+  KEYCLOAK_EVENT_SIGNAL,
+  KeycloakEventType,
+  ReadyArgs,
+  typeEventArgs,
+} from 'keycloak-angular';
+import Keycloak from 'keycloak-js';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  // dialog data
-  private dialogState = signal<boolean>(false);
+  authenticated = false;
+  keycloakStatus: string | undefined;
+  private readonly keycloak = inject(Keycloak);
+  private readonly keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
 
-  // expose dialog data
-  public readonly dialogVisible = this.dialogState.asReadonly();
+  constructor() {
+    effect(() => {
+      const keycloakEvent = this.keycloakSignal();
 
-  // dialog
-  //---------------------------------------------------------------------------
-  showDialog(): void {
-    this.dialogState.set(true);
+      this.keycloakStatus = keycloakEvent.type;
+
+      if (keycloakEvent.type === KeycloakEventType.Ready) {
+        this.authenticated = typeEventArgs<ReadyArgs>(keycloakEvent.args);
+      }
+
+      if (keycloakEvent.type === KeycloakEventType.AuthLogout) {
+        this.authenticated = false;
+      }
+    });
   }
 
-  hideDialog(): void {
-    this.dialogState.set(false);
-  }
-  //---------------------------------------------------------------------------
-
-  // login & register
-  //---------------------------------------------------------------------------
-  login(loginValues: LoginModel): void {
-    console.log(loginValues);
+  login(): void {
+    this.keycloak.login();
   }
 
-  register(registerValues: RegisterModel): void {
-    console.log(registerValues);
+  logout(): void {
+    this.keycloak.logout();
   }
 
-  checkEmail(email: string): void {
-    console.log('to-do: check email on DB');
+  isAuthenticated(): boolean {
+    if (this.keycloak.authenticated) return this.keycloak.authenticated;
+
+    return false;
   }
 
-  checkUserName(userName: string): void {
-    console.log('to-do: check userName on DB');
+  edit(): void {
+    this.keycloak.accountManagement();
   }
-  //---------------------------------------------------------------------------
 }

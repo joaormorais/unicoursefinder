@@ -5,6 +5,7 @@
     "help": "Procurar cursos",
     "landing": "Página principal",
     "loginRegister": "Iniciar sessão/registo",
+    "logout": "Terminar sessão",
     "nextIcon": "Ícone para a direita",
     "openLink": "Abrir os detalhes deste curso numa nova janela",
     "changeModes": "Alternar entre modo claro e modo escuro"
@@ -14,7 +15,9 @@
     "forum": "Fórum",
     "help": "Ajuda",
     "institutions": "Instituições",
-    "courses": "Cursos"
+    "courses": "Cursos",
+    "edit": "Editar perfil",
+    "logout": "Terminar sessão"
   },
   "tables": {
     "dges": "Código DGES",

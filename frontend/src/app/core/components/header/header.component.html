@@ -1,4 +1,4 @@
-<p-menubar [model]="items()">
+<p-menubar [model]="items">
   <ng-template #start>
     <p-button
       icon="pi pi-home"
@@ -15,12 +15,17 @@
         [attr.aria-label]="'ariaLabels.changeModes' | translate"
         (onClick)="changeTheme()"
       />
+      @if(this.authService.isAuthenticated()){
+      <p-menu #menu [model]="itemsDropdownMenu" [popup]="true" />
+      <p-button (click)="menu.toggle($event)" icon="pi pi-cog" />
+      }@else{
       <p-button
         icon="pi pi-user"
         class="ml-2 mr-4"
         [attr.aria-label]="'ariaLabels.loginRegister' | translate"
-        (click)="this.authService.showDialog()"
+        (click)="this.authService.login()"
       />
+      }
     </div>
   </ng-template>
 </p-menubar>

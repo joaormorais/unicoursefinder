@@ -13,16 +13,6 @@
   >
     <router-outlet class="h-full" />
   </main>
-  <p-dialog
-    [modal]="true"
-    [visible]="this.authService.dialogVisible()"
-    [style]="{ width: '25rem' }"
-    (visibleChange)="this.authService.hideDialog()"
-    [header]="'auth.login' | translate"
-  >
-    <app-login></app-login>
-  </p-dialog>
-
   <footer class="h-[50px] w-full">
     <app-footer class="h-full" />
   </footer>
