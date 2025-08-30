@@ -14,10 +14,10 @@
     "search": "Pesquisa",
     "forum": "Fórum",
     "help": "Ajuda",
-    "edit": "Editar perfil",
-    "logout": "Terminar sessão",
     "institutions": "Instituições",
-    "courses": "Cursos"
+    "courses": "Cursos",
+    "edit": "Editar perfil",
+    "logout": "Terminar sessão"
   },
   "tables": {
     "dges": "Código DGES",

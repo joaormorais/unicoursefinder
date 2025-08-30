@@ -58,12 +58,12 @@ export class HeaderComponent implements OnInit {
 
         this.itemsDropdownMenu = [
           {
-            label: t['buttons.puta'],
+            label: t['buttons.edit'],
             icon: 'pi pi-user-edit',
             command: () => this.authService.edit(),
           },
           {
-            label: t['buttons.userLogout'],
+            label: t['buttons.logout'],
             icon: 'pi pi-sign-out',
             command: () => this.authService.logout(),
           },
