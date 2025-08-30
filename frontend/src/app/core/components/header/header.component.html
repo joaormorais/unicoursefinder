@@ -1,4 +1,4 @@
-<p-menubar [model]="items()">
+<p-menubar [model]="items">
   <ng-template #start>
     <p-button
       icon="pi pi-home"
@@ -16,12 +16,8 @@
         (onClick)="changeTheme()"
       />
       @if(this.authService.isAuthenticated()){
-      <p-button
-        icon="pi pi-sign-out"
-        class="ml-2 mr-4"
-        [attr.aria-label]="'ariaLabels.logout' | translate"
-        (click)="this.authService.logout()"
-      />
+      <p-menu #menu [model]="itemsDropdownMenu" [popup]="true" />
+      <p-button (click)="menu.toggle($event)" icon="pi pi-cog" />
       }@else{
       <p-button
         icon="pi pi-user"

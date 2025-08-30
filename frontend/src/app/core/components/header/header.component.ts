@@ -1,57 +1,21 @@
-import { Component, inject, signal, Signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map, startWith, switchMap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { Menu } from 'primeng/menu';
 
 @Component({
   selector: 'app-header',
-  imports: [TranslatePipe, RouterModule, ButtonModule, Menubar],
+  imports: [TranslatePipe, RouterModule, ButtonModule, Menubar, Menu],
   templateUrl: './header.component.html',
 })
-export class HeaderComponent {
-  // inject auth service
+export class HeaderComponent implements OnInit {
+  // services
   authService = inject(AuthService);
-
-  // inject translate service
   private translate = inject(TranslateService);
-
-  // translations keys
-  private menuTranslationKeys = [
-    'buttons.search',
-    'buttons.forum',
-    'buttons.help',
-  ];
-
-  // items for the menu
-  readonly items: Signal<MenuItem[]> = toSignal(
-    this.translate.onLangChange.pipe(
-      startWith(null),
-      switchMap(() => this.translate.get(this.menuTranslationKeys)),
-      map((translations) => [
-        {
-          label: translations['buttons.search'],
-          icon: 'pi pi-search',
-          routerLink: '/search',
-        },
-        {
-          label: translations['buttons.forum'],
-          icon: 'pi pi-comments',
-          routerLink: '/forum',
-        },
-        {
-          label: translations['buttons.help'],
-          icon: 'pi pi-question',
-          routerLink: '/help',
-        },
-      ])
-    ),
-    { initialValue: [] }
-  );
 
   // vars to control the icon of the theme mode
   lightIcon: string = 'pi pi-sun';
@@ -60,6 +24,52 @@ export class HeaderComponent {
 
   // var to control the dialog
   visible: boolean = false;
+
+  items: MenuItem[] | undefined;
+  itemsDropdownMenu: MenuItem[] = [];
+
+  ngOnInit() {
+    this.translate
+      .get([
+        'buttons.search',
+        'buttons.forum',
+        'buttons.help',
+        'buttons.edit',
+        'buttons.logout',
+      ])
+      .subscribe((t) => {
+        this.items = [
+          {
+            label: t['buttons.search'],
+            icon: 'pi pi-search',
+            routerLink: '/search',
+          },
+          {
+            label: t['buttons.forum'],
+            icon: 'pi pi-comments',
+            routerLink: '/forum',
+          },
+          {
+            label: t['buttons.help'],
+            icon: 'pi pi-question',
+            routerLink: '/help',
+          },
+        ];
+
+        this.itemsDropdownMenu = [
+          {
+            label: t['buttons.puta'],
+            icon: 'pi pi-user-edit',
+            command: () => this.authService.edit(),
+          },
+          {
+            label: t['buttons.userLogout'],
+            icon: 'pi pi-sign-out',
+            command: () => this.authService.logout(),
+          },
+        ];
+      });
+  }
 
   // change between light and dark mode
   changeTheme() {

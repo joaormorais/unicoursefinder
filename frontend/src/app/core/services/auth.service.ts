@@ -46,7 +46,7 @@ export class AuthService {
     return false;
   }
 
-  register(): void {
-    this.keycloak.register();
+  edit(): void {
+    this.keycloak.accountManagement();
   }
 }

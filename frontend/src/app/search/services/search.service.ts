@@ -5,7 +5,7 @@ import { MessageService } from 'primeng/api';
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
-  // dependencies
+  // services
   private translate = inject(TranslateService);
   private messageService = inject(MessageService);
 
