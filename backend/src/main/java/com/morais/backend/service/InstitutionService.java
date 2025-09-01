@@ -1,7 +1,7 @@
 package com.morais.backend.service;
 
-import com.morais.backend.domain.dto.DropdownDTO;
-import com.morais.backend.domain.dto.InstitutionDTO;
+import com.morais.backend.domain.dto.DropdownDto;
+import com.morais.backend.domain.dto.InstitutionDto;
 import com.morais.backend.domain.entity.Institution;
 import com.morais.backend.domain.entity.enums.InstitutionDistrict;
 import com.morais.backend.domain.entity.enums.InstitutionType;
@@ -73,9 +73,9 @@ public class InstitutionService {
      *
      * @return a list of institutions
      */
-    public List<DropdownDTO> getDropdown() {
+    public List<DropdownDto> getDropdown() {
         log.info("Returning institutions for the dropdown");
-        return institutionRepository.findAll().stream().map(value -> new DropdownDTO(value.getUuid().toString(),value.getName())).toList();
+        return institutionRepository.findAll().stream().map(value -> new DropdownDto(value.getUuid().toString(),value.getName())).toList();
     }
 
     /**
@@ -83,7 +83,7 @@ public class InstitutionService {
      *
      * @return a list of institutions
      */
-    public List<InstitutionDTO> getInstitutions() {
+    public List<InstitutionDto> getInstitutions() {
         log.info("Returning institutions");
         List<Institution> institutions = institutionRepository.findAll();
 

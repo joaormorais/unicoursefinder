@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class DropdownDTO {
+public class DropdownDto {
     private String value;
     private String label;
 }

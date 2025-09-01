@@ -1,6 +1,6 @@
 package com.morais.backend.controller;
 
-import com.morais.backend.domain.dto.CourseDTO;
+import com.morais.backend.domain.dto.CourseDto;
 import com.morais.backend.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ public class CourseController {
      * @return a list of courses matching the search criteria
      */
     @GetMapping
-    public ResponseEntity<Page<CourseDTO>> searchCourses(
+    public ResponseEntity<Page<CourseDto>> searchCourses(
             @PageableDefault(size = 5, sort = "normalizedName,asc") Pageable pageable,
             @RequestParam(required = false, defaultValue = "") String globalFilterValue,
             @RequestParam(required = false, defaultValue = "") String dgesNumber,

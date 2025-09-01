@@ -7,11 +7,11 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class CourseDTO {
+public class CourseDto {
     private UUID uuid;
     private String dgesNumber;
     private String name;
     private String type;
     private String link;
-    private InstitutionDTO institution;
+    private InstitutionDto institution;
 }

@@ -1,6 +1,6 @@
 package com.morais.backend.service;
 
-import com.morais.backend.domain.dto.CourseDTO;
+import com.morais.backend.domain.dto.CourseDto;
 import com.morais.backend.domain.entity.Course;
 import com.morais.backend.domain.entity.enums.CourseType;
 import com.morais.backend.mappers.CourseMapper;
@@ -64,7 +64,7 @@ public class CourseService {
      * @param courseInstitutions institution id filter
      * @return a list of matching courses as DTOs
      */
-    public Page<CourseDTO> getFilteredCourses(Pageable pageable, String globalFilterValue, String dgesNumber, String name, List<String> types, List<String> courseInstitutions) {
+    public Page<CourseDto> getFilteredCourses(Pageable pageable, String globalFilterValue, String dgesNumber, String name, List<String> types, List<String> courseInstitutions) {
         log.info("Returning every filtered course by globalFilterValue: ({}), dgesNumber: ({}), name: ({}), type: ({}) and institution: ({})", globalFilterValue, dgesNumber, name, types, courseInstitutions);
         log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
 

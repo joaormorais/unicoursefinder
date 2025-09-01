@@ -1,7 +1,7 @@
 package com.morais.backend.controller;
 
-import com.morais.backend.domain.dto.DropdownDTO;
-import com.morais.backend.domain.dto.InstitutionDTO;
+import com.morais.backend.domain.dto.DropdownDto;
+import com.morais.backend.domain.dto.InstitutionDto;
 import com.morais.backend.service.InstitutionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class InstitutionController {
      * @return a list of institutions
      */
     @GetMapping("/dropdown")
-    public ResponseEntity<List<DropdownDTO>> getDropdown() {
+    public ResponseEntity<List<DropdownDto>> getDropdown() {
         return ResponseEntity.ok(institutionService.getDropdown());
     }
 
@@ -54,7 +54,7 @@ public class InstitutionController {
      * @return a list of institutions
      */
     @GetMapping
-    public ResponseEntity<List<InstitutionDTO>> getInstitutions() {
+    public ResponseEntity<List<InstitutionDto>> getInstitutions() {
         return ResponseEntity.ok(institutionService.getInstitutions());
     }
 }
