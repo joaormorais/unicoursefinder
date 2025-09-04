@@ -2,22 +2,26 @@ package com.morais.backend.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "post")
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, insertable = false)
     private UUID uuid;
 
     @Column(name = "user_uuid", nullable = false)
@@ -32,6 +36,9 @@ public class Post {
     @Column(nullable = false, length = 100)
     private String title;
 
+    @Column(name = "normalized_title", nullable = false, length = 100)
+    private String normalizedTitle;
+
     @Column(nullable = false, length = 5000)
     private String content;
 
@@ -45,4 +52,6 @@ public class Post {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 }
