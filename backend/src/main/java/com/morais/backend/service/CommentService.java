@@ -1,11 +1,62 @@
 package com.morais.backend.service;
 
+import com.morais.backend.domain.dto.CommentDto;
+import com.morais.backend.domain.entity.Comment;
+import com.morais.backend.exception.AppException;
+import com.morais.backend.mappers.CommentMapper;
+import com.morais.backend.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommentService {
+
+    private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;
+
+    public Page<CommentDto> getComments(Pageable pageable, UUID postUuid) {
+        log.info("Returning every comment of post with uuid: {}", postUuid);
+        log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
+
+        Page<Comment> resultPage = commentRepository.findByPost_UuidAndParentIsNull(pageable, postUuid);
+        log.info(resultPage.isEmpty() ? "Didn't find any comment. Returning empty!" : "Found comments. Returning!");
+
+        return resultPage.map(commentMapper::toDto);
+    }
+
+    public Page<CommentDto> getReplies(Pageable pageable, UUID parentUuid) {
+        log.info("Returning every reply of comment with uuid: {}", parentUuid);
+        log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
+
+        Page<Comment> resultPage = commentRepository.findByParent_Uuid(pageable, parentUuid);
+        log.info(resultPage.isEmpty() ? "Didn't find any reply. Returning empty!" : "Found replies. Returning!");
+
+        return resultPage.map(commentMapper::toDto);
+    }
+
+    public CommentDto createComment(CommentDto commentDto) {
+        return commentMapper.toDto(this.commentRepository.save(commentMapper.toEntity(commentDto)));
+    }
+
+    public void deleteComment(UUID uuid, UUID userUuid) {
+        Comment comment = commentRepository.findByUuid(uuid).orElseThrow(() -> {
+            log.warn("Tried to delete a comment that doesn't exist");
+            return new AppException("COMMENT_DOESNT_EXIST", HttpStatus.CONFLICT);
+        });
+
+        if (!comment.getUserUuid().equals(userUuid)) {
+            log.warn("Tried to delete a comment that doesn't belong to the logged user");
+            throw new AppException("NOT_YOUR_COMMENT", HttpStatus.FORBIDDEN);
+        }
+
+        commentRepository.deleteById(comment.getId());
+    }
 }

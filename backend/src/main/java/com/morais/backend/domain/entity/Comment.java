@@ -5,8 +5,6 @@ import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -21,6 +19,9 @@ public class Comment {
     @Column(nullable = false, unique = true, insertable = false)
     private UUID uuid;
 
+    @Column(name = "user_uuid", nullable = false)
+    private UUID userUuid;
+
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
@@ -28,9 +29,6 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private Comment parent;
-
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Comment> replies = new ArrayList<>();
 
     @Column(nullable = false, length = 500)
     private String content;

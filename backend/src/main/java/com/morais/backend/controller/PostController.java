@@ -5,11 +5,13 @@ import com.morais.backend.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -21,13 +23,12 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public ResponseEntity<PostDto> getPosts(
-            @PageableDefault(size = 5, sort = "normalizedName,asc") Pageable pageable,
-            @RequestParam(required = false, defaultValue = "") String institutionUuid,
-            @RequestParam(required = false, defaultValue = "") String courseUuid
+    public ResponseEntity<Page<PostDto>> getPosts(
+            @PageableDefault(size = 5, sort = "createdAt,asc") Pageable pageable,
+            @RequestParam(required = false, defaultValue = "") List<String> institutionUuids,
+            @RequestParam(required = false, defaultValue = "") List<String> courseUuids
     ) {
-        return null; //todo terminar
-        //return ResponseEntity.ok(postService.getFilteredPosts(pageable, institutionUuid, courseUuid));
+        return ResponseEntity.ok(postService.getFilteredPosts(pageable, institutionUuids, courseUuids));
     }
 
     @PostMapping
@@ -41,8 +42,11 @@ public class PostController {
     }
 
     @DeleteMapping("/{uuid}")
-    public ResponseEntity<Void> deletePost(@PathVariable UUID uuid) {
-        this.postService.deletePost(uuid);
+    public ResponseEntity<Void> deletePost(
+            @PathVariable UUID uuid,
+            @RequestParam(defaultValue = "") UUID userUuid
+    ) {
+        this.postService.deletePost(uuid, userUuid);
         return ResponseEntity.noContent().build();
     }
 }
