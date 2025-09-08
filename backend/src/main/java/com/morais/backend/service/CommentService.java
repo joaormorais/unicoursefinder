@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -46,13 +47,13 @@ public class CommentService {
         return commentMapper.toDto(this.commentRepository.save(commentMapper.toEntity(commentDto)));
     }
 
-    public void deleteComment(UUID uuid, UUID userUuid) {
-        Comment comment = commentRepository.findByUuid(uuid).orElseThrow(() -> {
+    public void deleteComment(UUID commentUuid, Jwt jwt) {
+        Comment comment = commentRepository.findByUuid(commentUuid).orElseThrow(() -> {
             log.warn("Tried to delete a comment that doesn't exist");
             return new AppException("COMMENT_DOESNT_EXIST", HttpStatus.CONFLICT);
         });
 
-        if (!comment.getUserUuid().equals(userUuid)) {
+        if (!comment.getUserUuid().equals(UUID.fromString(jwt.getSubject()))) {
             log.warn("Tried to delete a comment that doesn't belong to the logged user");
             throw new AppException("NOT_YOUR_COMMENT", HttpStatus.FORBIDDEN);
         }

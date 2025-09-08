@@ -10,7 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PostDto {
     private UUID uuid;
-    private UUID userUuid;
+    private boolean ownedByCurrentUser;
     private UUID institutionUuid;
     private UUID courseUuid;
     private String title;

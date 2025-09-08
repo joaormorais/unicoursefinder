@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
@@ -65,18 +66,18 @@ public class PostService {
         return postMapper.toDto(this.postRepository.save(postMapper.toEntity(postDto)));
     }
 
-    public PostDto updatePost(PostDto postDto, UUID uuid) {
-        if (!uuid.equals(postDto.getUuid())) {
+    public PostDto updatePost(PostDto postDto, UUID postUuid, Jwt jwt) {
+        if (!postUuid.equals(postDto.getUuid())) {
             log.warn("Uuid's mismatch");
             throw new AppException("UUID_MISMATCH", HttpStatus.CONFLICT);
         }
 
-        Post post = postRepository.findByUuid(uuid).orElseThrow(() -> {
+        Post post = postRepository.findByUuid(postUuid).orElseThrow(() -> {
             log.warn("Tried to update a post that doesn't exist");
             return new AppException("POST_DOESNT_EXIST", HttpStatus.CONFLICT);
         });
 
-        if (!post.getUserUuid().equals(postDto.getUserUuid())) {
+        if (!post.getUserUuid().equals(UUID.fromString(jwt.getSubject()))) {
             log.warn("Tried to update a post that doesn't belong to the logged user");
             throw new AppException("NOT_YOUR_POST", HttpStatus.FORBIDDEN);
         }
@@ -89,13 +90,13 @@ public class PostService {
         return postMapper.toDto(this.postRepository.save(postMapper.updatePost(postDto, post)));
     }
 
-    public void deletePost(UUID uuid, UUID userUuid) {
-        Post post = postRepository.findByUuid(uuid).orElseThrow(() -> {
+    public void deletePost(UUID postUuid, Jwt jwt) {
+        Post post = postRepository.findByUuid(postUuid).orElseThrow(() -> {
             log.warn("Tried to delete a post that doesn't exist");
             return new AppException("POST_DOESNT_EXIST", HttpStatus.CONFLICT);
         });
 
-        if (!post.getUserUuid().equals(userUuid)) {
+        if (!post.getUserUuid().equals(UUID.fromString(jwt.getSubject()))) {
             log.warn("Tried to delete a post that doesn't belong to the logged user");
             throw new AppException("NOT_YOUR_POST", HttpStatus.FORBIDDEN);
         }

@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -37,16 +39,18 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commentDto) {
+    public ResponseEntity<CommentDto> createComment(
+            @RequestBody CommentDto commentDto
+    ) {
         return ResponseEntity.ok().body(this.commentService.createComment(commentDto));
     }
 
-    @DeleteMapping("/{uuid}")
+    @DeleteMapping("/{commentUuid}")
     public ResponseEntity<CommentDto> deleteComment(
-            @PathVariable UUID uuid,
-            @RequestParam(defaultValue = "") UUID userUuid
+            @PathVariable UUID commentUuid,
+            @AuthenticationPrincipal Jwt jwt
     ) {
-        this.commentService.deleteComment(uuid, userUuid);
+        this.commentService.deleteComment(commentUuid, jwt);
         return ResponseEntity.noContent().build();
     }
 }

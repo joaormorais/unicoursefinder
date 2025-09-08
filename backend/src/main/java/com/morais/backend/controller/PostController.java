@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,17 +38,21 @@ public class PostController {
         return ResponseEntity.ok().body(this.postService.createPost(postDto));
     }
 
-    @PutMapping("/{uuid}")
-    public ResponseEntity<PostDto> updatePost(@RequestBody @Valid PostDto postDto, @PathVariable UUID uuid) {
-        return ResponseEntity.ok().body(this.postService.updatePost(postDto, uuid));
+    @PutMapping("/{postUuid}")
+    public ResponseEntity<PostDto> updatePost(
+            @RequestBody @Valid PostDto postDto,
+            @PathVariable UUID postUuid,
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        return ResponseEntity.ok().body(this.postService.updatePost(postDto, postUuid, jwt));
     }
 
-    @DeleteMapping("/{uuid}")
+    @DeleteMapping("/{postUuid}")
     public ResponseEntity<Void> deletePost(
-            @PathVariable UUID uuid,
-            @RequestParam(defaultValue = "") UUID userUuid
+            @PathVariable UUID postUuid,
+            @AuthenticationPrincipal Jwt jwt
     ) {
-        this.postService.deletePost(uuid, userUuid);
+        this.postService.deletePost(postUuid, jwt);
         return ResponseEntity.noContent().build();
     }
 }
