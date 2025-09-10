@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
-public class DropdownDto {
-    private String value;
+public class ReferenceDto {
+    private UUID value;
     private String label;
 }

@@ -1,5 +1,6 @@
-package com.morais.backend.domain.dto;
+package com.morais.backend.domain.dto.post;
 
+import com.morais.backend.domain.dto.ReferenceDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,11 +9,11 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class PostDto {
+public class PostDetailDto {
     private UUID uuid;
     private boolean ownedByCurrentUser;
-    private UUID institutionUuid;
-    private UUID courseUuid;
+    private ReferenceDto institution;
+    private ReferenceDto course;
     private String title;
     private String content;
     private int likes;
