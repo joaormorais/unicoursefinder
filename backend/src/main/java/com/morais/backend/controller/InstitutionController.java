@@ -1,10 +1,13 @@
 package com.morais.backend.controller;
 
-import com.morais.backend.domain.dto.DropdownDto;
+import com.morais.backend.domain.dto.ReferenceDto;
 import com.morais.backend.domain.dto.InstitutionDto;
 import com.morais.backend.service.InstitutionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +20,24 @@ import java.util.List;
 public class InstitutionController {
 
     private final InstitutionService institutionService;
+
+    /**
+     * Get every institution.
+     *
+     * @return a list of institutions
+     */
+    @GetMapping
+    public ResponseEntity<List<InstitutionDto>> getInstitutions() {
+        return ResponseEntity.ok(institutionService.getInstitutions());
+    }
+
+    @GetMapping("/dropdown")
+    public ResponseEntity<Page<ReferenceDto>> getDropdown(
+            @PageableDefault(size = 20, sort = "normalizedName,asc") Pageable pageable,
+            @RequestParam(required = false, defaultValue = "") String name
+    ) {
+        return ResponseEntity.ok(institutionService.getDropdown(pageable, name));
+    }
 
     /**
      * Retrieves a list of all institution types.
@@ -36,25 +57,5 @@ public class InstitutionController {
     @GetMapping("/districts")
     public ResponseEntity<List<String>> getDistricts() {
         return ResponseEntity.ok(institutionService.getDistricts());
-    }
-
-    /**
-     * Retrieves a list of all institutions but ready for the dropdown.
-     *
-     * @return a list of institutions
-     */
-    @GetMapping("/dropdown")
-    public ResponseEntity<List<DropdownDto>> getDropdown() {
-        return ResponseEntity.ok(institutionService.getDropdown());
-    }
-
-    /**
-     * Get every institution.
-     *
-     * @return a list of institutions
-     */
-    @GetMapping
-    public ResponseEntity<List<InstitutionDto>> getInstitutions() {
-        return ResponseEntity.ok(institutionService.getInstitutions());
     }
 }

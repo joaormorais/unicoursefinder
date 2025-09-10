@@ -16,4 +16,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, JpaSpec
     Page<Comment> findByPost_UuidAndParentIsNull(Pageable pageable, UUID postUuid);
 
     Page<Comment> findByParent_Uuid(Pageable pageable, UUID parentUuid);
+
+    int countByParentUuid(UUID uuid);
 }

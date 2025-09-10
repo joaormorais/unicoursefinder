@@ -1,4 +1,4 @@
-package com.morais.backend.domain.dto;
+package com.morais.backend.domain.dto.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,10 +8,8 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class CommentDto {
+public class PostResponseDto {
     private UUID uuid;
-    private boolean ownedByCurrentUser;
-    private String content;
-    private int likes;
+    private String title;
     private LocalDateTime createdAt;
 }

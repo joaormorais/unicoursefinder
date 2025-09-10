@@ -13,5 +13,5 @@ public class CourseDto {
     private String name;
     private String type;
     private String link;
-    private InstitutionDto institution;
+    private ReferenceDto institution;
 }

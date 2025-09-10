@@ -1,6 +1,8 @@
 package com.morais.backend.controller;
 
-import com.morais.backend.domain.dto.PostDto;
+import com.morais.backend.domain.dto.post.PostDetailDto;
+import com.morais.backend.domain.dto.post.PostDto;
+import com.morais.backend.domain.dto.post.PostResponseDto;
 import com.morais.backend.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,19 +29,32 @@ public class PostController {
     @GetMapping
     public ResponseEntity<Page<PostDto>> getPosts(
             @PageableDefault(size = 5, sort = "createdAt,asc") Pageable pageable,
+            @RequestParam(required = false, defaultValue = "") String title,
             @RequestParam(required = false, defaultValue = "") List<String> institutionUuids,
-            @RequestParam(required = false, defaultValue = "") List<String> courseUuids
+            @RequestParam(required = false, defaultValue = "") List<String> courseUuids,
+            @AuthenticationPrincipal Jwt jwt
     ) {
-        return ResponseEntity.ok(postService.getFilteredPosts(pageable, institutionUuids, courseUuids));
+        return ResponseEntity.ok(postService.getFilteredPosts(pageable, title, institutionUuids, courseUuids, jwt));
+    }
+
+    @GetMapping("/{postUuid}")
+    public ResponseEntity<PostDetailDto> getPost(
+            @PathVariable UUID postUuid,
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        return ResponseEntity.ok(postService.getPost(postUuid, jwt));
     }
 
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody @Valid PostDto postDto) {
-        return ResponseEntity.ok().body(this.postService.createPost(postDto));
+    public ResponseEntity<PostResponseDto> createPost(
+            @RequestBody @Valid PostDto postDto,
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        return ResponseEntity.ok().body(this.postService.createPost(postDto, jwt));
     }
 
     @PutMapping("/{postUuid}")
-    public ResponseEntity<PostDto> updatePost(
+    public ResponseEntity<PostDetailDto> updatePost(
             @RequestBody @Valid PostDto postDto,
             @PathVariable UUID postUuid,
             @AuthenticationPrincipal Jwt jwt

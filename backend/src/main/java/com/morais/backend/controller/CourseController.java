@@ -1,6 +1,7 @@
 package com.morais.backend.controller;
 
 import com.morais.backend.domain.dto.CourseDto;
+import com.morais.backend.domain.dto.ReferenceDto;
 import com.morais.backend.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,23 +22,13 @@ public class CourseController {
     private final CourseService courseService;
 
     /**
-     * Retrieves a list of all course types.
-     *
-     * @return a list of unique course types
-     */
-    @GetMapping("/types")
-    public ResponseEntity<List<String>> getTypes() {
-        return ResponseEntity.ok(courseService.getTypes());
-    }
-
-    /**
      * Searches for courses with optional filters for name, types and institutions.
      * The results are paged and sorted.
      *
-     * @param pageable object that is going to be used to pagination and sorting
-     * @param dgesNumber dgesNumber filter
-     * @param name name filter
-     * @param types type filter
+     * @param pageable           object that is going to be used to pagination and sorting
+     * @param dgesNumber         dgesNumber filter
+     * @param name               name filter
+     * @param types              type filter
      * @param courseInstitutions institution id filter
      * @return a list of courses matching the search criteria
      */
@@ -51,5 +42,23 @@ public class CourseController {
             @RequestParam(required = false, defaultValue = "") List<String> courseInstitutions
     ) {
         return ResponseEntity.ok(courseService.getFilteredCourses(pageable, globalFilterValue, dgesNumber, name, types, courseInstitutions));
+    }
+
+    @GetMapping("/dropdown")
+    public ResponseEntity<Page<ReferenceDto>> getDropdown(
+            @PageableDefault(size = 20, sort = "normalizedName,asc") Pageable pageable,
+            @RequestParam(required = false, defaultValue = "") String name
+    ) {
+        return ResponseEntity.ok(courseService.getDropdown(pageable, name));
+    }
+
+    /**
+     * Retrieves a list of all course types.
+     *
+     * @return a list of unique course types
+     */
+    @GetMapping("/types")
+    public ResponseEntity<List<String>> getTypes() {
+        return ResponseEntity.ok(courseService.getTypes());
     }
 }
