@@ -10,7 +10,11 @@ import {
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../../services/search.service';
 import { PanelModule } from 'primeng/panel';
-import { MultiSelectModule } from 'primeng/multiselect';
+import {
+  MultiSelectFilterEvent,
+  MultiSelectLazyLoadEvent,
+  MultiSelectModule,
+} from 'primeng/multiselect';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -19,9 +23,11 @@ import { FormsModule } from '@angular/forms';
 import { CourseSearchService } from '../../services/course-search.service';
 import { MessageService } from 'primeng/api';
 import {
-  DropdownDto,
+  Reference,
   PaginatedCourses,
 } from '../../../shared/models/shared.model';
+import { ToastService } from '../../../core/services/toast.service';
+import { InstitutionSearchService } from '../../services/institution-search.service';
 
 @Component({
   selector: 'app-courses',
@@ -40,7 +46,9 @@ import {
 })
 export class CoursesComponent implements OnInit {
   searchService = inject(SearchService);
+  toastService = inject(ToastService);
   courseSearchService = inject(CourseSearchService);
+  institutionSearchService = inject(InstitutionSearchService);
   translate = inject(TranslateService);
   messageService = inject(MessageService);
 
@@ -55,18 +63,26 @@ export class CoursesComponent implements OnInit {
   });
   rows: number = 5;
   first: number = 0;
-  types: DropdownDto[] = [];
-  institutions: DropdownDto[] = [];
+
+  types: Reference[] = [];
+  institutions: Reference[] = [];
+  institutionsPageNumber = signal(0);
+  institutionsPageSize = 20;
+  institutionsTotalRecords = signal(0);
+  private institutionFilterTimeout: any;
+
   selectedTypes: string[] = [];
   selectedInstitutions: string[] = [];
+
   apiError = signal(false);
-  gettingTypes = signal(true);
-  gettingInstitutions = signal(true);
-  gettingCourses = signal(true);
+  gettingTypes = signal(false);
+  gettingInstitutions = signal(false);
+  gettingCourses = signal(false);
   loading = computed(
     () =>
       this.gettingTypes() || this.gettingInstitutions() || this.gettingCourses()
   );
+
   filterTimeouts: { [key: string]: any } = {};
   lastTableLazyLoadEvent!: TableLazyLoadEvent;
   globalFilterValue: string = '';
@@ -104,7 +120,7 @@ export class CoursesComponent implements OnInit {
   // run when the component is created
   ngOnInit(): void {
     this.getTypes();
-    this.getInstitutions();
+    //this.getInstitutions();
   }
 
   onLazyLoad(event: TableLazyLoadEvent): void {
@@ -112,8 +128,10 @@ export class CoursesComponent implements OnInit {
       return;
     }
 
-    this.lastTableLazyLoadEvent = event;
+    if (this.gettingCourses()) return;
+    this.gettingCourses.set(true);
 
+    this.lastTableLazyLoadEvent = event;
     let first = event.first ? event.first : this.first;
     let rows = event.rows ? event.rows : this.rows;
 
@@ -146,6 +164,32 @@ export class CoursesComponent implements OnInit {
         : []
       : [];
 
+    // laod courses
+    this.loadCourses(first, rows, dgesNumber, name, types, institutionIds);
+  }
+
+  onInstitutionsLazyLoad(event: MultiSelectLazyLoadEvent): void {
+    const loadedRecords = this.institutions.length;
+    const totalRecords = this.institutionsTotalRecords();
+
+    if (this.gettingInstitutions() || loadedRecords >= totalRecords) {
+      return;
+    }
+
+    if (event.last >= loadedRecords) {
+      const nextPage = this.institutionsPageNumber() + 1;
+      this.loadInstitutions(nextPage);
+    }
+  }
+
+  loadCourses(
+    first: number,
+    rows: number,
+    dgesNumber: string,
+    name: string,
+    types: string[],
+    institutionIds: string[]
+  ): void {
     this.courseSearchService
       .getCourses(
         first / rows,
@@ -163,16 +207,50 @@ export class CoursesComponent implements OnInit {
           this.gettingCourses.set(false);
         },
         error: (err) => {
-          this.searchService.showErrorToast(
+          this.toastService.showErrorToast(
             err,
             'errors.summary.gettingCourses'
           );
           this.apiError.set(true);
+          this.gettingCourses.set(false);
+        },
+      });
+  }
+
+  loadInstitutions(page: number, name: string = ''): void {
+    if (this.gettingInstitutions()) return;
+
+    this.gettingInstitutions.set(true);
+
+    this.institutionSearchService
+      .getInstitutionsDropdown(page, this.institutionsPageSize, name)
+      .subscribe({
+        next: (data) => {
+          if (page === 0) {
+            this.institutions = data.content;
+          } else {
+            this.institutions = [...this.institutions, ...data.content];
+          }
+          this.institutionsPageNumber.set(data.number);
+          this.institutionsTotalRecords.set(data.totalElements);
+          this.gettingInstitutions.set(false);
+        },
+        error: (err) => {
+          this.toastService.showErrorToast(
+            err,
+            'errors.summary.gettingCoursesInstitutions'
+          );
+          this.apiError.set(true);
+          this.gettingInstitutions.set(false);
         },
       });
   }
 
   getTypes(): void {
+    if (this.gettingTypes()) return;
+
+    this.gettingTypes.set(true);
+
     this.courseSearchService.getTypes().subscribe({
       next: (data) => {
         this.types = data.map((type) => ({
@@ -182,29 +260,22 @@ export class CoursesComponent implements OnInit {
         this.gettingTypes.set(false);
       },
       error: (err) => {
-        this.searchService.showErrorToast(
+        this.toastService.showErrorToast(
           err,
           'errors.summary.gettingCoursesTypes'
         );
         this.apiError.set(true);
+        this.gettingTypes.set(false);
       },
     });
   }
 
-  getInstitutions(): void {
-    this.courseSearchService.getInstitutions().subscribe({
-      next: (data) => {
-        this.institutions = data;
-        this.gettingInstitutions.set(false);
-      },
-      error: (err) => {
-        this.searchService.showErrorToast(
-          err,
-          'errors.summary.gettingCoursesInstitutions'
-        );
-        this.apiError.set(true);
-      },
-    });
+  onInstitutionsFilter(event: MultiSelectFilterEvent): void {
+    clearTimeout(this.institutionFilterTimeout);
+    this.institutionFilterTimeout = setTimeout(() => {
+      this.institutionsPageNumber.set(0);
+      this.loadInstitutions(0, event.filter);
+    }, 300);
   }
 
   onGlobalFilter(event: Event, field: string) {

@@ -24,22 +24,12 @@ public class CommentService {
     private final CommentMapper commentMapper;
 
     public Page<CommentDto> getComments(Pageable pageable, UUID postUuid) {
-        log.info("Returning every comment of post with uuid: {}", postUuid);
-        log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
-
         Page<Comment> resultPage = commentRepository.findByPost_UuidAndParentIsNull(pageable, postUuid);
-        log.info(resultPage.isEmpty() ? "Didn't find any comment. Returning empty!" : "Found comments. Returning!");
-
         return resultPage.map(commentMapper::toDto);
     }
 
     public Page<CommentDto> getReplies(Pageable pageable, UUID parentUuid) {
-        log.info("Returning every reply of comment with uuid: {}", parentUuid);
-        log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
-
         Page<Comment> resultPage = commentRepository.findByParent_Uuid(pageable, parentUuid);
-        log.info(resultPage.isEmpty() ? "Didn't find any reply. Returning empty!" : "Found replies. Returning!");
-
         return resultPage.map(commentMapper::toDto);
     }
 

@@ -146,6 +146,14 @@
                 'filters.selectedItemsLabelInstitutions'
                   | translate : { value: selectedInstitutions.length }
               "
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="38"
+              (onLazyLoad)="onInstitutionsLazyLoad($event)"
+              [lazy]="true"
+              [filter]="true"
+              (onFilter)="onInstitutionsFilter($event)"
+              [loading]="gettingInstitutions()"
+              (onPanelShow)="institutions.length === 0 && loadInstitutions(0)"
             />
           </ng-template>
         </p-columnFilter>

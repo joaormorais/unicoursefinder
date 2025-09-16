@@ -45,12 +45,9 @@ public class CourseService {
      * @return a list of matching courses as DTOs
      */
     public Page<CourseDto> getFilteredCourses(Pageable pageable, String globalFilterValue, String dgesNumber, String name, List<String> types, List<String> courseInstitutions) {
-        log.info("Returning every filtered course by globalFilterValue: ({}), dgesNumber: ({}), name: ({}), type: ({}) and institution: ({})", globalFilterValue, dgesNumber, name, types, courseInstitutions);
-        log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
-
         for (Sort.Order order : pageable.getSort())
             if (!Arrays.asList(DGES_NUMBER, NAME, TYPE, INSTITUTION).contains(order.getProperty())) {
-                log.error("Invalid sort attribute");
+                log.warn("Invalid sort attribute");
                 throw new IllegalArgumentException();
             }
 
@@ -83,15 +80,11 @@ public class CourseService {
         }
 
         Page<Course> resultPage = courseRepository.findAll(specs, pageable);
-        log.info(resultPage.isEmpty() ? "Didn't find any course. Returning empty!" : "Found courses. Returning!");
 
         return resultPage.map(courseMapper::toDto);
     }
 
     public Page<ReferenceDto> getDropdown(Pageable pageable, String name) {
-        log.info("Returning every course mapped to a dropdownDTO");
-        log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
-
         Pageable enforcedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "normalizedName"));
 
         if (name != null && !name.isEmpty()) {
@@ -108,14 +101,13 @@ public class CourseService {
      * @return a list of course types
      */
     public List<String> getTypes() {
-        log.info("Returning types of courses");
         List<String> types = new ArrayList<>();
 
         for (CourseType type : CourseType.values())
             types.add(type.name());
 
         if (types.isEmpty()) {
-            log.error("Didn't find any types for courses");
+            log.warn("Didn't find any types for courses");
             throw new RuntimeException("Didn't find any types for courses");
         }
 

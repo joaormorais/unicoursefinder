@@ -1,9 +1,17 @@
-export interface DropdownDto {
+export interface Reference {
   value: string;
   label: string;
 }
 
-export interface Institution {
+export interface PaginatedReferences {
+  content: Reference[];
+  totalElements: number;
+  size: number;
+  number: number;
+}
+
+
+export interface InstitutionDto {
   uuid: string;
   dgesNumber: number;
   name: string;
@@ -13,18 +21,45 @@ export interface Institution {
   longitude: number;
 }
 
-export interface PaginatedCourses {
-  content: Course[];
-  totalElements: number;
-  size: number;
-  number: number;
-}
-
-export interface Course {
+export interface CourseDto {
   uuid: string;
   dgesNumber: number;
   name: string;
   type: string;
   link: string;
-  institution: Institution;
+  institution: Reference;
+}
+
+export interface PaginatedCourses {
+  content: CourseDto[];
+  totalElements: number;
+  size: number;
+  number: number;
+}
+
+export interface PostDto {
+  uuid: string;
+  ownedByCurrentUser: boolean;
+  institution: Reference;
+  course: Reference;
+  title: string;
+  content: string;
+  likes: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaginatedPosts {
+  content: PostDto[];
+  totalElements: number;
+  size: number;
+  number: number;
+}
+
+export interface CommentDto {
+  uuid: string;
+  ownedByCurrentUser: boolean;
+  content: string;
+  likes: number;
+  createdAt: string;
 }

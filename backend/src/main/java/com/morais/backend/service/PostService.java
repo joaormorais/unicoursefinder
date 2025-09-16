@@ -38,12 +38,9 @@ public class PostService {
     private final PostMapper postMapper;
 
     public Page<PostDto> getFilteredPosts(Pageable pageable, String title, List<String> institutionUuids, List<String> courseUuids, Jwt jwt) {
-        log.info("Returning every filtered post by institutionUuid: ({}), courseUuid: ({}).", institutionUuids, courseUuids);
-        log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
-
         for (Sort.Order order : pageable.getSort())
             if (!Arrays.asList(TITLE, LIKES, CREATED_AT).contains(order.getProperty())) {
-                log.error("Invalid sort attribute");
+                log.warn("Invalid sort attribute");
                 throw new IllegalArgumentException();
             }
 
@@ -58,7 +55,6 @@ public class PostService {
             specs = specs.and((root, query, criteriaBuilder) -> root.get("course_uuid").in(courseUuids));
 
         Page<Post> resultPage = postRepository.findAll(specs, pageable);
-        log.info(resultPage.isEmpty() ? "Didn't find any course. Returning empty!" : "Found courses. Returning!");
 
         return resultPage.map(post -> postMapper.toDto(post, UUID.fromString(jwt.getSubject()), commentRepository.countByParentUuid(post.getUuid())));
 

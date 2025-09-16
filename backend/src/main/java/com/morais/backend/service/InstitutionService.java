@@ -35,7 +35,6 @@ public class InstitutionService {
      * @return a list of institutions
      */
     public List<InstitutionDto> getInstitutions() {
-        log.info("Returning institutions");
         List<Institution> institutions = institutionRepository.findAll();
 
         if (institutions.isEmpty()) {
@@ -48,9 +47,6 @@ public class InstitutionService {
     }
 
     public Page<ReferenceDto> getDropdown(Pageable pageable, String name) {
-        log.info("Returning every institution mapped to a dropdownDTO");
-        log.info("Pagination with pageNumber:{}, pageSize:{}.", pageable.getPageNumber(), pageable.getPageSize());
-
         Pageable enforcedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "normalizedName"));
 
         if (name != null && !name.isEmpty()) {
@@ -67,7 +63,6 @@ public class InstitutionService {
      * @return a list of institution types
      */
     public List<String> getTypes() {
-        log.info("Returning types of institutions");
         List<String> types = new ArrayList<>();
 
         for (InstitutionType type : InstitutionType.values())
@@ -89,7 +84,6 @@ public class InstitutionService {
      * @return a list of districts
      */
     public List<String> getDistricts() {
-        log.info("Returning districts of institutions");
         List<String> districts = new ArrayList<>();
 
         for (InstitutionDistrict district : InstitutionDistrict.values()) {
