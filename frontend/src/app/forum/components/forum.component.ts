@@ -1,22 +1,39 @@
-import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, signal, ViewChild } from '@angular/core';
 import { PostForumService } from '../services/post-forum.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
-import { Table, TableLazyLoadEvent } from 'primeng/table';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { PaginatedPosts, Reference } from '../../shared/models/shared.model';
 import { ToastService } from '../../core/services/toast.service';
 import { InstitutionSearchService } from '../../search/services/institution-search.service';
 import { CourseSearchService } from '../../search/services/course-search.service';
+import {
+  MultiSelectFilterEvent,
+  MultiSelectLazyLoadEvent,
+  MultiSelectModule,
+} from 'primeng/multiselect';
+import { UtilsSearchService } from '../../search/services/utils-search.service';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-forum',
-  imports: [],
+  imports: [
+    TranslatePipe,
+    TableModule,
+    IconFieldModule,
+    InputIconModule,
+    FormsModule,
+    MultiSelectModule,
+  ],
   templateUrl: './forum.component.html',
 })
-export class ForumComponent implements OnInit {
+export class ForumComponent {
   postForumService = inject(PostForumService);
   institutionSearchService = inject(InstitutionSearchService);
   courseSearchService = inject(CourseSearchService);
+  utilsSearchService = inject(UtilsSearchService);
   toastService = inject(ToastService);
   translate = inject(TranslateService);
   messageService = inject(MessageService);
@@ -32,34 +49,43 @@ export class ForumComponent implements OnInit {
   });
   rows: number = 5;
   first: number = 0;
+
   institutions: Reference[] = [];
+  institutionsPageNumber = signal(0);
+  institutionsPageSize = 20;
+  institutionsTotalRecords = signal(0);
+  private institutionsFilterTimeout: any;
+
   courses: Reference[] = [];
+  coursesPageNumber = signal(0);
+  coursesPageSize = 20;
+  coursesTotalRecords = signal(0);
+  private coursesFilterTimeout: any;
+
   selectedInstitutions: string[] = [];
   selectedCourses: string[] = [];
+
   apiError = signal(false);
-  gettingInstitutions = signal(true);
-  gettingCourses = signal(true);
-  gettingPosts = signal(true);
+  gettingInstitutions = signal(false);
+  gettingCourses = signal(false);
+  gettingPosts = signal(false);
   loading = computed(
     () =>
       this.gettingInstitutions() || this.gettingCourses() || this.gettingPosts()
   );
+
   filterTimeouts: { [key: string]: any } = {};
   lastTableLazyLoadEvent!: TableLazyLoadEvent;
-
-  // run when the component is created
-  ngOnInit(): void {
-    //this.getInstitutions();
-    this.getCourses();
-  }
 
   onLazyLoad(event: TableLazyLoadEvent): void {
     if (!event) {
       return;
     }
 
-    this.lastTableLazyLoadEvent = event;
+    if (this.gettingPosts()) return;
+    this.gettingPosts.set(true);
 
+    this.lastTableLazyLoadEvent = event;
     let first = event.first ? event.first : this.first;
     let rows = event.rows ? event.rows : this.rows;
 
@@ -87,6 +113,45 @@ export class ForumComponent implements OnInit {
         : []
       : [];
 
+    // load posts
+    this.loadPosts(first, rows, title, institutions, courses);
+  }
+
+  onInstitutionsLazyLoad(event: MultiSelectLazyLoadEvent): void {
+    const loadedRecords = this.institutions.length;
+    const totalRecords = this.institutionsTotalRecords();
+
+    if (this.gettingInstitutions() || loadedRecords >= totalRecords) {
+      return;
+    }
+
+    if (event.last >= loadedRecords) {
+      const nextPage = this.institutionsPageNumber() + 1;
+      this.loadInstitutions(nextPage);
+    }
+  }
+
+  onCoursesLazyLoad(event: MultiSelectLazyLoadEvent): void {
+    const loadedRecords = this.courses.length;
+    const totalRecords = this.coursesTotalRecords();
+
+    if (this.gettingCourses() || loadedRecords >= totalRecords) {
+      return;
+    }
+
+    if (event.last >= loadedRecords) {
+      const nextPage = this.coursesPageNumber() + 1;
+      this.loadCourses(nextPage);
+    }
+  }
+
+  loadPosts(
+    first: number,
+    rows: number,
+    title: string,
+    institutions: string[],
+    courses: string[]
+  ): void {
     this.postForumService
       .getPosts(
         first / rows,
@@ -102,45 +167,104 @@ export class ForumComponent implements OnInit {
           this.gettingPosts.set(false);
         },
         error: (err) => {
-          this.toastService.showErrorToast(
-            err,
-            'errors.summary.gettingPosts'
-          );
+          this.toastService.showErrorToast(err, 'errors.summary.gettingPosts');
           this.apiError.set(true);
+          this.gettingPosts.set(false);
         },
       });
   }
 
-  /*getInstitutions(): void {
-    this.institutionSearchService.getInstitutionsDropdown().subscribe({
-      next: (data) => {
-        this.institutions = data;
-        this.gettingInstitutions.set(false);
-      },
-      error: (err) => {
-        this.toastService.showErrorToast(
-          err,
-          'errors.summary.gettingInstitutionsDropdown'
-        );
-        this.apiError.set(true);
-      },
-    });
-  }*/
+  loadInstitutions(page: number, name: string = ''): void {
+    if (this.gettingInstitutions()) return;
 
-  getCourses(): void {
-    this.courseSearchService.getCoursesDropdown().subscribe({
-      next: (data) => {
-        this.courses = data;
-        this.gettingCourses.set(false);
-      },
-      error: (err) => {
-        this.toastService.showErrorToast(
-          err,
-          'errors.summary.gettingCoursesDropdown'
-        );
-        this.apiError.set(true);
-      },
-    });
+    this.gettingInstitutions.set(true);
+
+    this.utilsSearchService
+      .getDropdown(page, this.institutionsPageSize, name, 'institution')
+      .subscribe({
+        next: (data) => {
+          if (page === 0) {
+            this.institutions = data.content;
+          } else {
+            this.institutions = [...this.institutions, ...data.content];
+          }
+          this.institutionsPageNumber.set(data.number);
+          this.institutionsTotalRecords.set(data.totalElements);
+          this.gettingInstitutions.set(false);
+        },
+        error: (err) => {
+          this.toastService.showErrorToast(
+            err,
+            'errors.summary.gettingInstitutionsDropdown'
+          );
+          this.apiError.set(true);
+          this.gettingInstitutions.set(false);
+        },
+      });
   }
-   
+
+  loadCourses(page: number, name: string = ''): void {
+    if (this.gettingCourses()) return;
+
+    this.gettingCourses.set(true);
+
+    this.utilsSearchService
+      .getDropdown(page, this.coursesPageSize, name, 'course')
+      .subscribe({
+        next: (data) => {
+          if (page === 0) {
+            this.courses = data.content;
+          } else {
+            this.courses = [...this.courses, ...data.content];
+          }
+          this.coursesPageNumber.set(data.number);
+          this.coursesTotalRecords.set(data.totalElements);
+          this.gettingCourses.set(false);
+        },
+        error: (err) => {
+          this.toastService.showErrorToast(
+            err,
+            'errors.summary.gettingCoursesDropdown'
+          );
+          this.apiError.set(true);
+          this.gettingCourses.set(false);
+        },
+      });
+  }
+
+  onInstitutionsFilter(event: MultiSelectFilterEvent): void {
+    clearTimeout(this.institutionsFilterTimeout);
+    this.institutionsFilterTimeout = setTimeout(() => {
+      this.institutionsPageNumber.set(0);
+      this.loadInstitutions(0, event.filter);
+    }, 300);
+  }
+
+  onCoursesFilter(event: MultiSelectFilterEvent): void {
+    clearTimeout(this.coursesFilterTimeout);
+    this.coursesFilterTimeout = setTimeout(() => {
+      this.coursesPageNumber.set(0);
+      this.loadCourses(0, event.filter);
+    }, 300);
+  }
+
+  debounceFilter(
+    event: Event,
+    field: string,
+    filterCallback: (value: any) => void
+  ): void {
+    clearTimeout(this.filterTimeouts[field]);
+    const value = (event.target as HTMLInputElement).value;
+    this.filterTimeouts[field] = setTimeout(() => {
+      filterCallback(value);
+    }, 300);
+  }
+
+  goToLink(url: string): void {
+    window.open(url, '_blank');
+  }
+
+  log(): void {
+    console.log('ir para o post');
+  }
 }

@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { PaginatedCourses, Reference } from '../../shared/models/shared.model';
+import { PaginatedCourses } from '../../shared/models/shared.model';
 
 @Injectable({ providedIn: 'root' })
 export class CourseSearchService {
@@ -38,10 +38,5 @@ export class CourseSearchService {
   // api call to get every type of course
   getTypes(): Observable<string[]> {
     return this.http.get<string[]>(this.apiUrl + '/types');
-  }
-
-  // api call to get every institution ready for the dropdown
-  getCoursesDropdown(): Observable<Reference[]> {
-    return this.http.get<Reference[]>(this.apiUrl + '/dropdown');
   }
 }

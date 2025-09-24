@@ -27,11 +27,13 @@ public class Post {
     @Column(name = "user_uuid", nullable = false)
     private UUID userUuid;
 
-    @Column(name = "institution_uuid", nullable = false)
-    private UUID institutionUuid;
+    @ManyToOne
+    @JoinColumn(name = "institution_id", nullable = false)
+    private Institution institution;
 
-    @Column(name = "course_uuid", nullable = false)
-    private UUID courseUuid;
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
 
     @Column(nullable = false, length = 100)
     private String title;

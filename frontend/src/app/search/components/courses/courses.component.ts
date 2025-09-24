@@ -28,6 +28,7 @@ import {
 } from '../../../shared/models/shared.model';
 import { ToastService } from '../../../core/services/toast.service';
 import { InstitutionSearchService } from '../../services/institution-search.service';
+import { UtilsSearchService } from '../../services/utils-search.service';
 
 @Component({
   selector: 'app-courses',
@@ -46,9 +47,10 @@ import { InstitutionSearchService } from '../../services/institution-search.serv
 })
 export class CoursesComponent implements OnInit {
   searchService = inject(SearchService);
-  toastService = inject(ToastService);
   courseSearchService = inject(CourseSearchService);
   institutionSearchService = inject(InstitutionSearchService);
+  utilsSearchService = inject(UtilsSearchService);
+  toastService = inject(ToastService);
   translate = inject(TranslateService);
   messageService = inject(MessageService);
 
@@ -69,7 +71,7 @@ export class CoursesComponent implements OnInit {
   institutionsPageNumber = signal(0);
   institutionsPageSize = 20;
   institutionsTotalRecords = signal(0);
-  private institutionFilterTimeout: any;
+  private institutionsFilterTimeout: any;
 
   selectedTypes: string[] = [];
   selectedInstitutions: string[] = [];
@@ -120,7 +122,6 @@ export class CoursesComponent implements OnInit {
   // run when the component is created
   ngOnInit(): void {
     this.getTypes();
-    //this.getInstitutions();
   }
 
   onLazyLoad(event: TableLazyLoadEvent): void {
@@ -164,7 +165,7 @@ export class CoursesComponent implements OnInit {
         : []
       : [];
 
-    // laod courses
+    // load courses
     this.loadCourses(first, rows, dgesNumber, name, types, institutionIds);
   }
 
@@ -222,8 +223,8 @@ export class CoursesComponent implements OnInit {
 
     this.gettingInstitutions.set(true);
 
-    this.institutionSearchService
-      .getInstitutionsDropdown(page, this.institutionsPageSize, name)
+    this.utilsSearchService
+      .getDropdown(page, this.institutionsPageSize, name, 'institution')
       .subscribe({
         next: (data) => {
           if (page === 0) {
@@ -238,7 +239,7 @@ export class CoursesComponent implements OnInit {
         error: (err) => {
           this.toastService.showErrorToast(
             err,
-            'errors.summary.gettingCoursesInstitutions'
+            'errors.summary.gettingInstitutionsDropdown'
           );
           this.apiError.set(true);
           this.gettingInstitutions.set(false);
@@ -271,14 +272,14 @@ export class CoursesComponent implements OnInit {
   }
 
   onInstitutionsFilter(event: MultiSelectFilterEvent): void {
-    clearTimeout(this.institutionFilterTimeout);
-    this.institutionFilterTimeout = setTimeout(() => {
+    clearTimeout(this.institutionsFilterTimeout);
+    this.institutionsFilterTimeout = setTimeout(() => {
       this.institutionsPageNumber.set(0);
       this.loadInstitutions(0, event.filter);
     }, 300);
   }
 
-  onGlobalFilter(event: Event, field: string) {
+  onGlobalFilter(event: Event, field: string): void {
     clearTimeout(this.filterTimeouts[field]);
     const value = (event.target as HTMLInputElement).value;
     this.filterTimeouts[field] = setTimeout(() => {
@@ -291,7 +292,7 @@ export class CoursesComponent implements OnInit {
     event: Event,
     field: string,
     filterCallback: (value: any) => void
-  ) {
+  ): void {
     clearTimeout(this.filterTimeouts[field]);
     const value = (event.target as HTMLInputElement).value;
     this.filterTimeouts[field] = setTimeout(() => {
@@ -299,7 +300,7 @@ export class CoursesComponent implements OnInit {
     }, 300);
   }
 
-  goToLink(url: string) {
+  goToLink(url: string): void {
     window.open(url, '_blank');
   }
 }

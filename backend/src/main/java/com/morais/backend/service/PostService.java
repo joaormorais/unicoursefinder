@@ -31,16 +31,19 @@ import static com.morais.backend.util.TextUtils.normalize;
 public class PostService {
 
     public static final String TITLE = "title";
-    public static final String LIKES = "likes";
+    public static final String INSTITUTIONS = "institution";
+    public static final String COURSES = "course";
     public static final String CREATED_AT = "createdAt";
+    public static final String LIKES = "likes";
+    public static final String COMMENTS = "comments";
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final PostMapper postMapper;
 
     public Page<PostDto> getFilteredPosts(Pageable pageable, String title, List<String> institutionUuids, List<String> courseUuids, Jwt jwt) {
         for (Sort.Order order : pageable.getSort())
-            if (!Arrays.asList(TITLE, LIKES, CREATED_AT).contains(order.getProperty())) {
-                log.warn("Invalid sort attribute");
+            if (!Arrays.asList(TITLE, INSTITUTIONS, COURSES, CREATED_AT, LIKES, COMMENTS).contains(order.getProperty())) {
+                log.warn("Invalid sort attribute: {}", order.getProperty());
                 throw new IllegalArgumentException();
             }
 
@@ -56,8 +59,10 @@ public class PostService {
 
         Page<Post> resultPage = postRepository.findAll(specs, pageable);
 
-        return resultPage.map(post -> postMapper.toDto(post, UUID.fromString(jwt.getSubject()), commentRepository.countByParentUuid(post.getUuid())));
-
+        if (jwt == null)
+            return resultPage.map(post -> postMapper.toDto(post, null, commentRepository.countByParentUuid(post.getUuid())));
+        else
+            return resultPage.map(post -> postMapper.toDto(post, UUID.fromString(jwt.getSubject()), commentRepository.countByParentUuid(post.getUuid())));
     }
 
     public PostDetailDto getPost(UUID postUuid, Jwt jwt) {
@@ -73,6 +78,11 @@ public class PostService {
         if (postRepository.existsByNormalizedTitle(normalize(postDto.getTitle()))) {
             log.warn("Tried to create an existing post");
             throw new AppException("POST_ALREADY_EXISTS", HttpStatus.CONFLICT);
+        }
+
+        if (jwt == null) {
+            log.warn("Tried to create a post without a logged user");
+            throw new AppException("USER_NOT_LOGGED", HttpStatus.UNAUTHORIZED);
         }
 
         return postMapper.toResponseDto(this.postRepository.save(postMapper.toEntity(postDto)));
