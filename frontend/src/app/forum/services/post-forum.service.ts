@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PaginatedPosts } from '../../shared/models/shared.model';
+import { PaginatedPosts, PostDto } from '../../shared/models/shared.model';
 
 @Injectable({ providedIn: 'root' })
 export class PostForumService {
@@ -25,10 +25,12 @@ export class PostForumService {
       .set('institutionUuids', institutionUuids.toString())
       .set('courseUuids', courseUuids.toString());
 
-      console.log(institutionUuids);
-
     return this.http.get<PaginatedPosts>(this.apiUrl + '/post', {
       params: baseParams,
     });
+  }
+
+  getPostDetails(uuid: string): Observable<PostDto> {
+    return this.http.get<PostDto>(this.apiUrl + '/post/' + uuid);
   }
 }

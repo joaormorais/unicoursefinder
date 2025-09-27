@@ -1,22 +1,23 @@
 import { Component, computed, inject, signal, ViewChild } from '@angular/core';
-import { PostForumService } from '../services/post-forum.service';
+import { PostForumService } from '../../services/post-forum.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
-import { PaginatedPosts, Reference } from '../../shared/models/shared.model';
-import { ToastService } from '../../core/services/toast.service';
-import { InstitutionSearchService } from '../../search/services/institution-search.service';
-import { CourseSearchService } from '../../search/services/course-search.service';
+import { PaginatedPosts, Reference } from '../../../shared/models/shared.model';
+import { ToastService } from '../../../core/services/toast.service';
+import { InstitutionSearchService } from '../../../search/services/institution-search.service';
+import { CourseSearchService } from '../../../search/services/course-search.service';
 import {
   MultiSelectFilterEvent,
   MultiSelectLazyLoadEvent,
   MultiSelectModule,
 } from 'primeng/multiselect';
-import { UtilsSearchService } from '../../search/services/utils-search.service';
+import { UtilsSearchService } from '../../../search/services/utils-search.service';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forum',
@@ -30,7 +31,6 @@ import { ButtonModule } from 'primeng/button';
     ButtonModule,
   ],
   templateUrl: './forum.component.html',
-  styleUrl: './forum.component.scss',
 })
 export class ForumComponent {
   postForumService = inject(PostForumService);
@@ -40,6 +40,7 @@ export class ForumComponent {
   toastService = inject(ToastService);
   translate = inject(TranslateService);
   messageService = inject(MessageService);
+  router = inject(Router);
 
   @ViewChild('postsTable') postsTable!: Table;
 
@@ -267,7 +268,7 @@ export class ForumComponent {
     window.open(url, '_blank');
   }
 
-  log(): void {
-    console.log('ir para o post');
+  goToPost(uuid: string): void {
+    this.router.navigate(['/forum', uuid]);
   }
 }

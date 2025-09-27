@@ -20,10 +20,6 @@ import { Toast } from 'primeng/toast';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  // inject auth service
   authService = inject(AuthService);
-
-  // inject router service
   router = inject(Router);
-
 }

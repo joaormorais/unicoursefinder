@@ -59,10 +59,7 @@ public class PostService {
 
         Page<Post> resultPage = postRepository.findAll(specs, pageable);
 
-        if (jwt == null)
-            return resultPage.map(post -> postMapper.toDto(post, null, commentRepository.countByParentUuid(post.getUuid())));
-        else
-            return resultPage.map(post -> postMapper.toDto(post, UUID.fromString(jwt.getSubject()), commentRepository.countByParentUuid(post.getUuid())));
+        return resultPage.map(post -> postMapper.toDto(post, jwt == null ? null : UUID.fromString(jwt.getSubject()), commentRepository.countByParentUuid(post.getUuid())));
     }
 
     public PostDetailDto getPost(UUID postUuid, Jwt jwt) {
@@ -71,7 +68,7 @@ public class PostService {
             return new AppException("POST_DOESNT_EXIST", HttpStatus.CONFLICT);
         });
 
-        return postMapper.toDetailDto(post, UUID.fromString(jwt.getSubject()));
+        return postMapper.toDetailDto(post, jwt == null ? null : UUID.fromString(jwt.getSubject()));
     }
 
     public PostResponseDto createPost(PostDto postDto, Jwt jwt) {

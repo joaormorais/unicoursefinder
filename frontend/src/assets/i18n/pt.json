@@ -116,6 +116,7 @@
       "gettingInstitutionsDistricts": "Ocorreu um erro a obter distritos para a filtragem de instituições",
       "gettingInstitutions": "Ocorreu um erro a obter instituições",
       "gettingPosts": "Ocorreu um erro a obter publicações",
+      "gettingPostDetails": "Ocorreu um erro a obter os detalhes desta publicação",
       "gettingInstitutionsDropdown": "Ocoreu um erro a obter instituições para a filtragem",
       "gettingCoursesDropdown": "Ocoreu um erro a obter cursos para a filtragem"
     },

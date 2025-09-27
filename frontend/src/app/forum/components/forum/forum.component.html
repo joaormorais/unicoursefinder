@@ -13,7 +13,6 @@
   </div>
   <p-table
     #postsTable
-    class="p-datatable-wrapper"
     [value]="data().content"
     [lazy]="true"
     (onLazyLoad)="onLazyLoad($event)"
@@ -143,7 +142,7 @@
       </tr>
     </ng-template>
     <ng-template #body let-post>
-      <tr (click)="log()" class="cursor-pointer">
+      <tr (click)="goToPost(post.uuid)" class="cursor-pointer">
         <td>{{ post.title }}</td>
         <td>{{ post.institution?.label }}</td>
         <td>{{ post.course?.label }}</td>
