@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class InstitutionDTO {
+public class InstitutionDto {
     private UUID uuid;
     private Long dgesNumber;
     private String name;

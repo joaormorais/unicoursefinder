@@ -14,10 +14,10 @@ import java.util.UUID;
 public class Institution implements Comparable<Institution> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, insertable = false)
     private UUID uuid;
 
     @Column(name = "dges_number", nullable = false, unique = true)

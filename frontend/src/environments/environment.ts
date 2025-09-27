@@ -5,7 +5,7 @@ export const environment = {
     config: {
       url: 'http://localhost:9090',
       realm: 'uni-course-finder',
-      clientId: 'ucf',
+      clientId: 'omeucurso',
     },
   },
 };

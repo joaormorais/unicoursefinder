@@ -10,8 +10,9 @@ import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { DropdownDto, Institution } from '../../../shared/models/shared.model';
+import { Reference, InstitutionDto } from '../../../shared/models/shared.model';
 import { InstitutionSearchService } from '../../services/institution-search.service';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-institutions',
@@ -27,20 +28,20 @@ import { InstitutionSearchService } from '../../services/institution-search.serv
     FormsModule,
   ],
   templateUrl: './institutions.component.html',
-  styleUrl: '../styles/search.scss',
 })
 export class InstitutionsComponent implements OnInit {
   // inject the main service of this feature
   searchService = inject(SearchService);
+  toastService = inject(ToastService);
   institutionSearchService = inject(InstitutionSearchService);
   translate = inject(TranslateService);
   messageService = inject(MessageService);
 
-  institutions: Institution[] = [];
+  institutions: InstitutionDto[] = [];
   rows: number = 5;
   first: number = 0;
-  types: DropdownDto[] = [];
-  districts: DropdownDto[] = [];
+  types: Reference[] = [];
+  districts: Reference[] = [];
   selectedTypes: string[] = [];
   selectedDistricts: string[] = [];
   apiError = signal(false);
@@ -72,7 +73,7 @@ export class InstitutionsComponent implements OnInit {
         this.gettingTypes.set(false);
       },
       error: (err) => {
-        this.searchService.showErrorToast(
+        this.toastService.showErrorToast(
           err,
           'errors.summary.gettingInstitutionsTypes'
         );
@@ -93,7 +94,7 @@ export class InstitutionsComponent implements OnInit {
         this.gettingDistricts.set(false);
       },
       error: (err) => {
-        this.searchService.showErrorToast(
+        this.toastService.showErrorToast(
           err,
           'errors.summary.gettingInstitutionsDistricts'
         );
@@ -109,7 +110,7 @@ export class InstitutionsComponent implements OnInit {
         this.gettingInstitutions.set(false);
       },
       error: (err) => {
-        this.searchService.showErrorToast(
+        this.toastService.showErrorToast(
           err,
           'errors.summary.gettingInstitutions'
         );
@@ -132,7 +133,7 @@ export class InstitutionsComponent implements OnInit {
 
   onFilter(event: TableFilterEvent, dt: any) {
     this.searchService.updateFilteredInstitutions(
-      event.filteredValue as Institution[]
+      event.filteredValue as InstitutionDto[]
     );
   }
 }

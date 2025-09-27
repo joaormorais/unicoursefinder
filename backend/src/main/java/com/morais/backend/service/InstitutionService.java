@@ -1,7 +1,7 @@
 package com.morais.backend.service;
 
-import com.morais.backend.domain.dto.DropdownDTO;
-import com.morais.backend.domain.dto.InstitutionDTO;
+import com.morais.backend.domain.dto.ReferenceDto;
+import com.morais.backend.domain.dto.InstitutionDto;
 import com.morais.backend.domain.entity.Institution;
 import com.morais.backend.domain.entity.enums.InstitutionDistrict;
 import com.morais.backend.domain.entity.enums.InstitutionType;
@@ -9,11 +9,17 @@ import com.morais.backend.mappers.InstitutionMapper;
 import com.morais.backend.repository.InstitutionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.morais.backend.util.TextUtils.normalize;
 
 @Slf4j
 @Service
@@ -24,13 +30,39 @@ public class InstitutionService {
     private final InstitutionMapper institutionMapper;
 
     /**
+     * Retrieves every institution on the database.
+     *
+     * @return a list of institutions
+     */
+    public List<InstitutionDto> getInstitutions() {
+        List<Institution> institutions = institutionRepository.findAll();
+
+        if (institutions.isEmpty()) {
+            log.warn("Didn't find any institutions");
+            throw new RuntimeException("Didn't find any institutions");
+        }
+
+        Collections.sort(institutions);
+        return institutions.stream().map(institutionMapper::toDto).toList();
+    }
+
+    public Page<ReferenceDto> getDropdown(Pageable pageable, String name) {
+        Pageable enforcedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "normalizedName"));
+
+        if (name != null && !name.isEmpty()) {
+            return institutionRepository.findByNormalizedNameContaining(normalize(name), enforcedPageable).map(value -> new ReferenceDto(value.getUuid(), value.getName()));
+        }
+
+        return institutionRepository.findAll(enforcedPageable).map(value -> new ReferenceDto(value.getUuid(), value.getName()));
+    }
+
+    /**
      * Retrieves a list of all institution types.
      * Throws a ResourceNotFoundException if no types are found.
      *
      * @return a list of institution types
      */
     public List<String> getTypes() {
-        log.info("Returning types of institutions");
         List<String> types = new ArrayList<>();
 
         for (InstitutionType type : InstitutionType.values())
@@ -52,7 +84,6 @@ public class InstitutionService {
      * @return a list of districts
      */
     public List<String> getDistricts() {
-        log.info("Returning districts of institutions");
         List<String> districts = new ArrayList<>();
 
         for (InstitutionDistrict district : InstitutionDistrict.values()) {
@@ -66,33 +97,5 @@ public class InstitutionService {
 
         Collections.sort(districts);
         return districts;
-    }
-
-    /**
-     * Retrieves every institution mapped to a dropdownDTO
-     *
-     * @return a list of institutions
-     */
-    public List<DropdownDTO> getDropdown() {
-        log.info("Returning institutions for the dropdown");
-        return institutionRepository.findAll().stream().map(value -> new DropdownDTO(value.getUuid().toString(),value.getName())).toList();
-    }
-
-    /**
-     * Retrieves every institution on the database.
-     *
-     * @return a list of institutions
-     */
-    public List<InstitutionDTO> getInstitutions() {
-        log.info("Returning institutions");
-        List<Institution> institutions = institutionRepository.findAll();
-
-        if (institutions.isEmpty()) {
-            log.warn("Didn't find any institutions");
-            throw new RuntimeException("Didn't find any institutions");
-        }
-
-        Collections.sort(institutions);
-        return institutions.stream().map(institutionMapper::toDto).toList();
     }
 }

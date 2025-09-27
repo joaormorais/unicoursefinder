@@ -12,14 +12,14 @@ import java.util.UUID;
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "institution_id", nullable = false)
     private Institution institution;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, insertable = false)
     private UUID uuid;
 
     @Column(name = "dges_number", nullable = false)

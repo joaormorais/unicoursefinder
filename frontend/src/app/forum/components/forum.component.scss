@@ -1,0 +1,47 @@
+/* forum.component.scss */
+
+// Garante que o componente pode ocupar 100% da altura da página
+:host {
+  display: block;
+  height: 100%;
+}
+
+// Container principal da página (usa Flexbox para distribuir o espaço)
+.forum-page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+// Cabeçalho com o botão "Criar Post"
+.forum-header {
+  flex-shrink: 0; // Não deixa o header encolher
+  padding: 2rem 0;
+}
+
+// Container que segura a tabela
+.table-container {
+  flex-grow: 1;    // FAZ ESTE CONTAINER CRESCER E OCUPAR TODO O ESPAÇO RESTANTE
+  min-height: 0;   // Bug fix para o flexbox em alguns browsers
+}
+
+/* Estilos profundos para forçar a p-table a comportar-se como um container flex.
+  Isto faz com que a área do conteúdo cresça, empurrando o paginador para baixo.
+*/
+::ng-deep {
+  .p-datatable {
+    height: 100%; // Força a tabela a ter 100% da altura do .table-container
+    display: flex;
+    flex-direction: column;
+
+    .p-datatable-wrapper {
+      // Esta é a área das linhas de dados. Ela deve crescer.
+      flex-grow: 1;
+    }
+
+    .p-paginator {
+      // Garante que o paginador não encolha.
+      flex-shrink: 0;
+    }
+  }
+}

@@ -3,7 +3,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { SearchService } from '../../services/search.service';
-import { Institution } from '../../../shared/models/shared.model';
+import { InstitutionDto } from '../../../shared/models/shared.model';
 
 @Component({
   selector: 'app-map',
@@ -64,7 +64,7 @@ export class MapComponent implements AfterViewInit {
 
   // create and add the markers to the marker group
   private createMarkers(
-    institution: Institution,
+    institution: InstitutionDto,
     institutionIcon: L.Icon
   ): void {
     const district = this.translate.instant(
@@ -116,7 +116,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   // update the map with new info
-  public updateMap(updatedInstitutions: Institution[]): void {
+  public updateMap(updatedInstitutions: InstitutionDto[]): void {
     // remove the current markers
     this.map.removeLayer(this.markers);
     this.markers = L.markerClusterGroup();

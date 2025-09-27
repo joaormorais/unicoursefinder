@@ -10,7 +10,6 @@ services:
       POSTGRES_PASSWORD: changemeinprod!
 
   keycloak:
-    container_name: keycloak-bsn
     image: quay.io/keycloak/keycloak:26.3
     ports:
       - 9090:8080
@@ -26,15 +25,21 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+      - "5005:5005"
     depends_on:
       - db
       - keycloak
+    volumes:
+      - ./backend:/app
+      - ~/.m2:/root/.m2
     environment:
+      - MAVEN_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       - SPRING_PROFILES_ACTIVE=prod
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=changemeinprod!
       - FRONTEND_ORIGIN=http://localhost:4200
+      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://host.docker.internal:9090/realms/uni-course-finder/protocol/openid-connect/certs
 
   frontend:
     build:
@@ -44,6 +49,6 @@ services:
       - "4200:4200"
     volumes:
       - ./frontend:/usr/src/app
-      - /usr/src/app/node_modules 
+      - /usr/src/app/node_modules
     depends_on:
       - backend
