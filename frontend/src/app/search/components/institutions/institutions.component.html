@@ -164,8 +164,9 @@
     </tr>
   </ng-template>
   <ng-template #body let-institution>
-    <tr 
+    <tr
       (click)="searchService.searchCoursesFromInstitution(institution.uuid)"
+      class="cursor-pointer"
     >
       <td>{{ institution.dgesNumber }}</td>
       <td>{{ institution.name }}</td>

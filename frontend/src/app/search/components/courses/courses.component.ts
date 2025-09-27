@@ -43,7 +43,6 @@ import { UtilsSearchService } from '../../services/utils-search.service';
     FormsModule,
   ],
   templateUrl: './courses.component.html',
-  styleUrl: '../styles/search.scss',
 })
 export class CoursesComponent implements OnInit {
   searchService = inject(SearchService);
@@ -159,14 +158,14 @@ export class CoursesComponent implements OnInit {
         ? (filters['type'] as any).value
         : []
       : [];
-    const institutionIds: string[] = filters['institution']
-      ? (filters['institution'] as any).value
-        ? (filters['institution'] as any).value
+    const institutionUuids: string[] = filters['institutions']
+      ? (filters['institutions'] as any).value
+        ? (filters['institutions'] as any).value
         : []
       : [];
 
     // load courses
-    this.loadCourses(first, rows, dgesNumber, name, types, institutionIds);
+    this.loadCourses(first, rows, dgesNumber, name, types, institutionUuids);
   }
 
   onInstitutionsLazyLoad(event: MultiSelectLazyLoadEvent): void {
@@ -189,7 +188,7 @@ export class CoursesComponent implements OnInit {
     dgesNumber: string,
     name: string,
     types: string[],
-    institutionIds: string[]
+    institutionUuids: string[]
   ): void {
     this.courseSearchService
       .getCourses(
@@ -200,7 +199,7 @@ export class CoursesComponent implements OnInit {
         dgesNumber,
         name,
         types,
-        institutionIds
+        institutionUuids
       )
       .subscribe({
         next: (data) => {

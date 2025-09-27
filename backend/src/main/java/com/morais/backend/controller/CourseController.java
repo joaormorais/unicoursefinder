@@ -25,11 +25,11 @@ public class CourseController {
      * Searches for courses with optional filters for name, types and institutions.
      * The results are paged and sorted.
      *
-     * @param pageable           object that is going to be used to pagination and sorting
-     * @param dgesNumber         dgesNumber filter
-     * @param name               name filter
-     * @param types              type filter
-     * @param courseInstitutions institution id filter
+     * @param pageable         object that is going to be used to pagination and sorting
+     * @param dgesNumber       dgesNumber filter
+     * @param name             name filter
+     * @param types            type filter
+     * @param institutionUuids institution id filter
      * @return a list of courses matching the search criteria
      */
     @GetMapping
@@ -39,9 +39,9 @@ public class CourseController {
             @RequestParam(required = false, defaultValue = "") String dgesNumber,
             @RequestParam(required = false, defaultValue = "") String name,
             @RequestParam(required = false, defaultValue = "") List<String> types,
-            @RequestParam(required = false, defaultValue = "") List<String> courseInstitutions
+            @RequestParam(required = false, defaultValue = "") List<String> institutionUuids
     ) {
-        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, globalFilterValue, dgesNumber, name, types, courseInstitutions));
+        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, globalFilterValue, dgesNumber, name, types, institutionUuids));
     }
 
     @GetMapping("/dropdown")

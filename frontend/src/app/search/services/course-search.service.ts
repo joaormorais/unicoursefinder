@@ -18,7 +18,7 @@ export class CourseSearchService {
     dgesNumber: string,
     name: string,
     types: string[],
-    courseInstitutions: string[]
+    institutionUuids: string[]
   ): Observable<PaginatedCourses> {
     const baseParams = new HttpParams()
       .set('page', page)
@@ -28,7 +28,7 @@ export class CourseSearchService {
       .set('dgesNumber', dgesNumber)
       .set('name', name)
       .set('types', types.toString())
-      .set('courseInstitutions', courseInstitutions.toString());
+      .set('institutionUuids', institutionUuids.toString());
 
     return this.http.get<PaginatedCourses>(this.apiUrl, {
       params: baseParams,

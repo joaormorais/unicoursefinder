@@ -8,7 +8,8 @@
     "logout": "Terminar sessão",
     "nextIcon": "Ícone para a direita",
     "openLink": "Abrir os detalhes deste curso numa nova janela",
-    "changeModes": "Alternar entre modo claro e modo escuro"
+    "changeModes": "Alternar entre modo claro e modo escuro",
+    "createPost": "Criar uma publicação"
   },
   "buttons": {
     "search": "Pesquisa",
@@ -81,7 +82,8 @@
     "searchP": "Descobre facilmente cursos e instituições em Portugal que se alinham com os teus interesses e objetivos.",
     "forumP": "Tens dúvidas ou queres partilhar experiências? Junta-te à comunidade e participa nas conversas!",
     "helpP": "Não sabes por onde começar? Responde a algumas perguntas e recebe sugestões personalizadas.",
-    "footerP": "Este projeto foi idealizado e desenvolvido por "
+    "footerP": "Este projeto foi idealizado e desenvolvido por ",
+    "createPostP": "Cria uma publicação para esclarecer dúvidas ou partilhar a tua experiência académica com a comunidade:"
   },
   "map": {
     "credits": "Ícones universitários criados por nawicon - Flaticon"

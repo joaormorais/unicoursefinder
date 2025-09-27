@@ -28,7 +28,6 @@ import { ToastService } from '../../../core/services/toast.service';
     FormsModule,
   ],
   templateUrl: './institutions.component.html',
-  styleUrl: '../styles/search.scss',
 })
 export class InstitutionsComponent implements OnInit {
   // inject the main service of this feature

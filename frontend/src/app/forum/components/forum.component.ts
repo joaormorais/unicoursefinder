@@ -16,6 +16,7 @@ import { UtilsSearchService } from '../../search/services/utils-search.service';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-forum',
@@ -26,8 +27,10 @@ import { FormsModule } from '@angular/forms';
     InputIconModule,
     FormsModule,
     MultiSelectModule,
+    ButtonModule,
   ],
   templateUrl: './forum.component.html',
+  styleUrl: './forum.component.scss',
 })
 export class ForumComponent {
   postForumService = inject(PostForumService);
@@ -102,19 +105,19 @@ export class ForumComponent {
         ? (filters['title'] as any).value
         : ''
       : '';
-    const institutions: string[] = filters['institutions']
+    const institutionUuids: string[] = filters['institutions']
       ? (filters['institutions'] as any).value
         ? (filters['institutions'] as any).value
         : []
       : [];
-    const courses: string[] = filters['courses']
+    const coursesUuids: string[] = filters['courses']
       ? (filters['courses'] as any).value
         ? (filters['courses'] as any).value
         : []
       : [];
 
     // load posts
-    this.loadPosts(first, rows, title, institutions, courses);
+    this.loadPosts(first, rows, title, institutionUuids, coursesUuids);
   }
 
   onInstitutionsLazyLoad(event: MultiSelectLazyLoadEvent): void {
@@ -149,8 +152,8 @@ export class ForumComponent {
     first: number,
     rows: number,
     title: string,
-    institutions: string[],
-    courses: string[]
+    institutionUuids: string[],
+    coursesUuids: string[]
   ): void {
     this.postForumService
       .getPosts(
@@ -158,8 +161,8 @@ export class ForumComponent {
         rows,
         this.currentFilter(),
         title,
-        institutions,
-        courses
+        institutionUuids,
+        coursesUuids
       )
       .subscribe({
         next: (data) => {

@@ -25,6 +25,8 @@ export class PostForumService {
       .set('institutionUuids', institutionUuids.toString())
       .set('courseUuids', courseUuids.toString());
 
+      console.log(institutionUuids);
+
     return this.http.get<PaginatedPosts>(this.apiUrl + '/post', {
       params: baseParams,
     });

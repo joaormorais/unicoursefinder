@@ -36,15 +36,15 @@ public class CourseService {
      * The results are paged and sorted.
      * The name is normalized before querying.
      *
-     * @param pageable           object that is going to be used to pagination and sorting
-     * @param globalFilterValue  keywords to every filter
-     * @param dgesNumber         dgesNumber filter
-     * @param name               name filter
-     * @param types              type filter
-     * @param courseInstitutions institution id filter
+     * @param pageable          object that is going to be used to pagination and sorting
+     * @param globalFilterValue keywords to every filter
+     * @param dgesNumber        dgesNumber filter
+     * @param name              name filter
+     * @param types             type filter
+     * @param institutionUuids  institution id filter
      * @return a list of matching courses as DTOs
      */
-    public Page<CourseDto> getFilteredCourses(Pageable pageable, String globalFilterValue, String dgesNumber, String name, List<String> types, List<String> courseInstitutions) {
+    public Page<CourseDto> getFilteredCourses(Pageable pageable, String globalFilterValue, String dgesNumber, String name, List<String> types, List<String> institutionUuids) {
         for (Sort.Order order : pageable.getSort())
             if (!Arrays.asList(DGES_NUMBER, NAME, TYPE, INSTITUTION).contains(order.getProperty())) {
                 log.warn("Invalid sort attribute");
@@ -71,12 +71,8 @@ public class CourseService {
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(name) + "%")));
         if (!(types == null || types.isEmpty()))
             specs = specs.and((root, query, criteriaBuilder) -> root.get("type").in(types));
-        if (!(courseInstitutions == null || courseInstitutions.isEmpty())) {
-            List<UUID> institutionUuids = new ArrayList<>();
-            for (String institution : courseInstitutions) {
-                institutionUuids.add(UUID.fromString(institution));
-            }
-            specs = specs.and((root, query, criteriaBuilder) -> root.get("institution").get("uuid").in(institutionUuids));
+        if (!(institutionUuids == null || institutionUuids.isEmpty())) {
+            specs = specs.and(((root, query, criteriaBuilder) -> root.get("institution").get("uuid").in(institutionUuids.stream().map(UUID::fromString).toList())));
         }
 
         Page<Course> resultPage = courseRepository.findAll(specs, pageable);

@@ -2,8 +2,18 @@
   @if(apiError()){
   {{ "errors.forum" | translate }}
   }@else {
+  <div class="flex justify-center my-8">
+    <div class="flex flex-col items-center gap-3">
+      <p>{{ "paragraphs.createPostP" | translate }}</p>
+      <p-button
+        icon="pi pi-plus"
+        [attr.aria-label]="'ariaLabels.createPost' | translate"
+      />
+    </div>
+  </div>
   <p-table
     #postsTable
+    class="p-datatable-wrapper"
     [value]="data().content"
     [lazy]="true"
     (onLazyLoad)="onLazyLoad($event)"
@@ -17,6 +27,7 @@
     [sortOrder]="1"
     rowHover="true"
     [loading]="loading()"
+    [scrollHeight]="'flex'"
   >
     <ng-template #header>
       <tr>
@@ -31,7 +42,8 @@
           {{ "tables.course" | translate }} <p-sortIcon field="course" />
         </th>
         <th style="width: 15%" pSortableColumn="createdAt">
-          {{ "tables.createdAt" | translate }} <p-sortIcon field="createdAt" />
+          {{ "tables.createdAt" | translate }}
+          <p-sortIcon field="createdAt" />
         </th>
         <th style="width: 10%" pSortableColumn="likes">
           {{ "tables.likes" | translate }} <p-sortIcon field="likes" />
@@ -68,7 +80,11 @@
           </p-columnFilter>
         </th>
         <th>
-          <p-columnFilter field="institution" matchMode="in" [showMenu]="false">
+          <p-columnFilter
+            field="institutions"
+            matchMode="in"
+            [showMenu]="false"
+          >
             <ng-template #filter let-value let-filter="filterCallback">
               <p-multiselect
                 [(ngModel)]="selectedInstitutions"
@@ -95,7 +111,7 @@
           </p-columnFilter>
         </th>
         <th>
-          <p-columnFilter field="course" matchMode="in" [showMenu]="false">
+          <p-columnFilter field="courses" matchMode="in" [showMenu]="false">
             <ng-template #filter let-value let-filter="filterCallback">
               <p-multiselect
                 [(ngModel)]="selectedCourses"
@@ -127,7 +143,7 @@
       </tr>
     </ng-template>
     <ng-template #body let-post>
-      <tr (click)="log()">
+      <tr (click)="log()" class="cursor-pointer">
         <td>{{ post.title }}</td>
         <td>{{ post.institution?.label }}</td>
         <td>{{ post.course?.label }}</td>
@@ -137,7 +153,14 @@
       </tr>
     </ng-template>
     <ng-template #footer>
-        <div class="h-100"></div>
+      <tr>
+        <td [attr.colspan]="6" class="p-0">
+          <div
+            class="w-full min-h-100"
+            style="background-color: var(--p-content-background)"
+          ></div>
+        </td>
+      </tr>
     </ng-template>
   </p-table>
   }
