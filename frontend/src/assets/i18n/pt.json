@@ -107,13 +107,17 @@
   },
   "errors": {
     "summary": {
+      "emptyInstitutions": "Não existem instituições",
+      "emptyCourses": "Não existem cursos",
+      "emptyPosts": "Não existem publicações",
       "gettingCourses": "Ocorreu um erro a obter cursos",
       "gettingCoursesTypes": "Ocorreu um erro a obter tipos para a filtragem de cursos",
-      "gettingCoursesInstitutions": "Ocorreu um erro a obter instituições para filtragem de cursos",
       "gettingInstitutionsTypes": "Ocorreu um erro a obter tipos para a filtragem de instituições",
       "gettingInstitutionsDistricts": "Ocorreu um erro a obter distritos para a filtragem de instituições",
       "gettingInstitutions": "Ocorreu um erro a obter instituições",
-      "gettingPosts": "Ocorreu um erro a obter publicações"
+      "gettingPosts": "Ocorreu um erro a obter publicações",
+      "gettingInstitutionsDropdown": "Ocoreu um erro a obter instituições para a filtragem",
+      "gettingCoursesDropdown": "Ocoreu um erro a obter cursos para a filtragem"
     },
     "CANT_REACH_SERVER": "Não foi possível fazer contacto com o servidor",
     "INTERNAL_SERVER_ERROR": "Ocorreu um erro no servidor",
