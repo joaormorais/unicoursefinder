@@ -107,6 +107,9 @@
   },
   "errors": {
     "summary": {
+      "emptyInstitutions": "Não existem instituições",
+      "emptyCourses": "Não existem cursos",
+      "emptyPosts": "Não existem publicações",
       "gettingCourses": "Ocorreu um erro a obter cursos",
       "gettingCoursesTypes": "Ocorreu um erro a obter tipos para a filtragem de cursos",
       "gettingInstitutionsTypes": "Ocorreu um erro a obter tipos para a filtragem de instituições",
