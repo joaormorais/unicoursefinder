@@ -19,4 +19,5 @@ public class PostDetailDto {
     private int likes;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String author;
 }

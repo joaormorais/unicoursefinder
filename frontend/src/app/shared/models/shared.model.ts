@@ -47,6 +47,7 @@ export interface PostDto {
   likes: number;
   createdAt: string;
   updatedAt: string;
+  author: string;
 }
 
 export interface PaginatedPosts {

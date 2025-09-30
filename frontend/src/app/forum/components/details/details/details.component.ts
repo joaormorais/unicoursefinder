@@ -3,10 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { PostDto } from '../../../../shared/models/shared.model';
 import { PostForumService } from '../../../services/post-forum.service';
 import { ToastService } from '../../../../core/services/toast.service';
+import { DividerModule } from 'primeng/divider';
+import { PanelModule } from 'primeng/panel';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-details',
-  imports: [],
+  imports: [DividerModule, PanelModule, ButtonModule],
   templateUrl: './details.component.html',
 })
 export class DetailsComponent implements OnInit {
