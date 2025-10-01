@@ -18,6 +18,7 @@ public interface PostMapper {
     PostDto toDto(Post post, UUID userUuid, int commentsCount);
 
     @Mapping(target = "ownedByCurrentUser", expression = "java(userUuid != null && userUuid.equals(post.getUserUuid()))")
+    @Mapping(target = "author", source = "post.userUuid", qualifiedByName = "getUserName")
     @Mapping(target = "institution", source = "post.institution", qualifiedByName = "getReferenceFromInstitution")
     @Mapping(target = "course", source = "post.course", qualifiedByName = "getReferenceFromCourse")
     PostDetailDto toDetailDto(Post post, UUID userUuid);

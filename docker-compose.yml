@@ -36,9 +36,11 @@ services:
       - ./backend:/app
       - ~/.m2:/root/.m2
     entrypoint: ""
-    command: sh -c "chmod +x /app/mvnw && /app/mvnw -f /app/pom.xml spring-boot:run"
+    command: sh -c "chmod +x /app/mvnw && \
+      /app/mvnw -f /app/pom.xml clean package -DskipTests && \
+      java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 \
+      -jar /app/target/backend-0.0.1-SNAPSHOT.jar"
     environment:
-      - MAVEN_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       - SPRING_PROFILES_ACTIVE=prod
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres

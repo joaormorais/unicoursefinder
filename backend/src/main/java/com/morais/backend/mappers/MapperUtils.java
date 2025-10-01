@@ -6,9 +6,12 @@ import com.morais.backend.domain.entity.Institution;
 import com.morais.backend.exception.AppException;
 import com.morais.backend.repository.CourseRepository;
 import com.morais.backend.repository.InstitutionRepository;
+import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.keycloak.admin.client.Keycloak;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +22,8 @@ public class MapperUtils {
 
     private final InstitutionRepository institutionRepository;
     private final CourseRepository courseRepository;
+    @Autowired
+    Keycloak keycloak;
 
     @Named("getReferenceFromInstitution")
     public ReferenceDto getReferenceFromInstitution(Institution institution) {
@@ -38,5 +43,14 @@ public class MapperUtils {
     @Named("getCourseByUuid")
     public Course getCourseByUuid(ReferenceDto referenceDto) {
         return referenceDto == null ? null : courseRepository.findByUuid(referenceDto.getValue()).orElseThrow(() -> new AppException("INSTITUTION_DOESNT_EXIST", HttpStatus.CONFLICT));
+    }
+
+    @Named("getUserName")
+    public String getUserName(String userUuid) {
+        try {
+            return keycloak.realm("uni-course-finder").users().get(userUuid).toRepresentation().getUsername();
+        } catch (NotFoundException e) {
+            return "";
+        }
     }
 }

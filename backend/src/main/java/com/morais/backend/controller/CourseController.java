@@ -41,7 +41,6 @@ public class CourseController {
             @RequestParam(required = false, defaultValue = "") List<String> types,
             @RequestParam(required = false, defaultValue = "") List<String> institutionUuids
     ) {
-        log.info("hello");
         return ResponseEntity.ok(courseService.getFilteredCourses(pageable, globalFilterValue, dgesNumber, name, types, institutionUuids));
     }
 
