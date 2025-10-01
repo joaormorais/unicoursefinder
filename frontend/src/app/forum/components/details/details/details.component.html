@@ -1,4 +1,4 @@
-<h1 class="mx-4 p-2">{{ post.title }}</h1>
+<h1 class="mt-3 mx-4 py-2 px-4 text-4xl">{{ post.title }}</h1>
 <p-divider type="solid" />
 <div class="card mx-4">
   <p-panel>
@@ -11,23 +11,23 @@
       <div class="flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center gap-2">
           <p-button icon="pi pi-heart" rounded text></p-button>
+          @if(post.ownedByCurrentUser){
+          <p-button icon="pi pi-file-edit" severity="secondary" rounded text />
+          }
         </div>
         @if(post.updatedAt){
-        <span class="text-surface-500 dark:text-surface-400">{{
-          post.updatedAt
-        }}</span>
+        <span class="text-surface-500 dark:text-surface-400">
+          {{ "panel.updatedAt" | translate }}
+          {{ post.updatedAt | date : "dd/MM/yyyy HH:mm" }}
+        </span>
         } @else{
-        <span class="text-surface-500 dark:text-surface-400"
-          >{{ post.createdAt }}o</span
+        <span class="text-surface-500 dark:text-surface-400">
+          {{ "panel.createdAt" | translate }}
+          {{ post.createdAt | date : "dd/MM/yyyy HH:mm" }}</span
         >
         }
       </div>
     </ng-template>
-    @if(post.ownedByCurrentUser){
-    <ng-template #icons>
-      <p-button icon="pi pi-file-edit" severity="secondary" rounded text />
-    </ng-template>
-    }
     <p class="m-0">
       {{ post.content }}
     </p>

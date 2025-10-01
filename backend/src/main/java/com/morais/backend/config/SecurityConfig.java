@@ -60,8 +60,8 @@ public class SecurityConfig {
         return KeycloakBuilder.builder()
                 .serverUrl("http://keycloak:8080")
                 .realm("uni-course-finder")
-                .clientId("omeucurso")
-                .clientSecret("IjY6LsOkKvFg31fGPllj8hsGdpcVJUmT")
+                .clientId("backend-service")
+                .clientSecret("IqILCwS3FfkjE5AXMygY17HZcmcG4TB9")
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                 .build();
     }

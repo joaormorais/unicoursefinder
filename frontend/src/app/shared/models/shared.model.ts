@@ -45,8 +45,8 @@ export interface PostDto {
   title: string;
   content: string;
   likes: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt?: Date | null;
   author: string;
 }
 

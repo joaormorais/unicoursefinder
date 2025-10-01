@@ -6,10 +6,19 @@ import { ToastService } from '../../../../core/services/toast.service';
 import { DividerModule } from 'primeng/divider';
 import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
+import { CommonModule, DatePipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-details',
-  imports: [DividerModule, PanelModule, ButtonModule],
+  imports: [
+    CommonModule,
+    DividerModule,
+    PanelModule,
+    ButtonModule,
+    DatePipe,
+    TranslatePipe,
+  ],
   templateUrl: './details.component.html',
 })
 export class DetailsComponent implements OnInit {
@@ -27,7 +36,11 @@ export class DetailsComponent implements OnInit {
   getPostDetails(uuid: string): void {
     this.postForumService.getPostDetails(uuid).subscribe({
       next: (data) => {
-        this.post = data;
+        this.post = {
+          ...data,
+          createdAt: new Date(data.createdAt),
+          updatedAt: data.updatedAt ? new Date(data.updatedAt) : null,
+        };
       },
       error: (err) => {
         this.toastService.showErrorToast(

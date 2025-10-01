@@ -32,6 +32,10 @@
     "likes": "Gostos",
     "comments": "Comentários"
   },
+  "panel": {
+    "createdAt": "Publicado a ",
+    "updatedAt": "Última edição a "
+  },
   "filters": {
     "global": "Procura geral",
     "keyword": "Palavras-chave",
@@ -87,23 +91,6 @@
   },
   "map": {
     "credits": "Ícones universitários criados por nawicon - Flaticon"
-  },
-  "auth": {
-    "login": "Entra na tua conta",
-    "register": "Cria a tua conta",
-    "loginRequest": "Entrar",
-    "registerRequest": "Registar",
-    "pwRecover": "Esqueci-me da minha palavra-chave",
-    "notRegistered": "Não és membro?",
-    "email": "Email",
-    "pw": "Palavra-chave",
-    "userName": "Nome de utilizador",
-    "displayName": "Nome de apresentação",
-    "birthDate": "Data de nascimento",
-    "promptLabel": "Utiliza uma palavra-chave forte",
-    "weakLabel": "Fraca",
-    "mediumLabel": "Média",
-    "strongLabel": "Forte"
   },
   "errors": {
     "summary": {
