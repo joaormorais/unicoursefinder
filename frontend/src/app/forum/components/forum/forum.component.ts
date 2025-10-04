@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal, ViewChild } from '@angular/core';
 import { PostForumService } from '../../services/post-forum.service';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { PaginatedPosts, Reference } from '../../../shared/models/shared.model';
@@ -18,6 +18,10 @@ import { InputIconModule } from 'primeng/inputicon';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
+import { Dialog } from 'primeng/dialog';
+import { PostFormComponent } from '../form/post-form/post-form.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-forum',
@@ -29,6 +33,10 @@ import { Router } from '@angular/router';
     FormsModule,
     MultiSelectModule,
     ButtonModule,
+    Dialog,
+    PostFormComponent,
+    InputTextModule,
+    DatePipe,
   ],
   templateUrl: './forum.component.html',
 })
@@ -38,7 +46,6 @@ export class ForumComponent {
   courseSearchService = inject(CourseSearchService);
   utilsSearchService = inject(UtilsSearchService);
   toastService = inject(ToastService);
-  translate = inject(TranslateService);
   messageService = inject(MessageService);
   router = inject(Router);
 
@@ -80,6 +87,8 @@ export class ForumComponent {
 
   filterTimeouts: { [key: string]: any } = {};
   lastTableLazyLoadEvent!: TableLazyLoadEvent;
+
+  visible: boolean = false;
 
   onLazyLoad(event: TableLazyLoadEvent): void {
     if (!event) {
@@ -264,11 +273,16 @@ export class ForumComponent {
     }, 300);
   }
 
-  goToLink(url: string): void {
-    window.open(url, '_blank');
-  }
-
   goToPost(uuid: string): void {
     this.router.navigate(['/forum', uuid]);
+  }
+
+  showDialog(): void {
+    this.visible = true;
+  }
+
+  onPostCreated(uuid: string): void {
+    this.visible = false;
+    this.goToPost(uuid);
   }
 }

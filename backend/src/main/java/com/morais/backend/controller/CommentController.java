@@ -1,6 +1,7 @@
 package com.morais.backend.controller;
 
-import com.morais.backend.domain.dto.CommentDto;
+import com.morais.backend.domain.dto.comment.CommentCreateDto;
+import com.morais.backend.domain.dto.comment.CommentDto;
 import com.morais.backend.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,24 +26,27 @@ public class CommentController {
     @GetMapping("/{postUuid}")
     public ResponseEntity<Page<CommentDto>> getComments(
             @PageableDefault(size = 5, sort = "createdAt,asc") Pageable pageable,
-            @PathVariable UUID postUuid
+            @PathVariable UUID postUuid,
+            @AuthenticationPrincipal Jwt jwt
     ) {
-        return ResponseEntity.ok(commentService.getComments(pageable, postUuid));
+        return ResponseEntity.ok(commentService.getComments(pageable, postUuid, jwt));
     }
 
     @GetMapping("/{parentUuid}/replies")
     public ResponseEntity<Page<CommentDto>> getReplies(
             @PageableDefault(size = 5, sort = "createdAt,asc") Pageable pageable,
-            @PathVariable UUID parentUuid
+            @PathVariable UUID parentUuid,
+            @AuthenticationPrincipal Jwt jwt
     ) {
-        return ResponseEntity.ok(commentService.getReplies(pageable, parentUuid));
+        return ResponseEntity.ok(commentService.getReplies(pageable, parentUuid, jwt));
     }
 
     @PostMapping
-    public ResponseEntity<CommentDto> createComment(
-            @RequestBody CommentDto commentDto
+    public ResponseEntity<CommentCreateDto> createComment(
+            @RequestBody CommentCreateDto commentCreateDto,
+            @AuthenticationPrincipal Jwt jwt
     ) {
-        return ResponseEntity.ok().body(this.commentService.createComment(commentDto));
+        return ResponseEntity.ok().body(this.commentService.createComment(commentCreateDto, jwt));
     }
 
     @DeleteMapping("/{commentUuid}")

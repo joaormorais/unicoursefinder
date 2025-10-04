@@ -1,0 +1,103 @@
+<div class="flex flex-col justify-center">
+  @if(apiError()){
+  {{ "errors.dialog" | translate }}
+  }@else {
+  <form [formGroup]="formGroup" class="w-full" (ngSubmit)="onSubmit()">
+    <p-floatlabel variant="in">
+      <input
+        pInputText
+        id="title"
+        formControlName="title"
+        class="w-full mt-5"
+        (invalid)="isInvalid('title')"
+      />
+      <label for="title">{{ "dialog.title" | translate }}</label>
+    </p-floatlabel>
+    @if (isInvalid('title')) {
+    <p-message severity="error" size="small" variant="simple">{{
+      "errors.form.titleRequired" | translate
+    }}</p-message>
+    }
+    <p-floatlabel variant="in" class="mt-5">
+      <p-select
+        id="institution"
+        formControlName="institution"
+        [options]="institutions"
+        optionLabel="label"
+        optionValue="value"
+        [panelStyle]="{ minWidth: '16rem' }"
+        display="chip"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="38"
+        (onLazyLoad)="onInstitutionsLazyLoad($event)"
+        [lazy]="true"
+        [filter]="true"
+        (onFilter)="onInstitutionsFilter($event)"
+        [loading]="gettingInstitutions()"
+        (onShow)="institutions.length === 0 && loadInstitutions(0)"
+        styleClass="w-full mt-5"
+      />
+      <label for="institution">{{ "dialog.institution" | translate }}</label>
+    </p-floatlabel>
+    <p-floatlabel variant="in" class="mt-5">
+      <p-select
+        id="course"
+        formControlName="course"
+        [options]="courses"
+        [panelStyle]="{ minWidth: '16rem' }"
+        display="chip"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="38"
+        (onLazyLoad)="onCoursesLazyLoad($event)"
+        [lazy]="true"
+        [filter]="true"
+        (onFilter)="onCoursesFilter($event)"
+        [loading]="gettingCourses()"
+        (onShow)="courses.length === 0 && loadCourses(0)"
+        styleClass="w-full mt-5"
+      />
+      <label for="institution">{{ "dialog.course" | translate }}</label>
+    </p-floatlabel>
+    <p-floatlabel variant="in">
+      <textarea
+        id="content"
+        rows="10"
+        cols="30"
+        pTextarea
+        formControlName="content"
+        class="w-full min-h-25 mt-5"
+        [autoResize]="true"
+        (invalid)="isInvalid('content')"
+      ></textarea>
+      <label for="content">{{ "dialog.content" | translate }}</label>
+    </p-floatlabel>
+    @if (isInvalid('content')) {
+    <p-message severity="error" size="small" variant="simple">{{
+      "errors.form.contentRequired" | translate
+    }}</p-message>
+    }
+    <div class="flex justify-center gap-2">
+      <p-button
+        [label]="'buttons.cancel' | translate"
+        variant="outlined"
+        severity="contrast"
+        icon="pi pi-times"
+        (onClick)="closeDialog.emit()"
+      />
+      <p-button
+        [label]="'buttons.delete' | translate"
+        variant="outlined"
+        severity="danger"
+        icon="pi pi-trash"
+      />
+      <p-button
+        [label]="'buttons.create' | translate"
+        variant="outlined"
+        severity="success"
+        icon="pi pi-check"
+        type="submit"
+      />
+    </div>
+  </form>
+  }
+</div>

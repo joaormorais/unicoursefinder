@@ -50,6 +50,14 @@ export interface PostDto {
   author: string;
 }
 
+export interface PostEditDto {
+  uuid: string;
+  institution: Reference;
+  course: Reference;
+  title: string;
+  content: string;
+}
+
 export interface PaginatedPosts {
   content: PostDto[];
   totalElements: number;
@@ -63,4 +71,8 @@ export interface CommentDto {
   content: string;
   likes: number;
   createdAt: string;
+}
+
+export interface CommentCreateDto {
+  content: string;
 }

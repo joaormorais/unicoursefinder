@@ -1,6 +1,7 @@
 package com.morais.backend.service;
 
-import com.morais.backend.domain.dto.CommentDto;
+import com.morais.backend.domain.dto.comment.CommentCreateDto;
+import com.morais.backend.domain.dto.comment.CommentDto;
 import com.morais.backend.domain.entity.Comment;
 import com.morais.backend.exception.AppException;
 import com.morais.backend.mappers.CommentMapper;
@@ -23,21 +24,31 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
 
-    public Page<CommentDto> getComments(Pageable pageable, UUID postUuid) {
+    public Page<CommentDto> getComments(Pageable pageable, UUID postUuid, Jwt jwt) {
         Page<Comment> resultPage = commentRepository.findByPost_UuidAndParentIsNull(pageable, postUuid);
-        return resultPage.map(commentMapper::toDto);
+        return resultPage.map(comment -> commentMapper.toDto(comment, jwt == null ? null : UUID.fromString(jwt.getSubject())));
     }
 
-    public Page<CommentDto> getReplies(Pageable pageable, UUID parentUuid) {
+    public Page<CommentDto> getReplies(Pageable pageable, UUID parentUuid, Jwt jwt) {
         Page<Comment> resultPage = commentRepository.findByParent_Uuid(pageable, parentUuid);
-        return resultPage.map(commentMapper::toDto);
+        return resultPage.map(comment -> commentMapper.toDto(comment, jwt == null ? null : UUID.fromString(jwt.getSubject())));
     }
 
-    public CommentDto createComment(CommentDto commentDto) {
-        return commentMapper.toDto(this.commentRepository.save(commentMapper.toEntity(commentDto)));
+    public CommentCreateDto createComment(CommentCreateDto CommentCreateDto, Jwt jwt) {
+        if (jwt == null) {
+            log.warn("Tried to create a comment without a logged user");
+            throw new AppException("USER_NOT_LOGGED", HttpStatus.UNAUTHORIZED);
+        }
+
+        return commentMapper.toCreateDto(this.commentRepository.save(commentMapper.toEntity(CommentCreateDto)));
     }
 
     public void deleteComment(UUID commentUuid, Jwt jwt) {
+        if (jwt == null) {
+            log.warn("Tried to delete a comment without a logged user");
+            throw new AppException("USER_NOT_LOGGED", HttpStatus.UNAUTHORIZED);
+        }
+
         Comment comment = commentRepository.findByUuid(commentUuid).orElseThrow(() -> {
             log.warn("Tried to delete a comment that doesn't exist");
             return new AppException("COMMENT_DOESNT_EXIST", HttpStatus.CONFLICT);

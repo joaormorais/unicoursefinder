@@ -8,7 +8,28 @@
       <p-button
         icon="pi pi-plus"
         [attr.aria-label]="'ariaLabels.createPost' | translate"
+        (click)="showDialog()"
       />
+      <p-dialog
+        header="Header"
+        [modal]="true"
+        [(visible)]="visible"
+        [style]="{ width: '50rem' }"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+        (closeDialog)="visible = false"
+      >
+        <ng-template #header>
+          <div class="inline-flex items-center justify-center gap-2">
+            <span class="font-bold whitespace-nowrap">{{
+              "dialog.newPost" | translate
+            }}</span>
+          </div>
+        </ng-template>
+        <app-post-form
+          (closeDialog)="visible = false"
+          (onPostCreated)="onPostCreated($event)"
+        ></app-post-form>
+      </p-dialog>
     </div>
   </div>
   <p-table
@@ -146,7 +167,7 @@
         <td>{{ post.title }}</td>
         <td>{{ post.institution?.label }}</td>
         <td>{{ post.course?.label }}</td>
-        <td>{{ post.createdAt }}</td>
+        <td>{{ post.createdAt | date : "dd/MM/yyyy" }}</td>
         <td>{{ post.likes }}</td>
         <td>{{ post.commentsCount }}</td>
       </tr>
@@ -162,10 +183,10 @@
       </tr>
     </ng-template>
     <ng-template #emptymessage>
-    <tr>
-      <td colspan="6">{{ "errors.summary.emptyPosts" | translate }}</td>
-    </tr>
-  </ng-template>
+      <tr>
+        <td colspan="6">{{ "errors.summary.emptyPosts" | translate }}</td>
+      </tr>
+    </ng-template>
   </p-table>
   }
 </div>

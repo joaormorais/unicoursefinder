@@ -2,7 +2,7 @@ package com.morais.backend.controller;
 
 import com.morais.backend.domain.dto.post.PostDetailDto;
 import com.morais.backend.domain.dto.post.PostDto;
-import com.morais.backend.domain.dto.post.PostResponseDto;
+import com.morais.backend.domain.dto.post.PostEditDto;
 import com.morais.backend.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +46,8 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostResponseDto> createPost(
-            @RequestBody @Valid PostDto postDto,
+    public ResponseEntity<PostEditDto> createPost(
+            @RequestBody @Valid PostEditDto postDto,
             @AuthenticationPrincipal Jwt jwt
     ) {
         return ResponseEntity.ok().body(this.postService.createPost(postDto, jwt));
@@ -55,7 +55,7 @@ public class PostController {
 
     @PutMapping("/{postUuid}")
     public ResponseEntity<PostDetailDto> updatePost(
-            @RequestBody @Valid PostDto postDto,
+            @RequestBody @Valid PostEditDto postDto,
             @PathVariable UUID postUuid,
             @AuthenticationPrincipal Jwt jwt
     ) {

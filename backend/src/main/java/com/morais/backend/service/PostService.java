@@ -2,7 +2,7 @@ package com.morais.backend.service;
 
 import com.morais.backend.domain.dto.post.PostDetailDto;
 import com.morais.backend.domain.dto.post.PostDto;
-import com.morais.backend.domain.dto.post.PostResponseDto;
+import com.morais.backend.domain.dto.post.PostEditDto;
 import com.morais.backend.domain.entity.Post;
 import com.morais.backend.exception.AppException;
 import com.morais.backend.mappers.PostMapper;
@@ -71,22 +71,27 @@ public class PostService {
         return postMapper.toDetailDto(post, jwt == null ? null : UUID.fromString(jwt.getSubject()));
     }
 
-    public PostResponseDto createPost(PostDto postDto, Jwt jwt) {
-        if (postRepository.existsByNormalizedTitle(normalize(postDto.getTitle()))) {
-            log.warn("Tried to create an existing post");
-            throw new AppException("POST_ALREADY_EXISTS", HttpStatus.CONFLICT);
-        }
-
+    public PostEditDto createPost(PostEditDto postEditDto, Jwt jwt) {
         if (jwt == null) {
             log.warn("Tried to create a post without a logged user");
             throw new AppException("USER_NOT_LOGGED", HttpStatus.UNAUTHORIZED);
         }
 
-        return postMapper.toResponseDto(this.postRepository.save(postMapper.toEntity(postDto)));
+        if (postRepository.existsByNormalizedTitleOrUuid(normalize(postEditDto.getTitle()), postEditDto.getUuid())) {
+            log.warn("Tried to create an existing post");
+            throw new AppException("POST_ALREADY_EXISTS", HttpStatus.CONFLICT);
+        }
+
+        return postMapper.toEditDto(this.postRepository.save(postMapper.createPost(postEditDto, UUID.fromString(jwt.getSubject()))));
     }
 
-    public PostDetailDto updatePost(PostDto postDto, UUID postUuid, Jwt jwt) {
-        if (!postUuid.equals(postDto.getUuid())) {
+    public PostDetailDto updatePost(PostEditDto postEditDto, UUID postUuid, Jwt jwt) {
+        if (jwt == null) {
+            log.warn("Tried to update a post without a logged user");
+            throw new AppException("USER_NOT_LOGGED", HttpStatus.UNAUTHORIZED);
+        }
+
+        if (!postUuid.equals(postEditDto.getUuid())) {
             log.warn("Uuid's mismatch");
             throw new AppException("UUID_MISMATCH", HttpStatus.CONFLICT);
         }
@@ -101,15 +106,20 @@ public class PostService {
             throw new AppException("NOT_YOUR_POST", HttpStatus.FORBIDDEN);
         }
 
-        if (postRepository.existsByNormalizedTitleAndUuidNot(normalize(postDto.getTitle()), postDto.getUuid())) {
+        if (postRepository.existsByNormalizedTitleAndUuidNot(normalize(postEditDto.getTitle()), postEditDto.getUuid())) {
             log.warn("Tried to update a post that would be equals to an existing post");
             throw new AppException("POST_ALREADY_EXISTS", HttpStatus.CONFLICT);
         }
 
-        return postMapper.toDetailDto(this.postRepository.save(postMapper.updatePost(postDto, post)), UUID.fromString(jwt.getSubject()));
+        return postMapper.toDetailDto(this.postRepository.save(postMapper.updatePost(postEditDto, post)), UUID.fromString(jwt.getSubject()));
     }
 
     public void deletePost(UUID postUuid, Jwt jwt) {
+        if (jwt == null) {
+            log.warn("Tried to delete a post without a logged user");
+            throw new AppException("USER_NOT_LOGGED", HttpStatus.UNAUTHORIZED);
+        }
+
         Post post = postRepository.findByUuid(postUuid).orElseThrow(() -> {
             log.warn("Tried to delete a post that doesn't exist");
             return new AppException("POST_DOESNT_EXIST", HttpStatus.CONFLICT);

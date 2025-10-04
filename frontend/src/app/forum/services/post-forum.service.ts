@@ -2,7 +2,12 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PaginatedPosts, PostDto } from '../../shared/models/shared.model';
+import {
+  CommentCreateDto,
+  PaginatedPosts,
+  PostDto,
+  PostEditDto,
+} from '../../shared/models/shared.model';
 
 @Injectable({ providedIn: 'root' })
 export class PostForumService {
@@ -32,5 +37,17 @@ export class PostForumService {
 
   getPostDetails(uuid: string): Observable<PostDto> {
     return this.http.get<PostDto>(this.apiUrl + '/post/' + uuid);
+  }
+
+  createPost(post: PostEditDto): Observable<PostEditDto> {
+    return this.http.post<PostEditDto>(this.apiUrl + '/post', post);
+  }
+
+  createComment(comment: CommentCreateDto): Observable<CommentCreateDto> {
+    return this.http.post<CommentCreateDto>(this.apiUrl + '/comment', comment);
+  }
+
+  editPost(post: PostEditDto): Observable<PostEditDto> {
+    return this.http.put<PostEditDto>(this.apiUrl + '/post/' + post.uuid, post);
   }
 }

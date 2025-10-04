@@ -21,4 +21,12 @@ export class ToastService {
       sticky: true,
     });
   }
+
+  showSuccessToast(summary: string): void {
+    this.messageService.add({
+      severity: 'success',
+      summary: this.translate.instant(summary),
+      sticky: true,
+    });
+  }
 }

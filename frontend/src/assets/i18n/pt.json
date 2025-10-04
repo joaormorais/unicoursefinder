@@ -18,7 +18,10 @@
     "institutions": "Instituições",
     "courses": "Cursos",
     "edit": "Editar perfil",
-    "logout": "Terminar sessão"
+    "logout": "Terminar sessão",
+    "create": "Salvar",
+    "delete": "Apagar",
+    "cancel": "Cancelar"
   },
   "tables": {
     "dges": "Código DGES",
@@ -35,6 +38,13 @@
   "panel": {
     "createdAt": "Publicado a ",
     "updatedAt": "Última edição a "
+  },
+  "dialog": {
+    "newPost": "Nova publicação",
+    "title": "Título",
+    "content": "Conteúdo",
+    "institution": "Instituição",
+    "course": "Curso"
   },
   "filters": {
     "global": "Procura geral",
@@ -93,20 +103,6 @@
     "credits": "Ícones universitários criados por nawicon - Flaticon"
   },
   "errors": {
-    "summary": {
-      "emptyInstitutions": "Não existem instituições",
-      "emptyCourses": "Não existem cursos",
-      "emptyPosts": "Não existem publicações",
-      "gettingCourses": "Ocorreu um erro a obter cursos",
-      "gettingCoursesTypes": "Ocorreu um erro a obter tipos para a filtragem de cursos",
-      "gettingInstitutionsTypes": "Ocorreu um erro a obter tipos para a filtragem de instituições",
-      "gettingInstitutionsDistricts": "Ocorreu um erro a obter distritos para a filtragem de instituições",
-      "gettingInstitutions": "Ocorreu um erro a obter instituições",
-      "gettingPosts": "Ocorreu um erro a obter publicações",
-      "gettingPostDetails": "Ocorreu um erro a obter os detalhes desta publicação",
-      "gettingInstitutionsDropdown": "Ocoreu um erro a obter instituições para a filtragem",
-      "gettingCoursesDropdown": "Ocoreu um erro a obter cursos para a filtragem"
-    },
     "CANT_REACH_SERVER": "Não foi possível fazer contacto com o servidor",
     "INTERNAL_SERVER_ERROR": "Ocorreu um erro no servidor",
     "ILLEGAL_ARGUMENTS": "Pedido incorreto",
@@ -122,8 +118,32 @@
     "institutions": "Houve um problema no servidor! Não foi possível carregar as instituições.",
     "courses": "Houve um problema no servidor! Não foi possível carregar os cursos",
     "forum": "Houve um problema no servidor! Não foi possível carregar as publicações",
-    "required": "Este campo é obrigatório",
-    "email": "Não corresponde ao formato de email",
-    "maxLength": "Excede o limite de caracteres"
+    "details": "Houve um problema no servidor! Não foi possível carregar esta publicação",
+    "dialog": "Houve um problema no servidor! Não foi possível carregar esta janela",
+    "summary": {
+      "emptyInstitutions": "Não existem instituições",
+      "emptyCourses": "Não existem cursos",
+      "emptyPosts": "Não existem publicações",
+      "gettingCourses": "Ocorreu um erro a obter cursos",
+      "gettingCoursesTypes": "Ocorreu um erro a obter tipos para a filtragem de cursos",
+      "gettingInstitutionsTypes": "Ocorreu um erro a obter tipos para a filtragem de instituições",
+      "gettingInstitutionsDistricts": "Ocorreu um erro a obter distritos para a filtragem de instituições",
+      "gettingInstitutions": "Ocorreu um erro a obter instituições",
+      "gettingPosts": "Ocorreu um erro a obter publicações",
+      "gettingPostDetails": "Ocorreu um erro a obter os detalhes desta publicação",
+      "gettingInstitutionsDropdown": "Ocoreu um erro a obter instituições para a filtragem",
+      "gettingCoursesDropdown": "Ocoreu um erro a obter cursos para a filtragem",
+      "creatingPost": "Ocorreu um erro a criar uma publicação",
+      "creatingComment": "Ocorreu um erro a criar um comentário"
+    },
+    "form": {
+      "titleRequired": "É necessário um título",
+      "contentRequired": "É necessário um conteúdo"
+    }
+  },
+  "success": {
+    "postCreated": "Publicação criada com sucesso!",
+    "postEdited": "Publicação editada com sucesso!",
+    "commentCreated": "Comentário criado com sucesso!"
   }
 }
