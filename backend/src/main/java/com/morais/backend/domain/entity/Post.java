@@ -21,7 +21,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, insertable = false)
+    @Column(nullable = false, updatable = false, unique = true)
     private UUID uuid;
 
     @Column(name = "user_uuid", nullable = false)

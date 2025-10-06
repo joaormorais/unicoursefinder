@@ -1,7 +1,7 @@
 @if(apiError()){
 {{ "errors.details" | translate }}
 }@else {
-  <p-dialog
+<p-dialog
   header="Header"
   [modal]="true"
   [(visible)]="visible"
@@ -17,7 +17,8 @@
   </ng-template>
   <app-post-form
     (closeDialog)="visible = false"
-    (loadPostDetails)="loadPostDetails()"
+    (reloadDetails)="reloadDetails()"
+    (onPostDeleted)="onPostDeleted()"
     [editingPost]="post"
   ></app-post-form>
 </p-dialog>
@@ -34,6 +35,7 @@
     <ng-template #footer>
       <div class="flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center gap-2">
+          {{ post.likes }}
           <p-button icon="pi pi-heart" rounded text></p-button>
           @if(post.ownedByCurrentUser){
           <p-button

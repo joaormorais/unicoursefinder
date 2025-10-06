@@ -52,8 +52,8 @@ export interface PostDto {
 
 export interface PostEditDto {
   uuid: string;
-  institution: Reference;
-  course: Reference;
+  institution?: Reference;
+  course?: Reference;
   title: string;
   content: string;
 }

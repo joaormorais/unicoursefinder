@@ -7,7 +7,6 @@ import com.morais.backend.domain.entity.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.UUID;
 
@@ -27,6 +26,7 @@ public interface PostMapper {
     PostEditDto toEditDto(Post post);
 
     @Mapping(target = "normalizedTitle", expression = "java(com.morais.backend.util.TextUtils.normalize(postEditDto.getTitle()))")
+    @Mapping(target = "uuid", expression = "java(java.util.UUID.randomUUID())")
     @Mapping(target = "userUuid", source = "userUuid")
     @Mapping(target = "institution", source = "postEditDto.institution", qualifiedByName = "getInstitutionByUuid")
     @Mapping(target = "course", source = "postEditDto.course", qualifiedByName = "getCourseByUuid")

@@ -133,8 +133,8 @@
       "gettingPostDetails": "Ocorreu um erro a obter os detalhes desta publicação",
       "gettingInstitutionsDropdown": "Ocoreu um erro a obter instituições para a filtragem",
       "gettingCoursesDropdown": "Ocoreu um erro a obter cursos para a filtragem",
-      "creatingPost": "Ocorreu um erro a criar uma publicação",
-      "creatingComment": "Ocorreu um erro a criar um comentário"
+      "creatingPost": "Ocorreu um erro a criar/editar uma publicação",
+      "creatingComment": "Ocorreu um erro a criar/editar um comentário"
     },
     "form": {
       "titleRequired": "É necessário um título",
@@ -144,6 +144,8 @@
   "success": {
     "postCreated": "Publicação criada com sucesso!",
     "postEdited": "Publicação editada com sucesso!",
-    "commentCreated": "Comentário criado com sucesso!"
+    "postDeleted": "publicação apagada!",
+    "commentCreated": "Comentário criado com sucesso!",
+    "commentDeleted": "Comentário apagado!"
   }
 }

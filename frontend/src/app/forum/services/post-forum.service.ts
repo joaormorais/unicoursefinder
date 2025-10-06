@@ -50,4 +50,12 @@ export class PostForumService {
   editPost(post: PostEditDto): Observable<PostEditDto> {
     return this.http.put<PostEditDto>(this.apiUrl + '/post/' + post.uuid, post);
   }
+
+  deletePost(uuid: string): Observable<Object> {
+    return this.http.delete(this.apiUrl + '/post/' + uuid);
+  }
+
+  deleteComment(uuid: string): Observable<Object> {
+    return this.http.delete(this.apiUrl + '/comment/' + uuid);
+  }
 }

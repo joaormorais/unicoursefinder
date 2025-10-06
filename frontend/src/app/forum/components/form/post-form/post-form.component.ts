@@ -54,12 +54,11 @@ export class PostFormComponent {
   toastService = inject(ToastService);
   postForumService = inject(PostForumService);
 
-  @Output('closeDialog') closeDialog: EventEmitter<void> = new EventEmitter();
-  @Output('onPostCreated') onPostCreated: EventEmitter<string> =
-    new EventEmitter<string>();
-  @Output('loadPostDetails') loadPostDetails: EventEmitter<void> =
-    new EventEmitter();
-  @Input() editingPost!: PostDto;
+  @Output('closeDialog') closeDialog = new EventEmitter();
+  @Output('onPostCreated') onPostCreated = new EventEmitter<string>();
+  @Output('onPostDeleted') onPostDeleted = new EventEmitter<string>();
+  @Output('reloadDetails') reloadDetails = new EventEmitter();
+  @Input() editingPost?: PostDto;
 
   institutions: Reference[] = [];
   institutionsPageNumber = signal(0);
@@ -72,9 +71,6 @@ export class PostFormComponent {
   coursesPageSize = 20;
   coursesTotalRecords = signal(0);
   private coursesFilterTimeout: any;
-
-  //selectedInstitutions: string[] = [];
-  //selectedCourses: string[] = [];
 
   apiError = signal(false);
   gettingInstitutions = signal(false);
@@ -89,8 +85,8 @@ export class PostFormComponent {
       ],
       nonNullable: true,
     }),
-    institution: new FormControl(),
-    course: new FormControl(),
+    institution: new FormControl<Reference | null>(null),
+    course: new FormControl<Reference | null>(null),
     content: new FormControl('', {
       validators: [
         Validators.required,
@@ -140,7 +136,16 @@ export class PostFormComponent {
       .subscribe({
         next: (data) => {
           if (page === 0) {
-            this.institutions = data.content;
+            let newOptions = data.content;
+            if (
+              this.editingPost?.institution &&
+              !newOptions.some(
+                (i) => i.value === this.editingPost?.institution.value
+              )
+            ) {
+              newOptions = [this.editingPost.institution, ...newOptions];
+            }
+            this.institutions = newOptions;
           } else {
             this.institutions = [...this.institutions, ...data.content];
           }
@@ -169,7 +174,16 @@ export class PostFormComponent {
       .subscribe({
         next: (data) => {
           if (page === 0) {
-            this.courses = data.content;
+            let newOptions = data.content;
+            if (
+              this.editingPost?.course &&
+              !newOptions.some(
+                (i) => i.value === this.editingPost?.course.value
+              )
+            ) {
+              newOptions = [this.editingPost.course, ...newOptions];
+            }
+            this.courses = newOptions;
           } else {
             this.courses = [...this.courses, ...data.content];
           }
@@ -209,15 +223,22 @@ export class PostFormComponent {
       return;
     }
 
-    this.formGroup.get('title')?.setValue(this.editingPost.title);
+    this.formGroup.patchValue({
+      title: this.editingPost.title,
+      content: this.editingPost.content,
+    });
 
-    if (this.editingPost.institution)
-      this.formGroup.get('institution')?.setValue(this.editingPost.institution);
+    if (this.editingPost.institution) {
+      this.institutions = [this.editingPost.institution];
+      this.formGroup.controls.institution.setValue(
+        this.editingPost.institution
+      );
+    }
 
-    if (this.editingPost.course)
-      this.formGroup.get('course')?.setValue(this.editingPost.course);
-
-    this.formGroup.get('content')?.setValue(this.editingPost.content);
+    if (this.editingPost.course) {
+      this.courses = [this.editingPost.course];
+      this.formGroup.controls.course.setValue(this.editingPost.course);
+    }
   }
 
   closeAndResetCreate(uuid: string): void {
@@ -227,7 +248,12 @@ export class PostFormComponent {
 
   closeAndResetEdit(): void {
     this.closeAndReset();
-    this.loadPostDetails.emit();
+    this.reloadDetails.emit();
+  }
+
+  closeAndResetDelete(): void {
+    this.closeAndReset();
+    this.onPostDeleted.emit();
   }
 
   closeAndReset(): void {
@@ -241,16 +267,16 @@ export class PostFormComponent {
       let newPost: PostEditDto = {
         uuid: !this.editingPost ? '' : this.editingPost.uuid,
         title: this.formGroup.value.title!,
-        institution: this.formGroup.value.institution,
-        course: this.formGroup.value.course,
+        institution: this.formGroup.value.institution || undefined,
+        course: this.formGroup.value.course || undefined,
         content: this.formGroup.value.content!,
       };
 
       if (!this.editingPost) {
         this.postForumService.createPost(newPost).subscribe({
-          next: () => {
+          next: (data) => {
             this.formSubmitted = false;
-            this.closeAndReset();
+            this.closeAndResetCreate(data.uuid);
             this.toastService.showSuccessToast('success.postCreated');
           },
           error: (err) => {
@@ -266,7 +292,7 @@ export class PostFormComponent {
         this.postForumService.editPost(newPost).subscribe({
           next: () => {
             this.formSubmitted = false;
-            this.closeAndReset();
+            this.closeAndResetEdit();
             this.toastService.showSuccessToast('success.postCreated');
           },
           error: (err) => {
@@ -285,5 +311,20 @@ export class PostFormComponent {
   isInvalid(controlName: string) {
     const control = this.formGroup.get(controlName);
     return control?.invalid && (control.touched || this.formSubmitted);
+  }
+
+  deletePost(postUuid: string): void {
+    this.postForumService.deletePost(postUuid).subscribe({
+      next: () => {
+        this.formSubmitted = false;
+        this.closeAndResetDelete();
+        this.toastService.showSuccessToast('success.postDeleted');
+      },
+      error: (err) => {
+        this.toastService.showErrorToast(err, 'errors.summary.creatingPost');
+        this.apiError.set(true);
+        this.gettingCourses.set(false);
+      },
+    });
   }
 }

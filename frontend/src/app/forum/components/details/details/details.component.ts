@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PostDto } from '../../../../shared/models/shared.model';
 import { PostForumService } from '../../../services/post-forum.service';
 import { ToastService } from '../../../../core/services/toast.service';
@@ -29,6 +29,7 @@ export class DetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   postForumService = inject(PostForumService);
   toastService = inject(ToastService);
+  router = inject(Router);
 
   @ViewChild(PostFormComponent) postForm!: PostFormComponent;
 
@@ -40,7 +41,7 @@ export class DetailsComponent implements OnInit {
   apiError = signal(false);
 
   ngOnInit(): void {
-    this.loadPostDetails();
+    if (this.postUuid) this.getPostDetails(this.postUuid);
   }
 
   getPostDetails(uuid: string): void {
@@ -62,12 +63,16 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  loadPostDetails(): void {
-    if (this.postUuid) this.getPostDetails(this.postUuid);
+  reloadDetails(): void {
+    window.location.reload();
   }
 
   showDialog(): void {
     this.visible = true;
     this.postForm.populateForm();
+  }
+
+  onPostDeleted(): void {
+    this.router.navigate(['/forum']);
   }
 }

@@ -274,7 +274,7 @@ export class ForumComponent {
   }
 
   goToPost(uuid: string): void {
-    this.router.navigate(['/forum', uuid]);
+    this.router.navigate(['/forum/', uuid]);
   }
 
   showDialog(): void {

@@ -3,12 +3,12 @@
   {{ "errors.dialog" | translate }}
   }@else {
   <form [formGroup]="formGroup" class="w-full" (ngSubmit)="onSubmit()">
-    <p-floatlabel variant="in">
+    <p-floatlabel variant="in" class="mt-7">
       <input
         pInputText
         id="title"
         formControlName="title"
-        class="w-full mt-5"
+        class="w-full"
         (invalid)="isInvalid('title')"
       />
       <label for="title">{{ "dialog.title" | translate }}</label>
@@ -18,54 +18,55 @@
       "errors.form.titleRequired" | translate
     }}</p-message>
     }
-    <p-floatlabel variant="in" class="mt-5">
+    <p-floatlabel variant="in" class="mt-7">
       <p-select
         id="institution"
         formControlName="institution"
         [options]="institutions"
         optionLabel="label"
-        optionValue="value"
         [panelStyle]="{ minWidth: '16rem' }"
         display="chip"
         [virtualScroll]="true"
-        [virtualScrollItemSize]="38"
+        [virtualScrollItemSize]="15"
+        scrollHeight="300px"
         (onLazyLoad)="onInstitutionsLazyLoad($event)"
         [lazy]="true"
         [filter]="true"
         (onFilter)="onInstitutionsFilter($event)"
         [loading]="gettingInstitutions()"
         (onShow)="institutions.length === 0 && loadInstitutions(0)"
-        styleClass="w-full mt-5"
+        styleClass="w-full"
       />
       <label for="institution">{{ "dialog.institution" | translate }}</label>
     </p-floatlabel>
-    <p-floatlabel variant="in" class="mt-5">
+    <p-floatlabel variant="in" class="mt-7">
       <p-select
         id="course"
         formControlName="course"
         [options]="courses"
+        optionLabel="label"
         [panelStyle]="{ minWidth: '16rem' }"
         display="chip"
         [virtualScroll]="true"
-        [virtualScrollItemSize]="38"
+        [virtualScrollItemSize]="15"
+        scrollHeight="300px"
         (onLazyLoad)="onCoursesLazyLoad($event)"
         [lazy]="true"
         [filter]="true"
         (onFilter)="onCoursesFilter($event)"
         [loading]="gettingCourses()"
         (onShow)="courses.length === 0 && loadCourses(0)"
-        styleClass="w-full mt-5"
+        styleClass="w-full"
       />
-      <label for="institution">{{ "dialog.course" | translate }}</label>
+      <label for="course">{{ "dialog.course" | translate }}</label>
     </p-floatlabel>
-    <p-floatlabel variant="in">
+    <p-floatlabel variant="in" class="mt-7">
       <textarea
         id="content"
-        rows="10"
-        cols="30"
         pTextarea
+        rows="15"
         formControlName="content"
-        class="w-full min-h-25 mt-5"
+        class="w-full min-h-25"
         [autoResize]="true"
         (invalid)="isInvalid('content')"
       ></textarea>
@@ -84,12 +85,15 @@
         icon="pi pi-times"
         (onClick)="closeDialog.emit()"
       />
+      @if(editingPost){
       <p-button
         [label]="'buttons.delete' | translate"
         variant="outlined"
         severity="danger"
         icon="pi pi-trash"
+        (onClick)="deletePost(editingPost.uuid)"
       />
+      }
       <p-button
         [label]="'buttons.create' | translate"
         variant="outlined"
