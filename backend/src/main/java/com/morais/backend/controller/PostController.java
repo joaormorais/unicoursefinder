@@ -6,7 +6,6 @@ import com.morais.backend.domain.dto.post.PostEditDto;
 import com.morais.backend.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("post")
@@ -60,6 +58,15 @@ public class PostController {
             @AuthenticationPrincipal Jwt jwt
     ) {
         return ResponseEntity.ok().body(this.postService.updatePost(postDto, postUuid, jwt));
+    }
+
+    @PutMapping("/like/{postUuid}")
+    public ResponseEntity<Void> likeOrDislikePost(
+            @PathVariable UUID postUuid,
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        this.postService.likeOrDislikePost(postUuid, jwt);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{postUuid}")

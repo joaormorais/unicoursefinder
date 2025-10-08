@@ -40,6 +40,7 @@ export interface PaginatedCourses {
 export interface PostDto {
   uuid: string;
   ownedByCurrentUser: boolean;
+  likedByCurrentUser: boolean;
   institution: Reference;
   course: Reference;
   title: string;

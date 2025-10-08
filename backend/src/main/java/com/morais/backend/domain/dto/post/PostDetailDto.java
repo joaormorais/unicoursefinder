@@ -12,6 +12,7 @@ import java.util.UUID;
 public class PostDetailDto {
     private UUID uuid;
     private boolean ownedByCurrentUser;
+    private boolean likedByCurrentUser;
     private ReferenceDto institution;
     private ReferenceDto course;
     private String title;

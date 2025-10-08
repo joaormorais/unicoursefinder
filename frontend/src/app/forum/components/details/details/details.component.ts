@@ -39,6 +39,8 @@ export class DetailsComponent implements OnInit {
   visible: boolean = false;
 
   apiError = signal(false);
+  currentLikes = signal(0);
+  likedByUser = signal(false);
 
   ngOnInit(): void {
     if (this.postUuid) this.getPostDetails(this.postUuid);
@@ -52,6 +54,8 @@ export class DetailsComponent implements OnInit {
           createdAt: new Date(data.createdAt),
           updatedAt: data.updatedAt ? new Date(data.updatedAt) : null,
         };
+        this.currentLikes.set(this.post.likes);
+        this.likedByUser.set(this.post.likedByCurrentUser);
       },
       error: (err) => {
         this.toastService.showErrorToast(
@@ -74,5 +78,27 @@ export class DetailsComponent implements OnInit {
 
   onPostDeleted(): void {
     this.router.navigate(['/forum']);
+  }
+
+  dislikePost(): void {
+    this.currentLikes.set(this.currentLikes() - 1);
+    this.likeOrDislikePostRequest();
+  }
+
+  likePost(): void {
+    this.currentLikes.set(this.currentLikes() + 1);
+    this.likeOrDislikePostRequest();
+  }
+
+  likeOrDislikePostRequest(): void {
+    this.postForumService.likeOrDislikePost(this.post.uuid).subscribe({
+      next: () => {
+        this.likedByUser.set(!this.likedByUser());
+      },
+      error: (err) => {
+        this.toastService.showErrorToast(err, 'errors.summary.reactPost');
+        this.apiError.set(true);
+      },
+    });
   }
 }

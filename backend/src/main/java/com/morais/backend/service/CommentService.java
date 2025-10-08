@@ -6,6 +6,7 @@ import com.morais.backend.domain.entity.Comment;
 import com.morais.backend.exception.AppException;
 import com.morais.backend.mappers.CommentMapper;
 import com.morais.backend.repository.CommentRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import java.util.UUID;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final UserService userService;
     private final CommentMapper commentMapper;
 
     public Page<CommentDto> getComments(Pageable pageable, UUID postUuid, Jwt jwt) {
@@ -41,6 +43,27 @@ public class CommentService {
         }
 
         return commentMapper.toCreateDto(this.commentRepository.save(commentMapper.toEntity(CommentCreateDto)));
+    }
+
+    @Transactional
+    public void likeOrDislikeComment(UUID commentUuid, Jwt jwt) {
+        if (jwt == null) {
+            log.warn("Tried to like a comment without a logged user");
+            throw new AppException("USER_NOT_LOGGED", HttpStatus.UNAUTHORIZED);
+        }
+
+        Comment comment = commentRepository.findByUuid(commentUuid).orElseThrow(() -> {
+            log.warn("Tried to like/dislike a comment that doesn't exist");
+            return new AppException("COMMENT_DOESNT_EXIST", HttpStatus.CONFLICT);
+        });
+
+        if (userService.addOrRemoveLikedComment(UUID.fromString(jwt.getSubject()), commentUuid)) {
+            comment.setLikes(comment.getLikes() + 1);
+            commentRepository.save(comment);
+        } else {
+            comment.setLikes(comment.getLikes() - 1);
+            commentRepository.save(comment);
+        }
     }
 
     public void deleteComment(UUID commentUuid, Jwt jwt) {

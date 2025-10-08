@@ -1,3 +1,13 @@
+-- Table: user
+
+CREATE TABLE IF NOT EXISTS users
+(
+    id BIGSERIAL PRIMARY KEY NOT NULL,
+    uuid UUID UNIQUE NOT NULL,
+    liked_posts UUID[] DEFAULT '{}',
+    liked_comments UUID[] DEFAULT '{}'
+    );
+
 -- Table: institution
 
 CREATE TABLE IF NOT EXISTS institution

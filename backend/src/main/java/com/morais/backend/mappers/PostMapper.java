@@ -15,13 +15,13 @@ public interface PostMapper {
     @Mapping(target = "ownedByCurrentUser", expression = "java(userUuid != null && userUuid.equals(post.getUserUuid()))")
     @Mapping(target = "institution", source = "post.institution", qualifiedByName = "getReferenceFromInstitution")
     @Mapping(target = "course", source = "post.course", qualifiedByName = "getReferenceFromCourse")
-    PostDto toDto(Post post, UUID userUuid, int commentsCount);
+    PostDto toDto(Post post, UUID userUuid);
 
     @Mapping(target = "ownedByCurrentUser", expression = "java(userUuid != null && userUuid.equals(post.getUserUuid()))")
     @Mapping(target = "author", source = "post.userUuid", qualifiedByName = "getUserName")
     @Mapping(target = "institution", source = "post.institution", qualifiedByName = "getReferenceFromInstitution")
     @Mapping(target = "course", source = "post.course", qualifiedByName = "getReferenceFromCourse")
-    PostDetailDto toDetailDto(Post post, UUID userUuid);
+    PostDetailDto toDetailDto(Post post, UUID userUuid, boolean likedByCurrentUser);
 
     PostEditDto toEditDto(Post post);
 

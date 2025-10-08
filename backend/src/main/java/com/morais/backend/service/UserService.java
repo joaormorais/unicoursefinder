@@ -1,0 +1,128 @@
+package com.morais.backend.service;
+
+import com.morais.backend.domain.entity.User;
+import com.morais.backend.exception.AppException;
+import com.morais.backend.mappers.UserMapper;
+import com.morais.backend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+
+    public boolean isPostLikedByCurrentUser(UUID postUuid, UUID userUuid) {
+        if (userUuid == null) {
+            log.warn("Tried to check if a post is liked by a user with a null uuid");
+            throw new AppException("USER_DOESNT_EXIST", HttpStatus.BAD_REQUEST);
+        }
+
+        if (postUuid == null) {
+            log.warn("Tried to check if a post is liked with a null uuid");
+            throw new AppException("POST_DOESNT_EXIST", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = getOrCreateUser(userUuid);
+        return user.getLikedPosts().contains(postUuid);
+    }
+
+    public boolean isCommentLikedByCurrentUser(UUID commentUuid, UUID userUuid) {
+        if (userUuid == null) {
+            log.warn("Tried to check if a comment is liked by a user with a null uuid");
+            throw new AppException("USER_DOESNT_EXIST", HttpStatus.BAD_REQUEST);
+        }
+
+        if (commentUuid == null) {
+            log.warn("Tried to check if a comment is liked with a null uuid");
+            throw new AppException("COMMENT_DOESNT_EXIST", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = getOrCreateUser(userUuid);
+        return user.getLikedComments().contains(commentUuid);
+    }
+
+    public boolean addOrRemoveLikedPost(UUID userUuid, UUID postUuid) {
+        if (userUuid == null) {
+            log.warn("Tried to add/remove a liked post to a user with a null uuid");
+            throw new AppException("USER_DOESNT_EXIST", HttpStatus.BAD_REQUEST);
+        }
+
+        if (postUuid == null) {
+            log.warn("Tried to add/remove a liked post with a null uuid");
+            throw new AppException("POST_DOESNT_EXIST", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = getOrCreateUser(userUuid);
+
+        if (user.getLikedPosts().contains(postUuid)) {
+            removeLikedPost(user, postUuid);
+            return false;
+        } else {
+            addLikedPost(user, postUuid);
+            return true;
+        }
+    }
+
+    public boolean addOrRemoveLikedComment(UUID userUuid, UUID commentUuid) {
+        if (userUuid == null) {
+            log.warn("Tried to add/remove a liked comment to a user with a null uuid");
+            throw new AppException("USER_DOESNT_EXIST", HttpStatus.BAD_REQUEST);
+        }
+
+        if (commentUuid == null) {
+            log.warn("Tried to add/remove a liked comment with a null uuid");
+            throw new AppException("COMMENT_DOESNT_EXIST", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = getOrCreateUser(userUuid);
+
+        if (user.getLikedComments().contains(commentUuid)) {
+            removeLikedComment(user, commentUuid);
+            return false;
+        } else {
+            addLikedComment(user, commentUuid);
+            return true;
+        }
+    }
+
+    private void addLikedPost(User user, UUID postUuid) {
+        user.getLikedPosts().add(postUuid);
+        userRepository.save(user);
+    }
+
+    private void removeLikedPost(User user, UUID postUuid) {
+        user.getLikedPosts().remove(postUuid);
+        userRepository.save(user);
+    }
+
+    private void addLikedComment(User user, UUID commentUuid) {
+        user.getLikedComments().add(commentUuid);
+        userRepository.save(user);
+    }
+
+
+    private void removeLikedComment(User user, UUID commentUuid) {
+        user.getLikedComments().remove(commentUuid);
+        userRepository.save(user);
+    }
+
+    private User getOrCreateUser(UUID userUuid) {
+        if (userUuid == null) {
+            log.warn("Tried to get a user with a null uuid");
+            throw new AppException("USER_DOESNT_EXIST", HttpStatus.BAD_REQUEST);
+        }
+
+        return userRepository.findByUuid(userUuid).orElseGet(() -> {
+            User newUser = userMapper.toEntity(userUuid);
+            return userRepository.save(newUser);
+        });
+    }
+}

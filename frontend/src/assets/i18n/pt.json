@@ -115,6 +115,9 @@
     "POST_ALREADY_EXISTS": "Esta publicação já existe",
     "COMMENT_DOESNT_EXIST": "Este comentário não existe",
     "NOT_YOUR_COMMENT": "Este comentário não é seu",
+    "USER_ALREADY_EXISTS": "Este utilizador já existe",
+    "USER_DOESNT_EXIST": "Este utilizador não existe",
+    "NOT_YOUR_USER": "Não tem permissões para alterar este utilizador",
     "institutions": "Houve um problema no servidor! Não foi possível carregar as instituições.",
     "courses": "Houve um problema no servidor! Não foi possível carregar os cursos",
     "forum": "Houve um problema no servidor! Não foi possível carregar as publicações",
@@ -134,7 +137,9 @@
       "gettingInstitutionsDropdown": "Ocoreu um erro a obter instituições para a filtragem",
       "gettingCoursesDropdown": "Ocoreu um erro a obter cursos para a filtragem",
       "creatingPost": "Ocorreu um erro a criar/editar uma publicação",
-      "creatingComment": "Ocorreu um erro a criar/editar um comentário"
+      "creatingComment": "Ocorreu um erro a criar/editar um comentário",
+      "reactPost": "Ocorreu um erro a reagir a esta publicação",
+      "reactComment": "Ocorreu um erro a reagir a este comentário"
     },
     "form": {
       "titleRequired": "É necessário um título",

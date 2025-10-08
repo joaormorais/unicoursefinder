@@ -58,4 +58,12 @@ export class PostForumService {
   deleteComment(uuid: string): Observable<Object> {
     return this.http.delete(this.apiUrl + '/comment/' + uuid);
   }
+
+  likeOrDislikePost(uuid: string): Observable<Object> {
+    return this.http.put(this.apiUrl + '/post/like/' + uuid, null);
+  }
+
+  likeOrDislikeComment(uuid: string): Observable<Object> {
+    return this.http.put(this.apiUrl + '/comment/like/' + uuid, null);
+  }
 }

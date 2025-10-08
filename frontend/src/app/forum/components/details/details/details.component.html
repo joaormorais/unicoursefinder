@@ -35,9 +35,22 @@
     <ng-template #footer>
       <div class="flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center gap-2">
-          {{ post.likes }}
-          <p-button icon="pi pi-heart" rounded text></p-button>
-          @if(post.ownedByCurrentUser){
+          {{ currentLikes() }}
+          @if(this.likedByUser()){
+          <p-button
+            icon="pi pi-heart-fill"
+            (click)="dislikePost()"
+            rounded
+            text
+          ></p-button>
+          }@else {
+          <p-button
+            icon="pi pi-heart"
+            (click)="likePost()"
+            rounded
+            text
+          ></p-button>
+          } @if(post.ownedByCurrentUser){
           <p-button
             icon="pi pi-file-edit"
             severity="secondary"
