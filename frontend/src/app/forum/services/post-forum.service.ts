@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
   CommentCreateDto,
+  PaginatedComments,
   PaginatedPosts,
   PostDto,
   PostEditDto,
@@ -33,6 +34,36 @@ export class PostForumService {
     return this.http.get<PaginatedPosts>(this.apiUrl + '/post', {
       params: baseParams,
     });
+  }
+
+  getComments(
+    page: number,
+    size: number,
+    postUuid: string
+  ): Observable<PaginatedComments> {
+    const baseParams = new HttpParams().set('page', page).set('size', size);
+
+    return this.http.get<PaginatedComments>(
+      this.apiUrl + '/comment/' + postUuid,
+      {
+        params: baseParams,
+      }
+    );
+  }
+
+  getReplies(
+    page: number,
+    size: number,
+    parentUuid: string
+  ): Observable<PaginatedComments> {
+    const baseParams = new HttpParams().set('page', page).set('size', size);
+
+    return this.http.get<PaginatedComments>(
+      this.apiUrl + '/comment/' + parentUuid + '/replies',
+      {
+        params: baseParams,
+      }
+    );
   }
 
   getPostDetails(uuid: string): Observable<PostDto> {

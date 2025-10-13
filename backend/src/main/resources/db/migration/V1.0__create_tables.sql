@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS course
 
 CREATE TABLE IF NOT EXISTS post
 (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY NOT NULL,
     uuid UUID UNIQUE NOT NULL DEFAULT gen_random_uuid(),
     user_uuid UUID NOT NULL,
     institution_id int8,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS post
 
 CREATE TABLE IF NOT EXISTS comment
 (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY NOT NULL,
     uuid UUID UNIQUE NOT NULL DEFAULT gen_random_uuid(),
     user_uuid UUID NOT NULL,
     post_id int8 NOT NULL,

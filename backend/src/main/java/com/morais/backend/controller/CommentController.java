@@ -23,20 +23,20 @@ public class CommentController {
 
     @GetMapping("/{postUuid}")
     public ResponseEntity<Page<CommentDto>> getComments(
-            @PageableDefault(size = 5, sort = "createdAt,asc") Pageable pageable,
+            @PageableDefault(size = 5, sort = "createdAt") Pageable pageable,
             @PathVariable UUID postUuid,
             @AuthenticationPrincipal Jwt jwt
     ) {
-        return ResponseEntity.ok(commentService.getComments(pageable, postUuid, jwt));
+        return ResponseEntity.ok(commentService.getComments(pageable, postUuid, null, jwt));
     }
 
     @GetMapping("/{parentUuid}/replies")
     public ResponseEntity<Page<CommentDto>> getReplies(
-            @PageableDefault(size = 5, sort = "createdAt,asc") Pageable pageable,
+            @PageableDefault(size = 5, sort = "createdAt") Pageable pageable,
             @PathVariable UUID parentUuid,
             @AuthenticationPrincipal Jwt jwt
     ) {
-        return ResponseEntity.ok(commentService.getReplies(pageable, parentUuid, jwt));
+        return ResponseEntity.ok(commentService.getComments(pageable, null, parentUuid, jwt));
     }
 
     @PostMapping

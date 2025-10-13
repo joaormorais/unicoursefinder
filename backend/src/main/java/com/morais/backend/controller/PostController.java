@@ -26,7 +26,7 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<Page<PostDto>> getPosts(
-            @PageableDefault(size = 5, sort = "createdAt,asc") Pageable pageable,
+            @PageableDefault(size = 5, sort = "createdAt") Pageable pageable,
             @RequestParam(required = false, defaultValue = "") String title,
             @RequestParam(required = false, defaultValue = "") List<String> institutionUuids,
             @RequestParam(required = false, defaultValue = "") List<String> courseUuids,

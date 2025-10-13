@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -26,14 +27,21 @@ public class CommentService {
     private final UserService userService;
     private final CommentMapper commentMapper;
 
-    public Page<CommentDto> getComments(Pageable pageable, UUID postUuid, Jwt jwt) {
-        Page<Comment> resultPage = commentRepository.findByPost_UuidAndParentIsNull(pageable, postUuid);
-        return resultPage.map(comment -> commentMapper.toDto(comment, jwt == null ? null : UUID.fromString(jwt.getSubject())));
-    }
+    public Page<CommentDto> getComments(Pageable pageable, UUID postUuid, UUID parentUuid, Jwt jwt) {
 
-    public Page<CommentDto> getReplies(Pageable pageable, UUID parentUuid, Jwt jwt) {
-        Page<Comment> resultPage = commentRepository.findByParent_Uuid(pageable, parentUuid);
-        return resultPage.map(comment -> commentMapper.toDto(comment, jwt == null ? null : UUID.fromString(jwt.getSubject())));
+        Specification<Comment> specs = Specification.not(null);
+
+        if (postUuid != null) {
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("post").get("uuid"), postUuid)));
+        }
+        if (parentUuid != null) {
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("parent").get("uuid"), parentUuid)));
+        }
+
+        Page<Comment> resultPage = commentRepository.findAll(specs, pageable);
+
+        UUID userUuid = jwt == null ? null : UUID.fromString(jwt.getSubject());
+        return resultPage.map(comment -> commentMapper.toDto(comment, userUuid, userUuid != null && this.userService.isCommentLikedByCurrentUser(comment.getUuid(), userUuid)));
     }
 
     public CommentCreateDto createComment(CommentCreateDto CommentCreateDto, Jwt jwt) {
@@ -42,7 +50,15 @@ public class CommentService {
             throw new AppException("USER_NOT_LOGGED", HttpStatus.UNAUTHORIZED);
         }
 
-        return commentMapper.toCreateDto(this.commentRepository.save(commentMapper.toEntity(CommentCreateDto)));
+        //TODO: impossível criar um comentário se:
+        // procurar pelo comentario que tem o determinado parent_uuid
+        // se esse comentario tiver um parent, entao nao se pode criar
+        // isto significa que iríamos estar a criar uma resposta a uma resposta
+
+
+        //TODO: para testar isto depois comenta-se o if do reply no app-comment template
+
+        return commentMapper.toCreateDto(this.commentRepository.save(commentMapper.toEntity(CommentCreateDto, UUID.fromString(jwt.getSubject()))));
     }
 
     @Transactional
@@ -83,5 +99,7 @@ public class CommentService {
         }
 
         commentRepository.deleteById(comment.getId());
+
+        //TODO: apagar descendentes
     }
 }

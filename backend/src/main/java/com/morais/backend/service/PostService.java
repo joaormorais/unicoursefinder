@@ -48,7 +48,6 @@ public class PostService {
 
         Specification<Post> specs = Specification.not(null);
 
-        // normal filters
         if (!(title == null || title.isEmpty()))
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedTitle"), "%" + normalize(title) + "%")));
         if (!(institutionUuids == null || institutionUuids.isEmpty()))
@@ -154,5 +153,7 @@ public class PostService {
         }
 
         postRepository.deleteById(post.getId());
+
+        //TODO: apagar comentarios
     }
 }

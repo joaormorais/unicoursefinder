@@ -285,6 +285,7 @@ export class PostFormComponent {
             );
             this.apiError.set(true);
             this.gettingCourses.set(false);
+            this.gettingInstitutions.set(false);
           },
         });
       } else {
@@ -301,6 +302,7 @@ export class PostFormComponent {
             );
             this.apiError.set(true);
             this.gettingCourses.set(false);
+            this.gettingInstitutions.set(false);
           },
         });
       }

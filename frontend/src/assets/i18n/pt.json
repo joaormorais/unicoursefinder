@@ -8,8 +8,7 @@
     "logout": "Terminar sessão",
     "nextIcon": "Ícone para a direita",
     "openLink": "Abrir os detalhes deste curso numa nova janela",
-    "changeModes": "Alternar entre modo claro e modo escuro",
-    "createPost": "Criar uma publicação"
+    "changeModes": "Alternar entre modo claro e modo escuro"
   },
   "buttons": {
     "search": "Pesquisa",
@@ -21,7 +20,12 @@
     "logout": "Terminar sessão",
     "create": "Salvar",
     "delete": "Apagar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "createPost": "Criar uma publicação",
+    "createComment": "Adicionar um comentário",
+    "createReply": "Responder",
+    "hasMoreComments": "Ver mais comentários",
+    "hasMoreReplies": "Ver mais respostas"
   },
   "tables": {
     "dges": "Código DGES",
@@ -123,6 +127,7 @@
     "forum": "Houve um problema no servidor! Não foi possível carregar as publicações",
     "details": "Houve um problema no servidor! Não foi possível carregar esta publicação",
     "dialog": "Houve um problema no servidor! Não foi possível carregar esta janela",
+    "comment": "Houve um problema no servidor! Não foi possível carregar este comentário",
     "summary": {
       "emptyInstitutions": "Não existem instituições",
       "emptyCourses": "Não existem cursos",
@@ -149,7 +154,7 @@
   "success": {
     "postCreated": "Publicação criada com sucesso!",
     "postEdited": "Publicação editada com sucesso!",
-    "postDeleted": "publicação apagada!",
+    "postDeleted": "Publicação apagada!",
     "commentCreated": "Comentário criado com sucesso!",
     "commentDeleted": "Comentário apagado!"
   }

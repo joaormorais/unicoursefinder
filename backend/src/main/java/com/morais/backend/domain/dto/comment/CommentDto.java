@@ -11,7 +11,9 @@ import java.util.UUID;
 public class CommentDto {
     private UUID uuid;
     private boolean ownedByCurrentUser;
+    private boolean likedByCurrentUser;
     private String content;
     private int likes;
     private LocalDateTime createdAt;
+    private String author;
 }

@@ -35,7 +35,7 @@ public class CourseController {
      */
     @GetMapping
     public ResponseEntity<Page<CourseDto>> searchCourses(
-            @PageableDefault(size = 5, sort = "normalizedName,asc") Pageable pageable,
+            @PageableDefault(size = 5, sort = "normalizedName") Pageable pageable,
             @RequestParam(required = false, defaultValue = "") String globalFilterValue,
             @RequestParam(required = false, defaultValue = "") String dgesNumber,
             @RequestParam(required = false, defaultValue = "") String name,
@@ -47,7 +47,7 @@ public class CourseController {
 
     @GetMapping("/dropdown")
     public ResponseEntity<Page<ReferenceDto>> getDropdown(
-            @PageableDefault(size = 20, sort = "normalizedName,asc") Pageable pageable,
+            @PageableDefault(size = 20, sort = "normalizedName") Pageable pageable,
             @RequestParam(required = false, defaultValue = "") String name
     ) {
         return ResponseEntity.ok(courseService.getDropdown(pageable, name));

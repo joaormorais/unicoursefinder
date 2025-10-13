@@ -10,7 +10,6 @@ export interface PaginatedReferences {
   number: number;
 }
 
-
 export interface InstitutionDto {
   uuid: string;
   dgesNumber: number;
@@ -69,11 +68,22 @@ export interface PaginatedPosts {
 export interface CommentDto {
   uuid: string;
   ownedByCurrentUser: boolean;
+  likedByCurrentUser: boolean;
   content: string;
   likes: number;
   createdAt: string;
+  author: string;
 }
 
 export interface CommentCreateDto {
   content: string;
+  postUuid: string;
+  parentUuid: string | undefined;
+}
+
+export interface PaginatedComments {
+  content: CommentDto[];
+  totalElements: number;
+  size: number;
+  number: number;
 }

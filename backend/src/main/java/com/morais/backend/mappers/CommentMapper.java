@@ -11,9 +11,13 @@ import java.util.UUID;
 @Mapper(componentModel = "spring", uses = {MapperUtils.class})
 public interface CommentMapper {
     @Mapping(target = "ownedByCurrentUser", expression = "java(userUuid != null && userUuid.equals(comment.getUserUuid()))")
-    CommentDto toDto(Comment comment, UUID userUuid);
+    @Mapping(target = "author", source = "comment.userUuid", qualifiedByName = "getUserName")
+    CommentDto toDto(Comment comment, UUID userUuid, boolean likedByCurrentUser);
 
     CommentCreateDto toCreateDto(Comment comment);
 
-    Comment toEntity(CommentCreateDto commentCreateDto);
+    @Mapping(target = "userUuid", source = "userUuid")
+    @Mapping(target = "post", source = "commentCreateDto.postUuid", qualifiedByName = "getPostByUuid")
+    @Mapping(target = "parent", source = "commentCreateDto.parentUuid", qualifiedByName = "getCommentByUuid")
+    Comment toEntity(CommentCreateDto commentCreateDto, UUID userUuid);
 }

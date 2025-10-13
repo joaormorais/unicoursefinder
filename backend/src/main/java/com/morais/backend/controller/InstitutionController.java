@@ -34,7 +34,7 @@ public class InstitutionController {
 
     @GetMapping("/dropdown")
     public ResponseEntity<Page<ReferenceDto>> getDropdown(
-            @PageableDefault(size = 20, sort = "normalizedName,asc") Pageable pageable,
+            @PageableDefault(size = 20, sort = "normalizedName") Pageable pageable,
             @RequestParam(required = false, defaultValue = "") String name
     ) {
         return ResponseEntity.ok(institutionService.getDropdown(pageable, name));
