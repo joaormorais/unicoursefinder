@@ -11,4 +11,6 @@ import java.util.UUID;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long>, JpaSpecificationExecutor<Comment> {
     Optional<Comment> findByUuid(UUID uuid);
+
+    void deleteByParent_Id(Long parentId);
 }

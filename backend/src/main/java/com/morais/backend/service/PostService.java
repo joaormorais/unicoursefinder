@@ -152,8 +152,6 @@ public class PostService {
             throw new AppException("NOT_YOUR_POST", HttpStatus.FORBIDDEN);
         }
 
-        postRepository.deleteById(post.getId());
-
-        //TODO: apagar comentarios
+        postRepository.delete(post);
     }
 }

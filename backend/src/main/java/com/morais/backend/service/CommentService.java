@@ -6,6 +6,7 @@ import com.morais.backend.domain.entity.Comment;
 import com.morais.backend.exception.AppException;
 import com.morais.backend.mappers.CommentMapper;
 import com.morais.backend.repository.CommentRepository;
+import com.morais.backend.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.util.UUID;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
     private final UserService userService;
     private final CommentMapper commentMapper;
 
@@ -44,21 +46,30 @@ public class CommentService {
         return resultPage.map(comment -> commentMapper.toDto(comment, userUuid, userUuid != null && this.userService.isCommentLikedByCurrentUser(comment.getUuid(), userUuid)));
     }
 
-    public CommentCreateDto createComment(CommentCreateDto CommentCreateDto, Jwt jwt) {
+    public CommentCreateDto createComment(CommentCreateDto commentCreateDto, Jwt jwt) {
         if (jwt == null) {
             log.warn("Tried to create a comment without a logged user");
             throw new AppException("USER_NOT_LOGGED", HttpStatus.UNAUTHORIZED);
         }
 
-        //TODO: impossível criar um comentário se:
-        // procurar pelo comentario que tem o determinado parent_uuid
-        // se esse comentario tiver um parent, entao nao se pode criar
-        // isto significa que iríamos estar a criar uma resposta a uma resposta
+        if (postRepository.findByUuid(commentCreateDto.getPostUuid()).isEmpty()) {
+            log.warn("Tried to create a comment for a post that doesn't exist");
+            throw new AppException("POST_DOESNT_EXIST", HttpStatus.CONFLICT);
+        }
 
+        if (commentCreateDto.getParentUuid() != null) {
+            Comment parent = commentRepository.findByUuid(commentCreateDto.getParentUuid()).orElseThrow(() -> {
+                log.warn("Tried to create a comment with a parent that doesn't exist");
+                return new AppException("PARENT_DOESNT_EXIST", HttpStatus.CONFLICT);
+            });
 
-        //TODO: para testar isto depois comenta-se o if do reply no app-comment template
-
-        return commentMapper.toCreateDto(this.commentRepository.save(commentMapper.toEntity(CommentCreateDto, UUID.fromString(jwt.getSubject()))));
+            if (parent.getParent() != null) {
+                log.warn("Tried to create a comment with a parent that has a parent");
+                throw new AppException("PARENT_HAS_PARENT", HttpStatus.CONFLICT);
+            }
+        }
+        
+        return commentMapper.toCreateDto(this.commentRepository.save(commentMapper.toEntity(commentCreateDto, UUID.fromString(jwt.getSubject()))));
     }
 
     @Transactional
@@ -98,8 +109,6 @@ public class CommentService {
             throw new AppException("NOT_YOUR_COMMENT", HttpStatus.FORBIDDEN);
         }
 
-        commentRepository.deleteById(comment.getId());
-
-        //TODO: apagar descendentes
+        commentRepository.delete(comment);
     }
 }

@@ -121,6 +121,8 @@
     "NOT_YOUR_COMMENT": "Este comentário não é seu",
     "USER_ALREADY_EXISTS": "Este utilizador já existe",
     "USER_DOESNT_EXIST": "Este utilizador não existe",
+    "PARENT_DOESNT_EXIST": "Esta resposta não tem um comentário associado",
+    "PARENT_HAS_PARENT": "Não é possível responder a uma resposta",
     "NOT_YOUR_USER": "Não tem permissões para alterar este utilizador",
     "institutions": "Houve um problema no servidor! Não foi possível carregar as instituições.",
     "courses": "Houve um problema no servidor! Não foi possível carregar os cursos",
