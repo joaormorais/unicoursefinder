@@ -54,6 +54,9 @@
       <th style="width: 25%" pSortableColumn="type">
         {{ "tables.type" | translate }} <p-sortIcon field="type" />
       </th>
+      <th style="width: 25%" pSortableColumn="area">
+        {{ "tables.area" | translate }} <p-sortIcon field="area" />
+      </th>
       <th style="width: 25%" pSortableColumn="institution">
         {{ "tables.institution" | translate }}
         <p-sortIcon field="institution" />
@@ -132,6 +135,25 @@
         </p-columnFilter>
       </th>
       <th>
+        <p-columnFilter field="area" matchMode="in" [showMenu]="false">
+          <ng-template #filter let-value let-filter="filterCallback">
+            <p-multiselect
+              [(ngModel)]="selectedAreas"
+              [options]="areas"
+              (onChange)="filter($event.value)"
+              [placeholder]="'filters.all' | translate"
+              [panelStyle]="{ minWidth: '16rem' }"
+              display="chip"
+              [maxSelectedLabels]="2"
+              [selectedItemsLabel]="
+                'filters.selectedItemsLabelAreas'
+                  | translate : { value: selectedAreas.length }
+              "
+            />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th>
         <p-columnFilter field="institutions" matchMode="in" [showMenu]="false">
           <ng-template #filter let-value let-filter="filterCallback">
             <p-multiselect
@@ -165,6 +187,7 @@
       <td>{{ course.dgesNumber }}</td>
       <td>{{ course.name }}</td>
       <td>{{ "filters.courseTypes." + course.type | translate }}</td>
+      <td>{{ "filters.courseAreas." + course.area | translate }}</td>
       <td>{{ course.institution?.label }}</td>
     </tr>
   </ng-template>

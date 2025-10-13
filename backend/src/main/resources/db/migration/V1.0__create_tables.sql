@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS course
     link VARCHAR NOT NULL,
     name VARCHAR NOT NULL,
     normalized_name VARCHAR NOT NULL,
-    type VARCHAR NOT NULL
+    type VARCHAR NOT NULL,
+    area VARCHAR NOT NULL
     );
 
 -- Table: post

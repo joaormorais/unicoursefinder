@@ -3,6 +3,7 @@ package com.morais.backend.service;
 import com.morais.backend.domain.dto.CourseDto;
 import com.morais.backend.domain.dto.ReferenceDto;
 import com.morais.backend.domain.entity.Course;
+import com.morais.backend.domain.entity.enums.CourseArea;
 import com.morais.backend.domain.entity.enums.CourseType;
 import com.morais.backend.mappers.CourseMapper;
 import com.morais.backend.repository.CourseRepository;
@@ -27,26 +28,14 @@ public class CourseService {
     private final static String DGES_NUMBER = "dgesNumber";
     private final static String NAME = "name";
     private final static String TYPE = "type";
+    private final static String AREA = "area";
     private final static String INSTITUTION = "institution";
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
 
-    /**
-     * Retrieves courses optionally based on a name, types, and institutions.
-     * The results are paged and sorted.
-     * The name is normalized before querying.
-     *
-     * @param pageable          object that is going to be used to pagination and sorting
-     * @param globalFilterValue keywords to every filter
-     * @param dgesNumber        dgesNumber filter
-     * @param name              name filter
-     * @param types             type filter
-     * @param institutionUuids  institution id filter
-     * @return a list of matching courses as DTOs
-     */
-    public Page<CourseDto> getFilteredCourses(Pageable pageable, String globalFilterValue, String dgesNumber, String name, List<String> types, List<String> institutionUuids) {
+    public Page<CourseDto> getFilteredCourses(Pageable pageable, String globalFilterValue, String dgesNumber, String name, List<String> types, List<String> areas, List<String> institutionUuids) {
         for (Sort.Order order : pageable.getSort())
-            if (!Arrays.asList(DGES_NUMBER, NAME, TYPE, INSTITUTION).contains(order.getProperty())) {
+            if (!Arrays.asList(DGES_NUMBER, NAME, TYPE, AREA, INSTITUTION).contains(order.getProperty())) {
                 log.warn("Invalid sort attribute");
                 throw new IllegalArgumentException();
             }
@@ -60,18 +49,21 @@ public class CourseService {
                     criteriaBuilder.like(root.get("dgesNumber"), "%" + normalizedGlobalFilterValue + "%"),
                     criteriaBuilder.like(root.get("normalizedName"), "%" + normalizedGlobalFilterValue + "%"),
                     criteriaBuilder.like(root.get("type"), "%" + normalizedGlobalFilterValue + "%"),
+                    criteriaBuilder.like(root.get("area"), "%" + normalizedGlobalFilterValue + "%"),
                     criteriaBuilder.like(root.get("institution").get("normalizedName"), "%" + normalizedGlobalFilterValue + "%")
             )));
         }
 
         // normal filters
-        if (!(dgesNumber == null || dgesNumber.isEmpty()))
+        if (dgesNumber != null && !dgesNumber.isEmpty())
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("dgesNumber"), dgesNumber + "%")));
-        if (!(name == null || name.isEmpty()))
+        if (name != null && !name.isEmpty())
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(name) + "%")));
-        if (!(types == null || types.isEmpty()))
+        if (types != null && !types.isEmpty())
             specs = specs.and((root, query, criteriaBuilder) -> root.get("type").in(types));
-        if (!(institutionUuids == null || institutionUuids.isEmpty())) {
+        if (areas != null && !areas.isEmpty())
+            specs = specs.and((root, query, criteriaBuilder) -> root.get("area").in(areas));
+        if (institutionUuids != null && !institutionUuids.isEmpty()) {
             specs = specs.and(((root, query, criteriaBuilder) -> root.get("institution").get("uuid").in(institutionUuids.stream().map(UUID::fromString).toList())));
         }
 
@@ -90,12 +82,6 @@ public class CourseService {
         return courseRepository.findAll(enforcedPageable).map(value -> new ReferenceDto(value.getUuid(), value.getName()));
     }
 
-    /**
-     * Retrieves a list of all course types.
-     * Throws a ResourceNotFoundException if no types are found.
-     *
-     * @return a list of course types
-     */
     public List<String> getTypes() {
         List<String> types = new ArrayList<>();
 
@@ -109,5 +95,20 @@ public class CourseService {
 
         Collections.sort(types);
         return types;
+    }
+
+    public List<String> getAreas() {
+        List<String> areas = new ArrayList<>();
+
+        for (CourseArea area : CourseArea.values())
+            areas.add(area.name());
+
+        if (areas.isEmpty()) {
+            log.warn("Didn't find any areas for courses");
+            throw new RuntimeException("Didn't find any areas for courses");
+        }
+
+        Collections.sort(areas);
+        return areas;
     }
 }

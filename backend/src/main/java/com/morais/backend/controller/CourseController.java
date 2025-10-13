@@ -40,9 +40,10 @@ public class CourseController {
             @RequestParam(required = false, defaultValue = "") String dgesNumber,
             @RequestParam(required = false, defaultValue = "") String name,
             @RequestParam(required = false, defaultValue = "") List<String> types,
+            @RequestParam(required = false, defaultValue = "") List<String> areas,
             @RequestParam(required = false, defaultValue = "") List<String> institutionUuids
     ) {
-        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, globalFilterValue, dgesNumber, name, types, institutionUuids));
+        return ResponseEntity.ok(courseService.getFilteredCourses(pageable, globalFilterValue, dgesNumber, name, types, areas, institutionUuids));
     }
 
     @GetMapping("/dropdown")
@@ -61,5 +62,10 @@ public class CourseController {
     @GetMapping("/types")
     public ResponseEntity<List<String>> getTypes() {
         return ResponseEntity.ok(courseService.getTypes());
+    }
+
+    @GetMapping("/areas")
+    public ResponseEntity<List<String>> getAreas() {
+        return ResponseEntity.ok(courseService.getAreas());
     }
 }

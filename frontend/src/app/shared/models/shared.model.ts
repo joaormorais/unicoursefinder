@@ -25,6 +25,7 @@ export interface CourseDto {
   dgesNumber: number;
   name: string;
   type: string;
+  area: string;
   link: string;
   institution: Reference;
 }

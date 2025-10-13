@@ -66,6 +66,7 @@ export class CoursesComponent implements OnInit {
   first: number = 0;
 
   types: Reference[] = [];
+  areas: Reference[] = [];
   institutions: Reference[] = [];
   institutionsPageNumber = signal(0);
   institutionsPageSize = 20;
@@ -73,15 +74,17 @@ export class CoursesComponent implements OnInit {
   private institutionsFilterTimeout: any;
 
   selectedTypes: string[] = [];
+  selectedAreas: string[] = [];
   selectedInstitutions: string[] = [];
 
   apiError = signal(false);
   gettingTypes = signal(false);
+  gettingAreas = signal(false);
   gettingInstitutions = signal(false);
   gettingCourses = signal(false);
   loading = computed(
     () =>
-      this.gettingTypes() || this.gettingInstitutions() || this.gettingCourses()
+      this.gettingTypes() || this.gettingAreas() || this.gettingInstitutions() || this.gettingCourses()
   );
 
   filterTimeouts: { [key: string]: any } = {};
@@ -99,6 +102,7 @@ export class CoursesComponent implements OnInit {
           // clean filters
           this.globalFilterValue = '';
           this.selectedTypes = [];
+          this.selectedAreas = [];
           this.selectedInstitutions = [];
           this.coursesTable.reset();
 
@@ -121,6 +125,7 @@ export class CoursesComponent implements OnInit {
   // run when the component is created
   ngOnInit(): void {
     this.getTypes();
+    this.getAreas();
   }
 
   onLazyLoad(event: TableLazyLoadEvent): void {
@@ -158,6 +163,11 @@ export class CoursesComponent implements OnInit {
         ? (filters['type'] as any).value
         : []
       : [];
+      const areas: string[] = filters['area']
+      ? (filters['area'] as any).value
+        ? (filters['area'] as any).value
+        : []
+      : [];
     const institutionUuids: string[] = filters['institutions']
       ? (filters['institutions'] as any).value
         ? (filters['institutions'] as any).value
@@ -165,7 +175,7 @@ export class CoursesComponent implements OnInit {
       : [];
 
     // load courses
-    this.loadCourses(first, rows, dgesNumber, name, types, institutionUuids);
+    this.loadCourses(first, rows, dgesNumber, name, types, areas, institutionUuids);
   }
 
   onInstitutionsLazyLoad(event: MultiSelectLazyLoadEvent): void {
@@ -188,6 +198,7 @@ export class CoursesComponent implements OnInit {
     dgesNumber: string,
     name: string,
     types: string[],
+    areas:string[],
     institutionUuids: string[]
   ): void {
     this.courseSearchService
@@ -199,6 +210,7 @@ export class CoursesComponent implements OnInit {
         dgesNumber,
         name,
         types,
+        areas,
         institutionUuids
       )
       .subscribe({
@@ -266,6 +278,30 @@ export class CoursesComponent implements OnInit {
         );
         this.apiError.set(true);
         this.gettingTypes.set(false);
+      },
+    });
+  }
+
+  getAreas(): void {
+    if (this.gettingAreas()) return;
+
+    this.gettingAreas.set(true);
+
+    this.courseSearchService.getAreas().subscribe({
+      next: (data) => {
+        this.areas = data.map((area) => ({
+          value: area,
+          label: this.translate.instant(`filters.courseAreas.${area}`),
+        }));
+        this.gettingAreas.set(false);
+      },
+      error: (err) => {
+        this.toastService.showErrorToast(
+          err,
+          'errors.summary.gettingCoursesAreas'
+        );
+        this.apiError.set(true);
+        this.gettingAreas.set(false);
       },
     });
   }

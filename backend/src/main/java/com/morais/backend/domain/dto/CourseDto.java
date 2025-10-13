@@ -12,6 +12,7 @@ public class CourseDto {
     private String dgesNumber;
     private String name;
     private String type;
+    private String area;
     private String link;
     private ReferenceDto institution;
 }
