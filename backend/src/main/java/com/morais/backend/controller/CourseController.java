@@ -4,16 +4,17 @@ import com.morais.backend.domain.dto.CourseDto;
 import com.morais.backend.domain.dto.ReferenceDto;
 import com.morais.backend.service.CourseService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("course")
@@ -34,7 +35,7 @@ public class CourseController {
      */
     @GetMapping
     public ResponseEntity<Page<CourseDto>> searchCourses(
-            @PageableDefault(size = 5, sort = "normalizedName,asc") Pageable pageable,
+            @PageableDefault(size = 5, sort = "normalizedName") Pageable pageable,
             @RequestParam(required = false, defaultValue = "") String globalFilterValue,
             @RequestParam(required = false, defaultValue = "") String dgesNumber,
             @RequestParam(required = false, defaultValue = "") String name,
@@ -46,7 +47,7 @@ public class CourseController {
 
     @GetMapping("/dropdown")
     public ResponseEntity<Page<ReferenceDto>> getDropdown(
-            @PageableDefault(size = 20, sort = "normalizedName,asc") Pageable pageable,
+            @PageableDefault(size = 20, sort = "normalizedName") Pageable pageable,
             @RequestParam(required = false, defaultValue = "") String name
     ) {
         return ResponseEntity.ok(courseService.getDropdown(pageable, name));

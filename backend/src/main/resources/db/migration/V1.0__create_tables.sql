@@ -1,3 +1,13 @@
+-- Table: user
+
+CREATE TABLE IF NOT EXISTS users
+(
+    id BIGSERIAL PRIMARY KEY NOT NULL,
+    uuid UUID UNIQUE NOT NULL,
+    liked_posts UUID[] DEFAULT '{}',
+    liked_comments UUID[] DEFAULT '{}'
+    );
+
 -- Table: institution
 
 CREATE TABLE IF NOT EXISTS institution
@@ -32,7 +42,7 @@ CREATE TABLE IF NOT EXISTS course
 
 CREATE TABLE IF NOT EXISTS post
 (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY NOT NULL,
     uuid UUID UNIQUE NOT NULL DEFAULT gen_random_uuid(),
     user_uuid UUID NOT NULL,
     institution_id int8,
@@ -51,7 +61,7 @@ CREATE TABLE IF NOT EXISTS post
 
 CREATE TABLE IF NOT EXISTS comment
 (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY NOT NULL,
     uuid UUID UNIQUE NOT NULL DEFAULT gen_random_uuid(),
     user_uuid UUID NOT NULL,
     post_id int8 NOT NULL,

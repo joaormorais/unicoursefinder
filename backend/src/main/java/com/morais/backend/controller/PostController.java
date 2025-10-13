@@ -2,11 +2,10 @@ package com.morais.backend.controller;
 
 import com.morais.backend.domain.dto.post.PostDetailDto;
 import com.morais.backend.domain.dto.post.PostDto;
-import com.morais.backend.domain.dto.post.PostResponseDto;
+import com.morais.backend.domain.dto.post.PostEditDto;
 import com.morais.backend.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("post")
@@ -28,7 +26,7 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<Page<PostDto>> getPosts(
-            @PageableDefault(size = 5, sort = "createdAt,asc") Pageable pageable,
+            @PageableDefault(size = 5, sort = "createdAt") Pageable pageable,
             @RequestParam(required = false, defaultValue = "") String title,
             @RequestParam(required = false, defaultValue = "") List<String> institutionUuids,
             @RequestParam(required = false, defaultValue = "") List<String> courseUuids,
@@ -46,8 +44,8 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostResponseDto> createPost(
-            @RequestBody @Valid PostDto postDto,
+    public ResponseEntity<PostEditDto> createPost(
+            @RequestBody @Valid PostEditDto postDto,
             @AuthenticationPrincipal Jwt jwt
     ) {
         return ResponseEntity.ok().body(this.postService.createPost(postDto, jwt));
@@ -55,11 +53,20 @@ public class PostController {
 
     @PutMapping("/{postUuid}")
     public ResponseEntity<PostDetailDto> updatePost(
-            @RequestBody @Valid PostDto postDto,
+            @RequestBody @Valid PostEditDto postDto,
             @PathVariable UUID postUuid,
             @AuthenticationPrincipal Jwt jwt
     ) {
         return ResponseEntity.ok().body(this.postService.updatePost(postDto, postUuid, jwt));
+    }
+
+    @PutMapping("/like/{postUuid}")
+    public ResponseEntity<Void> likeOrDislikePost(
+            @PathVariable UUID postUuid,
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        this.postService.likeOrDislikePost(postUuid, jwt);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{postUuid}")

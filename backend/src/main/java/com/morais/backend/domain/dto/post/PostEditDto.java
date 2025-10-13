@@ -1,24 +1,23 @@
 package com.morais.backend.domain.dto.post;
 
 import com.morais.backend.domain.dto.ReferenceDto;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Setter
 @Getter
 @AllArgsConstructor
-public class PostDetailDto {
+public class PostEditDto {
     private UUID uuid;
-    private boolean ownedByCurrentUser;
-    private boolean likedByCurrentUser;
+    @NotNull
+    private String title;
     private ReferenceDto institution;
     private ReferenceDto course;
-    private String title;
+    @NotNull
     private String content;
-    private int likes;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private String author;
 }

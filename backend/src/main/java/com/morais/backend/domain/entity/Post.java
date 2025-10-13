@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -21,18 +22,18 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, insertable = false)
+    @Column(nullable = false, updatable = false, unique = true)
     private UUID uuid;
 
     @Column(name = "user_uuid", nullable = false)
     private UUID userUuid;
 
     @ManyToOne
-    @JoinColumn(name = "institution_id", nullable = false)
+    @JoinColumn(name = "institution_id")
     private Institution institution;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
+    @JoinColumn(name = "course_id")
     private Course course;
 
     @Column(nullable = false, length = 100)
@@ -56,4 +57,7 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
+
+    @Formula("(SELECT count(*) FROM comment c WHERE c.post_id = id)")
+    private int commentsCount;
 }

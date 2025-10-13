@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post> {
     Optional<Post> findByUuid(UUID uuid);
 
-    boolean existsByNormalizedTitle(String normalizedTitle);
+    boolean existsByNormalizedTitleOrUuid(String normalizedTitle, UUID uuid);
 
     boolean existsByNormalizedTitleAndUuidNot(String normalizedTitle, UUID uuid);
 
