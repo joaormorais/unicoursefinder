@@ -76,12 +76,29 @@ export class CommentComponent implements OnInit {
     });
   }
 
+  deleteComment(): void {
+    this.postForumService.deleteComment(this.comment.uuid).subscribe({
+      next: () => {
+        this.toastService.showSuccessToast('success.commentDeleted');
+        this.reloadDetails.emit();
+      },
+      error: (err) => {
+        this.toastService.showErrorToast(err, 'errors.summary.deletingComment');
+        this.apiError.set(true);
+      },
+    });
+  }
+
   hideCommentComponent(): void {
     this.showCommentComponent = false;
   }
 
   submit(): void {
     this.hideCommentComponent();
+    this.reloadDetails.emit();
+  }
+
+  emitReloadDetails(): void {
     this.reloadDetails.emit();
   }
 

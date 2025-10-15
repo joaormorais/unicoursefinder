@@ -34,10 +34,23 @@ public class CommentService {
         Specification<Comment> specs = Specification.not(null);
 
         if (postUuid != null) {
+            postRepository.findByUuid(postUuid).orElseThrow(() -> {
+                log.warn("Tried to get comments for a post that doesn't exist");
+                return new AppException("POST_DOESNT_EXIST", HttpStatus.CONFLICT);
+            });
+
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("post").get("uuid"), postUuid)));
         }
+
         if (parentUuid != null) {
+            commentRepository.findByUuid(parentUuid).orElseThrow(() -> {
+                log.warn("Tried to get comments for a parent that doesn't exist");
+                return new AppException("PARENT_DOESNT_EXIST", HttpStatus.CONFLICT);
+            });
+
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("parent").get("uuid"), parentUuid)));
+        } else {
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.isNull(root.get("parent"))));
         }
 
         Page<Comment> resultPage = commentRepository.findAll(specs, pageable);
@@ -68,7 +81,7 @@ public class CommentService {
                 throw new AppException("PARENT_HAS_PARENT", HttpStatus.CONFLICT);
             }
         }
-        
+
         return commentMapper.toCreateDto(this.commentRepository.save(commentMapper.toEntity(commentCreateDto, UUID.fromString(jwt.getSubject()))));
     }
 

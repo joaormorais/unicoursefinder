@@ -172,6 +172,8 @@
       "gettingCoursesDropdown": "Ocoreu um erro a obter cursos para a filtragem",
       "creatingPost": "Ocorreu um erro a criar/editar uma publicação",
       "creatingComment": "Ocorreu um erro a criar/editar um comentário",
+      "deletingPost": "Ocorreu um erro a apagar uma publicação",
+      "deletingComment": "Ocorreu um erro a apagar um comentário",
       "reactPost": "Ocorreu um erro a reagir a esta publicação",
       "reactComment": "Ocorreu um erro a reagir a este comentário"
     },
