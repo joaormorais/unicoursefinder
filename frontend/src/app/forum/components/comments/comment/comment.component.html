@@ -1,7 +1,7 @@
 @if(apiError()){
 {{ "errors.details" | translate }}
 }@else { @if(gettingComments()){
-<div class="card flex justify-center">
+<div class="flex justify-center">
   <p-progress-spinner ariaLabel="loading" />
 </div>
 }@else{
@@ -65,7 +65,7 @@
       [comment]="item"
       [child]="true"
       (reloadDetails)="emitReloadDetails()"
-      class="w-200"
+      class="w-full"
     ></app-comment
     >}
   </div>

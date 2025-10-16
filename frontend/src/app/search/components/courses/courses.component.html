@@ -45,14 +45,8 @@
   </ng-template>
   <ng-template #header>
     <tr>
-      <th class="w-[5%]" pSortableColumn="dgesNumber">
-        {{ "tables.dges" | translate }} <p-sortIcon field="dgesNumber" />
-      </th>
       <th class="w-[30%]" pSortableColumn="name">
         {{ "tables.name" | translate }} <p-sortIcon field="name" />
-      </th>
-      <th class="w-[15%]" pSortableColumn="type">
-        {{ "tables.type" | translate }} <p-sortIcon field="type" />
       </th>
       <th class="w-[20%]" pSortableColumn="area">
         {{ "tables.area" | translate }} <p-sortIcon field="area" />
@@ -61,34 +55,14 @@
         {{ "tables.institution" | translate }}
         <p-sortIcon field="institution" />
       </th>
+      <th class="w-[15%]" pSortableColumn="type">
+        {{ "tables.type" | translate }} <p-sortIcon field="type" />
+      </th>
+      <th class="w-[5%]" pSortableColumn="dgesNumber">
+        {{ "tables.dges" | translate }} <p-sortIcon field="dgesNumber" />
+      </th>
     </tr>
     <tr>
-      <th>
-        <p-columnFilter
-          type="text"
-          field="dgesNumber"
-          [showMenu]="false"
-          [showClearButton]="false"
-        >
-          <ng-template #filter let-value let-filter="filterCallback">
-            <div class="flex">
-              <p-iconfield iconPosition="left" class="ml-auto">
-                <p-inputicon>
-                  <i class="pi pi-search"></i>
-                </p-inputicon>
-                <input
-                  type="text"
-                  pInputText
-                  [ngModel]="value"
-                  (input)="debounceFilter($event, 'dgesNumber', filter)"
-                  class="p-inputtext"
-                  [placeholder]="'filters.dgesNumber' | translate"
-                />
-              </p-iconfield>
-            </div>
-          </ng-template>
-        </p-columnFilter>
-      </th>
       <th>
         <p-columnFilter
           type="text"
@@ -116,25 +90,6 @@
         </p-columnFilter>
       </th>
       <th>
-        <p-columnFilter field="type" matchMode="in" [showMenu]="false">
-          <ng-template #filter let-value let-filter="filterCallback">
-            <p-multiselect
-              [(ngModel)]="selectedTypes"
-              [options]="types"
-              (onChange)="filter($event.value)"
-              [placeholder]="'filters.all' | translate"
-              [panelStyle]="{ minWidth: '16rem' }"
-              display="chip"
-              [maxSelectedLabels]="2"
-              [selectedItemsLabel]="
-                'filters.selectedItemsLabelTypes'
-                  | translate : { value: selectedTypes.length }
-              "
-            />
-          </ng-template>
-        </p-columnFilter>
-      </th>
-      <th>
         <p-columnFilter field="area" matchMode="in" [showMenu]="false">
           <ng-template #filter let-value let-filter="filterCallback">
             <p-multiselect
@@ -149,6 +104,7 @@
                 'filters.selectedItemsLabelAreas'
                   | translate : { value: selectedAreas.length }
               "
+              [appendTo]="body"
             />
           </ng-template>
         </p-columnFilter>
@@ -180,15 +136,61 @@
           </ng-template>
         </p-columnFilter>
       </th>
+      <th>
+        <p-columnFilter field="type" matchMode="in" [showMenu]="false">
+          <ng-template #filter let-value let-filter="filterCallback">
+            <p-multiselect
+              [(ngModel)]="selectedTypes"
+              [options]="types"
+              (onChange)="filter($event.value)"
+              [placeholder]="'filters.all' | translate"
+              [panelStyle]="{ minWidth: '16rem' }"
+              display="chip"
+              [maxSelectedLabels]="2"
+              [selectedItemsLabel]="
+                'filters.selectedItemsLabelTypes'
+                  | translate : { value: selectedTypes.length }
+              "
+              [appendTo]="body"
+            />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="dgesNumber"
+          [showMenu]="false"
+          [showClearButton]="false"
+        >
+          <ng-template #filter let-value let-filter="filterCallback">
+            <div class="flex">
+              <p-iconfield iconPosition="left" class="ml-auto">
+                <p-inputicon>
+                  <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input
+                  type="text"
+                  pInputText
+                  [ngModel]="value"
+                  (input)="debounceFilter($event, 'dgesNumber', filter)"
+                  class="p-inputtext"
+                  [placeholder]="'filters.dgesNumber' | translate"
+                />
+              </p-iconfield>
+            </div>
+          </ng-template>
+        </p-columnFilter>
+      </th>
     </tr>
   </ng-template>
   <ng-template #body let-course>
     <tr (click)="goToLink(course.link)" class="cursor-pointer">
-      <td>{{ course.dgesNumber }}</td>
       <td>{{ course.name }}</td>
-      <td>{{ "filters.courseTypes." + course.type | translate }}</td>
       <td>{{ "filters.courseAreas." + course.area | translate }}</td>
       <td>{{ course.institution?.label }}</td>
+      <td>{{ "filters.courseTypes." + course.type | translate }}</td>
+      <td>{{ course.dgesNumber }}</td>
     </tr>
   </ng-template>
   <ng-template #emptymessage>
