@@ -161,7 +161,14 @@
     </ng-template>
     <ng-template #body let-post>
       <tr (click)="goToPost(post.uuid)" class="cursor-pointer">
-        <td>{{ post.title }}</td>
+        <td>
+          <div class="flex flex-row gap-4 align-items-center">
+            @if(post.ownedByCurrentUser){
+            <i class="pi pi-user"></i>
+            }
+            {{ post.title }}
+          </div>
+        </td>
         <td>{{ post.institution?.label }}</td>
         <td>{{ post.course?.label }}</td>
         <td>{{ post.createdAt | date : "dd/MM/yyyy" }}</td>

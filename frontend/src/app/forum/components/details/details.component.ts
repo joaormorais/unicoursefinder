@@ -24,6 +24,7 @@ import { PostFormComponent } from '../form/post-form/post-form.component';
 import { CommentFormComponent } from '../form/comment-form/comment-form.component';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { CommentComponent } from '../comments/comment/comment.component';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-details',
@@ -47,6 +48,7 @@ export class DetailsComponent implements OnInit {
   postForumService = inject(PostForumService);
   toastService = inject(ToastService);
   router = inject(Router);
+  authService = inject(AuthService);
 
   @ViewChild(PostFormComponent) postForm!: PostFormComponent;
 
@@ -54,7 +56,7 @@ export class DetailsComponent implements OnInit {
   post: PostDto = {} as PostDto;
 
   visible: boolean = false;
-  showCommentComponent: boolean = false;
+  showCreateCommentComponent: boolean = false;
 
   currentFilter = signal('');
   data = signal<PaginatedComments>({
@@ -146,6 +148,7 @@ export class DetailsComponent implements OnInit {
   }
 
   likePost(): void {
+    if (this.redirectIfNotLogged()) return;
     this.currentLikes.set(this.currentLikes() + 1);
     this.likeOrDislikePostRequest();
   }
@@ -162,12 +165,24 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  hideCommentComponent(): void {
-    this.showCommentComponent = false;
+  onShowCreateCommentComponent(): void {
+    if (this.redirectIfNotLogged()) return;
+    this.showCreateCommentComponent = true;
+  }
+
+  onHideShowCreateCommentComponent(): void {
+    this.showCreateCommentComponent = false;
   }
 
   submit(): void {
-    this.hideCommentComponent();
+    this.onHideShowCreateCommentComponent();
     this.reloadDetails();
+  }
+
+  redirectIfNotLogged(): boolean {
+    if (!this.authService.isAuthenticated()) {
+      this.authService.login();
+      return true;
+    } else return false;
   }
 }

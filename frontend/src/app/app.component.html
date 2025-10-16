@@ -2,18 +2,12 @@
   <app-header class="header-container" />
 </header>
 
-<div
-  class="flex flex-col pt-[52px]"
-  [ngClass]="{ 'h-screen': router.url === '/search' }"
->
+<div class="flex flex-col min-h-screen pt-[52px]">
   <p-toast class="z-51" position="top-right" />
-  <main
-    class="z-0"
-    [ngClass]="{ 'flex-grow overflow-hidden': router.url === '/search' }"
-  >
-    <router-outlet class="h-full" />
+  <main class="flex-grow z-0">
+    <router-outlet />
   </main>
-  <footer class="h-[50px] w-full">
+  <footer class="h-[30px] w-full">
     <app-footer class="h-full" />
   </footer>
 </div>

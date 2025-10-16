@@ -21,3 +21,11 @@
 * {
   font-family: var(--font-exo);
 }
+
+body {
+  @apply bg-[#F4F2EE];
+}
+
+.my-app-dark body {
+  @apply bg-[#18181b];
+}

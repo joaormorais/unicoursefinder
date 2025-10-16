@@ -87,11 +87,11 @@
   <p-button
     [label]="'buttons.createComment' | translate"
     icon="pi pi-comment"
-    (click)="showCommentComponent = true"
+    (click)="onShowCreateCommentComponent()"
   />
-  @if(showCommentComponent){
+  @if(showCreateCommentComponent){
   <app-comment-form
-    (closeComment)="hideCommentComponent()"
+    (closeComment)="onHideShowCreateCommentComponent()"
     (submit)="submit()"
     [parentPostUuid]="post.uuid"
     class="w-full px-20"

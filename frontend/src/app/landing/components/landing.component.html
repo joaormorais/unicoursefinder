@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 md:grid-cols-3 min-h-screen">
+<div class="min-h-[calc(100vh-82px)] grid grid-cols-1 md:grid-cols-3">
   <div
     class="column-container"
     routerLink="/search"
@@ -13,12 +13,11 @@
     </div>
     <div class="overlay"></div>
     <div class="paragraph-container">
-      <p class="landing-text">
+      <p class="landing-text bg-black/50">
         {{ "paragraphs.searchP" | translate }}
       </p>
       <i
-        class="pi pi-arrow-right"
-        style="font-size: 2.5rem; color: #ffffff"
+        class="pi pi-arrow-right arrow"
         aria-hidden="false"
         [attr.aria-label]="'ariaLabels.nextIcon' | translate"
       ></i>
@@ -39,12 +38,11 @@
     </div>
     <div class="overlay"></div>
     <div class="paragraph-container">
-      <p class="landing-text">
+      <p class="landing-text bg-white/50">
         {{ "paragraphs.forumP" | translate }}
       </p>
       <i
-        class="pi pi-arrow-right"
-        style="font-size: 2.5rem; color: #ffffff"
+        class="pi pi-arrow-right arrow"
         aria-hidden="false"
         [attr.aria-label]="'ariaLabels.nextIcon' | translate"
       ></i>
@@ -65,12 +63,11 @@
     </div>
     <div class="overlay"></div>
     <div class="paragraph-container">
-      <p class="landing-text">
+      <p class="landing-text bg-white/50">
         {{ "paragraphs.helpP" | translate }}
       </p>
       <i
-        class="pi pi-arrow-right"
-        style="font-size: 2.5rem; color: #ffffff"
+        class="pi pi-arrow-right arrow"
         aria-hidden="false"
         [attr.aria-label]="'ariaLabels.nextIcon' | translate"
       ></i>

@@ -15,6 +15,7 @@ import { ToastService } from '../../../../core/services/toast.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CommentFormComponent } from '../../form/comment-form/comment-form.component';
 import { ProgressSpinner } from 'primeng/progressspinner';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-comment',
@@ -30,6 +31,7 @@ import { ProgressSpinner } from 'primeng/progressspinner';
 export class CommentComponent implements OnInit {
   postForumService = inject(PostForumService);
   toastService = inject(ToastService);
+  authService = inject(AuthService);
 
   @Output('reloadDetails') reloadDetails = new EventEmitter();
   @Input() comment!: CommentDto;
@@ -46,7 +48,7 @@ export class CommentComponent implements OnInit {
 
   gettingComments = signal(false);
 
-  showCommentComponent: boolean = false;
+  showCreateCommentComponent: boolean = false;
 
   ngOnInit(): void {
     this.likedByUser.set(this.comment.likedByCurrentUser);
@@ -60,6 +62,7 @@ export class CommentComponent implements OnInit {
   }
 
   likeComment(): void {
+    if (this.redirectIfNotLogged()) return;
     this.currentLikes.set(this.currentLikes() + 1);
     this.likeOrDislikeCommentRequest();
   }
@@ -89,12 +92,17 @@ export class CommentComponent implements OnInit {
     });
   }
 
-  hideCommentComponent(): void {
-    this.showCommentComponent = false;
+  onShowCreateCommentComponent(): void {
+    if (this.redirectIfNotLogged()) return;
+    this.showCreateCommentComponent = true;
+  }
+
+  onHideShowCreateCommentComponent(): void {
+    this.showCreateCommentComponent = false;
   }
 
   submit(): void {
-    this.hideCommentComponent();
+    this.onHideShowCreateCommentComponent();
     this.reloadDetails.emit();
   }
 
@@ -124,5 +132,12 @@ export class CommentComponent implements OnInit {
           this.gettingComments.set(false);
         },
       });
+  }
+
+  redirectIfNotLogged(): boolean {
+    if (!this.authService.isAuthenticated()) {
+      this.authService.login();
+      return true;
+    } else return false;
   }
 }

@@ -29,7 +29,7 @@
       } @if(!child){
       <p-button
         icon="pi pi-reply"
-        (click)="showCommentComponent = true"
+        (click)="onShowCreateCommentComponent()"
         rounded
         text
       ></p-button>
@@ -44,9 +44,9 @@
       }
     </div>
     <div class="flex items-center">
-      @if(showCommentComponent){
+      @if(showCreateCommentComponent){
       <app-comment-form
-        (closeComment)="hideCommentComponent()"
+        (closeComment)="onHideShowCreateCommentComponent()"
         (submit)="submit()"
         [parentCommentUuid]="comment.uuid"
         [parentPostUuid]="postUuid"
