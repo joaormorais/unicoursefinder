@@ -7,10 +7,12 @@ import { CoursesComponent } from '../courses/courses.component';
 import { TabsModule } from 'primeng/tabs';
 import { SearchService } from '../../services/search.service';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-search',
   imports: [
+    CommonModule,
     FormsModule,
     TranslatePipe,
     MapComponent,
@@ -22,6 +24,5 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
   templateUrl: './search.component.html',
 })
 export class SearchComponent {
-  // inject the main service of this feature
   searchService = inject(SearchService);
 }

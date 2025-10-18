@@ -28,7 +28,6 @@ import { ToastService } from '../../../core/services/toast.service';
   templateUrl: './institutions.component.html',
 })
 export class InstitutionsComponent implements OnInit {
-  // inject the main service of this feature
   searchService = inject(SearchService);
   toastService = inject(ToastService);
   institutionSearchService = inject(InstitutionSearchService);

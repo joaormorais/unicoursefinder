@@ -25,6 +25,7 @@ import { CommentFormComponent } from '../form/comment-form/comment-form.componen
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { CommentComponent } from '../comments/comment/comment.component';
 import { AuthService } from '../../../core/services/auth.service';
+import { Chip } from 'primeng/chip';
 
 @Component({
   selector: 'app-details',
@@ -40,6 +41,7 @@ import { AuthService } from '../../../core/services/auth.service';
     CommentFormComponent,
     ProgressSpinner,
     CommentComponent,
+    Chip,
   ],
   templateUrl: './details.component.html',
 })

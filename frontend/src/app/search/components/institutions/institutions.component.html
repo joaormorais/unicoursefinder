@@ -14,7 +14,6 @@
   [filterDelay]="300"
   [loading]="loading()"
   (onFilter)="onFilter($event, institutionsTable)"
-  styleClass="flex-grow"
 >
   <ng-template #caption>
     <div class="flex flex-col items-end">
@@ -99,14 +98,14 @@
               [options]="types"
               [placeholder]="'filters.all' | translate"
               (onChange)="filter($event.value)"
-              [panelStyle]="{ minWidth: '16rem' }"
+              styleClass="min-w-[16rem]"
               display="chip"
               [maxSelectedLabels]="2"
               [selectedItemsLabel]="
                 'filters.selectedItemsLabelTypes'
                   | translate : { value: selectedTypes.length }
               "
-              [appendTo]="body"
+              [appendTo]="'body'"
             />
           </ng-template>
         </p-columnFilter>
@@ -124,14 +123,14 @@
               [options]="districts"
               [placeholder]="'filters.all' | translate"
               (onChange)="filter($event.value)"
-              [panelStyle]="{ minWidth: '16rem' }"
+              styleClass="min-w-[16rem]"
               display="chip"
               [maxSelectedLabels]="4"
               [selectedItemsLabel]="
                 'filters.selectedItemsLabelDistricts'
                   | translate : { value: selectedTypes.length }
               "
-              [appendTo]="body"
+              [appendTo]="'body'"
             />
           </ng-template>
         </p-columnFilter>
@@ -176,6 +175,16 @@
         {{ "filters.institutionDistricts." + institution.district | translate }}
       </td>
       <td>{{ institution.dgesNumber }}</td>
+    </tr>
+  </ng-template>
+  <ng-template #footer>
+    <tr>
+      <td [attr.colspan]="4" class="p-0">
+        <div
+          class="w-full flex-grow flex flex-col"
+          style="background-color: var(--p-content-background)"
+        ></div>
+      </td>
     </tr>
   </ng-template>
   <ng-template #emptymessage>

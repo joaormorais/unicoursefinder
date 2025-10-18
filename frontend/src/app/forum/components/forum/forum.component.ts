@@ -60,7 +60,7 @@ export class ForumComponent {
     size: 0,
     number: 0,
   });
-  rows: number = 5;
+  rows: number = 10;
   first: number = 0;
 
   institutions: Reference[] = [];

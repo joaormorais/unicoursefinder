@@ -11,7 +11,6 @@
   [first]="first"
   [rowsPerPageOptions]="[5, 10, 25, 50]"
   [totalRecords]="data().totalElements"
-  [tableStyle]="{ width: '100%' }"
   dataKey="id"
   sortField="name"
   [sortOrder]="1"
@@ -97,14 +96,14 @@
               [options]="areas"
               (onChange)="filter($event.value)"
               [placeholder]="'filters.all' | translate"
-              [panelStyle]="{ minWidth: '16rem' }"
+              styleClass="min-w-[16rem]"
               display="chip"
               [maxSelectedLabels]="2"
               [selectedItemsLabel]="
                 'filters.selectedItemsLabelAreas'
                   | translate : { value: selectedAreas.length }
               "
-              [appendTo]="body"
+              [appendTo]="'body'"
             />
           </ng-template>
         </p-columnFilter>
@@ -117,7 +116,7 @@
               [options]="institutions"
               (onChange)="filter($event.value)"
               [placeholder]="'filters.all' | translate"
-              [panelStyle]="{ minWidth: '16rem' }"
+              styleClass="min-w-[32rem]"
               display="chip"
               [maxSelectedLabels]="2"
               [selectedItemsLabel]="
@@ -132,6 +131,7 @@
               (onFilter)="onInstitutionsFilter($event)"
               [loading]="gettingInstitutions()"
               (onPanelShow)="institutions.length === 0 && loadInstitutions(0)"
+              [appendTo]="'body'"
             />
           </ng-template>
         </p-columnFilter>
@@ -144,14 +144,14 @@
               [options]="types"
               (onChange)="filter($event.value)"
               [placeholder]="'filters.all' | translate"
-              [panelStyle]="{ minWidth: '16rem' }"
+              styleClass="min-w-[16rem]"
               display="chip"
               [maxSelectedLabels]="2"
               [selectedItemsLabel]="
                 'filters.selectedItemsLabelTypes'
                   | translate : { value: selectedTypes.length }
               "
-              [appendTo]="body"
+              [appendTo]="'body'"
             />
           </ng-template>
         </p-columnFilter>
