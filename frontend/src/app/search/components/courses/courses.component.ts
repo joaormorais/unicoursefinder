@@ -6,6 +6,8 @@ import {
   OnInit,
   signal,
   ViewChild,
+  untracked,
+  OnDestroy,
 } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { SearchService } from '../../services/search.service';
@@ -29,6 +31,7 @@ import {
 import { ToastService } from '../../../core/services/toast.service';
 import { InstitutionSearchService } from '../../services/institution-search.service';
 import { UtilsSearchService } from '../../services/utils-search.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-courses',
@@ -44,7 +47,7 @@ import { UtilsSearchService } from '../../services/utils-search.service';
   ],
   templateUrl: './courses.component.html',
 })
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnInit, OnDestroy {
   searchService = inject(SearchService);
   courseSearchService = inject(CourseSearchService);
   institutionSearchService = inject(InstitutionSearchService);
@@ -71,12 +74,13 @@ export class CoursesComponent implements OnInit {
   institutionsPageNumber = signal(0);
   institutionsPageSize = 20;
   institutionsTotalRecords = signal(0);
-  private institutionsFilterTimeout: any;
+  institutionsFilterTimeout: any;
 
   selectedTypes: string[] = [];
   selectedAreas: string[] = [];
   selectedInstitutions: string[] = [];
 
+  coursesSubscription: Subscription | undefined;
   apiError = signal(false);
   gettingTypes = signal(false);
   gettingAreas = signal(false);
@@ -84,7 +88,10 @@ export class CoursesComponent implements OnInit {
   gettingCourses = signal(false);
   loading = computed(
     () =>
-      this.gettingTypes() || this.gettingAreas() || this.gettingInstitutions() || this.gettingCourses()
+      this.gettingTypes() ||
+      this.gettingAreas() ||
+      this.gettingInstitutions() ||
+      this.gettingCourses()
   );
 
   filterTimeouts: { [key: string]: any } = {};
@@ -97,32 +104,16 @@ export class CoursesComponent implements OnInit {
 
       if (institutionUuid === null) return;
 
-      this.institutions.map((item) => {
-        if (item.value === institutionUuid) {
-          // clean filters
-          this.globalFilterValue = '';
-          this.selectedTypes = [];
-          this.selectedAreas = [];
-          this.selectedInstitutions = [];
-          this.coursesTable.reset();
-
-          // insert new filter for institutions
-          this.selectedInstitutions.push(item.value);
-
-          // filter the table
-          this.coursesTable.filter(
-            [this.institutions.find((i) => i.value === institutionUuid)!.value],
-            'institution',
-            'in'
-          );
-
-          return;
-        }
+      untracked(() => {
+        this.loadInstitutions(0, '', institutionUuid);
       });
     });
   }
 
-  // run when the component is created
+  ngOnDestroy(): void {
+    if (this.coursesSubscription) this.coursesSubscription.unsubscribe();
+  }
+
   ngOnInit(): void {
     this.getTypes();
     this.getAreas();
@@ -133,7 +124,6 @@ export class CoursesComponent implements OnInit {
       return;
     }
 
-    if (this.gettingCourses()) return;
     this.gettingCourses.set(true);
 
     this.lastTableLazyLoadEvent = event;
@@ -158,24 +148,21 @@ export class CoursesComponent implements OnInit {
         ? (filters['name'] as any).value
         : ''
       : '';
-    const types: string[] = filters['type']
-      ? (filters['type'] as any).value
-        ? (filters['type'] as any).value
-        : []
-      : [];
-      const areas: string[] = filters['area']
-      ? (filters['area'] as any).value
-        ? (filters['area'] as any).value
-        : []
-      : [];
-    const institutionUuids: string[] = filters['institutions']
-      ? (filters['institutions'] as any).value
-        ? (filters['institutions'] as any).value
-        : []
-      : [];
+
+    const types: string[] = this.selectedTypes;
+    const areas: string[] = this.selectedAreas;
+    const institutionUuids: string[] = this.selectedInstitutions;
 
     // load courses
-    this.loadCourses(first, rows, dgesNumber, name, types, areas, institutionUuids);
+    this.loadCourses(
+      first,
+      rows,
+      dgesNumber,
+      name,
+      types,
+      areas,
+      institutionUuids
+    );
   }
 
   onInstitutionsLazyLoad(event: MultiSelectLazyLoadEvent): void {
@@ -198,10 +185,12 @@ export class CoursesComponent implements OnInit {
     dgesNumber: string,
     name: string,
     types: string[],
-    areas:string[],
+    areas: string[],
     institutionUuids: string[]
   ): void {
-    this.courseSearchService
+    if (this.coursesSubscription) this.coursesSubscription.unsubscribe();
+
+    this.coursesSubscription = this.courseSearchService
       .getCourses(
         first / rows,
         rows,
@@ -229,7 +218,11 @@ export class CoursesComponent implements OnInit {
       });
   }
 
-  loadInstitutions(page: number, name: string = ''): void {
+  loadInstitutions(
+    page: number,
+    name: string = '',
+    institutionUuidToLoad?: string
+  ): void {
     if (this.gettingInstitutions()) return;
 
     this.gettingInstitutions.set(true);
@@ -246,6 +239,9 @@ export class CoursesComponent implements OnInit {
           this.institutionsPageNumber.set(data.number);
           this.institutionsTotalRecords.set(data.totalElements);
           this.gettingInstitutions.set(false);
+
+          if (institutionUuidToLoad)
+            this.loadInstitution(institutionUuidToLoad);
         },
         error: (err) => {
           this.toastService.showErrorToast(
@@ -256,6 +252,48 @@ export class CoursesComponent implements OnInit {
           this.gettingInstitutions.set(false);
         },
       });
+  }
+
+  loadInstitution(uuid: string): void {
+    if (this.gettingInstitutions()) return;
+
+    this.gettingInstitutions.set(true);
+
+    this.institutionSearchService.getInstitution(uuid).subscribe({
+      next: (data) => {
+        // clean filters
+        this.globalFilterValue = '';
+        this.selectedTypes = [];
+        this.selectedAreas = [];
+        this.selectedInstitutions = [];
+        this.coursesTable.reset();
+
+        // add data to the array if not exists
+        if (
+          !this.institutions.some(
+            (institution) => institution.value === data.value
+          )
+        ) {
+          this.institutions = [data, ...this.institutions];
+        }
+
+        // insert new filter for institutions
+        this.selectedInstitutions.push(data.value);
+
+        this.gettingInstitutions.set(false);
+
+        // filter the table
+        this.onLazyLoad(this.lastTableLazyLoadEvent);
+      },
+      error: (err) => {
+        this.toastService.showErrorToast(
+          err,
+          'errors.summary.gettingInstitutions'
+        );
+        this.apiError.set(true);
+        this.gettingInstitutions.set(false);
+      },
+    });
   }
 
   getTypes(): void {

@@ -1,4 +1,4 @@
-<div class="min-h-[calc(100vh-82px)] grid grid-cols-1 md:grid-cols-3">
+<div class="h-page-fixed grid grid-cols-1 md:grid-cols-3">
   <div
     class="column-container"
     routerLink="/search"
@@ -72,5 +72,81 @@
         [attr.aria-label]="'ariaLabels.nextIcon' | translate"
       ></i>
     </div>
+  </div>
+</div>
+
+<div class="h-page-fixed flex flex-col md:flex-wrap flex-col py-2">
+  <div class="flex flex-col md:flex-grow justify-center items-center gap-8">
+    <div
+      pAnimateOnScroll
+      enterClass="animate-enter fade-in-10 slide-in-from-l-8 animate-duration-1000"
+      leaveClass="animate-leave fade-out-0"
+      class="flex flex-col border border-surface shadow-lg justify-center items-center max-w-80 rounded-2xl p-8 gap-4"
+    >
+      <div
+        class="rounded-full bg-primary text-primary-contrast w-12 h-12 flex items-center justify-center"
+      >
+        <i class="pi pi-graduation-cap !text-2xl"></i>
+      </div>
+      <span class="text-2xl font-bold">Objetivo</span>
+      <span class="text-muted-color text-center"
+        >Explora cursos e instituições de ensino! Este é o espaço ideal para
+        esclarecer dúvidas e partilhar opiniões.</span
+      >
+    </div>
+
+    <div
+      pAnimateOnScroll
+      enterClass="animate-enter fade-in-10 slide-in-from-l-8 animate-duration-1000"
+      leaveClass="animate-leave fade-out-0"
+      class="flex flex-col border border-surface shadow-lg justify-center items-center max-w-80 rounded-2xl p-8 gap-4"
+    >
+      <div
+        class="rounded-full bg-primary text-primary-contrast w-12 h-12 flex items-center justify-center"
+      >
+        <i class="pi pi-database !text-2xl"></i>
+      </div>
+      <span class="text-2xl font-bold">Dados</span>
+      <span class="text-muted-color text-center"
+        >Informação rigorosa e atualizada em outubro de 2025, com base nos dados
+        oficiais fornecidos pela DGES.</span
+      >
+    </div>
+
+    <div
+      pAnimateOnScroll
+      enterClass="animate-enter fade-in-10 slide-in-from-l-8 animate-duration-1000"
+      leaveClass="animate-leave fade-out-0"
+      class="flex flex-col border border-surface shadow-lg justify-center items-center max-w-80 rounded-2xl p-8 gap-4"
+    >
+      <div
+        class="rounded-full bg-primary text-primary-contrast w-12 h-12 flex items-center justify-center"
+      >
+        <i class="pi pi-user !text-2xl"></i>
+      </div>
+      <span class="text-2xl font-bold">Projeto</span>
+      <span class="text-muted-color text-center"
+        >Uma plataforma idealizada e desenvolvida de raiz, com a dedicação e
+        autoria de João Morais.</span
+      >
+    </div>
+  </div>
+  <div class="flex justify-center items-center p-2 gap-4">
+    <a
+      href="https://www.linkedin.com/in/joaormorais/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="p-button"
+    >
+      <i class="pi pi-linkedin"></i>
+    </a>
+    <a
+      href="https://github.com/joaormorais"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="p-button"
+    >
+      <i class="pi pi-github"></i>
+    </a>
   </div>
 </div>
