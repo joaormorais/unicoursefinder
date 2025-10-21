@@ -3,14 +3,14 @@ export interface Reference {
   label: string;
 }
 
-export interface PaginatedReferences {
+export interface PaginatedReferences { // passar para o componente search
   content: Reference[];
   totalElements: number;
   size: number;
   number: number;
 }
 
-export interface InstitutionDto {
+export interface InstitutionDto { // passar para o componente search
   uuid: string;
   dgesNumber: number;
   name: string;
@@ -20,7 +20,7 @@ export interface InstitutionDto {
   longitude: number;
 }
 
-export interface CourseDto {
+export interface CourseDto { // passar para o componente search
   uuid: string;
   dgesNumber: number;
   name: string;
@@ -30,14 +30,14 @@ export interface CourseDto {
   institution: Reference;
 }
 
-export interface PaginatedCourses {
+export interface PaginatedCourses { // passar para o componente search
   content: CourseDto[];
   totalElements: number;
   size: number;
   number: number;
 }
 
-export interface PostDto {
+export interface PostDto { // passar para o componente forum
   uuid: string;
   ownedByCurrentUser: boolean;
   likedByCurrentUser: boolean;
@@ -51,7 +51,7 @@ export interface PostDto {
   author: string;
 }
 
-export interface PostEditDto {
+export interface PostEditDto { // passar para o componente forum
   uuid: string;
   institution?: Reference;
   course?: Reference;
@@ -59,14 +59,14 @@ export interface PostEditDto {
   content: string;
 }
 
-export interface PaginatedPosts {
+export interface PaginatedPosts { // passar para o componente forum
   content: PostDto[];
   totalElements: number;
   size: number;
   number: number;
 }
 
-export interface CommentDto {
+export interface CommentDto { // passar para o componente forum
   uuid: string;
   ownedByCurrentUser: boolean;
   likedByCurrentUser: boolean;
@@ -76,13 +76,13 @@ export interface CommentDto {
   author: string;
 }
 
-export interface CommentCreateDto {
+export interface CommentCreateDto { // passar para o componente forum
   content: string;
   postUuid: string;
   parentUuid: string | undefined;
 }
 
-export interface PaginatedComments {
+export interface PaginatedComments { // passar para o componente forum
   content: CommentDto[];
   totalElements: number;
   size: number;

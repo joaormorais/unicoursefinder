@@ -12,11 +12,12 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./forum/forum.routes').then((m) => m.forumRoutes),
   },
-  {
+  { path: 'help', component: HelpComponent },
+  /*{
     path: 'help',
     component: HelpComponent,
     canActivate: [canActivateAuthRole],
     data: { role: 'default-roles-uni-course-finder' },
-  },
+  },*/
   { path: '**', redirectTo: '' },
 ];

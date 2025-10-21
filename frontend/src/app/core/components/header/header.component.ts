@@ -14,7 +14,7 @@ import { Menu } from 'primeng/menu';
 })
 export class HeaderComponent implements OnInit {
   authService = inject(AuthService);
-  private translate = inject(TranslateService);
+  translate = inject(TranslateService);
 
   // vars to control the icon of the theme mode
   lightIcon: string = 'pi pi-sun';
