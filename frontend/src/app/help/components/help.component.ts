@@ -47,24 +47,10 @@ export class HelpComponent {
   areas: Area[] = AREAS_DATA.map((area) => ({ ...area }));
 
   data: any;
-
   options: any;
-
   platformId = inject(PLATFORM_ID);
 
-  //configService = inject(AppConfigService);
-
-  //designerService = inject(DesignerService);
-
   constructor(private cd: ChangeDetectorRef) {}
-
-  /*themeEffect = effect(() => {
-        if (this.configService.transitionComplete()) {
-            if (this.designerService.preset()) {
-                this.initChart();
-            }
-        }
-    });*/
 
   onInterestChange(): void {
     this.selectedGroupsCount = this.interestGroups.filter(
@@ -85,7 +71,7 @@ export class HelpComponent {
 
   getResults(): void {
     this.results = this.areas.filter((area) => {
-      return this.selectedGroups.includes(area.groupId) && area.value > 0;
+      return this.selectedGroups.includes(area.groupId);
     });
 
     this.totalPoints = this.results.reduce((sum, area) => sum + area.value, 0);
@@ -107,24 +93,33 @@ export class HelpComponent {
         datasets: [
           {
             label: this.translate.instant('help.titles.preference'),
-            borderColor: documentStyle.getPropertyValue('--p-gray-400'),
-            pointBackgroundColor:
-              documentStyle.getPropertyValue('--p-gray-400'),
-            pointBorderColor: documentStyle.getPropertyValue('--p-gray-400'),
+            borderColor: documentStyle.getPropertyValue('--p-blue-400'),
+            pointBackgroundColor: documentStyle.getPropertyValue('--p-orange-400'),
+            pointBorderColor: documentStyle.getPropertyValue('--p-orange-400'),
             pointHoverBackgroundColor: textColor,
             pointHoverBorderColor:
-              documentStyle.getPropertyValue('--p-gray-400'),
+              documentStyle.getPropertyValue('--p-orange-400'),
             data: this.results.map((result) => result.value),
           },
         ],
       };
 
       this.options = {
+        responsive: true,
+        maintainAspectRatio: false,
+
+      padding: {
+            top: 20,
+            bottom: 20,
+            left: 20,
+            right: 20
+        },
         plugins: {
           legend: {
             labels: {
               color: textColor,
             },
+            position: 'bottom'
           },
         },
         scales: {
@@ -132,6 +127,17 @@ export class HelpComponent {
             grid: {
               color: textColorSecondary,
             },
+            min: 0,
+            max: 10,
+            ticks: {
+              stepSize: 2,
+            },
+            pointLabels: {
+                color: textColorSecondary,
+                font: {
+                    size: 12
+                }
+            }
           },
         },
       };

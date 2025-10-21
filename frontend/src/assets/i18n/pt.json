@@ -226,9 +226,10 @@
       "SECURITY_SERVICES": "Qual o teu interesse em planear e executar operações de vigilância, controlo de acessos e prevenção de riscos para proteger pessoas, bens e instalações, aplicando protocolos de segurança e respondendo a emergências?"
     },
     "titles": {
-      "interests": "Escolha o seu grupo de interesses",
-      "interestLimit": "Escolha um máximo de dois grupos",
-      "preference": "Preferência"
+      "interests": "Escolhe os teus grupos de interesses!",
+      "interestLimit": "Escolhe no máximo dois grupos",
+      "preference": "Preferência",
+      "result": "Estas são as áreas que parecem melhor se adequar às tuas preferências!"
     }
   }
 }
