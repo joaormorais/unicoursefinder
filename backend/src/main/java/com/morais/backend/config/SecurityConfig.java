@@ -61,7 +61,7 @@ public class SecurityConfig {
                 .serverUrl("http://keycloak:8080")
                 .realm("uni-course-finder")
                 .clientId("backend-service")
-                .clientSecret("IqILCwS3FfkjE5AXMygY17HZcmcG4TB9")
+                .clientSecret("76YsmU8opnv3UVg0W739N2wy6goRGr3w")
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                 .build();
     }
