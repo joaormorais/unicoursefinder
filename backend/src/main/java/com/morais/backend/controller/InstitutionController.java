@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +31,13 @@ public class InstitutionController {
     @GetMapping
     public ResponseEntity<List<InstitutionDto>> getInstitutions() {
         return ResponseEntity.ok(institutionService.getInstitutions());
+    }
+
+    @GetMapping("/uuid")
+    public ResponseEntity<ReferenceDto> getInstitution(
+            @RequestParam(required = false, defaultValue = "") UUID uuid
+    ) {
+        return ResponseEntity.ok(institutionService.getInstitution(uuid));
     }
 
     @GetMapping("/dropdown")

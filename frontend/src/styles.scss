@@ -21,3 +21,26 @@
 * {
   font-family: var(--font-exo);
 }
+
+body {
+  @apply bg-[#F4F2EE];
+}
+
+.my-app-dark body {
+  @apply bg-[#18181b];
+}
+
+:root {
+  --header-height: 52px;
+  --fixed-paged-height: calc(100vh - var(--header-height));
+}
+
+@layer utilities {
+  .h-header-fixed {
+    height: var(--header-height);
+  }
+
+  .h-page-fixed {
+    height: var(--fixed-paged-height);
+  }
+}

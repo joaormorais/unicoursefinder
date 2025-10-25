@@ -322,7 +322,7 @@ export class PostFormComponent {
         this.toastService.showSuccessToast('success.postDeleted');
       },
       error: (err) => {
-        this.toastService.showErrorToast(err, 'errors.summary.creatingPost');
+        this.toastService.showErrorToast(err, 'errors.summary.deletingPost');
         this.apiError.set(true);
         this.gettingCourses.set(false);
       },

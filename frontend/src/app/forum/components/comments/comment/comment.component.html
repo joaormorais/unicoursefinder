@@ -1,7 +1,7 @@
 @if(apiError()){
 {{ "errors.details" | translate }}
 }@else { @if(gettingComments()){
-<div class="card flex justify-center">
+<div class="flex justify-center">
   <p-progress-spinner ariaLabel="loading" />
 </div>
 }@else{
@@ -9,38 +9,51 @@
   <p class="m-0">
     {{ comment.content }}
   </p>
-  <div class="flex items-center gap-2">
-    {{ currentLikes() }}
-    @if(this.likedByUser()){
-    <p-button
-      icon="pi pi-heart-fill"
-      (click)="dislikeComment()"
-      rounded
-      text
-    ></p-button>
-    }@else {
-    <p-button
-      icon="pi pi-heart"
-      (click)="likeComment()"
-      rounded
-      text
-    ></p-button>
-    } @if(!child){
-    <p-button
-      icon="pi pi-reply"
-      (click)="showCommentComponent = true"
-      rounded
-      text
-    ></p-button>
-    } @if(showCommentComponent){
-    <app-comment-form
-      (closeComment)="hideCommentComponent()"
-      (submit)="submit()"
-      [parentCommentUuid]="comment.uuid"
-      [parentPostUuid]="postUuid"
-      class="w-full px-20"
-    ></app-comment-form>
-    }
+  <div class="flex flex-col gap-2">
+    <div class="flex items-center gap-2">
+      {{ currentLikes() }}
+      @if(this.likedByUser()){
+      <p-button
+        icon="pi pi-heart-fill"
+        (click)="dislikeComment()"
+        rounded
+        text
+      ></p-button>
+      }@else {
+      <p-button
+        icon="pi pi-heart"
+        (click)="likeComment()"
+        rounded
+        text
+      ></p-button>
+      } @if(!child){
+      <p-button
+        icon="pi pi-reply"
+        (click)="onShowCreateCommentComponent()"
+        rounded
+        text
+      ></p-button>
+      } @if(comment.ownedByCurrentUser){
+      <p-button
+        icon="pi pi-trash"
+        severity="secondary"
+        (click)="deleteComment()"
+        rounded
+        text
+      />
+      }
+    </div>
+    <div class="flex items-center">
+      @if(showCreateCommentComponent){
+      <app-comment-form
+        (closeComment)="onHideShowCreateCommentComponent()"
+        (submit)="submit()"
+        [parentCommentUuid]="comment.uuid"
+        [parentPostUuid]="postUuid"
+        class="w-full px-20"
+      ></app-comment-form>
+      }
+    </div>
   </div>
 </p-fieldset>
 
@@ -51,8 +64,8 @@
     <app-comment
       [comment]="item"
       [child]="true"
-      (reloadDetails)="(reloadDetails)"
-      class="w-200"
+      (reloadDetails)="emitReloadDetails()"
+      class="w-full"
     ></app-comment
     >}
   </div>

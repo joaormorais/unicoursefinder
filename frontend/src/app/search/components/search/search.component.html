@@ -1,36 +1,37 @@
-<div class="flex flex-col md:flex-row h-full">
-  <div class="h-2/5 md:h-full md:w-2/5">
-    <!-- map of institutions -->
-    <app-map> </app-map>
+<div class="h-page-fixed max-h-screen flex flex-col md:flex-row overflow-auto">
+  @if(this.searchService.tabValue$() == 0){
+  <div class="flex h-[30%] md:h-full w-full md:w-[30%]">
+    <app-map></app-map>
   </div>
+  }
 
-  <div class="h-3/5 md:h-full md:w-3/5 md:min-h-0">
-    <p-scroll-panel [style]="{ width: '100%', height: '100%' }"
-      ><!-- choose between institutions and courses -->
-      <p-tabs
-        [value]="this.searchService.tabValue$()"
-        (valueChange)="searchService.changeTab($event)"
-        class="h-full"
-      >
-        <p-tablist>
-          <p-tab value="0">{{ "buttons.institutions" | translate }}</p-tab>
-          <p-tab value="1">{{ "buttons.courses" | translate }}</p-tab>
-        </p-tablist>
-        <p-tabpanels>
-          <p-tabpanel value="0">
-            <!-- institutions list and filters -->
-            <div>
-              <app-institutions> </app-institutions>
-            </div>
-          </p-tabpanel>
-          <p-tabpanel value="1">
-            <!-- courses list and filters -->
-            <div>
-              <app-courses> </app-courses>
-            </div>
-          </p-tabpanel>
-        </p-tabpanels>
-      </p-tabs>
-    </p-scroll-panel>
+  <div
+    [ngClass]="
+      this.searchService.tabValue$() == 0
+        ? 'w-full md:w-[70%] h-[70%] md:h-full'
+        : 'w-full h-[70%] md:h-full'
+    "
+  >
+    <p-tabs
+      [value]="this.searchService.tabValue$()"
+      (valueChange)="searchService.changeTab($event)"
+    >
+      <p-tablist>
+        <p-tab value="0">{{ "buttons.institutions" | translate }}</p-tab>
+        <p-tab value="1">{{ "buttons.courses" | translate }}</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+        <p-tabpanel value="0">
+          <div>
+            <app-institutions> </app-institutions>
+          </div>
+        </p-tabpanel>
+        <p-tabpanel value="1">
+          <div>
+            <app-courses> </app-courses>
+          </div>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
   </div>
 </div>

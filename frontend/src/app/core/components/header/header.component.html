@@ -15,7 +15,7 @@
         [attr.aria-label]="'ariaLabels.changeModes' | translate"
         (onClick)="changeTheme()"
       />
-      @if(this.authService.isAuthenticated()){
+      @if(authService.isAuthenticated()){
       <p-menu #menu [model]="itemsDropdownMenu" [popup]="true" />
       <p-button (click)="menu.toggle($event)" icon="pi pi-cog" />
       }@else{
@@ -23,7 +23,7 @@
         icon="pi pi-user"
         class="ml-2 mr-4"
         [attr.aria-label]="'ariaLabels.loginRegister' | translate"
-        (click)="this.authService.login()"
+        (click)="authService.login()"
       />
       }
     </div>

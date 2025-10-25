@@ -48,11 +48,11 @@ public class PostService {
 
         Specification<Post> specs = Specification.not(null);
 
-        if (!(title == null || title.isEmpty()))
+        if (title != null && !title.isEmpty())
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedTitle"), "%" + normalize(title) + "%")));
-        if (!(institutionUuids == null || institutionUuids.isEmpty()))
+        if (institutionUuids != null && !institutionUuids.isEmpty())
             specs = specs.and(((root, query, criteriaBuilder) -> root.get("institution").get("uuid").in(institutionUuids.stream().map(UUID::fromString).toList())));
-        if (!(courseUuids == null || courseUuids.isEmpty()))
+        if (courseUuids != null && !courseUuids.isEmpty())
             specs = specs.and(((root, query, criteriaBuilder) -> root.get("course").get("uuid").in(courseUuids.stream().map(UUID::fromString).toList())));
 
         Page<Post> resultPage = postRepository.findAll(specs, pageable);

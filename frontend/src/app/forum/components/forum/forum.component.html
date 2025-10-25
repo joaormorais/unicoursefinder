@@ -1,33 +1,13 @@
-<div class="h-screen">
+<div class="min-h-[calc(100vh-82px)]">
   @if(apiError()){
   {{ "errors.forum" | translate }}
   }@else {
-  <div class="flex flex-col items-center justify-center gap-3 my-8">
+  <div class="flex flex-col items-center gap-3 py-8">
     <p-button
       [label]="'buttons.createPost' | translate"
       icon="pi pi-plus"
       (click)="showDialog()"
     />
-    <p-dialog
-      header="Header"
-      [modal]="true"
-      [(visible)]="visible"
-      [style]="{ width: '50rem' }"
-      [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-      (closeDialog)="visible = false"
-    >
-      <ng-template #header>
-        <div class="inline-flex items-center justify-center gap-2">
-          <span class="font-bold whitespace-nowrap">{{
-            "dialog.newPost" | translate
-          }}</span>
-        </div>
-      </ng-template>
-      <app-post-form
-        (closeDialog)="visible = false"
-        (onPostCreated)="onPostCreated($event)"
-      ></app-post-form>
-    </p-dialog>
   </div>
   <p-table
     #postsTable
@@ -48,24 +28,24 @@
   >
     <ng-template #header>
       <tr>
-        <th style="width: 25%" pSortableColumn="title">
+        <th class="w-[25%]" pSortableColumn="title">
           {{ "tables.title" | translate }} <p-sortIcon field="title" />
         </th>
-        <th style="width: 20%" pSortableColumn="institution">
+        <th class="w-[20%]" pSortableColumn="institution">
           {{ "tables.institution" | translate }}
           <p-sortIcon field="institution" />
         </th>
-        <th style="width: 20%" pSortableColumn="course">
+        <th class="w-[20%]" pSortableColumn="course">
           {{ "tables.course" | translate }} <p-sortIcon field="course" />
         </th>
-        <th style="width: 15%" pSortableColumn="createdAt">
+        <th class="w-[15%]" pSortableColumn="createdAt">
           {{ "tables.createdAt" | translate }}
           <p-sortIcon field="createdAt" />
         </th>
-        <th style="width: 10%" pSortableColumn="likes">
+        <th class="w-[10%]" pSortableColumn="likes">
           {{ "tables.likes" | translate }} <p-sortIcon field="likes" />
         </th>
-        <th style="width: 10%" pSortableColumn="comments">
+        <th class="w-[10%]" pSortableColumn="comments">
           {{ "tables.comments" | translate }} <p-sortIcon field="comments" />
         </th>
       </tr>
@@ -108,7 +88,7 @@
                 [options]="institutions"
                 (onChange)="filter($event.value)"
                 [placeholder]="'filters.all' | translate"
-                [panelStyle]="{ minWidth: '16rem' }"
+                styleClass="min-w-[16rem]"
                 display="chip"
                 [maxSelectedLabels]="2"
                 [selectedItemsLabel]="
@@ -123,6 +103,7 @@
                 (onFilter)="onInstitutionsFilter($event)"
                 [loading]="gettingInstitutions()"
                 (onPanelShow)="institutions.length === 0 && loadInstitutions(0)"
+                [appendTo]="'body'"
               />
             </ng-template>
           </p-columnFilter>
@@ -135,7 +116,7 @@
                 [options]="courses"
                 (onChange)="filter($event.value)"
                 [placeholder]="'filters.all' | translate"
-                [panelStyle]="{ minWidth: '16rem' }"
+                styleClass="min-w-[16rem] z-51"
                 display="chip"
                 [maxSelectedLabels]="2"
                 [selectedItemsLabel]="
@@ -150,6 +131,7 @@
                 (onFilter)="onCoursesFilter($event)"
                 [loading]="gettingCourses()"
                 (onPanelShow)="courses.length === 0 && loadCourses(0)"
+                [appendTo]="'body'"
               />
             </ng-template>
           </p-columnFilter>
@@ -161,22 +143,19 @@
     </ng-template>
     <ng-template #body let-post>
       <tr (click)="goToPost(post.uuid)" class="cursor-pointer">
-        <td>{{ post.title }}</td>
+        <td>
+          <div class="flex flex-row gap-4 align-items-center">
+            @if(post.ownedByCurrentUser){
+            <i class="pi pi-user"></i>
+            }
+            {{ post.title }}
+          </div>
+        </td>
         <td>{{ post.institution?.label }}</td>
         <td>{{ post.course?.label }}</td>
         <td>{{ post.createdAt | date : "dd/MM/yyyy" }}</td>
         <td>{{ post.likes }}</td>
         <td>{{ post.commentsCount }}</td>
-      </tr>
-    </ng-template>
-    <ng-template #footer>
-      <tr>
-        <td [attr.colspan]="6" class="p-0">
-          <div
-            class="w-full min-h-100"
-            style="background-color: var(--p-content-background)"
-          ></div>
-        </td>
       </tr>
     </ng-template>
     <ng-template #emptymessage>
@@ -187,3 +166,24 @@
   </p-table>
   }
 </div>
+
+<p-dialog
+  header="Header"
+  [modal]="true"
+  [(visible)]="visible"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  (closeDialog)="visible = false"
+  styleClass="w-[50rem]"
+>
+  <ng-template #header>
+    <div class="inline-flex items-center justify-center gap-2">
+      <span class="font-bold whitespace-nowrap">{{
+        "dialog.newPost" | translate
+      }}</span>
+    </div>
+  </ng-template>
+  <app-post-form
+    (closeDialog)="visible = false"
+    (onPostCreated)="onPostCreated($event)"
+  ></app-post-form>
+</p-dialog>

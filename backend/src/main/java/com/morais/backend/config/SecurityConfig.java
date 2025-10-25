@@ -26,6 +26,18 @@ public class SecurityConfig {
     @Value("${frontend.origin}")
     private String frontendOrigin;
 
+    @Value("${keycloak.backend.service.secret}")
+    private String backendServiceSecret;
+
+    @Value("${keycloak.server-url}")
+    private String keycloakServerUrl;
+
+    @Value("${keycloak.realm}")
+    private String keycloakRealm;
+
+    @Value("${keycloak.client-id}")
+    private String keycloakClientId;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -58,10 +70,10 @@ public class SecurityConfig {
     @Bean
     Keycloak keycloak() {
         return KeycloakBuilder.builder()
-                .serverUrl("http://keycloak:8080")
-                .realm("uni-course-finder")
-                .clientId("backend-service")
-                .clientSecret("IqILCwS3FfkjE5AXMygY17HZcmcG4TB9")
+                .serverUrl(this.keycloakServerUrl)
+                .realm(this.keycloakRealm)
+                .clientId(this.keycloakClientId)
+                .clientSecret(this.backendServiceSecret)
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
                 .build();
     }

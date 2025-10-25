@@ -1,35 +1,23 @@
 @if(apiError()){
 {{ "errors.details" | translate }}
 }@else { @if(loading()){
-<div class="card flex justify-center">
+<div class="flex justify-center">
   <p-progress-spinner ariaLabel="loading" />
 </div>
 }@else {
-<p-dialog
-  header="Header"
-  [modal]="true"
-  [(visible)]="visible"
-  [style]="{ width: '50rem' }"
-  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
->
-  <ng-template #header>
-    <div class="inline-flex items-center justify-center gap-2">
-      <span class="font-bold whitespace-nowrap">{{
-        "dialog.newPost" | translate
-      }}</span>
-    </div>
-  </ng-template>
-  <app-post-form
-    (closeDialog)="visible = false"
-    (reloadDetails)="reloadDetails()"
-    (onPostDeleted)="onPostDeleted()"
-    [editingPost]="post"
-  ></app-post-form>
-</p-dialog>
-
-<h1 class="mt-3 mx-4 py-2 px-4 text-4xl">{{ post.title }}</h1>
+<div class="flex justify-start items-center mt-3 mx-4 py-2 px-4 gap-3">
+  <h1 class="text-4xl">{{ post.title }}</h1>
+  @if(post.institution){
+  <p-chip
+    [label]="post.institution.label.toString()"
+    icon="pi pi-graduation-cap"
+  />
+  } @if(post.course){
+  <p-chip [label]="post.course.label.toString()" icon="pi pi-pencil" />
+  }
+</div>
 <p-divider type="solid" />
-<div class="card mx-4">
+<div class="mx-4">
   <p-panel>
     <ng-template #header>
       <div class="flex items-center gap-2">
@@ -87,11 +75,12 @@
   <p-button
     [label]="'buttons.createComment' | translate"
     icon="pi pi-comment"
-    (click)="showCommentComponent = true"
+    (click)="onShowCreateCommentComponent()"
+    class="mb-2"
   />
-  @if(showCommentComponent){
+  @if(showCreateCommentComponent){
   <app-comment-form
-    (closeComment)="hideCommentComponent()"
+    (closeComment)="onHideShowCreateCommentComponent()"
     (submit)="submit()"
     [parentPostUuid]="post.uuid"
     class="w-full px-20"
@@ -103,7 +92,7 @@
       [comment]="item"
       [postUuid]="post.uuid"
       (reloadDetails)="reloadDetails()"
-      class="w-200"
+      class="w-full"
     ></app-comment
     >}
   </div>
@@ -115,4 +104,26 @@
   />
   } }
 </div>
+
+<p-dialog
+  header="Header"
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '50rem' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+>
+  <ng-template #header>
+    <div class="inline-flex items-center justify-center gap-2">
+      <span class="font-bold whitespace-nowrap">{{
+        "dialog.newPost" | translate
+      }}</span>
+    </div>
+  </ng-template>
+  <app-post-form
+    (closeDialog)="visible = false"
+    (reloadDetails)="reloadDetails()"
+    (onPostDeleted)="onPostDeleted()"
+    [editingPost]="post"
+  ></app-post-form>
+</p-dialog>
 } }

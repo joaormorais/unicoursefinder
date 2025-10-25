@@ -22,6 +22,7 @@ import { Dialog } from 'primeng/dialog';
 import { PostFormComponent } from '../form/post-form/post-form.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { DatePipe } from '@angular/common';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-forum',
@@ -48,6 +49,7 @@ export class ForumComponent {
   toastService = inject(ToastService);
   messageService = inject(MessageService);
   router = inject(Router);
+  authService = inject(AuthService);
 
   @ViewChild('postsTable') postsTable!: Table;
 
@@ -58,7 +60,7 @@ export class ForumComponent {
     size: 0,
     number: 0,
   });
-  rows: number = 5;
+  rows: number = 10;
   first: number = 0;
 
   institutions: Reference[] = [];
@@ -278,7 +280,8 @@ export class ForumComponent {
   }
 
   showDialog(): void {
-    this.visible = true;
+    if (!this.authService.isAuthenticated()) this.authService.login();
+    else this.visible = true;
   }
 
   onPostCreated(uuid: string): void {

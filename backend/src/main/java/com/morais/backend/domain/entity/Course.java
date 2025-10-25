@@ -1,5 +1,6 @@
 package com.morais.backend.domain.entity;
 
+import com.morais.backend.domain.entity.enums.CourseArea;
 import com.morais.backend.domain.entity.enums.CourseType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -37,4 +38,8 @@ public class Course {
 
     @Column(nullable = false, length = 512)
     private String link;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CourseArea area;
 }

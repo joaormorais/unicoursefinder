@@ -1,7 +1,7 @@
 package com.morais.backend.service;
 
-import com.morais.backend.domain.dto.ReferenceDto;
 import com.morais.backend.domain.dto.InstitutionDto;
+import com.morais.backend.domain.dto.ReferenceDto;
 import com.morais.backend.domain.entity.Institution;
 import com.morais.backend.domain.entity.enums.InstitutionDistrict;
 import com.morais.backend.domain.entity.enums.InstitutionType;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static com.morais.backend.util.TextUtils.normalize;
 
@@ -44,6 +45,14 @@ public class InstitutionService {
 
         Collections.sort(institutions);
         return institutions.stream().map(institutionMapper::toDto).toList();
+    }
+
+    public ReferenceDto getInstitution(UUID uuid) {
+        Institution institution = institutionRepository.findByUuid(uuid).orElseThrow(() -> {
+            log.warn("Tried to get an institution that doesn't exist");
+            return new RuntimeException("Tried to get an institution that doesn't exist");
+        });
+        return new ReferenceDto(institution.getUuid(), institution.getName());
     }
 
     public Page<ReferenceDto> getDropdown(Pageable pageable, String name) {

@@ -9,6 +9,9 @@ import { InstitutionDto } from '../../../shared/models/shared.model';
   selector: 'app-map',
   imports: [TranslatePipe],
   templateUrl: './map.component.html',
+  host: {
+    class: 'flex flex-grow flex-col',
+  },
 })
 export class MapComponent implements AfterViewInit {
   searchService = inject(SearchService);

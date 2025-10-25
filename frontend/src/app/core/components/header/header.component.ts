@@ -13,21 +13,22 @@ import { Menu } from 'primeng/menu';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
-  // services
   authService = inject(AuthService);
-  private translate = inject(TranslateService);
+  translate = inject(TranslateService);
 
   // vars to control the icon of the theme mode
   lightIcon: string = 'pi pi-sun';
   darkIcon: string = 'pi pi-moon';
   themeIcon = signal<string>(this.darkIcon);
 
-  // var to control the dialog
+  // control of the dialog
   visible: boolean = false;
 
+  // menu items
   items: MenuItem[] | undefined;
   itemsDropdownMenu: MenuItem[] = [];
 
+  // populate menu bar
   ngOnInit() {
     this.translate
       .get([

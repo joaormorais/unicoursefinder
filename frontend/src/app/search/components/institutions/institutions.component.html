@@ -6,7 +6,6 @@
   [value]="institutions"
   [paginator]="true"
   [rows]="5"
-  [tableStyle]="{ width: '100%' }"
   [rowsPerPageOptions]="[5, 10, 20, 50]"
   [globalFilterFields]="['dgesNumber', 'name', 'type', 'district']"
   sortField="name"
@@ -45,47 +44,20 @@
   </ng-template>
   <ng-template #header>
     <tr>
-      <th style="width: 25%" pSortableColumn="dgesNumber">
-        {{ "tables.dges" | translate }} <p-sortIcon field="dgesNumber" />
-      </th>
-      <th style="width: 25%" pSortableColumn="name">
+      <th class="w-[40%]" pSortableColumn="name">
         {{ "tables.name" | translate }} <p-sortIcon field="name" />
       </th>
-      <th style="width: 25%" pSortableColumn="type">
+      <th class="w-[30%]" pSortableColumn="type">
         {{ "tables.type" | translate }} <p-sortIcon field="type" />
       </th>
-      <th style="width: 25%" pSortableColumn="district">
+      <th class="w-[10%]" pSortableColumn="district">
         {{ "tables.district" | translate }} <p-sortIcon field="district" />
+      </th>
+      <th class="w-[20%]" pSortableColumn="dgesNumber">
+        {{ "tables.dges" | translate }} <p-sortIcon field="dgesNumber" />
       </th>
     </tr>
     <tr>
-      <th>
-        <p-columnFilter
-          type="text"
-          field="dgesNumber"
-          matchMode="startsWith"
-          [showMenu]="false"
-          [showClearButton]="false"
-        >
-          <ng-template #filter let-value let-filter="filterCallback">
-            <div class="flex">
-              <p-iconfield iconPosition="left" class="ml-auto">
-                <p-inputicon>
-                  <i class="pi pi-search"></i>
-                </p-inputicon>
-                <input
-                  type="text"
-                  pInputText
-                  [ngModel]="value"
-                  (input)="debounceFilter($event, 'dgesNumber', filter)"
-                  class="p-inputtext"
-                  [placeholder]="'filters.dgesNumber' | translate"
-                />
-              </p-iconfield>
-            </div>
-          </ng-template>
-        </p-columnFilter>
-      </th>
       <th>
         <p-columnFilter
           type="text"
@@ -126,13 +98,14 @@
               [options]="types"
               [placeholder]="'filters.all' | translate"
               (onChange)="filter($event.value)"
-              [panelStyle]="{ minWidth: '16rem' }"
+              styleClass="min-w-[16rem]"
               display="chip"
               [maxSelectedLabels]="2"
               [selectedItemsLabel]="
                 'filters.selectedItemsLabelTypes'
                   | translate : { value: selectedTypes.length }
               "
+              [appendTo]="'body'"
             />
           </ng-template>
         </p-columnFilter>
@@ -150,14 +123,42 @@
               [options]="districts"
               [placeholder]="'filters.all' | translate"
               (onChange)="filter($event.value)"
-              [panelStyle]="{ minWidth: '16rem' }"
+              styleClass="min-w-[16rem]"
               display="chip"
               [maxSelectedLabels]="4"
               [selectedItemsLabel]="
                 'filters.selectedItemsLabelDistricts'
                   | translate : { value: selectedTypes.length }
               "
+              [appendTo]="'body'"
             />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter
+          type="text"
+          field="dgesNumber"
+          matchMode="startsWith"
+          [showMenu]="false"
+          [showClearButton]="false"
+        >
+          <ng-template #filter let-value let-filter="filterCallback">
+            <div class="flex">
+              <p-iconfield iconPosition="left" class="ml-auto">
+                <p-inputicon>
+                  <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input
+                  type="text"
+                  pInputText
+                  [ngModel]="value"
+                  (input)="debounceFilter($event, 'dgesNumber', filter)"
+                  class="p-inputtext"
+                  [placeholder]="'filters.dgesNumber' | translate"
+                />
+              </p-iconfield>
+            </div>
           </ng-template>
         </p-columnFilter>
       </th>
@@ -168,11 +169,21 @@
       (click)="searchService.searchCoursesFromInstitution(institution.uuid)"
       class="cursor-pointer"
     >
-      <td>{{ institution.dgesNumber }}</td>
       <td>{{ institution.name }}</td>
       <td>{{ "filters.institutionTypes." + institution.type | translate }}</td>
       <td>
         {{ "filters.institutionDistricts." + institution.district | translate }}
+      </td>
+      <td>{{ institution.dgesNumber }}</td>
+    </tr>
+  </ng-template>
+  <ng-template #footer>
+    <tr>
+      <td [attr.colspan]="4" class="p-0">
+        <div
+          class="w-full flex-grow flex flex-col"
+          style="background-color: var(--p-content-background)"
+        ></div>
       </td>
     </tr>
   </ng-template>
