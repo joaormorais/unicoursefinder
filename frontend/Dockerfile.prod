@@ -10,6 +10,13 @@ COPY . .
 
 RUN npm run build -- --configuration production
 
+# --- LINHAS DE DIAGNÓSTICO ADICIONADAS ---
+RUN echo "==== Searching for localhost in build output: ====" && \
+    grep -r "localhost:8080" /usr/src/app/dist/frontend-angular/browser && \
+    echo "==== Localhost FOUND! Build is using wrong environment! ====" || \
+    echo "==== Localhost NOT FOUND. Build output seems correct. ===="
+# --- FIM DAS LINHAS DE DIAGNÓSTICO ---
+
 FROM nginx:1.25-alpine
 
 COPY --from=build /usr/src/app/dist/frontend-angular/browser /usr/share/nginx/html
