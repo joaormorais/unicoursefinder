@@ -55,7 +55,7 @@ services:
     restart: always
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     ports:
       - "80:80"
     depends_on:
