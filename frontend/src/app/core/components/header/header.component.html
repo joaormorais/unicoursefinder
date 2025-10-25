@@ -1,0 +1,31 @@
+<p-menubar [model]="items">
+  <ng-template #start>
+    <p-button
+      icon="pi pi-home"
+      class="ml-4 mr-2"
+      [attr.aria-label]="'ariaLabels.landing' | translate"
+      routerLink="/"
+    />
+  </ng-template>
+  <ng-template #end>
+    <div class="flex items-center gap-2 ml-2 mr-4">
+      <p-button
+        [icon]="themeIcon()"
+        class="ml-2"
+        [attr.aria-label]="'ariaLabels.changeModes' | translate"
+        (onClick)="changeTheme()"
+      />
+      @if(authService.isAuthenticated()){
+      <p-menu #menu [model]="itemsDropdownMenu" [popup]="true" />
+      <p-button (click)="menu.toggle($event)" icon="pi pi-cog" />
+      }@else{
+      <p-button
+        icon="pi pi-user"
+        class="ml-2 mr-4"
+        [attr.aria-label]="'ariaLabels.loginRegister' | translate"
+        (click)="authService.login()"
+      />
+      }
+    </div>
+  </ng-template>
+</p-menubar>

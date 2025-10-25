@@ -1,0 +1,32 @@
+<form [formGroup]="formGroup" class="w-full" (ngSubmit)="onSubmit()">
+  <textarea
+    id="content"
+    pTextarea
+    rows="15"
+    formControlName="content"
+    class="w-full min-h-25"
+    [autoResize]="true"
+    (invalid)="isInvalid('content')"
+  ></textarea>
+  @if (isInvalid('content')) {
+    <p-message severity="error" size="small" variant="simple">{{
+      "errors.form.contentRequired" | translate
+    }}</p-message>
+    }
+  <div class="flex justify-center gap-2">
+    <p-button
+      [label]="'buttons.cancel' | translate"
+      variant="outlined"
+      severity="contrast"
+      icon="pi pi-times"
+      (onClick)="close()"
+    />
+    <p-button
+      [label]="'buttons.create' | translate"
+      variant="outlined"
+      severity="success"
+      icon="pi pi-check"
+      type="submit"
+    />
+  </div>
+</form>

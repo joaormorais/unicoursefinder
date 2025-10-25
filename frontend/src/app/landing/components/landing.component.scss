@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+.image-container {
+  @apply absolute inset-0 z-10 blur-[3px];
+}
+
+.overlay {
+  @apply absolute inset-0 z-20 bg-black/55;
+}
+
+.column-container {
+  @apply relative cursor-pointer overflow-hidden;
+
+  &:hover {
+    .image-container {
+      @apply absolute inset-0 z-10 transition duration-300 blur-none;
+    }
+
+    .overlay {
+      @apply absolute inset-0 z-20 transition duration-300 bg-black/25;
+    }
+  }
+}
+
+.paragraph-container {
+  @apply absolute z-30 flex flex-col h-full w-full justify-end items-center px-4 pb-18 space-y-5;
+}
+
+.landing-text {
+  @apply text-[clamp(5px,3vw,45px)] uppercase font-semibold text-center text-white text-shadow-lg;
+  @apply rounded-full px-6 py-3 backdrop-blur-sm;
+}
+
+.arrow {
+  @apply animate-bounce;
+  font-size: 2.5rem;
+  color: #ffffff;
+}

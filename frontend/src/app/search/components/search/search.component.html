@@ -1,0 +1,37 @@
+<div class="h-page-fixed max-h-screen flex flex-col md:flex-row overflow-auto">
+  @if(this.searchService.tabValue$() == 0){
+  <div class="flex h-[30%] md:h-full w-full md:w-[30%]">
+    <app-map></app-map>
+  </div>
+  }
+
+  <div
+    [ngClass]="
+      this.searchService.tabValue$() == 0
+        ? 'w-full md:w-[70%] h-[70%] md:h-full'
+        : 'w-full h-[70%] md:h-full'
+    "
+  >
+    <p-tabs
+      [value]="this.searchService.tabValue$()"
+      (valueChange)="searchService.changeTab($event)"
+    >
+      <p-tablist>
+        <p-tab value="0">{{ "buttons.institutions" | translate }}</p-tab>
+        <p-tab value="1">{{ "buttons.courses" | translate }}</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+        <p-tabpanel value="0">
+          <div>
+            <app-institutions> </app-institutions>
+          </div>
+        </p-tabpanel>
+        <p-tabpanel value="1">
+          <div>
+            <app-courses> </app-courses>
+          </div>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+@plugin "tailwindcss-primeui";
+@custom-variant dark (&:where(.my-app-dark, .my-app-dark *));
+@import "primeicons/primeicons.css";
+@import "leaflet.markercluster/dist/MarkerCluster.css";
+@import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+
+@theme {
+  --font-exo: "Exo 2", sans-serif;
+}
+
+@layer base {
+  html,
+  body,
+  body .p-component {
+    font-family: var(--font-exo);
+  }
+}
+
+* {
+  font-family: var(--font-exo);
+}
+
+body {
+  @apply bg-[#F4F2EE];
+}
+
+.my-app-dark body {
+  @apply bg-[#18181b];
+}
+
+:root {
+  --header-height: 52px;
+  --fixed-paged-height: calc(100vh - var(--header-height));
+}
+
+@layer utilities {
+  .h-header-fixed {
+    height: var(--header-height);
+  }
+
+  .h-page-fixed {
+    height: var(--fixed-paged-height);
+  }
+}

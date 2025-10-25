@@ -1,0 +1,71 @@
+services:
+
+  db:
+    container_name: db
+    image: postgres:17
+    restart: always
+    shm_size: 128mb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.3
+    container_name: keycloak
+    ports:
+      - "9090:8080"
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      KEYCLOAK_BACKEND_SERVICE_SECRET: ${KEYCLOAK_BACKEND_SERVICE_SECRET}
+    command:
+      - "start-dev"
+    volumes:
+      - ./realm-config.json:/opt/keycloak/data/import/realm.json:ro
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    depends_on:
+      - db
+      - keycloak
+    volumes:
+      - ./backend:/app
+      - ~/.m2:/root/.m2
+    entrypoint: ""
+    command: sh -c "chmod +x /app/mvnw && \
+      /app/mvnw -f /app/pom.xml clean package -DskipTests && \
+      java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 \
+      -jar /app/target/backend-0.0.1-SNAPSHOT.jar"
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - FRONTEND_ORIGIN=${FRONTEND_ORIGIN}
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=${ISSUER_URI}
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/uni-course-finder/protocol/openid-connect/certs
+      - KEYCLOAK_SERVER_URL=${KEYCLOAK_SERVER_URL}
+      - KEYCLOAK_REALM=${KEYCLOAK_REALM}
+      - KEYCLOAK_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
+      - KEYCLOAK_BACKEND_SERVICE_SECRET=${KEYCLOAK_BACKEND_SERVICE_SECRET}
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - backend
