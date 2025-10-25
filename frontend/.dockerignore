@@ -1,2 +1,14 @@
 node_modules
-.angular
+dist
+.angular/cache
+npm-debug.log*
+yarn-error.log*
+
+.git
+.gitignore 
+
+.vscode
+.idea
+*.swp
+Thumbs.db
+.DS_Store
