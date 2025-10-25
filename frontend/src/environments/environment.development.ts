@@ -1,9 +1,9 @@
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:8080',
+  apiBaseUrl: 'https://omeucurso.pt:8080',
   keycloak: {
     config: {
-      url: 'http://localhost:9090',
+      url: 'https://omeucurso.pt:8080',
       realm: 'uni-course-finder',
       clientId: 'unicoursefinder',
     },
