@@ -49,5 +49,12 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.7.2"
+  },
+  "imports": {
+    "#environment": {
+      "development": "./src/environments/dev.ts",
+      "production": "./src/environments/prod.ts",
+      "default": "./src/environments/prod.ts"
+    }
   }
 }

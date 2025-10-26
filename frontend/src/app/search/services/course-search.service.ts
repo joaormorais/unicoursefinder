@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '#environment';
 import { PaginatedCourses } from '../../shared/models/shared.model';
 
 @Injectable({ providedIn: 'root' })
@@ -9,7 +9,6 @@ export class CourseSearchService {
   private readonly apiUrl = `${environment.apiBaseUrl}/course`;
   private http = inject(HttpClient);
 
-  // api call to get filtered and paginated courses
   getCourses(
     page: number,
     size: number,
@@ -37,12 +36,10 @@ export class CourseSearchService {
     });
   }
 
-  // api call to get every type of course
   getTypes(): Observable<string[]> {
     return this.http.get<string[]>(this.apiUrl + '/types');
   }
 
-  // api call to get every area of courses
   getAreas(): Observable<string[]> {
     return this.http.get<string[]>(this.apiUrl + '/areas');
   }

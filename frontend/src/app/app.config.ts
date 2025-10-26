@@ -22,7 +22,7 @@ import {
   UserActivityService,
   withAutoRefreshToken,
 } from 'keycloak-angular';
-import { environment } from '../environments/environment.development';
+import { environment } from '#environment';
 
 export function httpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

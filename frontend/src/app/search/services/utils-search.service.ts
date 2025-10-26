@@ -2,13 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaginatedReferences } from '../../shared/models/shared.model';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '#environment';
 
 @Injectable({ providedIn: 'root' })
 export class UtilsSearchService {
   private http = inject(HttpClient);
 
-  // api call to get every institution ready for the dropdown
   getDropdown(
     page: number,
     size: number,
