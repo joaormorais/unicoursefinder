@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://omeucurso.pt:api',
+  apiBaseUrl: 'https://omeucurso.pt/api',
   keycloak: {
     config: {
       url: 'https://auth.omeucurso.pt',
