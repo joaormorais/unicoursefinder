@@ -28,8 +28,13 @@ services:
       - ./realm-config.json:/opt/keycloak/data/import/realm.json:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.keycloak.rule=Host(`auth.omeucurso.pt`)"
-      - "traefik.http.routers.keycloak.entrypoints=web"
+      - "traefik.http.routers.keycloak-http.rule=Host(`auth.omeucurso.pt`)"
+      - "traefik.http.routers.keycloak-http.entrypoints=web"
+      - "traefik.http.routers.keycloak-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.keycloak-https.rule=Host(`auth.omeucurso.pt`)"
+      - "traefik.http.routers.keycloak-https.entrypoints=websecure"
+      - "traefik.http.routers.keycloak-https.tls=true"
+      - "traefik.http.routers.keycloak-https.tls.certresolver=myresolver"
       - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
 
   backend:
@@ -54,10 +59,15 @@ services:
       - KEYCLOAK_BACKEND_SERVICE_SECRET=${KEYCLOAK_BACKEND_SERVICE_SECRET}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=Host(`omeucurso.pt`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.backend.entrypoints=web"
+      - "traefik.http.routers.backend-http.rule=Host(`omeucurso.pt`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend-http.entrypoints=web"
+      - "traefik.http.routers.backend-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.backend-https.rule=Host(`omeucurso.pt`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend-https.entrypoints=websecure"
+      - "traefik.http.routers.backend-https.tls=true"
+      - "traefik.http.routers.backend-https.tls.certresolver=myresolver"
       - "traefik.http.middlewares.backend-stripprefix.stripprefix.prefixes=/api"
-      - "traefik.http.routers.backend.middlewares=backend-stripprefix"
+      - "traefik.http.routers.backend-https.middlewares=backend-stripprefix"
       - "traefik.http.services.backend.loadbalancer.server.port=8080"
 
   frontend:
@@ -70,8 +80,13 @@ services:
       - backend
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`omeucurso.pt`)"
-      - "traefik.http.routers.frontend.entrypoints=web"
+      - "traefik.http.routers.frontend-http.rule=Host(`omeucurso.pt`)"
+      - "traefik.http.routers.frontend-http.entrypoints=web"
+      - "traefik.http.routers.frontend-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.frontend-https.rule=Host(`omeucurso.pt`)"
+      - "traefik.http.routers.frontend-https.entrypoints=websecure"
+      - "traefik.http.routers.frontend-https.tls=true"
+      - "traefik.http.routers.frontend-https.tls.certresolver=myresolver"
       - "traefik.http.services.frontend.loadbalancer.server.port=80"
 
   traefik:
@@ -79,15 +94,32 @@ services:
     container_name: traefik
     restart: always
     command:
-      - "--api.insecure=true"
+      - "--log.level=INFO"
+      - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=o-teu-email@exemplo.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--entrypoints.web.http.middlewares=redirect-to-https@docker"
+      - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.certresolver=myresolver"
     ports:
       - "80:80"
-      - "8080:8080"
+      - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "letsencrypt_data:/letsencrypt"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.omeucurso.pt`)"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
+      - "traefik.http.routers.dashboard.service=api@internal"
 
 volumes:
   db_data:
+  letsencrypt_data:
