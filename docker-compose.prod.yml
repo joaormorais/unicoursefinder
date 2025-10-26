@@ -20,7 +20,7 @@ services:
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       KEYCLOAK_BACKEND_SERVICE_SECRET: ${KEYCLOAK_BACKEND_SERVICE_SECRET}
       KC_HTTP_ENABLED: 'true'
-      KC_HOSTNAME_URL: http://auth.omeucurso.pt
+      KC_HOSTNAME_URL: auth.omeucurso.pt
       KC_PROXY: edge
     command:
       - "start"
@@ -87,7 +87,6 @@ services:
       - "80:80"
       - "8080:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
 volumes:
