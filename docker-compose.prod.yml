@@ -20,7 +20,7 @@ services:
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       KEYCLOAK_BACKEND_SERVICE_SECRET: ${KEYCLOAK_BACKEND_SERVICE_SECRET}
       KC_HTTP_ENABLED: 'true'
-      KC_HOSTNAME_URL: auth.omeucurso.pt
+      KC_HOSTNAME: auth.omeucurso.pt
       KC_PROXY: edge
     command:
       - "start"
