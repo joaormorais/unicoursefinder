@@ -104,9 +104,6 @@ services:
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=joao.morais2000@hotmail.com" 
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-      - "--http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "--http.middlewares.redirect-to-https.redirectscheme.permanent=true"
-      - "--entrypoints.web.http.middlewares=redirect-to-https"
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certresolver=myresolver"
     ports:
@@ -116,13 +113,22 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "letsencrypt_data:/letsencrypt"
     labels:
-      - "traefik.enable=true"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+      - "traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      - "traefik.enable=true" 
       - "traefik.http.routers.dashboard.rule=Host(`traefik.omeucurso.pt`)"
       - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.tls=true"
       - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
       - "traefik.http.routers.dashboard.service=api@internal"
 
+volumes:
+  db_data:
+  letsencrypt_data:
+  
 volumes:
   db_data:
   letsencrypt_data:
