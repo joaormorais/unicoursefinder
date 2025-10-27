@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, effect, inject } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import * as L from 'leaflet';
+import 'leaflet.markercluster';
 import { SearchService } from '../../services/search.service';
 import { InstitutionDto } from '../../../shared/models/shared.model';
 
