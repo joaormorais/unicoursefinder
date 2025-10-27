@@ -105,6 +105,8 @@ services:
       - "--certificatesresolvers.myresolver.acme.email=joao.morais2000@hotmail.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
       - "--entrypoints.web.http.middlewares=redirect-to-https@docker"
+      - "--http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "--http.middlewares.redirect-to-https.redirectscheme.permanent=true"
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certresolver=myresolver"
     ports:
