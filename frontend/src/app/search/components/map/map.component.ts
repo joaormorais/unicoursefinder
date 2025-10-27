@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, effect, inject } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import * as L from 'leaflet';
-import 'leaflet.markercluster';
 import { SearchService } from '../../services/search.service';
 import { InstitutionDto } from '../../../shared/models/shared.model';
 
@@ -28,7 +27,7 @@ export class MapComponent implements AfterViewInit {
 
   // data
   private map!: L.Map;
-  private markers = L.markerClusterGroup();
+  private markers!: L.MarkerClusterGroup;
 
   // var for the custom icon of the markers
   private institutionIcon = L.icon({
