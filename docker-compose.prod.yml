@@ -22,7 +22,7 @@ services:
       KC_HTTP_ENABLED: 'true'
       KC_HTTPS_PORT: '443'
       KC_HOSTNAME: auth.omeucurso.pt
-      KC_PROXY: edge
+      KC_PROXY: passthrough
     command:
       - "start"
     volumes:
@@ -68,7 +68,7 @@ services:
       - "traefik.http.routers.backend-https.tls=true"
       - "traefik.http.routers.backend-https.tls.certresolver=myresolver"
       - "traefik.http.middlewares.backend-stripprefix.stripprefix.prefixes=/api"
-      - "traefik.http.routers.backend-https.middlewares=backend-stripprefix"
+      - "traefik.http.routers.backend-https.middlewares=backend-stripprefix@docker"
       - "traefik.http.services.backend.loadbalancer.server.port=8080"
 
   frontend:
