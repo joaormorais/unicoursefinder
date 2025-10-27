@@ -102,7 +102,7 @@ services:
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=o-teu-email@exemplo.com"
+      - "--certificatesresolvers.myresolver.acme.email=joao.morais2000@hotmail.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
       - "--entrypoints.web.http.middlewares=redirect-to-https@docker"
       - "--entrypoints.websecure.http.tls=true"
