@@ -1,5 +1,14 @@
 <div class="flex-grow flex flex-col">
-  <div id="map" class="h-full w-full"></div>
+  <div
+    leaflet
+    [leafletOptions]="options"
+    [leafletBaseLayers]="baseLayers"
+    [leafletLayersControlOptions]="layersControlOptions"
+    [leafletMarkerCluster]="markerClusterData"
+    [leafletMarkerClusterOptions]="markerClusterOptions"
+    (leafletMarkerClusterReady)="markerClusterReady($event)"
+    class="h-full w-full"
+  ></div>
 </div>
 <a
   href="https://www.flaticon.com/free-icons/univeristy"
