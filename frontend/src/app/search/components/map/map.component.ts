@@ -21,11 +21,10 @@ export class MapComponent implements OnInit {
   searchService = inject(SearchService);
   translate = inject(TranslateService);
 
-  // Open Street Map Definition
   LAYER_OSM = {
     id: 'openstreetmap',
     name: 'Open Street Map',
-    enabled: false,
+    enabled: true,
     layer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       noWrap: true,
@@ -33,17 +32,18 @@ export class MapComponent implements OnInit {
     }),
   };
 
-  // Values to bind to Leaflet Directive
-  layersControlOptions: LayersOptions = { position: 'bottomright' };
-  baseLayers = {
-    'Open Street Map': this.LAYER_OSM.layer,
-  };
   options = {
     zoom: 6,
     center: L.latLng([38.7169, -9.1399]),
+    layers: [
+      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        noWrap: true,
+        attribution: 'Open Street Map',
+      }),
+    ],
   };
 
-  // Marker cluster stuff
   markerClusterGroup!: L.MarkerClusterGroup;
   markerClusterData: L.Marker[] = [];
   markerClusterOptions!: L.MarkerClusterGroupOptions;
@@ -75,7 +75,6 @@ export class MapComponent implements OnInit {
       const icon = L.icon({
         iconSize: [50, 50],
         iconAnchor: [24, 24],
-        //popupAnchor: [0, -24],
         iconUrl: '../../../../assets/images/map/institution-marker.png',
       });
 
@@ -103,7 +102,6 @@ export class MapComponent implements OnInit {
         icon,
       }).bindPopup(popup);
 
-      //create hover and click behaviours to the markers
       marker.on('mouseover', () => {
         marker.openPopup();
       });
@@ -122,12 +120,8 @@ export class MapComponent implements OnInit {
     return data;
   }
 
-  // update the map with new info
   public updateMap(institutions: InstitutionDto[]): void {
-    // remove the current markers
     this.markerClusterGroup.clearLayers();
-
-    // create the new group of markers
     this.markerClusterData = this.createMarkers(institutions);
   }
 }
