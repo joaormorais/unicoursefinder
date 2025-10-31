@@ -10,21 +10,32 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+    - dev_db_data:/var/lib/postgresql/data
+    - ./postgres/init:/docker-entrypoint-initdb.d
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.3
     container_name: keycloak
     ports:
       - "9090:8080"
+    depends_on:
+      - db
     environment:
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
-      KEYCLOAK_BACKEND_SERVICE_SECRET: ${KEYCLOAK_BACKEND_SERVICE_SECRET}
+      KC_HTTP_ENABLED: 'true'
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 9090
+      KC_DB: postgres
+      KC_DB_URL_HOST: db
+      KC_DB_URL_DATABASE: ${POSTGRES_DB}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_DB_SCHEMA: keycloak
     command:
-      - "start-dev"
-    volumes:
-      - ./realm-config.json:/opt/keycloak/data/import/realm.json:ro
+      - "start"
 
   backend:
     container_name: backend
@@ -69,3 +80,6 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - backend
+
+volumes:
+  dev_db_data:

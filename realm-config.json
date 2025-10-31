@@ -664,7 +664,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "${env.KEYCLOAK_BACKEND_SERVICE_SECRET}",
+      "secret": "CHANGE_ME_WITH_ENV_VALUE",
       "redirectUris": [
         "/*"
       ],
@@ -1649,7 +1649,7 @@
     "auth": "true",
     "envelopeFrom": "",
     "ssl": "false",
-    "password": "${env.SENDGRID_API_KEY}",
+    "password": "CHANGE_ME_WITH_ENV_VALUE",
     "port": "587",
     "replyTo": "",
     "host": "smtp.sendgrid.net",
