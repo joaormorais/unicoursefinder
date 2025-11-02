@@ -14,7 +14,7 @@ on:
 jobs:
   build:
     name: deploy
-    runs-on: ubuntu-25.04
+    runs-on: ubuntu-latest
     steps:
       - name: Execute remote SSH commands using key
         uses: appleboy/ssh-action@v1
