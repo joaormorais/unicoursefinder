@@ -131,7 +131,7 @@ export class PostFormComponent {
     this.gettingInstitutions.set(true);
 
     this.utilsSearchService
-      .getDropdown(page, this.institutionsPageSize, name, 'institution')
+      .getDropdown(page, this.institutionsPageSize, name, null, 'institution')
       .subscribe({
         next: (data) => {
           if (page === 0) {
@@ -164,12 +164,19 @@ export class PostFormComponent {
   }
 
   loadCourses(page: number, name: string = ''): void {
-    if (this.gettingCourses()) return;
+    if (this.gettingCourses() || !this.formGroup.value.institution?.value)
+      return;
 
     this.gettingCourses.set(true);
 
     this.utilsSearchService
-      .getDropdown(page, this.coursesPageSize, name, 'course')
+      .getDropdown(
+        page,
+        this.coursesPageSize,
+        name,
+        this.formGroup.value.institution.value,
+        'course'
+      )
       .subscribe({
         next: (data) => {
           if (page === 0) {
@@ -215,6 +222,11 @@ export class PostFormComponent {
       this.coursesPageNumber.set(0);
       this.loadCourses(0, event.filter);
     }, 300);
+  }
+
+  onInstitutionChange(): void{
+    this.formGroup.get('course')?.reset();
+    this.courses = [];
   }
 
   populateForm(): void {

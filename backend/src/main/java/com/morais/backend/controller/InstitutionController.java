@@ -23,11 +23,6 @@ public class InstitutionController {
 
     private final InstitutionService institutionService;
 
-    /**
-     * Get every institution.
-     *
-     * @return a list of institutions
-     */
     @GetMapping
     public ResponseEntity<List<InstitutionDto>> getInstitutions() {
         return ResponseEntity.ok(institutionService.getInstitutions());
@@ -48,21 +43,11 @@ public class InstitutionController {
         return ResponseEntity.ok(institutionService.getDropdown(pageable, name));
     }
 
-    /**
-     * Retrieves a list of all institution types.
-     *
-     * @return a list of unique institution types
-     */
     @GetMapping("/types")
     public ResponseEntity<List<String>> getTypes() {
         return ResponseEntity.ok(institutionService.getTypes());
     }
 
-    /**
-     * Retrieves a list of all districts from institutions.
-     *
-     * @return a list of unique district names
-     */
     @GetMapping("/districts")
     public ResponseEntity<List<String>> getDistricts() {
         return ResponseEntity.ok(institutionService.getDistricts());
