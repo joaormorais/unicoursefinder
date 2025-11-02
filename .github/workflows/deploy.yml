@@ -1,0 +1,29 @@
+name: Deploy in production
+
+concurrency: production
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: deploy
+    runs-on: ubuntu-25.04
+    steps:
+      - name: Execute remote SSH commands using key
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          script: |
+            cd ~/apps/uni-course-finder
+            git pull origin main
+            sudo docker compose -f docker-compose.prod.yml up -d --build
