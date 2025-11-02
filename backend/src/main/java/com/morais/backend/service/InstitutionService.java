@@ -30,11 +30,6 @@ public class InstitutionService {
     private final InstitutionRepository institutionRepository;
     private final InstitutionMapper institutionMapper;
 
-    /**
-     * Retrieves every institution on the database.
-     *
-     * @return a list of institutions
-     */
     public List<InstitutionDto> getInstitutions() {
         List<Institution> institutions = institutionRepository.findAll();
 
@@ -65,12 +60,6 @@ public class InstitutionService {
         return institutionRepository.findAll(enforcedPageable).map(value -> new ReferenceDto(value.getUuid(), value.getName()));
     }
 
-    /**
-     * Retrieves a list of all institution types.
-     * Throws a ResourceNotFoundException if no types are found.
-     *
-     * @return a list of institution types
-     */
     public List<String> getTypes() {
         List<String> types = new ArrayList<>();
 
@@ -86,12 +75,6 @@ public class InstitutionService {
         return types;
     }
 
-    /**
-     * Retrieves a list of all districts.
-     * Throws a ResourceNotFoundException if no districts are found.
-     *
-     * @return a list of districts
-     */
     public List<String> getDistricts() {
         List<String> districts = new ArrayList<>();
 
