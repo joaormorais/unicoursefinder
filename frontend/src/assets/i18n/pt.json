@@ -51,7 +51,8 @@
     "title": "Título",
     "content": "Conteúdo",
     "institution": "Instituição",
-    "course": "Curso"
+    "course": "Curso",
+    "requiredFields": "* - campos obrigatórios"
   },
   "filters": {
     "global": "Procura geral",

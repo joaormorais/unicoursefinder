@@ -132,7 +132,20 @@
                 [loading]="gettingCourses()"
                 (onPanelShow)="courses.length === 0 && loadCourses(0)"
                 [appendTo]="'body'"
-              />
+              >
+                <ng-template let-option pTemplate="item">
+                  <div class="flex items-center">
+                    <span>{{ option.label }}</span>
+                    @if (option.detail) {
+                    <span
+                      style="font-size: 0.875em; margin-left: 4px; opacity: 0.8"
+                    >
+                      ({{ option.detail }})
+                    </span>
+                    }
+                  </div>
+                </ng-template>
+              </p-multiselect>
             </ng-template>
           </p-columnFilter>
         </th>

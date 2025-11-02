@@ -228,7 +228,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     this.gettingInstitutions.set(true);
 
     this.utilsSearchService
-      .getDropdown(page, this.institutionsPageSize, name, 'institution')
+      .getDropdown(page, this.institutionsPageSize, name, null, 'institution')
       .subscribe({
         next: (data) => {
           if (page === 0) {

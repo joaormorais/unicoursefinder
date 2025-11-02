@@ -1,6 +1,7 @@
 export interface Reference {
   value: string;
   label: string;
+  detail?: string;
 }
 
 export interface PaginatedReferences { // passar para o componente search
