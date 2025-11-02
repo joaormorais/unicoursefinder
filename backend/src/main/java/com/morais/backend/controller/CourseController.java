@@ -38,9 +38,10 @@ public class CourseController {
     @GetMapping("/dropdown")
     public ResponseEntity<Page<ReferenceDto>> getDropdown(
             @PageableDefault(size = 20, sort = "normalizedName") Pageable pageable,
-            @RequestParam(required = false, defaultValue = "") String name
+            @RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false, defaultValue = "") String institution
     ) {
-        return ResponseEntity.ok(courseService.getDropdown(pageable, name));
+        return ResponseEntity.ok(courseService.getDropdown(pageable, name, institution));
     }
 
     @GetMapping("/types")

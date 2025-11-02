@@ -12,12 +12,20 @@ export class UtilsSearchService {
     page: number,
     size: number,
     name: string,
+    institution: string | null,
     apiUrl: string
   ): Observable<PaginatedReferences> {
-    const baseParams = new HttpParams()
-      .set('page', page)
-      .set('size', size)
-      .set('name', name);
+    const paramsConfig: { [param: string]: any } = {
+      page: page,
+      size: size,
+      name: name,
+    };
+
+    if (institution) {
+      paramsConfig['institution'] = institution;
+    }
+
+    const baseParams = new HttpParams({ fromObject: paramsConfig });
 
     return this.http.get<PaginatedReferences>(
       `${environment.apiBaseUrl}/` + apiUrl + '/dropdown',

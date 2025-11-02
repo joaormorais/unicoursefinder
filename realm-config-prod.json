@@ -684,13 +684,13 @@
       "attributes": {
         "realm_client": "false",
         "oidc.ciba.grant.enabled": "false",
-        "client.secret.creation.time": "1761355848",
+        "client.secret.creation.time": "1761940963",
         "backchannel.logout.session.required": "true",
         "standard.token.exchange.enabled": "false",
         "frontchannel.logout.session.required": "true",
         "post.logout.redirect.uris": "+",
-        "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
         "x509.allow.regex.pattern.comparison": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
@@ -903,10 +903,10 @@
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
         "standard.token.exchange.enabled": "false",
-        "post.logout.redirect.uris": "https://omeucurso.pt/*",
         "frontchannel.logout.session.required": "true",
-        "oauth2.device.authorization.grant.enabled": "false",
+        "post.logout.redirect.uris": "https://omeucurso.pt/*",
         "display.on.consent.screen": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -1644,16 +1644,16 @@
   },
   "smtpServer": {
     "allowutf8": "true",
-    "replyToDisplayName": "",
     "debug": "true",
+    "replyToDisplayName": "",
     "starttls": "true",
     "auth": "true",
     "envelopeFrom": "",
     "ssl": "false",
     "password": "CHANGE_ME_WITH_ENV_VALUE",
     "port": "587",
-    "replyTo": "",
     "host": "smtp.sendgrid.net",
+    "replyTo": "",
     "from": "no-reply@omeucurso.pt",
     "fromDisplayName": "O meu curso",
     "authType": "basic",
@@ -1678,14 +1678,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-role-list-mapper",
-            "saml-user-attribute-mapper",
             "oidc-usermodel-property-mapper",
             "oidc-address-mapper",
+            "saml-user-attribute-mapper",
             "oidc-usermodel-attribute-mapper",
-            "oidc-full-name-mapper",
             "oidc-sha256-pairwise-sub-mapper",
-            "saml-user-property-mapper"
+            "saml-role-list-mapper",
+            "saml-user-property-mapper",
+            "oidc-full-name-mapper"
           ]
         }
       },
@@ -1744,14 +1744,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-role-list-mapper",
+            "saml-user-attribute-mapper",
+            "oidc-address-mapper",
             "saml-user-property-mapper",
             "oidc-sha256-pairwise-sub-mapper",
             "oidc-full-name-mapper",
             "oidc-usermodel-attribute-mapper",
             "oidc-usermodel-property-mapper",
-            "saml-user-attribute-mapper",
-            "oidc-address-mapper"
+            "saml-role-list-mapper"
           ]
         }
       },
@@ -1829,7 +1829,11 @@
       }
     ]
   },
-  "internationalizationEnabled": false,
+  "internationalizationEnabled": true,
+  "supportedLocales": [
+    "pt"
+  ],
+  "defaultLocale": "pt",
   "authenticationFlows": [
     {
       "id": "c493dad1-eee9-4234-adde-ac1793da6446",

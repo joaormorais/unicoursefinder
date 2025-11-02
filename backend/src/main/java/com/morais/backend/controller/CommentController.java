@@ -3,6 +3,7 @@ package com.morais.backend.controller;
 import com.morais.backend.domain.dto.comment.CommentCreateDto;
 import com.morais.backend.domain.dto.comment.CommentDto;
 import com.morais.backend.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +42,7 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity<CommentCreateDto> createComment(
-            @RequestBody CommentCreateDto commentCreateDto,
+            @RequestBody @Valid CommentCreateDto commentCreateDto,
             @AuthenticationPrincipal Jwt jwt
     ) {
         return ResponseEntity.ok().body(this.commentService.createComment(commentCreateDto, jwt));

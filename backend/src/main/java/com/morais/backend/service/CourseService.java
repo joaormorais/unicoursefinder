@@ -42,7 +42,6 @@ public class CourseService {
 
         Specification<Course> specs = Specification.not(null);
 
-        // global filter
         if (!(globalFilterValue == null || globalFilterValue.isEmpty())) {
             String normalizedGlobalFilterValue = normalize(globalFilterValue);
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.or(
@@ -54,7 +53,6 @@ public class CourseService {
             )));
         }
 
-        // normal filters
         if (dgesNumber != null && !dgesNumber.isEmpty())
             specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("dgesNumber"), dgesNumber + "%")));
         if (name != null && !name.isEmpty())
@@ -72,14 +70,17 @@ public class CourseService {
         return resultPage.map(courseMapper::toDto);
     }
 
-    public Page<ReferenceDto> getDropdown(Pageable pageable, String name) {
+    public Page<ReferenceDto> getDropdown(Pageable pageable, String name, String institutionUuid) {
         Pageable enforcedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "normalizedName"));
 
-        if (name != null && !name.isEmpty()) {
-            return courseRepository.findByNormalizedNameContaining(normalize(name), enforcedPageable).map(value -> new ReferenceDto(value.getUuid(), value.getName()));
-        }
+        Specification<Course> specs = Specification.not(null);
 
-        return courseRepository.findAll(enforcedPageable).map(value -> new ReferenceDto(value.getUuid(), value.getName()));
+        if (name != null && !name.isEmpty())
+            specs = specs.and(((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("normalizedName"), "%" + normalize(name) + "%")));
+        if (institutionUuid != null && !institutionUuid.isEmpty())
+            specs = specs.and(((root, query, criteriaBuilder) -> root.get("institution").get("uuid").in(List.of(UUID.fromString(institutionUuid)))));
+
+        return courseRepository.findAll(specs, enforcedPageable).map(value -> (institutionUuid != null && !institutionUuid.isEmpty()) ? new ReferenceDto(value.getUuid(), value.getName()) : new ReferenceDto(value.getUuid(), value.getName(),value.getInstitution().getName()));
     }
 
     public List<String> getTypes() {

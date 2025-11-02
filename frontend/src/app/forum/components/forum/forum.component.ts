@@ -195,7 +195,7 @@ export class ForumComponent {
     this.gettingInstitutions.set(true);
 
     this.utilsSearchService
-      .getDropdown(page, this.institutionsPageSize, name, 'institution')
+      .getDropdown(page, this.institutionsPageSize, name, null, 'institution')
       .subscribe({
         next: (data) => {
           if (page === 0) {
@@ -224,7 +224,7 @@ export class ForumComponent {
     this.gettingCourses.set(true);
 
     this.utilsSearchService
-      .getDropdown(page, this.coursesPageSize, name, 'course')
+      .getDropdown(page, this.coursesPageSize, name, null, 'course')
       .subscribe({
         next: (data) => {
           if (page === 0) {
