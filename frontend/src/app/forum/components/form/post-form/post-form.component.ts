@@ -224,9 +224,15 @@ export class PostFormComponent {
     }, 300);
   }
 
-  onInstitutionChange(): void{
-    this.formGroup.get('course')?.reset();
-    this.courses = [];
+  onInstitutionChange(): void {
+    if (this.formGroup.value.institution)
+      this.loadCourses(this.coursesPageNumber());
+    else {
+      this.formGroup.get('course')?.reset();
+      this.courses = [];
+      this.coursesPageNumber.set(0);
+      this.coursesTotalRecords.set(0);
+    }
   }
 
   populateForm(): void {
