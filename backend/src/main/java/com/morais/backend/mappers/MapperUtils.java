@@ -10,10 +10,12 @@ import com.morais.backend.repository.CommentRepository;
 import com.morais.backend.repository.CourseRepository;
 import com.morais.backend.repository.InstitutionRepository;
 import com.morais.backend.repository.PostRepository;
+import com.morais.backend.service.UserService;
 import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,7 @@ public class MapperUtils {
     private final CourseRepository courseRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final UserService userService;
 
     @Autowired
     Keycloak keycloak;
@@ -56,11 +59,12 @@ public class MapperUtils {
 
     @Named("getUserName")
     public String getUserName(String userUuid) {
-        try {
-            return this.keycloak.realm("uni-course-finder").users().get(userUuid).toRepresentation().getUsername();
-        } catch (NotFoundException e) {
-            return "";
-        }
+        return userService.getUserName(userUuid);
+    }
+
+    @Named("isUserAdmin")
+    public Boolean isUserAdmin(UUID userUuid) {
+        return userService.isUserAdmin(userUuid);
     }
 
     @Named("getPostByUuid")

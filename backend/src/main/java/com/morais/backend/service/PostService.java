@@ -102,7 +102,7 @@ public class PostService {
         });
 
         UUID userUuid = UUID.fromString(jwt.getSubject());
-        if (!post.getUserUuid().equals(userUuid)) {
+        if (!post.getUserUuid().equals(userUuid) && !userService.isUserAdmin(userUuid)) {
             log.warn("Tried to update a post that doesn't belong to the logged user");
             throw new AppException("NOT_YOUR_POST", HttpStatus.FORBIDDEN);
         }
@@ -147,7 +147,8 @@ public class PostService {
             return new AppException("POST_DOESNT_EXIST", HttpStatus.CONFLICT);
         });
 
-        if (!post.getUserUuid().equals(UUID.fromString(jwt.getSubject()))) {
+        UUID userUuid = UUID.fromString(jwt.getSubject());
+        if (!post.getUserUuid().equals(userUuid) && !userService.isUserAdmin(userUuid)) {
             log.warn("Tried to delete a post that doesn't belong to the logged user");
             throw new AppException("NOT_YOUR_POST", HttpStatus.FORBIDDEN);
         }

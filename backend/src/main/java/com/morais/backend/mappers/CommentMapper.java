@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring", uses = {MapperUtils.class})
 public interface CommentMapper {
-    @Mapping(target = "ownedByCurrentUser", expression = "java(userUuid != null && userUuid.equals(comment.getUserUuid()))")
+    @Mapping(target = "ownedByCurrentUser", expression = "java(mapperUtils.isUserAdmin(userUuid) || (userUuid != null && userUuid.equals(comment.getUserUuid())))")
     @Mapping(target = "author", source = "comment.userUuid", qualifiedByName = "getUserName")
     CommentDto toDto(Comment comment, UUID userUuid, boolean likedByCurrentUser);
 

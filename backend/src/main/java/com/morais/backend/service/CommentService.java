@@ -5,6 +5,7 @@ import com.morais.backend.domain.dto.comment.CommentDto;
 import com.morais.backend.domain.entity.Comment;
 import com.morais.backend.exception.AppException;
 import com.morais.backend.mappers.CommentMapper;
+import com.morais.backend.mappers.MapperUtils;
 import com.morais.backend.repository.CommentRepository;
 import com.morais.backend.repository.PostRepository;
 import jakarta.transaction.Transactional;
@@ -117,7 +118,8 @@ public class CommentService {
             return new AppException("COMMENT_DOESNT_EXIST", HttpStatus.CONFLICT);
         });
 
-        if (!comment.getUserUuid().equals(UUID.fromString(jwt.getSubject()))) {
+        UUID userUuid = UUID.fromString(jwt.getSubject());
+        if (!comment.getUserUuid().equals(userUuid) && !userService.isUserAdmin(userUuid)) {
             log.warn("Tried to delete a comment that doesn't belong to the logged user");
             throw new AppException("NOT_YOUR_COMMENT", HttpStatus.FORBIDDEN);
         }

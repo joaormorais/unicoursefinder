@@ -4,8 +4,12 @@ import com.morais.backend.domain.entity.User;
 import com.morais.backend.exception.AppException;
 import com.morais.backend.mappers.UserMapper;
 import com.morais.backend.repository.UserRepository;
+import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.representations.idm.RoleRepresentation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +22,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+
+    @Autowired
+    Keycloak keycloak;
 
     public boolean isPostLikedByCurrentUser(UUID postUuid, UUID userUuid) {
         if (userUuid == null) {
@@ -90,6 +97,22 @@ public class UserService {
         } else {
             addLikedComment(user, commentUuid);
             return true;
+        }
+    }
+
+    public String getUserName(String userUuid) {
+        try {
+            return this.keycloak.realm("uni-course-finder").users().get(userUuid).toRepresentation().getUsername();
+        } catch (NotFoundException e) {
+            return "";
+        }
+    }
+
+    public Boolean isUserAdmin(UUID userUuid) {
+        try {
+            return this.keycloak.realm("uni-course-finder").users().get(String.valueOf(userUuid)).roles().getAll().getRealmMappings().stream().map(RoleRepresentation::getName).anyMatch(roleName -> roleName.equals("admin-app"));
+        } catch (NotFoundException e) {
+            return false;
         }
     }
 
