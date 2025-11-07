@@ -232,5 +232,14 @@
       "preference": "Preferência",
       "result": "Estas são as áreas que parecem melhor se adequar às tuas preferências!"
     }
+  },
+  "cookie": {
+    "header": "Cookies:",
+    "message": "Este website usa cookies para poder analisar o tráfego de utilizadores.",
+    "dismiss": "Entendido!",
+    "allow": "Permitir cookies",
+    "deny": "Rejeitar",
+    "link": "Saber mais",
+    "policy": "Política de cookies"
   }
 }
