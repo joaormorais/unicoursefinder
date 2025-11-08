@@ -1,15 +1,10 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './core/components/header/header.component';
 import { Toast } from 'primeng/toast';
-import { Subscription } from 'rxjs';
-import {
-  NgcCookieConsentService,
-  NgcStatusChangeEvent,
-} from 'ngx-cookieconsent';
+import { run } from 'vanilla-cookieconsent';
 import { GAService } from './core/services/ga.service';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -17,60 +12,114 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit, OnDestroy {
-  private initializedSubscription!: Subscription;
-  private statusChangeSubscription!: Subscription;
-  private ccService = inject(NgcCookieConsentService);
+export class AppComponent implements AfterViewInit {
   private gaService = inject(GAService);
-  private translateService = inject(TranslateService);
 
-  ngOnInit(): void {
-    this.translateService.setDefaultLang('pt');
-    this.translateService.use('pt');
+  ngAfterViewInit(): void {
+    run({
+      manageScriptTags: false,
 
-    this.translateService
-      .get([
-        'cookie.header',
-        'cookie.message',
-        'cookie.dismiss',
-        'cookie.allow',
-        'cookie.deny',
-        'cookie.link',
-        'cookie.policy',
-      ])
-      .subscribe((data) => {
-        let config = this.ccService.getConfig();
+      guiOptions: {
+        consentModal: {
+          layout: 'box wide',
+          position: 'bottom center',
+          equalWeightButtons: true,
+          flipButtons: false,
+        },
+        preferencesModal: {
+          layout: 'box',
+          equalWeightButtons: true,
+          flipButtons: false,
+        },
+      },
 
-        config.content = config.content || {};
-        config.content.header = data['cookie.header'];
-        config.content.message = data['cookie.message'];
-        config.content.dismiss = data['cookie.dismiss'];
-        config.content.allow = data['cookie.allow'];
-        config.content.deny = data['cookie.deny'];
-        config.content.link = data['cookie.link'];
-        config.content.policy = data['cookie.policy'];
-
-        this.ccService.destroy(); 
-        this.ccService.init(this.ccService.getConfig());
-      });
-
-    this.initializedSubscription = this.ccService.initialized$.subscribe(() => {
-      if (this.ccService.hasConsented()) {
-        this.gaService.loadExternalScripts();
-      }
-    });
-
-    this.statusChangeSubscription = this.ccService.statusChange$.subscribe(
-      (event: NgcStatusChangeEvent) => {
-        if (event.status === 'allow') {
+      onFirstConsent: ({ cookie }) => {
+        if (cookie.categories.includes('analytics')) {
           this.gaService.loadExternalScripts();
         }
-      }
-    );
-  }
+      },
 
-  ngOnDestroy(): void {
-    this.initializedSubscription.unsubscribe();
-    this.statusChangeSubscription.unsubscribe();
+      onConsent: ({ cookie }) => {
+        if (cookie.categories.includes('analytics')) {
+          this.gaService.loadExternalScripts();
+        }
+      },
+
+      onChange: ({ changedCategories, cookie }) => {
+        if (
+          changedCategories.includes('analytics') &&
+          cookie.categories.includes('analytics')
+        ) {
+          this.gaService.loadExternalScripts();
+        }
+
+        if (
+          changedCategories.includes('analytics') &&
+          !cookie.categories.includes('analytics')
+        ) {
+          this.gaService.disableGoogleAnalytics();
+        }
+      },
+
+      categories: {
+        necessary: {
+          enabled: true,
+          readOnly: true,
+        },
+        analytics: {
+          enabled: false,
+          readOnly: false,
+          autoClear: {
+            cookies: [{ name: /^(_ga|_gid)/ }],
+          },
+        },
+      },
+
+      language: {
+        default: 'pt',
+        translations: {
+          pt: {
+            consentModal: {
+              title: 'Utilizamos cookies!',
+              description:
+                "Utilizamos cookies para analisar o tráfego de utilizadores. Ao clicar em 'Aceitar todos', concorda com o uso de todos os cookies. Pode gerir as suas preferências em 'Gerir preferências'.",
+              acceptAllBtn: 'Aceitar todos',
+              acceptNecessaryBtn: 'Rejeitar todos',
+              showPreferencesBtn: 'Gerir preferências',
+              footer:
+                '<a href="/technical-file">Ficha técnica</a>\n<a href="/privacy-policy">Política de privacidade</a>',
+            },
+            preferencesModal: {
+              title: 'Centro de preferências',
+              acceptAllBtn: 'Aceitar todos',
+              acceptNecessaryBtn: 'Rejeitar todos',
+              savePreferencesBtn: 'Guardar preferências',
+              closeIconLabel: 'Fechar modal',
+              serviceCounterLabel: 'Serviço|Serviços',
+              sections: [
+                {
+                  title: 'Utilização de cookies',
+                  description:
+                    'Aqui pode rever e personalizar as suas preferências de consentimento.',
+                },
+                {
+                  title:
+                    'Cookies estritamente necessários <span class="pm__badge">sempre ativos</span>',
+                  description:
+                    'Podem ser instalados sem o consentimento do utilizador, pois são essenciais ao normal funcionamento do site e desligá-los poderá impedir a utilização de algumas funcionalidades do mesmo.',
+                  linkedCategory: 'necessary',
+                },
+                {
+                  title: 'Cookies para desempenho e análise',
+                  description:
+                    'Recolhem informação fundamental para que possamos analisar a utilização do site (como, por exemplo, o número de visitas que recebemos).',
+                  linkedCategory: 'analytics',
+                },
+              ],
+            },
+          },
+        },
+      },
+    });
   }
 }

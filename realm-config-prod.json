@@ -664,7 +664,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "CHANGE_ME_WITH_ENV_VALUE",
+      "secret": "CHANGE_ME_AND_PUT_NEW_VALUE_IN_ENV",
       "redirectUris": [
         "/*"
       ],

@@ -8,5 +8,5 @@ export const environment = {
       clientId: 'unicoursefinder',
     },
   },
-  cookieDomain: 'null',
+  gaMeasurementId: 'G-9HLTVRPYD8',
 };

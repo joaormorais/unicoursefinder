@@ -204,7 +204,7 @@
     },
     "questions": {
       "TEACHER_TRAINING_AND_EDUCATION_SCIENCE": "Qual o teu interesse em planear processos de ensino-aprendizagem, desenvolver estratégias pedagógicas e facilitar o desenvolvimento de competências em diferentes públicos?",
-      "ARTS": "Qual o teu interesse em conceptualizar e criar obras visuais (desenho, pintura, escultura) ou desenvolver projetos de design (gráfico, multimédia, produto), utilizando técnicas e materiais para expressar ideias e resolver problemas de comunicação?",
+      "ARTS": "Qual o teu interesse em concetualizar e criar obras visuais (desenho, pintura, escultura) ou desenvolver projetos de design (gráfico, multimédia, produto), utilizando técnicas e materiais para expressar ideias e resolver problemas de comunicação?",
       "HUMANITIES": "Qual o teu interesse em investigar e interpretar criticamente fontes históricas, correntes filosóficas ou textos literários para compreender a evolução das sociedades e do pensamento humano?",
       "SOCIAL_AND_BEHAVIORAL_SCIENCES": "Qual o teu interesse em analisar padrões de comportamento humano, investigar dinâmicas sociais e aplicar modelos teóricos para compreender o funcionamento de indivíduos, grupos e sociedades?",
       "INFORMATION_AND_JOURNALISM": "Qual o teu interesse em pesquisar, apurar factos, redigir notícias e produzir conteúdos informativos para diferentes plataformas (imprensa, rádio, TV, digital), com o objetivo de os comunicar ao público?",
@@ -213,17 +213,17 @@
       "LIFE_SCIENCES": "Qual o teu interesse em investigar os mecanismos biológicos dos seres vivos a nível molecular, celular e de ecossistema, realizando experiências em laboratório ou trabalho de campo para expandir o conhecimento científico?",
       "PHYSICAL_SCIENCES": "Qual o teu interesse em estudar os princípios fundamentais da matéria e da energia (Física) e a composição, estrutura e transformação das substâncias (Química), utilizando modelos matemáticos e métodos experimentais?",
       "MATHEMATICS_AND_STATISTICS": "Qual o teu interesse em desenvolver e aplicar modelos matemáticos, analisar conjuntos de dados e utilizar métodos estatísticos para extrair padrões, fazer previsões e resolver problemas complexos?",
-      "COMPUTER_SCIENCE": "Qual o teu interesse em projetar arquiteturas de software, desenvolver algoritmos e escrever código (programar) para criar e manter aplicações, sistemas informáticos e soluções tecnológicas?",
+      "COMPUTER_SCIENCE": "Qual o teu interesse em projetar arquiteturas de software, desenvolver algoritmos e escrever código para criar e manter aplicações, sistemas informáticos e soluções tecnológicas?",
       "ENGINEERING_AND_RELATED_TECHNOLOGIES": "Qual o teu interesse em aplicar princípios científicos e matemáticos para projetar, construir e testar sistemas, máquinas, circuitos elétricos ou processos, com vista a criar soluções técnicas funcionais?",
       "MANUFACTURING_INDUSTRIES": "Qual o teu interesse em planear, gerir e otimizar processos produtivos em ambiente industrial, controlando a qualidade, a logística e a eficiência de linhas de produção e cadeias de abastecimento?",
       "ARCHITECTURE_AND_CONSTRUCTION": "Qual o teu interesse em projetar espaços (edifícios, interiores, urbanos), combinando estética, funcionalidade e técnica, e em planear e supervisionar as várias fases de uma obra de construção?",
-      "AGRICULTURE_FORESTRY_AND_FISHERIES": "Qual o teu interesse em gerir sistemas de produção agrícola, florestal ou aquícola, aplicando conhecimentos de biologia e tecnologia para otimizar colheitas, manejar recursos naturais e garantir a sustentabilidade?",
+      "AGRICULTURE_FORESTRY_AND_FISHERIES": "Qual o teu interesse em gerir sistemas de produção agrícola, florestal ou aquícola, aplicando conhecimentos de biologia e tecnologia para otimizar colheitas, gerir recursos naturais e garantir a sustentabilidade?",
       "VETERINARY_SCIENCE": "Qual o teu interesse em diagnosticar, tratar e prevenir doenças em animais (de companhia, de produção ou selvagens), bem como em zelar pelo seu bem-estar e pela segurança alimentar de produtos de origem animal?",
       "HEALTH": "Qual o teu interesse em prestar cuidados diretos a pessoas, realizando diagnósticos, administrando tratamentos, executando técnicas terapêuticas e monitorizando a recuperação de pacientes em contextos clínicos ou hospitalares?",
       "SOCIAL_SERVICES": "Qual o teu interesse em avaliar necessidades sociais de indivíduos, famílias ou comunidades e planear intervenções para promover a sua integração, capacitação e acesso a recursos e direitos sociais?",
       "PERSONAL_SERVICES": "Qual o teu interesse em planear e prestar serviços diretos ao cliente em áreas como hotelaria, turismo ou estética, com foco na organização de experiências, no atendimento personalizado e na garantia da satisfação do cliente?",
       "TRANSPORT_SERVICES": "Qual o teu interesse em planear, gerir e otimizar operações de logística e transporte de mercadorias ou passageiros, coordenando rotas, frotas e cadeias de abastecimento para garantir a eficiência e o cumprimento de prazos?",
-      "ENVIRONMENTAL_PROTECTION": "Qual o teu interesse em monitorizar ecossistemas, avaliar impactes ambientais de atividades humanas e desenvolver soluções técnicas para a gestão de resíduos, controlo da poluição e conservação de recursos naturais?",
+      "ENVIRONMENTAL_PROTECTION": "Qual o teu interesse em monitorizar ecossistemas, avaliar impactos ambientais de atividades humanas e desenvolver soluções técnicas para a gestão de resíduos, controlo da poluição e conservação de recursos naturais?",
       "SECURITY_SERVICES": "Qual o teu interesse em planear e executar operações de vigilância, controlo de acessos e prevenção de riscos para proteger pessoas, bens e instalações, aplicando protocolos de segurança e respondendo a emergências?"
     },
     "titles": {
@@ -233,13 +233,26 @@
       "result": "Estas são as áreas que parecem melhor se adequar às tuas preferências!"
     }
   },
-  "cookie": {
-    "header": "Cookies:",
-    "message": "Este website usa cookies para poder analisar o tráfego de utilizadores.",
-    "dismiss": "Entendido!",
-    "allow": "Permitir cookies",
-    "deny": "Rejeitar",
-    "link": "Saber mais",
-    "policy": "Política de cookies"
+  "privacyPolicy": {
+    "title": "Política de Privacidade:",
+    "lastUpdated": "Última atualização: 08/11/2025",
+    "intro": "Esta política explica de forma simples como tratamos os seus dados.",
+    "section1Title": "1. O Responsável",
+    "section2Title": "2. Que dados recolhemos e porquê?",
+    "section2Body": "Recolhemos dados de navegação anónimos para fins de análise de tráfego, através do Google Analytics. Isto ajuda-nos a perceber como os utilizadores usam o site.",
+    "section3Title": "3. Com quem partilhamos os dados?",
+    "section3Body": "Ao utilizar o Google Analytics, dados de navegação anónimos são partilhados com a Google, que é a empresa que nos fornece esta ferramenta de análise.",
+    "section4Title": "4. O seu Consentimento",
+    "section4Body": "A recolha destes dados depende do seu consentimento.",
+    "section5Title": "5. Dúvidas",
+    "section5Body": "Se tiver qualquer dúvida sobre esta política, pode contactar: "
+  },
+  "technicalFile": {
+    "title": "Ficha Técnica:",
+    "section1Title": "Responsável pelo site",
+    "section2Title": "Objetivo do site",
+    "section2Body": "O site serve para pesquisar por cursos e instituições em Portugal, bem como ler e partilhar experiências académicas.",
+    "section3Title": "Contacto",
+    "section3Body": "Para qualquer questão, sugestão ou aviso de erro, pode contactar: "
   }
 }

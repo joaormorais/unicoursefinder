@@ -23,35 +23,10 @@ import {
   withAutoRefreshToken,
 } from 'keycloak-angular';
 import { environment } from '#environment';
-import {
-  NgcCookieConsentConfig,
-  provideNgcCookieConsent,
-} from 'ngx-cookieconsent';
 
 export function httpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
-const cookieConfig: NgcCookieConsentConfig = {
-  cookie: {
-    domain: environment.cookieDomain,
-  },
-  position: 'bottom',
-  theme: 'edgeless',
-  palette: {
-    popup: {
-      background: '#000000',
-      text: '#ffffff',
-      link: '#ffffff',
-    },
-    button: {
-      background: '#f59e0b',
-      text: '#000000',
-      border: 'transparent',
-    },
-  },
-  type: 'opt-out',
-};
 
 const backendCondition =
   createInterceptorCondition<IncludeBearerTokenCondition>({
@@ -108,6 +83,5 @@ export const appConfig: ApplicationConfig = {
         },
       ],
     }),
-    provideNgcCookieConsent(cookieConfig),
   ],
 };
