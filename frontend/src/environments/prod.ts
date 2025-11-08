@@ -8,4 +8,5 @@ export const environment = {
       clientId: 'unicoursefinder',
     },
   },
+  gaMeasurementId: 'G-9HLTVRPYD8',
 };

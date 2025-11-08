@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-footer',
+  selector: 'app-privacy-policy',
   imports: [TranslatePipe],
-  templateUrl: './footer.component.html',
+  templateUrl: './privacy-policy.component.html',
 })
-export class FooterComponent {}
+export class PrivacyPolicyComponent {}
