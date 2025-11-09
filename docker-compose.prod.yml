@@ -11,7 +11,7 @@ services:
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=joao.morais2000@hotmail.com" 
+      - "--certificatesresolvers.myresolver.acme.email=joao.morais2000@hotmail.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certresolver=myresolver"
@@ -27,7 +27,7 @@ services:
       - "traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"
       - "traefik.http.routers.http-catchall.entrypoints=web"
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
-      - "traefik.enable=true" 
+      - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.omeucurso.pt`)"
       - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.tls=true"
@@ -58,7 +58,7 @@ services:
     environment:
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_HTTP_ENABLED: 'true'
+      KC_HTTP_ENABLED: "true"
       KC_HOSTNAME: auth.omeucurso.pt
       KC_PROXY: passthrough
       KC_PROXY_HEADERS: xforwarded
@@ -70,6 +70,8 @@ services:
       KC_DB_SCHEMA: keycloak
     command:
       - "start"
+    volumes:
+      - ./keycloak-theme/theme/keycloak-theme-for-kc-all-other-versions.jar:/opt/keycloak/providers/my-theme.jar
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-http.rule=Host(`auth.omeucurso.pt`)"
@@ -141,7 +143,7 @@ services:
       - "traefik.http.routers.frontend-www-redirect.tls.certresolver=myresolver"
       - "traefik.http.routers.frontend-www-redirect.middlewares=www-to-non-www"
       - "traefik.http.routers.frontend-www-redirect.service=noop@internal"
-  
+
 volumes:
   db_data:
   letsencrypt_data:
