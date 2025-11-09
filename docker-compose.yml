@@ -36,6 +36,8 @@ services:
       KC_DB_SCHEMA: keycloak
     command:
       - "start"
+    volumes:
+      - ./keycloak-theme/theme/keycloak-theme-for-kc-all-other-versions.jar:/opt/keycloak/providers/my-theme.jar
 
   backend:
     container_name: backend
