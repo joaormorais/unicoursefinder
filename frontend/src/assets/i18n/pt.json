@@ -128,7 +128,7 @@
   "landing": {
     "searchP": "Explora cursos e universidades",
     "forumP": "Descobre e partilha experiências",
-    "helpP": "Encontra a tua vocação",
+    "helpP": "Descobre os teus interesses",
     "objectiveT":"Objetivo",
     "objectiveP":"Este é o espaço ideal para explorar cursos e instituições de ensino! Aproveita para esclarecer dúvidas e partilhar opiniões.",
     "dataT":"Dados",
@@ -234,7 +234,7 @@
       "interests": "Escolhe os teus grupos de interesses!",
       "interestLimit": "Escolhe no máximo dois grupos",
       "preference": "Preferência",
-      "result": "Estas são as áreas que parecem melhor se adequar às tuas preferências!"
+      "result": "Estas são as áreas que parecem melhor se adequar às tuas preferências! Podes procurar por cursos que se encontram dentro destas áreas."
     }
   },
   "privacyPolicy": {
