@@ -125,12 +125,16 @@
       "SECURITY_SERVICES": "Serviços de Segurança"
     }
   },
-  "paragraphs": {
+  "landing": {
     "searchP": "Explora cursos e universidades",
-    "forumP": "Partilha e aprende com outros",
-    "helpP": "Encontra a tua vocação",
-    "footerP": "Projetado e desenvolvido por ",
-    "createPostP": "Cria uma publicação para esclarecer dúvidas ou partilhar a tua experiência académica com a comunidade:"
+    "forumP": "Descobre e partilha experiências",
+    "helpP": "Descobre os teus interesses",
+    "objectiveT":"Objetivo",
+    "objectiveP":"Este é o espaço ideal para explorar cursos e instituições de ensino! Aproveita para esclarecer dúvidas e partilhar opiniões.",
+    "dataT":"Dados",
+    "dataP":"Informação atualizada em outubro de 2025, com base nos dados oficiais fornecidos pela DGES.",
+    "projectT":"Projeto",
+    "projectP":"Plataforma idealizada e desenvolvida de raiz com a autoria de João Morais."
   },
   "map": {
     "credits": "Ícones universitários criados por nawicon - Flaticon"
@@ -230,7 +234,7 @@
       "interests": "Escolhe os teus grupos de interesses!",
       "interestLimit": "Escolhe no máximo dois grupos",
       "preference": "Preferência",
-      "result": "Estas são as áreas que parecem melhor se adequar às tuas preferências!"
+      "result": "Estas são as áreas que parecem melhor se adequar às tuas preferências! Podes procurar por cursos que se encontram dentro destas áreas."
     }
   },
   "privacyPolicy": {

@@ -14,7 +14,7 @@
     <div class="overlay"></div>
     <div class="paragraph-container">
       <p class="landing-text bg-black/50">
-        {{ "paragraphs.searchP" | translate }}
+        {{ "landing.searchP" | translate }}
       </p>
       <i
         class="pi pi-arrow-right arrow"
@@ -39,7 +39,7 @@
     <div class="overlay"></div>
     <div class="paragraph-container">
       <p class="landing-text bg-white/50">
-        {{ "paragraphs.forumP" | translate }}
+        {{ "landing.forumP" | translate }}
       </p>
       <i
         class="pi pi-arrow-right arrow"
@@ -64,7 +64,7 @@
     <div class="overlay"></div>
     <div class="paragraph-container">
       <p class="landing-text bg-white/50">
-        {{ "paragraphs.helpP" | translate }}
+        {{ "landing.helpP" | translate }}
       </p>
       <i
         class="pi pi-arrow-right arrow"
@@ -76,7 +76,9 @@
 </div>
 
 <div class="h-page-fixed flex flex-col py-2">
-  <div class="flex flex-col md:flex-row flex-grow justify-center items-center gap-8">
+  <div
+    class="flex flex-col md:flex-row flex-grow justify-center items-center gap-8"
+  >
     <div
       pAnimateOnScroll
       enterClass="animate-enter fade-in-10 slide-in-from-l-8 animate-duration-1000"
@@ -88,11 +90,12 @@
       >
         <i class="pi pi-graduation-cap !text-2xl"></i>
       </div>
-      <span class="text-2xl font-bold">Objetivo</span>
-      <span class="text-muted-color text-center"
-        >Explora cursos e instituições de ensino! Este é o espaço ideal para
-        esclarecer dúvidas e partilhar opiniões.</span
-      >
+      <span class="text-2xl font-bold">{{
+        "landing.objectiveT" | translate
+      }}</span>
+      <span class="text-muted-color text-center">{{
+        "landing.objectiveP" | translate
+      }}</span>
     </div>
 
     <div
@@ -106,11 +109,10 @@
       >
         <i class="pi pi-database !text-2xl"></i>
       </div>
-      <span class="text-2xl font-bold">Dados</span>
-      <span class="text-muted-color text-center"
-        >Informação rigorosa e atualizada em outubro de 2025, com base nos dados
-        oficiais fornecidos pela DGES.</span
-      >
+      <span class="text-2xl font-bold">{{ "landing.dataT" | translate }}</span>
+      <span class="text-muted-color text-center">{{
+        "landing.dataP" | translate
+      }}</span>
     </div>
 
     <div
@@ -124,11 +126,12 @@
       >
         <i class="pi pi-user !text-2xl"></i>
       </div>
-      <span class="text-2xl font-bold">Projeto</span>
-      <span class="text-muted-color text-center"
-        >Uma plataforma idealizada e desenvolvida de raiz, com a dedicação e
-        autoria de João Morais.</span
-      >
+      <span class="text-2xl font-bold">{{
+        "landing.projectT" | translate
+      }}</span>
+      <span class="text-muted-color text-center">{{
+        "landing.projectP" | translate
+      }}</span>
     </div>
   </div>
   <div class="flex justify-center items-center p-2 gap-4">
