@@ -3,7 +3,7 @@ export const environment = {
   apiBaseUrl: 'https://omeucurso.pt/api',
   keycloak: {
     config: {
-      url: 'https://auth.omeucurso.pt',
+      url: 'https://auth.jrmsys.com',
       realm: 'uni-course-finder',
       clientId: 'unicoursefinder',
     },
