@@ -1,149 +1,59 @@
 services:
-  traefik:
-    image: traefik:v3.5
-    container_name: traefik
-    restart: always
-    command:
-      - "--log.level=INFO"
-      - "--api.dashboard=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=joao.morais2000@hotmail.com"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-      - "--entrypoints.websecure.http.tls=true"
-      - "--entrypoints.websecure.http.tls.certresolver=myresolver"
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "letsencrypt_data:/letsencrypt"
-    labels:
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
-      - "traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"
-      - "traefik.http.routers.http-catchall.entrypoints=web"
-      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
-      - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.omeucurso.pt`)"
-      - "traefik.http.routers.dashboard.entrypoints=websecure"
-      - "traefik.http.routers.dashboard.tls=true"
-      - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
-      - "traefik.http.routers.dashboard.service=api@internal"
-
-  db:
-    container_name: db
-    image: postgres:17
-    restart: always
-    depends_on:
-      - traefik
-    shm_size: 128mb
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - db_data:/var/lib/postgresql/data
-      - ./postgres/init:/docker-entrypoint-initdb.d
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:26.3
-    container_name: keycloak
-    restart: always
-    depends_on:
-      - db
-    environment:
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_HTTP_ENABLED: "true"
-      KC_HOSTNAME: auth.omeucurso.pt
-      KC_PROXY: passthrough
-      KC_PROXY_HEADERS: xforwarded
-      KC_DB: postgres
-      KC_DB_URL_HOST: db
-      KC_DB_URL_DATABASE: ${POSTGRES_DB}
-      KC_DB_USERNAME: ${POSTGRES_USER}
-      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
-      KC_DB_SCHEMA: keycloak
-    command:
-      - "start"
-    volumes:
-      - ./keycloak-theme/theme/keycloak-theme-for-kc-all-other-versions.jar:/opt/keycloak/providers/my-theme.jar
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.keycloak-http.rule=Host(`auth.omeucurso.pt`)"
-      - "traefik.http.routers.keycloak-http.entrypoints=web"
-      - "traefik.http.routers.keycloak-http.middlewares=redirect-to-https"
-      - "traefik.http.routers.keycloak-https.rule=Host(`auth.omeucurso.pt`)"
-      - "traefik.http.routers.keycloak-https.entrypoints=websecure"
-      - "traefik.http.routers.keycloak-https.tls=true"
-      - "traefik.http.routers.keycloak-https.tls.certresolver=myresolver"
-      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
-
   backend:
-    container_name: backend
+    container_name: backend_omeucurso
     restart: always
     build:
       context: ./backend
       dockerfile: Dockerfile
-    depends_on:
-      - db
-      - keycloak
+    networks:
+      - core_network
     environment:
       - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
       - FRONTEND_ORIGIN=${FRONTEND_ORIGIN}
       - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=${ISSUER_URI}
-      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/uni-course-finder/protocol/openid-connect/certs
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=${JWK_SET_URI}
       - KEYCLOAK_SERVER_URL=${KEYCLOAK_SERVER_URL}
       - KEYCLOAK_REALM=${KEYCLOAK_REALM}
       - KEYCLOAK_CLIENT_ID=${KEYCLOAK_CLIENT_ID}
       - KEYCLOAK_BACKEND_SERVICE_SECRET=${KEYCLOAK_BACKEND_SERVICE_SECRET}
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.backend-http.rule=Host(`omeucurso.pt`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.backend-http.entrypoints=web"
-      - "traefik.http.routers.backend-http.middlewares=redirect-to-https"
-      - "traefik.http.routers.backend-https.rule=Host(`omeucurso.pt`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.backend-https.entrypoints=websecure"
-      - "traefik.http.routers.backend-https.tls=true"
-      - "traefik.http.routers.backend-https.tls.certresolver=myresolver"
-      - "traefik.http.middlewares.backend-stripprefix.stripprefix.prefixes=/api"
-      - "traefik.http.routers.backend-https.middlewares=backend-stripprefix@docker"
-      - "traefik.http.services.backend.loadbalancer.server.port=8080"
+      - traefik.enable=true
+      # Path-based routing
+      - traefik.http.routers.omeucurso-backend.rule=Host(`omeucurso.pt`) && PathPrefix(`/api`)
+      - traefik.http.routers.omeucurso-backend.entrypoints=websecure
+      - traefik.http.routers.omeucurso-backend.tls.certresolver=le
+      - traefik.http.services.omeucurso-backend.loadbalancer.server.port=8080
 
   frontend:
-    container_name: frontend
+    container_name: frontend_omeucurso
     restart: always
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
+    networks:
+      - core_network
     depends_on:
       - backend
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.frontend-http.rule=Host(`omeucurso.pt`)"
-      - "traefik.http.routers.frontend-http.entrypoints=web"
-      - "traefik.http.routers.frontend-http.middlewares=redirect-to-https"
-      - "traefik.http.routers.frontend-https.rule=Host(`omeucurso.pt`)"
-      - "traefik.http.routers.frontend-https.entrypoints=websecure"
-      - "traefik.http.routers.frontend-https.tls=true"
-      - "traefik.http.routers.frontend-https.tls.certresolver=myresolver"
-      - "traefik.http.services.frontend.loadbalancer.server.port=80"
-      - "traefik.http.middlewares.www-to-non-www.redirectregex.regex=^https://www.omeucurso.pt/(.*)"
-      - "traefik.http.middlewares.www-to-non-www.redirectregex.replacement=https://omeucurso.pt/$${1}"
-      - "traefik.http.middlewares.www-to-non-www.redirectregex.permanent=true"
-      - "traefik.http.routers.frontend-www-redirect.rule=Host(`www.omeucurso.pt`)"
-      - "traefik.http.routers.frontend-www-redirect.entrypoints=websecure"
-      - "traefik.http.routers.frontend-www-redirect.tls=true"
-      - "traefik.http.routers.frontend-www-redirect.tls.certresolver=myresolver"
-      - "traefik.http.routers.frontend-www-redirect.middlewares=www-to-non-www"
-      - "traefik.http.routers.frontend-www-redirect.service=noop@internal"
+      - traefik.enable=true
+      # Path-based routing
+      - traefik.http.routers.omeucurso-frontend.rule=Host(`omeucurso.pt`)
+      - traefik.http.routers.omeucurso-frontend.entrypoints=websecure
+      - traefik.http.routers.omeucurso-frontend.tls.certresolver=le
+      - traefik.http.services.omeucurso-frontend.loadbalancer.server.port=80
+      # Redirect
+      - traefik.http.middlewares.www-to-non-www.redirectregex.regex=^https://www.omeucurso.pt/(.*)
+      - traefik.http.middlewares.www-to-non-www.redirectregex.replacement=https://omeucurso.pt/$${1}
+      - traefik.http.middlewares.www-to-non-www.redirectregex.permanent=true
+      # Router www
+      - traefik.http.routers.omeucurso-www.rule=Host(`www.omeucurso.pt`)
+      - traefik.http.routers.omeucurso-www.entrypoints=websecure
+      - traefik.http.routers.omeucurso-www.tls.certresolver=le
+      - traefik.http.routers.omeucurso-www.middlewares=www-to-non-www
+      - traefik.http.routers.omeucurso-www.service=omeucurso-frontend
 
-volumes:
-  db_data:
-  letsencrypt_data:
+networks:
+  core_network:
+    external: true
