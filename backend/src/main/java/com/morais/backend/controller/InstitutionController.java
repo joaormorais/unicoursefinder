@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/institution")
+@RequestMapping("institution")
 public class InstitutionController {
 
     private final InstitutionService institutionService;

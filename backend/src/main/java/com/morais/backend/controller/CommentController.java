@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/comment")
+@RequestMapping("comment")
 public class CommentController {
 
     private final CommentService commentService;

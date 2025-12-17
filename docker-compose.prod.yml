@@ -1,6 +1,6 @@
 services:
   backend:
-    container_name: backend_omeucurso
+    container_name: backend_uni_course_finder
     restart: always
     build:
       context: ./backend
@@ -22,13 +22,14 @@ services:
       - traefik.enable=true
       - traefik.docker.network=core_network
       # Path-based routing
-      - traefik.http.routers.omeucurso-backend.rule=Host(`omeucurso.pt`) && PathPrefix(`/api`)
-      - traefik.http.routers.omeucurso-backend.entrypoints=websecure
-      - traefik.http.routers.omeucurso-backend.tls.certresolver=le
-      - traefik.http.services.omeucurso-backend.loadbalancer.server.port=8080
+      - traefik.http.routers.uni-course-finder-backend.rule=Host(`omeucurso.pt`) && PathPrefix(`/api`)
+      - traefik.http.routers.uni-course-finder-backend.entrypoints=websecure
+      - traefik.http.routers.uni-course-finder-backend.tls.certresolver=le
+      - traefik.http.services.uni-course-finder-backend.loadbalancer.server.port=8080
+      - traefik.http.routers.uni-course-finder-backend.middlewares=api-stripper
 
   frontend:
-    container_name: frontend_omeucurso
+    container_name: frontend_uni_course_finder
     restart: always
     build:
       context: ./frontend
@@ -41,20 +42,20 @@ services:
       - traefik.enable=true
       - traefik.docker.network=core_network
       # Path-based routing
-      - traefik.http.routers.omeucurso-frontend.rule=Host(`omeucurso.pt`)
-      - traefik.http.routers.omeucurso-frontend.entrypoints=websecure
-      - traefik.http.routers.omeucurso-frontend.tls.certresolver=le
-      - traefik.http.services.omeucurso-frontend.loadbalancer.server.port=80
+      - traefik.http.routers.uni-course-finder-frontend.rule=Host(`omeucurso.pt`)
+      - traefik.http.routers.uni-course-finder-frontend.entrypoints=websecure
+      - traefik.http.routers.uni-course-finder-frontend.tls.certresolver=le
+      - traefik.http.services.uni-course-finder-frontend.loadbalancer.server.port=80
       # Redirect
       - traefik.http.middlewares.www-to-non-www.redirectregex.regex=^https://www.omeucurso.pt/(.*)
       - traefik.http.middlewares.www-to-non-www.redirectregex.replacement=https://omeucurso.pt/$${1}
       - traefik.http.middlewares.www-to-non-www.redirectregex.permanent=true
       # Router www
-      - traefik.http.routers.omeucurso-www.rule=Host(`www.omeucurso.pt`)
-      - traefik.http.routers.omeucurso-www.entrypoints=websecure
-      - traefik.http.routers.omeucurso-www.tls.certresolver=le
-      - traefik.http.routers.omeucurso-www.middlewares=www-to-non-www
-      - traefik.http.routers.omeucurso-www.service=omeucurso-frontend
+      - traefik.http.routers.uni-course-finder-www.rule=Host(`www.uni-course-finder.pt`)
+      - traefik.http.routers.uni-course-finder-www.entrypoints=websecure
+      - traefik.http.routers.uni-course-finder-www.tls.certresolver=le
+      - traefik.http.routers.uni-course-finder-www.middlewares=www-to-non-www
+      - traefik.http.routers.uni-course-finder-www.service=omeucurso-frontend
 
 networks:
   core_network:
