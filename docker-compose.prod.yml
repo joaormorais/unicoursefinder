@@ -27,6 +27,7 @@ services:
       - traefik.http.routers.uni-course-finder-backend.tls.certresolver=le
       - traefik.http.services.uni-course-finder-backend.loadbalancer.server.port=8080
       - traefik.http.routers.uni-course-finder-backend.middlewares=api-stripper
+      - traefik.http.middlewares.api-stripper.stripprefix.prefixes=/api
 
   frontend:
     container_name: frontend_uni_course_finder
