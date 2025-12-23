@@ -23,4 +23,4 @@ jobs:
           script: |
             cd ~/apps/unicoursefinder
             git pull origin main
-            sudo docker compose -f docker-compose.prod.yml up -d --build
+            sudo docker compose -f compose.prod.yaml up -d --build
