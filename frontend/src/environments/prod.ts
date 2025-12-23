@@ -4,7 +4,7 @@ export const environment = {
   keycloak: {
     config: {
       url: 'https://auth.jrmsys.com',
-      realm: 'uni-course-finder',
+      realm: 'unicoursefinder',
       clientId: 'unicoursefinder',
     },
   },

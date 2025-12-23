@@ -102,7 +102,7 @@ public class UserService {
 
     public String getUserName(String userUuid) {
         try {
-            return this.keycloak.realm("uni-course-finder").users().get(userUuid).toRepresentation().getUsername();
+            return this.keycloak.realm("unicoursefinder").users().get(userUuid).toRepresentation().getUsername();
         } catch (NotFoundException e) {
             return "";
         }
@@ -110,7 +110,7 @@ public class UserService {
 
     public Boolean isUserAdmin(UUID userUuid) {
         try {
-            return this.keycloak.realm("uni-course-finder").users().get(String.valueOf(userUuid)).roles().getAll().getRealmMappings().stream().map(RoleRepresentation::getName).anyMatch(roleName -> roleName.equals("admin-app"));
+            return this.keycloak.realm("unicoursefinder").users().get(String.valueOf(userUuid)).roles().getAll().getRealmMappings().stream().map(RoleRepresentation::getName).anyMatch(roleName -> roleName.equals("admin-app"));
         } catch (NotFoundException e) {
             return false;
         }

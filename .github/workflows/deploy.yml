@@ -21,6 +21,6 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: 22
           script: |
-            cd ~/apps/uni-course-finder
+            cd ~/apps/unicoursefinder
             git pull origin main
             sudo docker compose -f docker-compose.prod.yml up -d --build

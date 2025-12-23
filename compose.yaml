@@ -15,30 +15,6 @@ services:
     - dev_db_data:/var/lib/postgresql/data
     - ./postgres/init:/docker-entrypoint-initdb.d
 
-  keycloak:
-    image: quay.io/keycloak/keycloak:26.3
-    container_name: keycloak
-    ports:
-      - "9090:8080"
-    depends_on:
-      - db
-    environment:
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_HTTP_ENABLED: 'true'
-      KC_HOSTNAME: localhost
-      KC_HOSTNAME_PORT: 9090
-      KC_DB: postgres
-      KC_DB_URL_HOST: db
-      KC_DB_URL_DATABASE: ${POSTGRES_DB}
-      KC_DB_USERNAME: ${POSTGRES_USER}
-      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
-      KC_DB_SCHEMA: keycloak
-    command:
-      - "start"
-    volumes:
-      - ./keycloak-theme/theme/keycloak-theme-for-kc-all-other-versions.jar:/opt/keycloak/providers/my-theme.jar
-
   backend:
     container_name: backend
     build:
@@ -64,7 +40,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
       - FRONTEND_ORIGIN=${FRONTEND_ORIGIN}
       - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=${ISSUER_URI}
-      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/uni-course-finder/protocol/openid-connect/certs
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/unicoursefinder/protocol/openid-connect/certs
       - KEYCLOAK_SERVER_URL=${KEYCLOAK_SERVER_URL}
       - KEYCLOAK_REALM=${KEYCLOAK_REALM}
       - KEYCLOAK_CLIENT_ID=${KEYCLOAK_CLIENT_ID}

@@ -4,7 +4,7 @@ export const environment = {
   keycloak: {
     config: {
       url: 'http://localhost:9090',
-      realm: 'uni-course-finder',
+      realm: 'unicoursefinder',
       clientId: 'unicoursefinder',
     },
   },
