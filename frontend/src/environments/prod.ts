@@ -5,7 +5,7 @@ export const environment = {
     config: {
       url: 'https://auth.jrmsys.com',
       realm: 'unicoursefinder',
-      clientId: 'unicoursefinder',
+      clientId: 'unicoursefinder-frontend',
     },
   },
   gaMeasurementId: 'G-9HLTVRPYD8',

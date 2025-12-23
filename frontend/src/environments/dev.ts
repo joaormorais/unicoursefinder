@@ -5,7 +5,7 @@ export const environment = {
     config: {
       url: 'http://localhost:9090',
       realm: 'unicoursefinder',
-      clientId: 'unicoursefinder',
+      clientId: 'unicoursefinder-frontend',
     },
   },
   gaMeasurementId: 'G-9HLTVRPYD8',
