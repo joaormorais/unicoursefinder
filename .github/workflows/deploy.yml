@@ -23,4 +23,6 @@ jobs:
           script: |
             cd ~/apps/unicoursefinder
             git pull origin main
-            sudo docker compose -f compose.prod.yaml up -d --build
+            docker compose -f compose.prod.yaml build --no-cache frontend
+            docker compose -f compose.prod.yaml up -d --build --force-recreate
+            docker image prune -f
