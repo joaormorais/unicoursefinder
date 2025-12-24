@@ -21,6 +21,10 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.keycloak.onAuthSuccess = () => this.saveTokens(this.keycloak);
     this.keycloak.onAuthRefreshSuccess = () => this.saveTokens(this.keycloak);
     this.keycloak.onAuthLogout = () => this.clearTokens();
+
+    if (this.keycloak.token && this.keycloak.authenticated) {
+        this.saveTokens(this.keycloak);
+    }
   }
 
   ngAfterViewInit(): void {
