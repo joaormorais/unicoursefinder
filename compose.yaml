@@ -13,7 +13,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
     - dev_db_data:/var/lib/postgresql/data
-    - ./postgres/init:/docker-entrypoint-initdb.d
 
   backend:
     container_name: backend
@@ -25,7 +24,6 @@ services:
       - "5005:5005"
     depends_on:
       - db
-      - keycloak
     volumes:
       - ./backend:/app
       - ~/.m2:/root/.m2
@@ -40,7 +38,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
       - FRONTEND_ORIGIN=${FRONTEND_ORIGIN}
       - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=${ISSUER_URI}
-      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/unicoursefinder/protocol/openid-connect/certs
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=${JWK_SET_URI}
       - KEYCLOAK_SERVER_URL=${KEYCLOAK_SERVER_URL}
       - KEYCLOAK_REALM=${KEYCLOAK_REALM}
       - KEYCLOAK_CLIENT_ID=${KEYCLOAK_CLIENT_ID}

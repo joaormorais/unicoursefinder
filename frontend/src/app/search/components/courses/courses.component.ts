@@ -130,12 +130,10 @@ export class CoursesComponent implements OnInit, OnDestroy {
     let first = event.first ? event.first : this.first;
     let rows = event.rows ? event.rows : this.rows;
 
-    // sort
     const sortField = event.sortField || 'name';
     const sortOrder = event.sortOrder === 1 ? 'asc' : 'desc';
     this.currentFilter.set(`${sortField},${sortOrder}`);
 
-    // group of filters
     const filters = event.filters || {};
 
     const dgesNumber = filters['dgesNumber']
@@ -153,7 +151,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
     const areas: string[] = this.selectedAreas;
     const institutionUuids: string[] = this.selectedInstitutions;
 
-    // load courses
     this.loadCourses(
       first,
       rows,
@@ -261,14 +258,12 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
     this.institutionSearchService.getInstitution(uuid).subscribe({
       next: (data) => {
-        // clean filters
         this.globalFilterValue = '';
         this.selectedTypes = [];
         this.selectedAreas = [];
         this.selectedInstitutions = [];
         this.coursesTable.reset();
 
-        // add data to the array if not exists
         if (
           !this.institutions.some(
             (institution) => institution.value === data.value
@@ -277,12 +272,10 @@ export class CoursesComponent implements OnInit, OnDestroy {
           this.institutions = [data, ...this.institutions];
         }
 
-        // insert new filter for institutions
         this.selectedInstitutions.push(data.value);
 
         this.gettingInstitutions.set(false);
 
-        // filter the table
         this.onLazyLoad(this.lastTableLazyLoadEvent);
       },
       error: (err) => {

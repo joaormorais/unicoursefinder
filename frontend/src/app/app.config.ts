@@ -63,10 +63,14 @@ export const appConfig: ApplicationConfig = {
     provideKeycloak({
       config: environment.keycloak.config,
       initOptions: {
+        token: localStorage.getItem('kc_token') || undefined,
+        refreshToken: localStorage.getItem('kc_refreshToken') || undefined,
+        idToken: localStorage.getItem('kc_idToken') || undefined,
         onLoad: 'check-sso',
         silentCheckSsoRedirectUri:
           window.location.origin + '/assets/silent-check-sso.html',
         redirectUri: window.location.origin + '',
+        checkLoginIframe: environment.keycloak.config.checkLoginIframe,
       },
       features: [
         withAutoRefreshToken({

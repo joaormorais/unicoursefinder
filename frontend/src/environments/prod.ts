@@ -6,6 +6,7 @@ export const environment = {
       url: 'https://auth.jrmsys.com',
       realm: 'unicoursefinder',
       clientId: 'unicoursefinder-frontend',
+      checkLoginIframe: false
     },
   },
   gaMeasurementId: 'G-9HLTVRPYD8',
