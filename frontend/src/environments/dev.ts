@@ -3,9 +3,10 @@ export const environment = {
   apiBaseUrl: 'http://localhost:8080',
   keycloak: {
     config: {
-      url: 'http://localhost:9090',
+      url: 'https://auth.jrmsys.com',
       realm: 'unicoursefinder',
       clientId: 'unicoursefinder-frontend',
+      checkLoginIframe: false
     },
   },
   gaMeasurementId: 'G-9HLTVRPYD8',

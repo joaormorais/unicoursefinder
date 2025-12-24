@@ -53,7 +53,6 @@ export class InstitutionsComponent implements OnInit {
   );
   filterTimeouts: { [key: string]: any } = {};
 
-  // run when the component is created
   ngOnInit(): void {
     this.getTypes();
     this.getDistricts();

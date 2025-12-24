@@ -104,12 +104,10 @@ export class ForumComponent {
     let first = event.first ? event.first : this.first;
     let rows = event.rows ? event.rows : this.rows;
 
-    // sort
     const sortField = event.sortField || 'title';
     const sortOrder = event.sortOrder === 1 ? 'asc' : 'desc';
     this.currentFilter.set(`${sortField},${sortOrder}`);
 
-    // group of filters
     const filters = event.filters || {};
 
     const title = filters['title']
@@ -128,7 +126,6 @@ export class ForumComponent {
         : []
       : [];
 
-    // load posts
     this.loadPosts(first, rows, title, institutionUuids, coursesUuids);
   }
 

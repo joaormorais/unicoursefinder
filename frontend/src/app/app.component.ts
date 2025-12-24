@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './core/components/header/header.component';
 import { Toast } from 'primeng/toast';
 import { run } from 'vanilla-cookieconsent';
 import { GAService } from './core/services/ga.service';
+import Keycloak from 'keycloak-js';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +13,15 @@ import { GAService } from './core/services/ga.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnInit {
   private gaService = inject(GAService);
+  private readonly keycloak = inject(Keycloak);
+
+  ngOnInit(): void {
+    this.keycloak.onAuthSuccess = () => this.saveTokens(this.keycloak);
+    this.keycloak.onAuthRefreshSuccess = () => this.saveTokens(this.keycloak);
+    this.keycloak.onAuthLogout = () => this.clearTokens();
+  }
 
   ngAfterViewInit(): void {
     run({
@@ -121,5 +129,17 @@ export class AppComponent implements AfterViewInit {
         },
       },
     });
+  }
+
+  private saveTokens(kc: Keycloak) {
+    if (kc.token) localStorage.setItem('kc_token', kc.token);
+    if (kc.refreshToken) localStorage.setItem('kc_refreshToken', kc.refreshToken);
+    if (kc.idToken) localStorage.setItem('kc_idToken', kc.idToken);
+  }
+
+  private clearTokens() {
+    localStorage.removeItem('kc_token');
+    localStorage.removeItem('kc_refreshToken');
+    localStorage.removeItem('kc_idToken');
   }
 }

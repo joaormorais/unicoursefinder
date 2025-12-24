@@ -33,7 +33,9 @@ export class AuthService {
   }
 
   login(): void {
-    this.keycloak.login();
+    this.keycloak.login({
+      redirectUri: window.location.href
+    });
   }
 
   logout(): void {

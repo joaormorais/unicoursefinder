@@ -16,19 +16,13 @@ export class HeaderComponent implements OnInit {
   authService = inject(AuthService);
   translate = inject(TranslateService);
 
-  // vars to control the icon of the theme mode
   lightIcon: string = 'pi pi-sun';
   darkIcon: string = 'pi pi-moon';
   themeIcon = signal<string>(this.darkIcon);
-
-  // control of the dialog
   visible: boolean = false;
-
-  // menu items
   items: MenuItem[] | undefined;
   itemsDropdownMenu: MenuItem[] = [];
 
-  // populate menu bar
   ngOnInit() {
     this.translate
       .get([
@@ -72,7 +66,6 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  // change between light and dark mode
   changeTheme() {
     const element = document.querySelector('html');
     if (element) {
