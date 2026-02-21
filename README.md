@@ -1,5 +1,5 @@
 # unicoursefinder
-**Unicoursefinder** (live at omeucurso.pt) is a web app that helps future college students in Portugal find courses and institutions across the country, as well as read and share academic reviews.
+**Unicoursefinder** (live at www.omeucurso.pt) is a web app that helps future college students in Portugal find courses and institutions across the country, as well as read and share academic reviews.
 
 ## Why did I do this project?
 This is my **first solo project** outside of university. I started it to challenge myself to build, publish, and maintain a web app from scratch while learning new technologies along the way. I believe that getting hands-on is the best way to truly understand new tech, software architecture, and maintainability.
