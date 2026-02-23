@@ -24,5 +24,12 @@ This project has gone through several changes while I was still figuring out how
 |PrimeNG|^19.1.3|UI library|
 |Tailwind CSS|^4.1.7|UI library|
 
+## Roadmap
+- Add unit tests
+- Add rate limiting
+- Improve the usage of input properties
+- Improve backend business logic
+- Improve frontend pagination logic
+
 ## Questions and bug report
 If you have any questions or find any bugs, let's connect! Feel free to reach out and send me a message on [LinkedIn](https://www.linkedin.com/in/joaormorais/).
