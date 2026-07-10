@@ -1,5 +1,5 @@
 @if(apiError()){
-{{ "errors.help" | translate }}
+{{ "help.errors.message.form" | translate }}
 }@else {
 <div class="flex justify-center">
   <p-stepper [value]="1" class="w-full p-6" [linear]="true">
@@ -39,7 +39,7 @@
           </div>
           <div class="flex pt-6 justify-end">
             <p-button
-              [label]="'buttons.foward' | translate"
+              [label]="'common.buttons.forward' | translate"
               icon="pi pi-arrow-right"
               iconPos="right"
               (onClick)="activateCallback(2); getSelectedGroups()"
@@ -61,13 +61,13 @@
           </div>
           <div class="flex pt-6 justify-between">
             <p-button
-              [label]="'buttons.return' | translate"
+              [label]="'common.buttons.return' | translate"
               severity="secondary"
               icon="pi pi-arrow-left"
               (onClick)="activateCallback(1)"
             />
             <p-button
-              [label]="'buttons.foward' | translate"
+              [label]="'common.buttons.forward' | translate"
               icon="pi pi-arrow-right"
               iconPos="right"
               (onClick)="activateCallback(3); getResults()"
@@ -91,7 +91,7 @@
           </div>
           <div class="flex pt-6 justify-start">
             <p-button
-              [label]="'buttons.return' | translate"
+              [label]="'common.buttons.return' | translate"
               icon="pi pi-arrow-left"
               iconPos="right"
               (onClick)="activateCallback(2)"

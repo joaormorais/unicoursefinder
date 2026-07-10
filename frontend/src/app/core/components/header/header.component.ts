@@ -26,26 +26,26 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.translate
       .get([
-        'buttons.search',
-        'buttons.forum',
-        'buttons.help',
-        'buttons.edit',
-        'buttons.logout',
+        'header.buttons.search',
+        'header.buttons.forum',
+        'header.buttons.help',
+        'header.buttons.editProfile',
+        'header.buttons.logout',
       ])
       .subscribe((t) => {
         this.items = [
           {
-            label: t['buttons.search'],
+            label: t['header.buttons.search'],
             icon: 'pi pi-search',
             routerLink: '/search',
           },
           {
-            label: t['buttons.forum'],
+            label: t['header.buttons.forum'],
             icon: 'pi pi-comments',
             routerLink: '/forum',
           },
           {
-            label: t['buttons.help'],
+            label: t['header.buttons.help'],
             icon: 'pi pi-question',
             routerLink: '/help',
           },
@@ -53,12 +53,12 @@ export class HeaderComponent implements OnInit {
 
         this.itemsDropdownMenu = [
           {
-            label: t['buttons.edit'],
+            label: t['header.buttons.editProfile'],
             icon: 'pi pi-user-edit',
             command: () => this.authService.edit(),
           },
           {
-            label: t['buttons.logout'],
+            label: t['header.buttons.logout'],
             icon: 'pi pi-sign-out',
             command: () => this.authService.logout(),
           },

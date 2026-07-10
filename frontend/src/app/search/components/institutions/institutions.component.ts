@@ -64,14 +64,14 @@ export class InstitutionsComponent implements OnInit {
       next: (data) => {
         this.types = data.map((type) => ({
           value: type,
-          label: this.translate.instant(`filters.institutionTypes.${type}`),
+          label: this.translate.instant(`enums.institutionTypes.${type}`),
         }));
         this.gettingTypes.set(false);
       },
       error: (err) => {
         this.toastService.showErrorToast(
           err,
-          'errors.summary.gettingInstitutionsTypes'
+          'search.errors.title.gettingInstitutionsTypes'
         );
         this.apiError.set(true);
       },
@@ -84,7 +84,7 @@ export class InstitutionsComponent implements OnInit {
         this.districts = data.map((district) => ({
           value: district,
           label: this.translate.instant(
-            `filters.institutionDistricts.${district}`
+            `enums.institutionDistricts.${district}`
           ),
         }));
         this.gettingDistricts.set(false);
@@ -92,7 +92,7 @@ export class InstitutionsComponent implements OnInit {
       error: (err) => {
         this.toastService.showErrorToast(
           err,
-          'errors.summary.gettingInstitutionsDistricts'
+          'search.errors.title.gettingInstitutionsDistricts'
         );
         this.apiError.set(true);
       },
@@ -108,7 +108,7 @@ export class InstitutionsComponent implements OnInit {
       error: (err) => {
         this.toastService.showErrorToast(
           err,
-          'errors.summary.gettingInstitutions'
+          'search.errors.title.gettingInstitutions'
         );
         this.apiError.set(true);
       },

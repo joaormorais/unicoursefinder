@@ -73,7 +73,7 @@ export class CommentComponent implements OnInit {
         this.likedByUser.set(!this.likedByUser());
       },
       error: (err) => {
-        this.toastService.showErrorToast(err, 'errors.summary.reactComment');
+        this.toastService.showErrorToast(err, 'forum.errors.title.reactComment');
         this.apiError.set(true);
       },
     });
@@ -82,11 +82,11 @@ export class CommentComponent implements OnInit {
   deleteComment(): void {
     this.postForumService.deleteComment(this.comment.uuid).subscribe({
       next: () => {
-        this.toastService.showSuccessToast('success.commentDeleted');
+        this.toastService.showSuccessToast('forum.success.commentDeleted');
         this.reloadDetails.emit();
       },
       error: (err) => {
-        this.toastService.showErrorToast(err, 'errors.summary.deletingComment');
+        this.toastService.showErrorToast(err, 'forum.errors.title.deletingComment');
         this.apiError.set(true);
       },
     });
