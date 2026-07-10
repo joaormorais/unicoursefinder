@@ -89,10 +89,10 @@ export class MapComponent implements OnInit {
          <div style="font-size: 14px;">
            <strong>(${institution.dgesNumber}) ${institution.name}</strong><br>
            Distrito: ${this.translate.instant(
-             `filters.institutionDistricts.${institution.district}`
+             `enums.institutionDistricts.${institution.district}`
            )}<br>
            Tipo: ${this.translate.instant(
-             `filters.institutionTypes.${institution.type}`
+             `enums.institutionTypes.${institution.type}`
            )}<br>
          </div>
        `

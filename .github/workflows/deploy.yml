@@ -25,9 +25,10 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: 22
           script: |
+            set -e
             cd ~/apps/unicoursefinder
             git pull origin main
             docker compose -f compose.prod.yaml build --no-cache
-            docker compose -f compose.prod.yaml down -v
+            docker compose -f compose.prod.yaml down
             docker compose -f compose.prod.yaml up -d
             docker image prune -f

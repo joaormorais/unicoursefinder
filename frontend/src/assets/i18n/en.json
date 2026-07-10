@@ -1,0 +1,334 @@
+{
+  "common": {
+    "buttons": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "forward": "Next",
+      "return": "Back"
+    },
+    "all": "All"
+  },
+  "header": {
+    "buttons": {
+      "search": "Search",
+      "forum": "Forum",
+      "help": "Help",
+      "editProfile": "Edit profile",
+      "logout": "Log out"
+    },
+    "ariaLabels": {
+      "landing": "Home page",
+      "loginRegister": "Log in/register",
+      "changeModes": "Toggle between light and dark mode"
+    }
+  },
+  "cookieConsent": {
+    "consentModal": {
+      "title": "We use cookies!",
+      "description": "We use cookies to analyze user traffic. By clicking 'Accept all', you agree to the use of all cookies. You can manage your preferences in 'Manage preferences'.",
+      "acceptAllBtn": "Accept all",
+      "acceptNecessaryBtn": "Reject all",
+      "showPreferencesBtn": "Manage preferences",
+      "footer": "<a href=\"/technical-file\">Technical details</a>\n<a href=\"/privacy-policy\">Privacy policy</a>"
+    },
+    "preferencesModal": {
+      "title": "Preference center",
+      "acceptAllBtn": "Accept all",
+      "acceptNecessaryBtn": "Reject all",
+      "savePreferencesBtn": "Save preferences",
+      "closeIconLabel": "Close modal",
+      "serviceCounterLabel": "Service|Services",
+      "sections": {
+        "usage": {
+          "title": "Cookie usage",
+          "description": "Here you can review and customize your consent preferences."
+        },
+        "necessary": {
+          "title": "Strictly necessary cookies <span class=\"pm__badge\">always active</span>",
+          "description": "They can be set without user consent, as they are essential for the normal functioning of the site, and disabling them may prevent the use of some of its features."
+        },
+        "analytics": {
+          "title": "Performance and analytics cookies",
+          "description": "They collect essential information so that we can analyze how the site is used (for example, the number of visits we receive)."
+        }
+      }
+    }
+  },
+  "apiErrors": {
+    "CANT_REACH_SERVER": "Could not reach the server.",
+    "INTERNAL_SERVER_ERROR": "A server error occurred.",
+    "ILLEGAL_ARGUMENTS": "Invalid request.",
+    "USER_NOT_LOGGED": "You need to be logged in to perform this action.",
+    "UUID_MISMATCH": "This content could not be found.",
+    "INSTITUTION_DOESNT_EXIST": "This institution does not exist.",
+    "COURSE_DOESNT_EXIST": "This course does not exist.",
+    "POST_DOESNT_EXIST": "This post does not exist.",
+    "NOT_YOUR_POST": "This post is not yours.",
+    "POST_ALREADY_EXISTS": "This post already exists.",
+    "COMMENT_DOESNT_EXIST": "This comment does not exist.",
+    "NOT_YOUR_COMMENT": "This comment is not yours.",
+    "USER_ALREADY_EXISTS": "This user already exists.",
+    "USER_DOESNT_EXIST": "This user does not exist.",
+    "PARENT_DOESNT_EXIST": "This reply has no associated comment.",
+    "PARENT_HAS_PARENT": "It is not possible to reply to a reply.",
+    "NOT_YOUR_USER": "You do not have permission to change this user."
+  },
+  "enums": {
+    "institutionTypes": {
+      "PRIVATE_UNIVERSITY": "Private University Higher Education",
+      "PRIVATE_POLYTECHNIC": "Private Polytechnic Higher Education",
+      "PUBLIC_MILITARY_POLICE": "Public Military and Police Higher Education",
+      "PUBLIC_UNIVERSITY": "Public University Higher Education",
+      "PUBLIC_POLYTECHNIC": "Public Polytechnic Higher Education"
+    },
+    "institutionDistricts": {
+      "GUARDA": "Guarda",
+      "VISEU": "Viseu",
+      "CASTELO_BRANCO": "Castelo Branco",
+      "BRAGA": "Braga",
+      "MADEIRA": "Madeira",
+      "PORTO": "Porto",
+      "AZORES": "Azores",
+      "SETUBAL": "Setúbal",
+      "COIMBRA": "Coimbra",
+      "VIANA_DO_CASTELO": "Viana do Castelo",
+      "BEJA": "Beja",
+      "BRAGANCA": "Bragança",
+      "PORTALEGRE": "Portalegre",
+      "AVEIRO": "Aveiro",
+      "SANTAREM": "Santarém",
+      "FARO": "Faro",
+      "LEIRIA": "Leiria",
+      "LISBON": "Lisbon",
+      "VILA_REAL": "Vila Real",
+      "EVORA": "Évora"
+    },
+    "courseTypes": {
+      "BACHELOR_PREPARATORY_CYCLE": "Bachelor's Preparatory Cycle",
+      "BACHELOR_FIRST_CYCLE": "Bachelor's Degree",
+      "INTEGRATED_MASTER_PREPARATORY": "Integrated Master's Preparatory Cycle",
+      "INTEGRATED_MASTER": "Integrated Master's Degree"
+    },
+    "courseAreas": {
+      "TEACHER_TRAINING_AND_EDUCATION_SCIENCE": "Teacher Training and Education Science",
+      "ARTS": "Arts",
+      "HUMANITIES": "Humanities",
+      "SOCIAL_AND_BEHAVIORAL_SCIENCES": "Social and Behavioral Sciences",
+      "INFORMATION_AND_JOURNALISM": "Information and Journalism",
+      "BUSINESS_AND_MANAGEMENT": "Business and Management",
+      "LAW": "Law",
+      "LIFE_SCIENCES": "Life Sciences",
+      "PHYSICAL_SCIENCES": "Physical Sciences",
+      "MATHEMATICS_AND_STATISTICS": "Mathematics and Statistics",
+      "COMPUTER_SCIENCE": "Computer Science",
+      "ENGINEERING_AND_RELATED_TECHNOLOGIES": "Engineering and Related Technologies",
+      "MANUFACTURING_INDUSTRIES": "Manufacturing Industries",
+      "ARCHITECTURE_AND_CONSTRUCTION": "Architecture and Construction",
+      "AGRICULTURE_FORESTRY_AND_FISHERIES": "Agriculture, Forestry and Fisheries",
+      "VETERINARY_SCIENCE": "Veterinary Science",
+      "HEALTH": "Health",
+      "SOCIAL_SERVICES": "Social Services",
+      "PERSONAL_SERVICES": "Personal Services",
+      "TRANSPORT_SERVICES": "Transport Services",
+      "ENVIRONMENTAL_PROTECTION": "Environmental Protection",
+      "SECURITY_SERVICES": "Security Services"
+    }
+  },
+  "landing": {
+    "ariaLabels": {
+      "search": "Search for courses",
+      "forum": "Explore the forum",
+      "help": "Discover your interests",
+      "nextIcon": "Right arrow icon"
+    },
+    "searchP": "Explore courses and universities",
+    "forumP": "Discover and share experiences",
+    "helpP": "Discover your interests",
+    "objectiveT": "Objective",
+    "objectiveP": "This is the ideal place to explore courses and educational institutions! Take the chance to clear up questions and share opinions.",
+    "dataT": "Data",
+    "dataP": "Information updated in October 2025, based on official data provided by DGES.",
+    "projectT": "Project",
+    "projectP": "Platform envisioned and built from scratch by João Morais.",
+    "disclaimer": "This project was developed to showcase development skills. The information presented about institutions and courses is outdated."
+  },
+  "search": {
+    "buttons": {
+      "institutions": "Institutions",
+      "courses": "Courses"
+    },
+    "tables": {
+      "dges": "DGES code",
+      "name": "Name",
+      "type": "Type",
+      "area": "Area",
+      "district": "District",
+      "institution": "Institution"
+    },
+    "filters": {
+      "global": "Global search",
+      "keyword": "Keywords",
+      "dgesNumber": "Search by DGES code",
+      "name": "Search by name",
+      "selectedItemsLabelTypes": "{0} types selected",
+      "selectedItemsLabelAreas": "{0} areas selected",
+      "selectedItemsLabelDistricts": "{0} districts selected",
+      "selectedItemsLabelInstitutions": "{0} institutions selected"
+    },
+    "errors": {
+      "title": {
+        "gettingInstitutions": "An error occurred while getting institutions",
+        "gettingInstitutionsTypes": "An error occurred while getting types for the institution filters",
+        "gettingInstitutionsDistricts": "An error occurred while getting districts for the institution filters",
+        "gettingInstitutionsDropdown": "An error occurred while getting institutions for the filters",
+        "gettingCourses": "An error occurred while getting courses",
+        "gettingCoursesTypes": "An error occurred while getting types for the course filters",
+        "gettingCoursesAreas": "An error occurred while getting areas for the course filters"
+      },
+      "data": {
+        "emptyInstitutions": "There are no institutions",
+        "emptyCourses": "There are no courses"
+      },
+      "message": {
+        "institutions": "There was a problem on the server! Could not load the institutions.",
+        "courses": "There was a problem on the server. Could not load the courses."
+      }
+    },
+    "map": {
+      "credits": "University icons created by nawicon - Flaticon"
+    }
+  },
+  "forum": {
+    "buttons": {
+      "createPost": "Create a post",
+      "createComment": "Add a comment",
+      "hasMoreComments": "See more comments",
+      "hasMoreReplies": "See more replies"
+    },
+    "tables": {
+      "title": "Title",
+      "institution": "Institution",
+      "course": "Course",
+      "createdAt": "Creation date",
+      "likes": "Likes",
+      "comments": "Comments"
+    },
+    "panel": {
+      "createdAt": "Published on ",
+      "updatedAt": "Last edited on "
+    },
+    "dialog": {
+      "newPost": "New post",
+      "title": "Title",
+      "content": "Content",
+      "institution": "Institution",
+      "course": "Course",
+      "requiredFields": "* - required fields"
+    },
+    "filters": {
+      "title": "Search by title",
+      "selectedItemsLabelInstitutions": "{0} institutions selected",
+      "selectedItemsLabelCourses": "{0} courses selected"
+    },
+    "errors": {
+      "title": {
+        "gettingPosts": "An error occurred while getting posts",
+        "gettingPostDetails": "An error occurred while getting the details of this post",
+        "gettingInstitutionsDropdown": "An error occurred while getting institutions for the filters",
+        "gettingCoursesDropdown": "An error occurred while getting courses for the filters",
+        "creatingPost": "An error occurred while creating/editing a post",
+        "deletingPost": "An error occurred while deleting a post",
+        "creatingComment": "An error occurred while creating/editing a comment",
+        "deletingComment": "An error occurred while deleting a comment",
+        "reactPost": "An error occurred while reacting to this post",
+        "reactComment": "An error occurred while reacting to this comment"
+      },
+      "data": {
+        "emptyPosts": "There are no posts"
+      },
+      "message": {
+        "forum": "There was a problem on the server. Could not load the posts.",
+        "details": "There was a problem on the server. Could not load this post.",
+        "dialog": "There was a problem on the server. Could not load this dialog."
+      },
+      "forms": {
+        "titleRequired": "A title is required",
+        "contentRequired": "Content is required"
+      }
+    },
+    "success": {
+      "postCreated": "Post created successfully!",
+      "postDeleted": "Post deleted!",
+      "commentCreated": "Comment created successfully!",
+      "commentDeleted": "Comment deleted!"
+    }
+  },
+  "help": {
+    "groups": {
+      "LIFE_AND_HEALTH_SCIENCES": "Life and Health Sciences",
+      "ENGINEERING_AND_TECHNOLOGIES": "Engineering and Technologies",
+      "SOCIAL_SCIENCES_AND_EDUCATION": "Social Sciences and Education",
+      "ARTS_AND_COMMUNICATION": "Arts and Communication",
+      "BUSINESS_AND_LAW": "Business and Law",
+      "SERVICES_AND_SECURITY": "Services and Security"
+    },
+    "questions": {
+      "TEACHER_TRAINING_AND_EDUCATION_SCIENCE": "How interested are you in planning teaching-learning processes, developing pedagogical strategies and helping different audiences build new skills?",
+      "ARTS": "How interested are you in conceiving and creating visual works (drawing, painting, sculpture) or developing design projects (graphic, multimedia, product), using techniques and materials to express ideas and solve communication problems?",
+      "HUMANITIES": "How interested are you in researching and critically interpreting historical sources, philosophical currents or literary texts to understand the evolution of societies and human thought?",
+      "SOCIAL_AND_BEHAVIORAL_SCIENCES": "How interested are you in analyzing patterns of human behavior, investigating social dynamics and applying theoretical models to understand how individuals, groups and societies work?",
+      "INFORMATION_AND_JOURNALISM": "How interested are you in researching, fact-checking, writing news and producing informative content for different platforms (press, radio, TV, digital), with the goal of communicating it to the public?",
+      "BUSINESS_AND_MANAGEMENT": "How interested are you in planning organizational strategies, managing resources (financial, human, material) and analyzing market data to optimize a company's performance and profitability?",
+      "LAW": "How interested are you in interpreting legislation, analyzing concrete cases and building logical arguments to represent and defend the interests of people or organizations in judicial or extrajudicial contexts?",
+      "LIFE_SCIENCES": "How interested are you in investigating the biological mechanisms of living beings at the molecular, cellular and ecosystem levels, carrying out laboratory experiments or fieldwork to expand scientific knowledge?",
+      "PHYSICAL_SCIENCES": "How interested are you in studying the fundamental principles of matter and energy (Physics) and the composition, structure and transformation of substances (Chemistry), using mathematical models and experimental methods?",
+      "MATHEMATICS_AND_STATISTICS": "How interested are you in developing and applying mathematical models, analyzing data sets and using statistical methods to extract patterns, make predictions and solve complex problems?",
+      "COMPUTER_SCIENCE": "How interested are you in designing software architectures, developing algorithms and writing code to create and maintain applications, computer systems and technological solutions?",
+      "ENGINEERING_AND_RELATED_TECHNOLOGIES": "How interested are you in applying scientific and mathematical principles to design, build and test systems, machines, electrical circuits or processes, in order to create functional technical solutions?",
+      "MANUFACTURING_INDUSTRIES": "How interested are you in planning, managing and optimizing production processes in industrial environments, controlling the quality, logistics and efficiency of production lines and supply chains?",
+      "ARCHITECTURE_AND_CONSTRUCTION": "How interested are you in designing spaces (buildings, interiors, urban areas), combining aesthetics, functionality and technique, and in planning and supervising the various phases of a construction project?",
+      "AGRICULTURE_FORESTRY_AND_FISHERIES": "How interested are you in managing agricultural, forestry or aquaculture production systems, applying knowledge of biology and technology to optimize harvests, manage natural resources and ensure sustainability?",
+      "VETERINARY_SCIENCE": "How interested are you in diagnosing, treating and preventing diseases in animals (pets, livestock or wildlife), as well as ensuring their well-being and the food safety of products of animal origin?",
+      "HEALTH": "How interested are you in providing direct care to people, making diagnoses, administering treatments, performing therapeutic techniques and monitoring patients' recovery in clinical or hospital settings?",
+      "SOCIAL_SERVICES": "How interested are you in assessing the social needs of individuals, families or communities and planning interventions to promote their integration, empowerment and access to resources and social rights?",
+      "PERSONAL_SERVICES": "How interested are you in planning and providing direct customer services in areas such as hospitality, tourism or aesthetics, focusing on organizing experiences, personalized service and guaranteeing customer satisfaction?",
+      "TRANSPORT_SERVICES": "How interested are you in planning, managing and optimizing logistics and transport operations for goods or passengers, coordinating routes, fleets and supply chains to ensure efficiency and meet deadlines?",
+      "ENVIRONMENTAL_PROTECTION": "How interested are you in monitoring ecosystems, assessing the environmental impact of human activities and developing technical solutions for waste management, pollution control and the conservation of natural resources?",
+      "SECURITY_SERVICES": "How interested are you in planning and carrying out surveillance operations, access control and risk prevention to protect people, property and facilities, applying security protocols and responding to emergencies?"
+    },
+    "titles": {
+      "interests": "Choose your interest groups!",
+      "interestLimit": "Choose at most two groups",
+      "preference": "Preference",
+      "result": "These are the areas that seem to best match your preferences! You can search for courses within these areas."
+    },
+    "errors": {
+      "message": {
+        "form": "A problem occurred with the form. Could not continue."
+      }
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy:",
+    "lastUpdated": "Last updated: 08/11/2025",
+    "intro": "This policy explains in simple terms how we handle your data.",
+    "section1Title": "1. The Controller",
+    "section2Title": "2. What data do we collect and why?",
+    "section2Body": "We collect anonymous browsing data for traffic analysis purposes, through Google Analytics. This helps us understand how users use the site.",
+    "section3Title": "3. Who do we share the data with?",
+    "section3Body": "By using Google Analytics, anonymous browsing data is shared with Google, the company that provides us with this analysis tool.",
+    "section4Title": "4. Your Consent",
+    "section4Body": "The collection of this data depends on your consent.",
+    "section5Title": "5. Questions",
+    "section5Body": "If you have any questions about this policy, you can contact: "
+  },
+  "technicalFile": {
+    "title": "Technical Details:",
+    "section1Title": "Site owner",
+    "section2Title": "Purpose of the site",
+    "section2Body": "The site is used to search for courses and institutions in Portugal, as well as to read and share academic experiences.",
+    "section3Title": "Contact",
+    "section3Body": "For any question, suggestion or error report, you can contact: "
+  }
+}

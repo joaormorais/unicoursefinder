@@ -155,7 +155,7 @@ export class PostFormComponent {
         error: (err) => {
           this.toastService.showErrorToast(
             err,
-            'errors.summary.gettingInstitutionsDropdown'
+            'forum.errors.title.gettingInstitutionsDropdown'
           );
           this.apiError.set(true);
           this.gettingInstitutions.set(false);
@@ -200,7 +200,7 @@ export class PostFormComponent {
         error: (err) => {
           this.toastService.showErrorToast(
             err,
-            'errors.summary.gettingCoursesDropdown'
+            'forum.errors.title.gettingCoursesDropdown'
           );
           this.apiError.set(true);
           this.gettingCourses.set(false);
@@ -294,12 +294,12 @@ export class PostFormComponent {
           next: (data) => {
             this.formSubmitted = false;
             this.closeAndResetCreate(data.uuid);
-            this.toastService.showSuccessToast('success.postCreated');
+            this.toastService.showSuccessToast('forum.success.postCreated');
           },
           error: (err) => {
             this.toastService.showErrorToast(
               err,
-              'errors.summary.creatingPost'
+              'forum.errors.title.creatingPost'
             );
             this.apiError.set(true);
             this.gettingCourses.set(false);
@@ -311,12 +311,12 @@ export class PostFormComponent {
           next: () => {
             this.formSubmitted = false;
             this.closeAndResetEdit();
-            this.toastService.showSuccessToast('success.postCreated');
+            this.toastService.showSuccessToast('forum.success.postCreated');
           },
           error: (err) => {
             this.toastService.showErrorToast(
               err,
-              'errors.summary.creatingPost'
+              'forum.errors.title.creatingPost'
             );
             this.apiError.set(true);
             this.gettingCourses.set(false);
@@ -337,10 +337,10 @@ export class PostFormComponent {
       next: () => {
         this.formSubmitted = false;
         this.closeAndResetDelete();
-        this.toastService.showSuccessToast('success.postDeleted');
+        this.toastService.showSuccessToast('forum.success.postDeleted');
       },
       error: (err) => {
-        this.toastService.showErrorToast(err, 'errors.summary.deletingPost');
+        this.toastService.showErrorToast(err, 'forum.errors.title.deletingPost');
         this.apiError.set(true);
         this.gettingCourses.set(false);
       },

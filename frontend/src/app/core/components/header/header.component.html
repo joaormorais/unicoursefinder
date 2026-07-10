@@ -3,7 +3,7 @@
     <p-button
       icon="pi pi-home"
       class="ml-4 mr-2"
-      [attr.aria-label]="'ariaLabels.landing' | translate"
+      [attr.aria-label]="'header.ariaLabels.landing' | translate"
       routerLink="/"
     />
   </ng-template>
@@ -12,7 +12,7 @@
       <p-button
         [icon]="themeIcon()"
         class="ml-2"
-        [attr.aria-label]="'ariaLabels.changeModes' | translate"
+        [attr.aria-label]="'header.ariaLabels.changeModes' | translate"
         (onClick)="changeTheme()"
       />
       @if(authService.isAuthenticated()){
@@ -22,7 +22,7 @@
       <p-button
         icon="pi pi-user"
         class="ml-2 mr-4"
-        [attr.aria-label]="'ariaLabels.loginRegister' | translate"
+        [attr.aria-label]="'header.ariaLabels.loginRegister' | translate"
         (click)="authService.login()"
       />
       }

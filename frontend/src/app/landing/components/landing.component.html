@@ -2,7 +2,7 @@
   <div
     class="column-container"
     routerLink="/search"
-    [attr.aria-label]="'ariaLabels.search' | translate"
+    [attr.aria-label]="'landing.ariaLabels.search' | translate"
   >
     <div class="image-container">
       <img
@@ -19,7 +19,7 @@
       <i
         class="pi pi-arrow-right arrow"
         aria-hidden="false"
-        [attr.aria-label]="'ariaLabels.nextIcon' | translate"
+        [attr.aria-label]="'landing.ariaLabels.nextIcon' | translate"
       ></i>
     </div>
   </div>
@@ -27,7 +27,7 @@
   <div
     class="column-container"
     routerLink="/forum"
-    [attr.aria-label]="'ariaLabels.forum' | translate"
+    [attr.aria-label]="'landing.ariaLabels.forum' | translate"
   >
     <div class="image-container">
       <img
@@ -44,7 +44,7 @@
       <i
         class="pi pi-arrow-right arrow"
         aria-hidden="false"
-        [attr.aria-label]="'ariaLabels.nextIcon' | translate"
+        [attr.aria-label]="'landing.ariaLabels.nextIcon' | translate"
       ></i>
     </div>
   </div>
@@ -52,7 +52,7 @@
   <div
     class="column-container"
     routerLink="/help"
-    [attr.aria-label]="'ariaLabels.help' | translate"
+    [attr.aria-label]="'landing.ariaLabels.help' | translate"
   >
     <div class="image-container">
       <img
@@ -69,7 +69,7 @@
       <i
         class="pi pi-arrow-right arrow"
         aria-hidden="false"
-        [attr.aria-label]="'ariaLabels.nextIcon' | translate"
+        [attr.aria-label]="'landing.ariaLabels.nextIcon' | translate"
       ></i>
     </div>
   </div>
@@ -133,6 +133,11 @@
         "landing.projectP" | translate
       }}</span>
     </div>
+  </div>
+  <div class="flex justify-center items-center px-4 pt-4">
+    <span class="text-muted-color text-center text-sm">{{
+      "landing.disclaimer" | translate
+    }}</span>
   </div>
   <div class="flex justify-center items-center p-2 gap-4">
     <a

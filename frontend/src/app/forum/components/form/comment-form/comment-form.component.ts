@@ -59,13 +59,13 @@ export class CommentFormComponent {
       this.postForumService.createComment(newComment).subscribe({
         next: () => {
           this.formSubmitted = false;
-          this.toastService.showSuccessToast('success.commentCreated');
+          this.toastService.showSuccessToast('forum.success.commentCreated');
           this.close();
         },
         error: (err) => {
           this.toastService.showErrorToast(
             err,
-            'errors.summary.creatingComment'
+            'forum.errors.title.creatingComment'
           );
         },
       });

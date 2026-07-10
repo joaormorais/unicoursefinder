@@ -5,7 +5,7 @@ import { HeaderComponent } from './core/components/header/header.component';
 import { Toast } from 'primeng/toast';
 import { run } from 'vanilla-cookieconsent';
 import { GAService } from './core/services/ga.service';
-import Keycloak from 'keycloak-js';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -15,19 +15,22 @@ import Keycloak from 'keycloak-js';
 })
 export class AppComponent implements AfterViewInit, OnInit {
   private gaService = inject(GAService);
-  private readonly keycloak = inject(Keycloak);
+  private translate = inject(TranslateService);
+  private currentLang = 'pt';
 
   ngOnInit(): void {
-    this.keycloak.onAuthSuccess = () => this.saveTokens(this.keycloak);
-    this.keycloak.onAuthRefreshSuccess = () => this.saveTokens(this.keycloak);
-    this.keycloak.onAuthLogout = () => this.clearTokens();
-
-    if (this.keycloak.token && this.keycloak.authenticated) {
-        this.saveTokens(this.keycloak);
-    }
+    const browserLang = this.translate.getBrowserLang();
+    this.currentLang = browserLang === 'en' ? 'en' : 'pt';
+    this.translate.use(this.currentLang);
   }
 
   ngAfterViewInit(): void {
+    this.translate
+      .get('cookieConsent')
+      .subscribe((cc) => this.runCookieConsent(cc));
+  }
+
+  private runCookieConsent(cc: any): void {
     run({
       manageScriptTags: false,
 
@@ -88,43 +91,32 @@ export class AppComponent implements AfterViewInit, OnInit {
       },
 
       language: {
-        default: 'pt',
+        default: this.currentLang,
         translations: {
-          pt: {
-            consentModal: {
-              title: 'Utilizamos cookies!',
-              description:
-                "Utilizamos cookies para analisar o tráfego de utilizadores. Ao clicar em 'Aceitar todos', concorda com o uso de todos os cookies. Pode gerir as suas preferências em 'Gerir preferências'.",
-              acceptAllBtn: 'Aceitar todos',
-              acceptNecessaryBtn: 'Rejeitar todos',
-              showPreferencesBtn: 'Gerir preferências',
-              footer:
-                '<a href="/technical-file">Ficha técnica</a>\n<a href="/privacy-policy">Política de privacidade</a>',
-            },
+          [this.currentLang]: {
+            consentModal: cc.consentModal,
             preferencesModal: {
-              title: 'Centro de preferências',
-              acceptAllBtn: 'Aceitar todos',
-              acceptNecessaryBtn: 'Rejeitar todos',
-              savePreferencesBtn: 'Guardar preferências',
-              closeIconLabel: 'Fechar modal',
-              serviceCounterLabel: 'Serviço|Serviços',
+              title: cc.preferencesModal.title,
+              acceptAllBtn: cc.preferencesModal.acceptAllBtn,
+              acceptNecessaryBtn: cc.preferencesModal.acceptNecessaryBtn,
+              savePreferencesBtn: cc.preferencesModal.savePreferencesBtn,
+              closeIconLabel: cc.preferencesModal.closeIconLabel,
+              serviceCounterLabel: cc.preferencesModal.serviceCounterLabel,
               sections: [
                 {
-                  title: 'Utilização de cookies',
-                  description:
-                    'Aqui pode rever e personalizar as suas preferências de consentimento.',
+                  title: cc.preferencesModal.sections.usage.title,
+                  description: cc.preferencesModal.sections.usage.description,
                 },
                 {
-                  title:
-                    'Cookies estritamente necessários <span class="pm__badge">sempre ativos</span>',
+                  title: cc.preferencesModal.sections.necessary.title,
                   description:
-                    'Podem ser instalados sem o consentimento do utilizador, pois são essenciais ao normal funcionamento do site e desligá-los poderá impedir a utilização de algumas funcionalidades do mesmo.',
+                    cc.preferencesModal.sections.necessary.description,
                   linkedCategory: 'necessary',
                 },
                 {
-                  title: 'Cookies para desempenho e análise',
+                  title: cc.preferencesModal.sections.analytics.title,
                   description:
-                    'Recolhem informação fundamental para que possamos analisar a utilização do site (como, por exemplo, o número de visitas que recebemos).',
+                    cc.preferencesModal.sections.analytics.description,
                   linkedCategory: 'analytics',
                 },
               ],
@@ -135,15 +127,4 @@ export class AppComponent implements AfterViewInit, OnInit {
     });
   }
 
-  private saveTokens(kc: Keycloak) {
-    if (kc.token) localStorage.setItem('kc_token', kc.token);
-    if (kc.refreshToken) localStorage.setItem('kc_refreshToken', kc.refreshToken);
-    if (kc.idToken) localStorage.setItem('kc_idToken', kc.idToken);
-  }
-
-  private clearTokens() {
-    localStorage.removeItem('kc_token');
-    localStorage.removeItem('kc_refreshToken');
-    localStorage.removeItem('kc_idToken');
-  }
 }

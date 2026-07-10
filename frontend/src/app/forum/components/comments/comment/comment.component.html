@@ -1,5 +1,5 @@
 @if(apiError()){
-{{ "errors.details" | translate }}
+{{ "forum.errors.message.details" | translate }}
 }@else { @if(gettingComments()){
 <div class="flex justify-center">
   <p-progress-spinner ariaLabel="loading" />
@@ -71,7 +71,7 @@
   </div>
   @if(hasMoreComments()){
   <p-button
-    [label]="'buttons.hasMoreReplies' | translate"
+    [label]="'forum.buttons.hasMoreReplies' | translate"
     icon="pi pi-comments"
     (click)="onLazyLoad()"
   />
