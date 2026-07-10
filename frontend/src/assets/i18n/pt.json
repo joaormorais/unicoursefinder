@@ -1,70 +1,80 @@
 {
-  "ariaLabels": {
-    "search": "Procurar cursos",
-    "forum": "Procurar cursos",
-    "help": "Procurar cursos",
-    "landing": "Página principal",
-    "loginRegister": "Iniciar sessão/registo",
-    "logout": "Terminar sessão",
-    "nextIcon": "Ícone para a direita",
-    "openLink": "Abrir os detalhes deste curso numa nova janela",
-    "changeModes": "Alternar entre modo claro e modo escuro"
+  "common": {
+    "buttons": {
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "delete": "Apagar",
+      "forward": "Avançar",
+      "return": "Retornar"
+    },
+    "all": "Todos"
   },
-  "buttons": {
-    "search": "Pesquisa",
-    "forum": "Fórum",
-    "help": "Ajuda",
-    "institutions": "Instituições",
-    "courses": "Cursos",
-    "edit": "Editar perfil",
-    "logout": "Terminar sessão",
-    "create": "Salvar",
-    "delete": "Apagar",
-    "cancel": "Cancelar",
-    "createPost": "Criar uma publicação",
-    "createComment": "Adicionar um comentário",
-    "createReply": "Responder",
-    "hasMoreComments": "Ver mais comentários",
-    "hasMoreReplies": "Ver mais respostas",
-    "foward": "Avançar",
-    "return": "Retornar"
+  "header": {
+    "buttons": {
+      "search": "Pesquisa",
+      "forum": "Fórum",
+      "help": "Ajuda",
+      "editProfile": "Editar perfil",
+      "logout": "Terminar sessão"
+    },
+    "ariaLabels": {
+      "landing": "Página principal",
+      "loginRegister": "Iniciar sessão/registo",
+      "changeModes": "Alternar entre modo claro e modo escuro"
+    }
   },
-  "tables": {
-    "dges": "Código DGES",
-    "name": "Nome",
-    "title": "Título",
-    "type": "Tipo",
-    "area": "Área",
-    "district": "Distrito",
-    "institution": "Instituição",
-    "course": "Curso",
-    "createdAt": "Data de criação",
-    "likes": "Gostos",
-    "comments": "Comentários"
+  "cookieConsent": {
+    "consentModal": {
+      "title": "Utilizamos cookies!",
+      "description": "Utilizamos cookies para analisar o tráfego de utilizadores. Ao clicar em 'Aceitar todos', concorda com o uso de todos os cookies. Pode gerir as suas preferências em 'Gerir preferências'.",
+      "acceptAllBtn": "Aceitar todos",
+      "acceptNecessaryBtn": "Rejeitar todos",
+      "showPreferencesBtn": "Gerir preferências",
+      "footer": "<a href=\"/technical-file\">Ficha técnica</a>\n<a href=\"/privacy-policy\">Política de privacidade</a>"
+    },
+    "preferencesModal": {
+      "title": "Centro de preferências",
+      "acceptAllBtn": "Aceitar todos",
+      "acceptNecessaryBtn": "Rejeitar todos",
+      "savePreferencesBtn": "Guardar preferências",
+      "closeIconLabel": "Fechar modal",
+      "serviceCounterLabel": "Serviço|Serviços",
+      "sections": {
+        "usage": {
+          "title": "Utilização de cookies",
+          "description": "Aqui pode rever e personalizar as suas preferências de consentimento."
+        },
+        "necessary": {
+          "title": "Cookies estritamente necessários <span class=\"pm__badge\">sempre ativos</span>",
+          "description": "Podem ser instalados sem o consentimento do utilizador, pois são essenciais ao normal funcionamento do site e desligá-los poderá impedir a utilização de algumas funcionalidades do mesmo."
+        },
+        "analytics": {
+          "title": "Cookies para desempenho e análise",
+          "description": "Recolhem informação fundamental para que possamos analisar a utilização do site (como, por exemplo, o número de visitas que recebemos)."
+        }
+      }
+    }
   },
-  "panel": {
-    "createdAt": "Publicado a ",
-    "updatedAt": "Última edição a "
+  "apiErrors": {
+    "CANT_REACH_SERVER": "Não foi possível fazer contacto com o servidor.",
+    "INTERNAL_SERVER_ERROR": "Ocorreu um erro no servidor.",
+    "ILLEGAL_ARGUMENTS": "Pedido incorreto.",
+    "USER_NOT_LOGGED": "Precisa de estar autenticado para realizar esta ação.",
+    "UUID_MISMATCH": "Não foi possível encontrar este conteúdo.",
+    "INSTITUTION_DOESNT_EXIST": "Esta instituição não existe.",
+    "COURSE_DOESNT_EXIST": "Este curso não existe.",
+    "POST_DOESNT_EXIST": "Esta publicação não existe.",
+    "NOT_YOUR_POST": "Esta publicação não é sua.",
+    "POST_ALREADY_EXISTS": "Esta publicação já existe.",
+    "COMMENT_DOESNT_EXIST": "Este comentário não existe.",
+    "NOT_YOUR_COMMENT": "Este comentário não é seu.",
+    "USER_ALREADY_EXISTS": "Este utilizador já existe.",
+    "USER_DOESNT_EXIST": "Este utilizador não existe.",
+    "PARENT_DOESNT_EXIST": "Esta resposta não tem um comentário associado.",
+    "PARENT_HAS_PARENT": "Não é possível responder a uma resposta.",
+    "NOT_YOUR_USER": "Não tem permissões para alterar este utilizador."
   },
-  "dialog": {
-    "newPost": "Nova publicação",
-    "title": "Título",
-    "content": "Conteúdo",
-    "institution": "Instituição",
-    "course": "Curso",
-    "requiredFields": "* - campos obrigatórios"
-  },
-  "filters": {
-    "global": "Procura geral",
-    "keyword": "Palavras-chave",
-    "dgesNumber": "Procurar por código DGES",
-    "name": "Procurar por nome",
-    "title": "Procurar por título",
-    "all": "Todos",
-    "selectedItemsLabelTypes": "{0} tipos selecionados",
-    "selectedItemsLabelAreas": "{0} áreas selecionadas",
-    "selectedItemsLabelDistricts": "{0} distritos selecionados",
-    "selectedItemsLabelInstitutions": "{0} instituições selecionadas",
+  "enums": {
     "institutionTypes": {
       "PRIVATE_UNIVERSITY": "Ensino Superior Privado Universitário",
       "PRIVATE_POLYTECHNIC": "Ensino Superior Privado Politécnico",
@@ -126,76 +136,133 @@
     }
   },
   "landing": {
+    "ariaLabels": {
+      "search": "Procurar cursos",
+      "forum": "Explorar o fórum",
+      "help": "Descobrir os teus interesses",
+      "nextIcon": "Ícone para a direita"
+    },
     "searchP": "Explora cursos e universidades",
     "forumP": "Descobre e partilha experiências",
     "helpP": "Descobre os teus interesses",
-    "objectiveT":"Objetivo",
-    "objectiveP":"Este é o espaço ideal para explorar cursos e instituições de ensino! Aproveita para esclarecer dúvidas e partilhar opiniões.",
-    "dataT":"Dados",
-    "dataP":"Informação atualizada em outubro de 2025, com base nos dados oficiais fornecidos pela DGES.",
-    "projectT":"Projeto",
-    "projectP":"Plataforma idealizada e desenvolvida de raiz com a autoria de João Morais."
+    "objectiveT": "Objetivo",
+    "objectiveP": "Este é o espaço ideal para explorar cursos e instituições de ensino! Aproveita para esclarecer dúvidas e partilhar opiniões.",
+    "dataT": "Dados",
+    "dataP": "Informação atualizada em outubro de 2025, com base nos dados oficiais fornecidos pela DGES.",
+    "projectT": "Projeto",
+    "projectP": "Plataforma idealizada e desenvolvida de raiz com a autoria de João Morais.",
+    "disclaimer": "Este projeto foi desenvolvido para demonstrar competências de desenvolvimento. A informação apresentada sobre instituições e cursos encontra-se desatualizada."
   },
-  "map": {
-    "credits": "Ícones universitários criados por nawicon - Flaticon"
-  },
-  "errors": {
-    "CANT_REACH_SERVER": "Não foi possível fazer contacto com o servidor.",
-    "INTERNAL_SERVER_ERROR": "Ocorreu um erro no servidor.",
-    "ILLEGAL_ARGUMENTS": "Pedido incorreto.",
-    "USER_NOT_LOGGED": "Precisa de estar autenticado para realizar esta ação.",
-    "UUID_MISMATCH": "Não foi possível encontrar este conteúdo.",
-    "INSTITUTION_DOESNT_EXIST": "Esta instituição não existe.",
-    "COURSE_DOESNT_EXIST": "Este curso não existe.",
-    "POST_DOESNT_EXIST": "Esta publicação não existe.",
-    "NOT_YOUR_POST": "Esta publicação não é sua.",
-    "POST_ALREADY_EXISTS": "Esta publicação já existe.",
-    "COMMENT_DOESNT_EXIST": "Este comentário não existe.",
-    "NOT_YOUR_COMMENT": "Este comentário não é seu.",
-    "USER_ALREADY_EXISTS": "Este utilizador já existe.",
-    "USER_DOESNT_EXIST": "Este utilizador não existe.",
-    "PARENT_DOESNT_EXIST": "Esta resposta não tem um comentário associado.",
-    "PARENT_HAS_PARENT": "Não é possível responder a uma resposta.",
-    "NOT_YOUR_USER": "Não tem permissões para alterar este utilizador.",
-    "institutions": "Houve um problema no servidor! Não foi possível carregar as instituições.",
-    "courses": "Houve um problema no servidor. Não foi possível carregar os cursos.",
-    "forum": "Houve um problema no servidor. Não foi possível carregar as publicações.",
-    "details": "Houve um problema no servidor. Não foi possível carregar esta publicação.",
-    "dialog": "Houve um problema no servidor. Não foi possível carregar esta janela.",
-    "comment": "Houve um problema no servidor. Não foi possível carregar este comentário.",
-    "help": "Ocorreu um problema no formulário. Não foi possível continuar.",
-    "summary": {
-      "emptyInstitutions": "Não existem instituições",
-      "emptyCourses": "Não existem cursos",
-      "emptyPosts": "Não existem publicações",
-      "gettingCourses": "Ocorreu um erro a obter cursos",
-      "gettingCoursesTypes": "Ocorreu um erro a obter tipos para a filtragem de cursos",
-      "gettingCoursesAreas": "Ocorreu um erro a obter áreas para a filtragem de cursos",
-      "gettingInstitutionsTypes": "Ocorreu um erro a obter tipos para a filtragem de instituições",
-      "gettingInstitutionsDistricts": "Ocorreu um erro a obter distritos para a filtragem de instituições",
-      "gettingInstitutions": "Ocorreu um erro a obter instituições",
-      "gettingPosts": "Ocorreu um erro a obter publicações",
-      "gettingPostDetails": "Ocorreu um erro a obter os detalhes desta publicação",
-      "gettingInstitutionsDropdown": "Ocoreu um erro a obter instituições para a filtragem",
-      "gettingCoursesDropdown": "Ocoreu um erro a obter cursos para a filtragem",
-      "creatingPost": "Ocorreu um erro a criar/editar uma publicação",
-      "creatingComment": "Ocorreu um erro a criar/editar um comentário",
-      "deletingPost": "Ocorreu um erro a apagar uma publicação",
-      "deletingComment": "Ocorreu um erro a apagar um comentário",
-      "reactPost": "Ocorreu um erro a reagir a esta publicação",
-      "reactComment": "Ocorreu um erro a reagir a este comentário"
+  "search": {
+    "buttons": {
+      "institutions": "Instituições",
+      "courses": "Cursos"
     },
-    "form": {
-      "titleRequired": "É necessário um título",
-      "contentRequired": "É necessário um conteúdo"
+    "tables": {
+      "dges": "Código DGES",
+      "name": "Nome",
+      "type": "Tipo",
+      "area": "Área",
+      "district": "Distrito",
+      "institution": "Instituição"
+    },
+    "filters": {
+      "global": "Procura geral",
+      "keyword": "Palavras-chave",
+      "dgesNumber": "Procurar por código DGES",
+      "name": "Procurar por nome",
+      "selectedItemsLabelTypes": "{0} tipos selecionados",
+      "selectedItemsLabelAreas": "{0} áreas selecionadas",
+      "selectedItemsLabelDistricts": "{0} distritos selecionados",
+      "selectedItemsLabelInstitutions": "{0} instituições selecionadas"
+    },
+    "errors": {
+      "title": {
+        "gettingInstitutions": "Ocorreu um erro a obter instituições",
+        "gettingInstitutionsTypes": "Ocorreu um erro a obter tipos para a filtragem de instituições",
+        "gettingInstitutionsDistricts": "Ocorreu um erro a obter distritos para a filtragem de instituições",
+        "gettingInstitutionsDropdown": "Ocorreu um erro a obter instituições para a filtragem",
+        "gettingCourses": "Ocorreu um erro a obter cursos",
+        "gettingCoursesTypes": "Ocorreu um erro a obter tipos para a filtragem de cursos",
+        "gettingCoursesAreas": "Ocorreu um erro a obter áreas para a filtragem de cursos"
+      },
+      "data": {
+        "emptyInstitutions": "Não existem instituições",
+        "emptyCourses": "Não existem cursos"
+      },
+      "message": {
+        "institutions": "Houve um problema no servidor! Não foi possível carregar as instituições.",
+        "courses": "Houve um problema no servidor. Não foi possível carregar os cursos."
+      }
+    },
+    "map": {
+      "credits": "Ícones universitários criados por nawicon - Flaticon"
     }
   },
-  "success": {
-    "postCreated": "Publicação criada com sucesso!",
-    "postEdited": "Publicação editada com sucesso!",
-    "postDeleted": "Publicação apagada!",
-    "commentCreated": "Comentário criado com sucesso!",
-    "commentDeleted": "Comentário apagado!"
+  "forum": {
+    "buttons": {
+      "createPost": "Criar uma publicação",
+      "createComment": "Adicionar um comentário",
+      "hasMoreComments": "Ver mais comentários",
+      "hasMoreReplies": "Ver mais respostas"
+    },
+    "tables": {
+      "title": "Título",
+      "institution": "Instituição",
+      "course": "Curso",
+      "createdAt": "Data de criação",
+      "likes": "Gostos",
+      "comments": "Comentários"
+    },
+    "panel": {
+      "createdAt": "Publicado a ",
+      "updatedAt": "Última edição a "
+    },
+    "dialog": {
+      "newPost": "Nova publicação",
+      "title": "Título",
+      "content": "Conteúdo",
+      "institution": "Instituição",
+      "course": "Curso",
+      "requiredFields": "* - campos obrigatórios"
+    },
+    "filters": {
+      "title": "Procurar por título",
+      "selectedItemsLabelInstitutions": "{0} instituições selecionadas",
+      "selectedItemsLabelCourses": "{0} cursos selecionados"
+    },
+    "errors": {
+      "title": {
+        "gettingPosts": "Ocorreu um erro a obter publicações",
+        "gettingPostDetails": "Ocorreu um erro a obter os detalhes desta publicação",
+        "gettingInstitutionsDropdown": "Ocorreu um erro a obter instituições para a filtragem",
+        "gettingCoursesDropdown": "Ocorreu um erro a obter cursos para a filtragem",
+        "creatingPost": "Ocorreu um erro a criar/editar uma publicação",
+        "deletingPost": "Ocorreu um erro a apagar uma publicação",
+        "creatingComment": "Ocorreu um erro a criar/editar um comentário",
+        "deletingComment": "Ocorreu um erro a apagar um comentário",
+        "reactPost": "Ocorreu um erro a reagir a esta publicação",
+        "reactComment": "Ocorreu um erro a reagir a este comentário"
+      },
+      "data": {
+        "emptyPosts": "Não existem publicações"
+      },
+      "message": {
+        "forum": "Houve um problema no servidor. Não foi possível carregar as publicações.",
+        "details": "Houve um problema no servidor. Não foi possível carregar esta publicação.",
+        "dialog": "Houve um problema no servidor. Não foi possível carregar esta janela."
+      },
+      "forms": {
+        "titleRequired": "É necessário um título",
+        "contentRequired": "É necessário um conteúdo"
+      }
+    },
+    "success": {
+      "postCreated": "Publicação criada com sucesso!",
+      "postDeleted": "Publicação apagada!",
+      "commentCreated": "Comentário criado com sucesso!",
+      "commentDeleted": "Comentário apagado!"
+    }
   },
   "help": {
     "groups": {
@@ -235,6 +302,11 @@
       "interestLimit": "Escolhe no máximo dois grupos",
       "preference": "Preferência",
       "result": "Estas são as áreas que parecem melhor se adequar às tuas preferências! Podes procurar por cursos que se encontram dentro destas áreas."
+    },
+    "errors": {
+      "message": {
+        "form": "Ocorreu um problema no formulário. Não foi possível continuar."
+      }
     }
   },
   "privacyPolicy": {

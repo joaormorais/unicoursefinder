@@ -179,7 +179,7 @@ export class ForumComponent {
           this.gettingPosts.set(false);
         },
         error: (err) => {
-          this.toastService.showErrorToast(err, 'errors.summary.gettingPosts');
+          this.toastService.showErrorToast(err, 'forum.errors.title.gettingPosts');
           this.apiError.set(true);
           this.gettingPosts.set(false);
         },
@@ -207,7 +207,7 @@ export class ForumComponent {
         error: (err) => {
           this.toastService.showErrorToast(
             err,
-            'errors.summary.gettingInstitutionsDropdown'
+            'forum.errors.title.gettingInstitutionsDropdown'
           );
           this.apiError.set(true);
           this.gettingInstitutions.set(false);
@@ -236,7 +236,7 @@ export class ForumComponent {
         error: (err) => {
           this.toastService.showErrorToast(
             err,
-            'errors.summary.gettingCoursesDropdown'
+            'forum.errors.title.gettingCoursesDropdown'
           );
           this.apiError.set(true);
           this.gettingCourses.set(false);

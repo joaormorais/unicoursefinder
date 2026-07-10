@@ -207,7 +207,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.toastService.showErrorToast(
             err,
-            'errors.summary.gettingCourses'
+            'search.errors.title.gettingCourses'
           );
           this.apiError.set(true);
           this.gettingCourses.set(false);
@@ -243,7 +243,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.toastService.showErrorToast(
             err,
-            'errors.summary.gettingInstitutionsDropdown'
+            'search.errors.title.gettingInstitutionsDropdown'
           );
           this.apiError.set(true);
           this.gettingInstitutions.set(false);
@@ -281,7 +281,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.toastService.showErrorToast(
           err,
-          'errors.summary.gettingInstitutions'
+          'search.errors.title.gettingInstitutions'
         );
         this.apiError.set(true);
         this.gettingInstitutions.set(false);
@@ -298,14 +298,14 @@ export class CoursesComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.types = data.map((type) => ({
           value: type,
-          label: this.translate.instant(`filters.courseTypes.${type}`),
+          label: this.translate.instant(`enums.courseTypes.${type}`),
         }));
         this.gettingTypes.set(false);
       },
       error: (err) => {
         this.toastService.showErrorToast(
           err,
-          'errors.summary.gettingCoursesTypes'
+          'search.errors.title.gettingCoursesTypes'
         );
         this.apiError.set(true);
         this.gettingTypes.set(false);
@@ -322,14 +322,14 @@ export class CoursesComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.areas = data.map((area) => ({
           value: area,
-          label: this.translate.instant(`filters.courseAreas.${area}`),
+          label: this.translate.instant(`enums.courseAreas.${area}`),
         }));
         this.gettingAreas.set(false);
       },
       error: (err) => {
         this.toastService.showErrorToast(
           err,
-          'errors.summary.gettingCoursesAreas'
+          'search.errors.title.gettingCoursesAreas'
         );
         this.apiError.set(true);
         this.gettingAreas.set(false);

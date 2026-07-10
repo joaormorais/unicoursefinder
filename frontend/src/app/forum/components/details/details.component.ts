@@ -103,7 +103,7 @@ export class DetailsComponent implements OnInit {
       error: (err) => {
         this.toastService.showErrorToast(
           err,
-          'errors.summary.gettingPostDetails'
+          'forum.errors.title.gettingPostDetails'
         );
         this.apiError.set(true);
         this.gettingDetails.set(false);
@@ -161,7 +161,7 @@ export class DetailsComponent implements OnInit {
         this.likedByUser.set(!this.likedByUser());
       },
       error: (err) => {
-        this.toastService.showErrorToast(err, 'errors.summary.reactPost');
+        this.toastService.showErrorToast(err, 'forum.errors.title.reactPost');
         this.apiError.set(true);
       },
     });

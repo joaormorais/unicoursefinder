@@ -4,9 +4,9 @@ export const environment = {
   keycloak: {
     config: {
       url: 'https://auth.jrmsys.com',
-      realm: 'unicoursefinder',
-      clientId: 'unicoursefinder-frontend',
-      checkLoginIframe: false
+      realm: 'development',
+      clientId: 'development-frontend',
+      checkLoginIframe: false,
     },
   },
   gaMeasurementId: 'G-9HLTVRPYD8',

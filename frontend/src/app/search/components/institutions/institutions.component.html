@@ -1,5 +1,5 @@
 @if(apiError()){
-{{ "errors.institutions" | translate }}
+{{ "search.errors.message.institutions" | translate }}
 } @else{
 <p-table
   #institutionsTable
@@ -22,7 +22,7 @@
           for="filterInput"
           style="font-weight: var(--p-datatable-column-title-font-weight)"
         >
-          {{ "filters.global" | translate }}
+          {{ "search.filters.global" | translate }}
         </label>
         <p-iconfield iconPosition="left">
           <p-inputicon>
@@ -36,7 +36,7 @@
             (input)="
               institutionsTable.filterGlobal(filterInput.value, 'contains')
             "
-            [placeholder]="'filters.keyword' | translate"
+            [placeholder]="'search.filters.keyword' | translate"
           />
         </p-iconfield>
       </div>
@@ -45,16 +45,16 @@
   <ng-template #header>
     <tr>
       <th class="w-[40%]" pSortableColumn="name">
-        {{ "tables.name" | translate }} <p-sortIcon field="name" />
+        {{ "search.tables.name" | translate }} <p-sortIcon field="name" />
       </th>
       <th class="w-[30%]" pSortableColumn="type">
-        {{ "tables.type" | translate }} <p-sortIcon field="type" />
+        {{ "search.tables.type" | translate }} <p-sortIcon field="type" />
       </th>
       <th class="w-[10%]" pSortableColumn="district">
-        {{ "tables.district" | translate }} <p-sortIcon field="district" />
+        {{ "search.tables.district" | translate }} <p-sortIcon field="district" />
       </th>
       <th class="w-[20%]" pSortableColumn="dgesNumber">
-        {{ "tables.dges" | translate }} <p-sortIcon field="dgesNumber" />
+        {{ "search.tables.dges" | translate }} <p-sortIcon field="dgesNumber" />
       </th>
     </tr>
     <tr>
@@ -78,7 +78,7 @@
                   [ngModel]="value"
                   (input)="debounceFilter($event, 'name', filter)"
                   class="p-inputtext"
-                  [placeholder]="'filters.name' | translate"
+                  [placeholder]="'search.filters.name' | translate"
                 />
               </p-iconfield>
             </div>
@@ -96,13 +96,13 @@
             <p-multiselect
               [(ngModel)]="selectedTypes"
               [options]="types"
-              [placeholder]="'filters.all' | translate"
+              [placeholder]="'common.all' | translate"
               (onChange)="filter($event.value)"
               styleClass="min-w-[16rem]"
               display="chip"
               [maxSelectedLabels]="2"
               [selectedItemsLabel]="
-                'filters.selectedItemsLabelTypes'
+                'search.filters.selectedItemsLabelTypes'
                   | translate : { value: selectedTypes.length }
               "
               [appendTo]="'body'"
@@ -121,13 +121,13 @@
             <p-multiselect
               [(ngModel)]="selectedDistricts"
               [options]="districts"
-              [placeholder]="'filters.all' | translate"
+              [placeholder]="'common.all' | translate"
               (onChange)="filter($event.value)"
               styleClass="min-w-[16rem]"
               display="chip"
               [maxSelectedLabels]="4"
               [selectedItemsLabel]="
-                'filters.selectedItemsLabelDistricts'
+                'search.filters.selectedItemsLabelDistricts'
                   | translate : { value: selectedTypes.length }
               "
               [appendTo]="'body'"
@@ -155,7 +155,7 @@
                   [ngModel]="value"
                   (input)="debounceFilter($event, 'dgesNumber', filter)"
                   class="p-inputtext"
-                  [placeholder]="'filters.dgesNumber' | translate"
+                  [placeholder]="'search.filters.dgesNumber' | translate"
                 />
               </p-iconfield>
             </div>
@@ -170,9 +170,9 @@
       class="cursor-pointer"
     >
       <td>{{ institution.name }}</td>
-      <td>{{ "filters.institutionTypes." + institution.type | translate }}</td>
+      <td>{{ "enums.institutionTypes." + institution.type | translate }}</td>
       <td>
-        {{ "filters.institutionDistricts." + institution.district | translate }}
+        {{ "enums.institutionDistricts." + institution.district | translate }}
       </td>
       <td>{{ institution.dgesNumber }}</td>
     </tr>
@@ -189,7 +189,7 @@
   </ng-template>
   <ng-template #emptymessage>
     <tr>
-      <td colspan="4">{{ "errors.summary.emptyInstitutions" | translate }}</td>
+      <td colspan="4">{{ "search.errors.data.emptyInstitutions" | translate }}</td>
     </tr>
   </ng-template>
 </p-table>

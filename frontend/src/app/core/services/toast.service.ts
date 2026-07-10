@@ -15,8 +15,8 @@ export class ToastService {
       summary: this.translate.instant(summary),
       detail:
         err.error.message !== undefined
-          ? this.translate.instant(`errors.${err.error.message}`)
-          : this.translate.instant(`errors.CANT_REACH_SERVER`),
+          ? this.translate.instant(`apiErrors.${err.error.message}`)
+          : this.translate.instant(`apiErrors.CANT_REACH_SERVER`),
       sticky: true,
     });
   }

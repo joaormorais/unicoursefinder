@@ -1,10 +1,10 @@
 <div class="min-h-[calc(100vh-82px)]">
   @if(apiError()){
-  {{ "errors.forum" | translate }}
+  {{ "forum.errors.message.forum" | translate }}
   }@else {
   <div class="flex flex-col items-center gap-3 py-8">
     <p-button
-      [label]="'buttons.createPost' | translate"
+      [label]="'forum.buttons.createPost' | translate"
       icon="pi pi-plus"
       (click)="showDialog()"
     />
@@ -29,24 +29,24 @@
     <ng-template #header>
       <tr>
         <th class="w-[25%]" pSortableColumn="title">
-          {{ "tables.title" | translate }} <p-sortIcon field="title" />
+          {{ "forum.tables.title" | translate }} <p-sortIcon field="title" />
         </th>
         <th class="w-[20%]" pSortableColumn="institution">
-          {{ "tables.institution" | translate }}
+          {{ "forum.tables.institution" | translate }}
           <p-sortIcon field="institution" />
         </th>
         <th class="w-[20%]" pSortableColumn="course">
-          {{ "tables.course" | translate }} <p-sortIcon field="course" />
+          {{ "forum.tables.course" | translate }} <p-sortIcon field="course" />
         </th>
         <th class="w-[15%]" pSortableColumn="createdAt">
-          {{ "tables.createdAt" | translate }}
+          {{ "forum.tables.createdAt" | translate }}
           <p-sortIcon field="createdAt" />
         </th>
         <th class="w-[10%]" pSortableColumn="likes">
-          {{ "tables.likes" | translate }} <p-sortIcon field="likes" />
+          {{ "forum.tables.likes" | translate }} <p-sortIcon field="likes" />
         </th>
         <th class="w-[10%]" pSortableColumn="comments">
-          {{ "tables.comments" | translate }} <p-sortIcon field="comments" />
+          {{ "forum.tables.comments" | translate }} <p-sortIcon field="comments" />
         </th>
       </tr>
       <tr>
@@ -69,7 +69,7 @@
                     [ngModel]="value"
                     (input)="debounceFilter($event, 'title', filter)"
                     class="p-inputtext"
-                    [placeholder]="'filters.title' | translate"
+                    [placeholder]="'forum.filters.title' | translate"
                   />
                 </p-iconfield>
               </div>
@@ -87,12 +87,12 @@
                 [(ngModel)]="selectedInstitutions"
                 [options]="institutions"
                 (onChange)="filter($event.value)"
-                [placeholder]="'filters.all' | translate"
+                [placeholder]="'common.all' | translate"
                 styleClass="min-w-[16rem]"
                 display="chip"
                 [maxSelectedLabels]="2"
                 [selectedItemsLabel]="
-                  'filters.selectedItemsLabelInstitutions'
+                  'forum.filters.selectedItemsLabelInstitutions'
                     | translate : { value: selectedInstitutions.length }
                 "
                 [virtualScroll]="true"
@@ -115,12 +115,12 @@
                 [(ngModel)]="selectedCourses"
                 [options]="courses"
                 (onChange)="filter($event.value)"
-                [placeholder]="'filters.all' | translate"
+                [placeholder]="'common.all' | translate"
                 styleClass="min-w-[16rem] z-51"
                 display="chip"
                 [maxSelectedLabels]="2"
                 [selectedItemsLabel]="
-                  'filters.selectedItemsLabelCourses'
+                  'forum.filters.selectedItemsLabelCourses'
                     | translate : { value: selectedCourses.length }
                 "
                 [virtualScroll]="true"
@@ -173,7 +173,7 @@
     </ng-template>
     <ng-template #emptymessage>
       <tr>
-        <td colspan="6">{{ "errors.summary.emptyPosts" | translate }}</td>
+        <td colspan="6">{{ "forum.errors.data.emptyPosts" | translate }}</td>
       </tr>
     </ng-template>
   </p-table>
@@ -191,7 +191,7 @@
   <ng-template #header>
     <div class="inline-flex items-center justify-center gap-2">
       <span class="font-bold whitespace-nowrap">{{
-        "dialog.newPost" | translate
+        "forum.dialog.newPost" | translate
       }}</span>
     </div>
   </ng-template>
