@@ -1,0 +1,17 @@
+<div class="flex-grow flex flex-col">
+  <div
+    leaflet
+    [leafletOptions]="options"
+    [leafletMarkerCluster]="markerClusterData"
+    [leafletMarkerClusterOptions]="markerClusterOptions"
+    (leafletMarkerClusterReady)="markerClusterReady($event)"
+    class="h-full w-full"
+  ></div>
+</div>
+<a
+  href="https://www.flaticon.com/free-icons/univeristy"
+  title="univeristy icons"
+  class="text-[10px] text-[color:var(--p-text-color)] p-1"
+>
+  {{ "search.map.credits" | translate }}
+</a>

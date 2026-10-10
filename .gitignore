@@ -1,0 +1,19 @@
+# Environment (only the templates are committed)
+.env
+
+# Build output and dependencies
+node_modules/
+target/
+dist/
+.angular/
+
+# IDEs and editors
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
