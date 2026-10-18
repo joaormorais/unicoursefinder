@@ -23,6 +23,11 @@
       "changeModes": "Alternar entre modo claro e modo escuro"
     }
   },
+  "footer": {
+    "technicalFile": "Ficha técnica",
+    "privacyPolicy": "Política de privacidade",
+    "termsAndConditions": "Termos e condições"
+  },
   "cookieConsent": {
     "consentModal": {
       "title": "Utilizamos cookies!",
@@ -30,7 +35,7 @@
       "acceptAllBtn": "Aceitar todos",
       "acceptNecessaryBtn": "Rejeitar todos",
       "showPreferencesBtn": "Gerir preferências",
-      "footer": "<a href=\"/technical-file\">Ficha técnica</a>\n<a href=\"/privacy-policy\">Política de privacidade</a>"
+      "footer": "<a href=\"/technical-file\">Ficha técnica</a>\n<a href=\"/privacy-policy\">Política de privacidade</a>\n<a href=\"/terms-and-conditions\">Termos e condições</a>"
     },
     "preferencesModal": {
       "title": "Centro de preferências",
@@ -311,17 +316,43 @@
   },
   "privacyPolicy": {
     "title": "Política de Privacidade:",
-    "lastUpdated": "Última atualização: 08/11/2025",
-    "intro": "Esta política explica de forma simples como tratamos os seus dados.",
+    "lastUpdated": "Última atualização: 19/10/2026",
+    "intro": "Esta política explica de forma simples que dados tratamos, porquê e quais são os seus direitos.",
     "section1Title": "1. O Responsável",
+    "section1Body": "O responsável pelo tratamento dos seus dados é o autor deste site.",
     "section2Title": "2. Que dados recolhemos e porquê?",
-    "section2Body": "<Explique aqui que dados são recolhidos e com que finalidade (por exemplo, dados de navegação/análise, cookies, dados de conta).>",
-    "section3Title": "3. Com quem partilhamos os dados?",
-    "section3Body": "<Explique aqui com quem os dados recolhidos são partilhados, caso aplicável.>",
-    "section4Title": "4. O seu Consentimento",
-    "section4Body": "<Explique aqui a que o utilizador está a consentir, e como pode retirar esse consentimento.>",
-    "section5Title": "5. Dúvidas",
-    "section5Body": "Se tiver qualquer dúvida sobre esta política, pode contactar: "
+    "section2Body": "Se criar uma conta, guardamos os dados que indicar no registo (como o nome de utilizador e o email), para que possa iniciar sessão. Se publicar, comentar ou gostar de conteúdos, guardamos essa atividade associada à sua conta, e o seu nome de utilizador fica visível publicamente junto das suas publicações e comentários. O nosso servidor guarda registos de acesso básicos, que incluem o seu endereço IP, por motivos de segurança.",
+    "section3Title": "3. Cookies",
+    "section3Body": "Só utilizamos cookies estritamente necessários, definidos pelo nosso serviço de autenticação (Keycloak) para iniciar sessão, manter a sua sessão ativa e proteger o processo de login. Durante o login, o seu navegador também guarda temporariamente alguns dados técnicos (armazenamento local) com a mesma finalidade. Como são essenciais ao funcionamento do site, não precisam do seu consentimento. Não utilizamos cookies de análise nem de publicidade.",
+    "section4Title": "4. Com quem partilhamos os dados?",
+    "section4Body": "Não vendemos os seus dados nem os partilhamos para fins comerciais. O site está alojado num fornecedor de alojamento (OVHcloud), que guarda os dados em nosso nome. Para mostrar o site, o seu navegador liga-se a alguns serviços externos que recebem o seu endereço IP: o Google Fonts (tipo de letra) e o OpenStreetMap (mapa das instituições).",
+    "section5Title": "5. Durante quanto tempo guardamos os dados?",
+    "section5Body": "Guardamos os dados da sua conta e o conteúdo que publicar enquanto a conta existir. Pode pedir a eliminação da sua conta e dos seus dados a qualquer momento através do contacto abaixo.",
+    "section6Title": "6. Os seus direitos",
+    "section6Body": "Tem o direito de aceder, corrigir ou apagar os seus dados.",
+    "section7Title": "7. Dúvidas",
+    "section7Body": "Se tiver qualquer dúvida sobre esta política ou quiser exercer os seus direitos, pode contactar: "
+  },
+  "termsAndConditions": {
+    "title": "Termos e Condições:",
+    "lastUpdated": "Última atualização: 19/10/2026",
+    "intro": "Ao utilizar este site, aceita estes termos. Se não concordar com eles, não deve utilizar o site.",
+    "section1Title": "1. O serviço",
+    "section1Body": "O site permite pesquisar cursos e instituições de ensino superior em Portugal, bem como ler e partilhar opiniões sobre os mesmos. O serviço é gratuito.",
+    "section2Title": "2. A sua conta",
+    "section2Body": "Para publicar, comentar ou gostar de conteúdos precisa de uma conta. É responsável por manter os seus dados de acesso seguros e por toda a atividade feita com a sua conta. O tratamento dos seus dados pessoais está descrito na Política de Privacidade.",
+    "section3Title": "3. Regras de publicação",
+    "section3Body": "É responsável pelo conteúdo que publica. Não é permitido publicar conteúdo ilegal, ofensivo, difamatório, discriminatório, enganoso, publicidade, spam ou dados pessoais de outras pessoas. As opiniões devem ser honestas e baseadas na sua experiência.",
+    "section4Title": "4. Moderação",
+    "section4Body": "Podemos remover qualquer conteúdo ou suspender contas que não cumpram estes termos, sem aviso prévio.",
+    "section5Title": "5. Informação apresentada",
+    "section5Body": "A informação sobre cursos e instituições tem como base dados oficiais da DGES recolhidos em outubro de 2025, pelo que pode estar desatualizada ou incompleta. Confirme sempre a informação junto das fontes oficiais antes de tomar decisões. As opiniões publicadas são da responsabilidade dos seus autores e não refletem a posição do site.",
+    "section6Title": "6. Responsabilidade",
+    "section6Body": "O site é disponibilizado tal como está, sem garantias de disponibilidade ou de ausência de erros. Na medida permitida por lei, não nos responsabilizamos por danos resultantes da utilização do site ou da informação nele apresentada.",
+    "section7Title": "7. Alterações a estes termos",
+    "section7Body": "Podemos alterar estes termos a qualquer momento. A data da última atualização encontra-se no topo desta página.",
+    "section8Title": "8. Dúvidas",
+    "section8Body": "Se tiver qualquer dúvida sobre estes termos, pode contactar: "
   },
   "technicalFile": {
     "title": "Ficha Técnica:",

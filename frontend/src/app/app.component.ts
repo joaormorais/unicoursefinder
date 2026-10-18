@@ -2,13 +2,14 @@ import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './core/components/header/header.component';
+import { FooterComponent } from './core/components/footer/footer.component';
 import { Toast } from 'primeng/toast';
 import { run } from 'vanilla-cookieconsent';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, HeaderComponent, Toast],
+  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent, Toast],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -23,7 +24,9 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    // Template for cookies policy consent:
+    // Cookie consent banner template. Disabled because the app only uses
+    // strictly necessary cookies (Keycloak). Uncomment it if non-essential
+    // cookies (e.g. analytics) are ever added:
     // this.translate
     //   .get('cookieConsent')
     //   .subscribe((cc) => this.runCookieConsent(cc));
