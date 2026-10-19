@@ -28,38 +28,6 @@
     "privacyPolicy": "Política de privacidade",
     "termsAndConditions": "Termos e condições"
   },
-  "cookieConsent": {
-    "consentModal": {
-      "title": "Utilizamos cookies!",
-      "description": "Utilizamos cookies para analisar o tráfego de utilizadores. Ao clicar em 'Aceitar todos', concorda com o uso de todos os cookies. Pode gerir as suas preferências em 'Gerir preferências'.",
-      "acceptAllBtn": "Aceitar todos",
-      "acceptNecessaryBtn": "Rejeitar todos",
-      "showPreferencesBtn": "Gerir preferências",
-      "footer": "<a href=\"/technical-file\">Ficha técnica</a>\n<a href=\"/privacy-policy\">Política de privacidade</a>\n<a href=\"/terms-and-conditions\">Termos e condições</a>"
-    },
-    "preferencesModal": {
-      "title": "Centro de preferências",
-      "acceptAllBtn": "Aceitar todos",
-      "acceptNecessaryBtn": "Rejeitar todos",
-      "savePreferencesBtn": "Guardar preferências",
-      "closeIconLabel": "Fechar modal",
-      "serviceCounterLabel": "Serviço|Serviços",
-      "sections": {
-        "usage": {
-          "title": "Utilização de cookies",
-          "description": "Aqui pode rever e personalizar as suas preferências de consentimento."
-        },
-        "necessary": {
-          "title": "Cookies estritamente necessários <span class=\"pm__badge\">sempre ativos</span>",
-          "description": "Podem ser instalados sem o consentimento do utilizador, pois são essenciais ao normal funcionamento do site e desligá-los poderá impedir a utilização de algumas funcionalidades do mesmo."
-        },
-        "analytics": {
-          "title": "Cookies para desempenho e análise",
-          "description": "Recolhem informação fundamental para que possamos analisar a utilização do site (como, por exemplo, o número de visitas que recebemos)."
-        }
-      }
-    }
-  },
   "apiErrors": {
     "CANT_REACH_SERVER": "Não foi possível fazer contacto com o servidor.",
     "INTERNAL_SERVER_ERROR": "Ocorreu um erro no servidor.",

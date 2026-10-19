@@ -28,38 +28,6 @@
     "privacyPolicy": "Privacy policy",
     "termsAndConditions": "Terms and conditions"
   },
-  "cookieConsent": {
-    "consentModal": {
-      "title": "We use cookies!",
-      "description": "We use cookies to analyze user traffic. By clicking 'Accept all', you agree to the use of all cookies. You can manage your preferences in 'Manage preferences'.",
-      "acceptAllBtn": "Accept all",
-      "acceptNecessaryBtn": "Reject all",
-      "showPreferencesBtn": "Manage preferences",
-      "footer": "<a href=\"/technical-file\">Technical details</a>\n<a href=\"/privacy-policy\">Privacy policy</a>\n<a href=\"/terms-and-conditions\">Terms and conditions</a>"
-    },
-    "preferencesModal": {
-      "title": "Preference center",
-      "acceptAllBtn": "Accept all",
-      "acceptNecessaryBtn": "Reject all",
-      "savePreferencesBtn": "Save preferences",
-      "closeIconLabel": "Close modal",
-      "serviceCounterLabel": "Service|Services",
-      "sections": {
-        "usage": {
-          "title": "Cookie usage",
-          "description": "Here you can review and customize your consent preferences."
-        },
-        "necessary": {
-          "title": "Strictly necessary cookies <span class=\"pm__badge\">always active</span>",
-          "description": "They can be set without user consent, as they are essential for the normal functioning of the site, and disabling them may prevent the use of some of its features."
-        },
-        "analytics": {
-          "title": "Performance and analytics cookies",
-          "description": "They collect essential information so that we can analyze how the site is used (for example, the number of visits we receive)."
-        }
-      }
-    }
-  },
   "apiErrors": {
     "CANT_REACH_SERVER": "Could not reach the server.",
     "INTERNAL_SERVER_ERROR": "A server error occurred.",
