@@ -23,37 +23,10 @@
       "changeModes": "Toggle between light and dark mode"
     }
   },
-  "cookieConsent": {
-    "consentModal": {
-      "title": "We use cookies!",
-      "description": "We use cookies to analyze user traffic. By clicking 'Accept all', you agree to the use of all cookies. You can manage your preferences in 'Manage preferences'.",
-      "acceptAllBtn": "Accept all",
-      "acceptNecessaryBtn": "Reject all",
-      "showPreferencesBtn": "Manage preferences",
-      "footer": "<a href=\"/technical-file\">Technical details</a>\n<a href=\"/privacy-policy\">Privacy policy</a>"
-    },
-    "preferencesModal": {
-      "title": "Preference center",
-      "acceptAllBtn": "Accept all",
-      "acceptNecessaryBtn": "Reject all",
-      "savePreferencesBtn": "Save preferences",
-      "closeIconLabel": "Close modal",
-      "serviceCounterLabel": "Service|Services",
-      "sections": {
-        "usage": {
-          "title": "Cookie usage",
-          "description": "Here you can review and customize your consent preferences."
-        },
-        "necessary": {
-          "title": "Strictly necessary cookies <span class=\"pm__badge\">always active</span>",
-          "description": "They can be set without user consent, as they are essential for the normal functioning of the site, and disabling them may prevent the use of some of its features."
-        },
-        "analytics": {
-          "title": "Performance and analytics cookies",
-          "description": "They collect essential information so that we can analyze how the site is used (for example, the number of visits we receive)."
-        }
-      }
-    }
+  "footer": {
+    "technicalFile": "Technical details",
+    "privacyPolicy": "Privacy policy",
+    "termsAndConditions": "Terms and conditions"
   },
   "apiErrors": {
     "CANT_REACH_SERVER": "Could not reach the server.",
@@ -311,17 +284,43 @@
   },
   "privacyPolicy": {
     "title": "Privacy Policy:",
-    "lastUpdated": "Last updated: 08/11/2025",
-    "intro": "This policy explains in simple terms how we handle your data.",
+    "lastUpdated": "Last updated: 19/10/2026",
+    "intro": "This policy explains in simple terms what data we process, why, and what your rights are.",
     "section1Title": "1. The Controller",
+    "section1Body": "The controller of your data is the author of this site.",
     "section2Title": "2. What data do we collect and why?",
-    "section2Body": "<Explain here which data is collected and for what purpose (e.g. analytics/tracking data, cookies, account data).>",
-    "section3Title": "3. Who do we share the data with?",
-    "section3Body": "<Explain here who the collected data is shared with, if anyone.>",
-    "section4Title": "4. Your Consent",
-    "section4Body": "<Explain here what the user is consenting to, and how that consent can be withdrawn.>",
-    "section5Title": "5. Questions",
-    "section5Body": "If you have any questions about this policy, you can contact: "
+    "section2Body": "If you create an account, we store the details you provide when signing up (such as your username and email) so you can log in. If you post, comment or like content, we store that activity linked to your account, and your username is publicly shown next to your posts and comments. Our server keeps basic access logs, which include your IP address, for security reasons.",
+    "section3Title": "3. Cookies",
+    "section3Body": "We only use strictly necessary cookies, set by our authentication service (Keycloak) to log you in, keep your session active and protect the login process. During login, your browser also temporarily stores some technical data (local storage) for the same purpose. Because they are essential for the site to work, they don't require your consent. We don't use analytics or advertising cookies.",
+    "section4Title": "4. Who do we share the data with?",
+    "section4Body": "We don't sell your data or share it for commercial purposes. The site is hosted by a hosting provider (OVHcloud), which stores the data on our behalf. To display the site, your browser connects to some external services that receive your IP address: Google Fonts (font) and OpenStreetMap (institutions map).",
+    "section5Title": "5. How long do we keep the data?",
+    "section5Body": "We keep your account data and the content you post for as long as your account exists. You can ask us to delete your account and your data at any time using the contact below.",
+    "section6Title": "6. Your rights",
+    "section6Body": "You have the right to access, correct or delete your data.",
+    "section7Title": "7. Questions",
+    "section7Body": "If you have any questions about this policy or want to exercise your rights, you can contact: "
+  },
+  "termsAndConditions": {
+    "title": "Terms and Conditions:",
+    "lastUpdated": "Last updated: 19/10/2026",
+    "intro": "By using this site, you accept these terms. If you don't agree with them, you shouldn't use the site.",
+    "section1Title": "1. The service",
+    "section1Body": "The site lets you search for higher-education courses and institutions in Portugal, as well as read and share reviews about them. The service is free.",
+    "section2Title": "2. Your account",
+    "section2Body": "You need an account to post, comment or like content. You are responsible for keeping your login details safe and for all activity done with your account. How we handle your personal data is described in the Privacy Policy.",
+    "section3Title": "3. Posting rules",
+    "section3Body": "You are responsible for the content you post. You may not post content that is illegal, offensive, defamatory, discriminatory, misleading, advertising, spam, or other people's personal data. Reviews must be honest and based on your own experience.",
+    "section4Title": "4. Moderation",
+    "section4Body": "We may remove any content or suspend accounts that don't follow these terms, without prior notice.",
+    "section5Title": "5. Information shown",
+    "section5Body": "Information about courses and institutions is based on official DGES data gathered in October 2025, so it may be outdated or incomplete. Always confirm the information with the official sources before making decisions. Published reviews are the responsibility of their authors and don't reflect the position of the site.",
+    "section6Title": "6. Liability",
+    "section6Body": "The site is provided as is, with no guarantee of availability or of being error-free. To the extent permitted by law, we are not liable for any damage resulting from the use of the site or the information it shows.",
+    "section7Title": "7. Changes to these terms",
+    "section7Body": "We may change these terms at any time. The date of the last update is shown at the top of this page.",
+    "section8Title": "8. Questions",
+    "section8Body": "If you have any questions about these terms, you can contact: "
   },
   "technicalFile": {
     "title": "Technical Details:",

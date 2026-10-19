@@ -4,6 +4,7 @@ import { SearchComponent } from './search/components/search/search.component';
 import { HelpComponent } from './help/components/help.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { TechnicalFileComponent } from './technical-file/technical-file.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -16,5 +17,6 @@ export const routes: Routes = [
   { path: 'help', component: HelpComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'technical-file', component: TechnicalFileComponent },
+  { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
   { path: '**', redirectTo: '' },
 ];
